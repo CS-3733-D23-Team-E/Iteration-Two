@@ -132,7 +132,7 @@ public class MapController {
 
   @FXML
   public void displayPath(String from, String to, Floor whichFloor) {
-    if (from.equals("") || to.equals("")) {
+    if (from == null || from.equals("") || to == null || to.equals("")) {
       return;
     }
     refreshPath(whichPane(whichFloor));
