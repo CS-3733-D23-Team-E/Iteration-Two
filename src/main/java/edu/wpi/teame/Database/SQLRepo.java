@@ -1,5 +1,6 @@
 package edu.wpi.teame.Database;
 
+import edu.wpi.teame.entities.Employee;
 import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.map.*;
 import java.sql.Connection;
@@ -16,7 +17,8 @@ public enum SQLRepo {
     MOVE,
     NODE,
     EDGE,
-    SERVICE_REQUESTS;
+    SERVICE_REQUESTS,
+    EMPLOYEE;
 
     public static String tableToString(Table tb) {
       switch (tb) {
@@ -30,6 +32,8 @@ public enum SQLRepo {
           return "Edge";
         case SERVICE_REQUESTS:
           return "ServiceRequests";
+        case EMPLOYEE:
+          return "Employee";
         default:
           throw new NoSuchElementException("No such Table found");
       }
@@ -42,6 +46,7 @@ public enum SQLRepo {
   DAO<MoveAttribute> moveDAO;
   DAO<LocationName> locationDAO;
   DAO<ServiceRequestData> serviceDAO;
+  DAO<Employee> employeeDAO;
   DatabaseUtility dbUtility;
 
   public void connectToDatabase(String username, String password) {
@@ -56,6 +61,7 @@ public enum SQLRepo {
       moveDAO = new MoveDAO(activeConnection);
       locationDAO = new LocationDAO(activeConnection);
       serviceDAO = new ServiceDAO(activeConnection);
+      employeeDAO = new EmployeeDAO(activeConnection);
       dbUtility = new DatabaseUtility(activeConnection);
 
     } catch (SQLException e) {
@@ -75,6 +81,7 @@ public enum SQLRepo {
     }
   }
 
+  // ALL DATABASE UTILITY
   public int getNodeIDFromName(String longName) {
     return this.dbUtility.getNodeIDFromName(longName);
   }
@@ -112,6 +119,7 @@ public enum SQLRepo {
     return this.dbUtility.getLongNamesFromLocationName(ln);
   }
 
+  // ALL IMPORTS FOR DAOS
   public void importFromCSV(Table table, String filepath) {
     try {
       switch (table) {
@@ -130,12 +138,16 @@ public enum SQLRepo {
         case SERVICE_REQUESTS:
           this.serviceDAO.importFromCSV(filepath, "ServiceRequests");
           break;
+        case EMPLOYEE:
+          this.employeeDAO.importFromCSV(filepath, "Employee");
+          break;
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
   }
 
+  // ALL EXPORTS FOR DAOS
   public void exportToCSV(Table table, String filepath, String tableName) {
     try {
       switch (table) {
@@ -154,14 +166,17 @@ public enum SQLRepo {
         case SERVICE_REQUESTS:
           this.serviceDAO.exportToCSV(filepath, tableName);
           break;
+        case EMPLOYEE:
+          this.employeeDAO.exportToCSV(filepath, tableName);
+          break;
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
   }
 
+  // ALL GETS FOR DAOS
   public List<ServiceRequestData> getServiceRequestList() {
-
     return this.serviceDAO.get();
   }
 
@@ -170,12 +185,10 @@ public enum SQLRepo {
   }
 
   public List<HospitalEdge> getEdgeList() {
-
     return this.edgeDAO.get();
   }
 
   public List<LocationName> getLocationList() {
-
     return this.locationDAO.get();
   }
 
@@ -183,6 +196,11 @@ public enum SQLRepo {
     return this.moveDAO.get();
   }
 
+  public List<Employee> getEmployeeList() {
+    return this.employeeDAO.get();
+  }
+
+  // ALL UPDATES FOR DAOS
   public void updateServiceRequest(ServiceRequestData obj, String attribute, String value) {
     this.serviceDAO.update(obj, attribute, value);
   }
@@ -203,6 +221,11 @@ public enum SQLRepo {
     this.locationDAO.update(obj, attribute, value);
   }
 
+  public void updateEmployee(Employee obj, String attribute, String value) {
+    this.employeeDAO.update(obj, attribute, value);
+  }
+
+  // ALL DELETES FOR DAOS
   public void deleteServiceRequest(ServiceRequestData obj) {
     this.serviceDAO.delete(obj);
   }
@@ -223,6 +246,11 @@ public enum SQLRepo {
     this.moveDAO.delete(obj);
   }
 
+  public void deleteEmployee(Employee obj) {
+    this.employeeDAO.delete(obj);
+  }
+
+  // ALL ADDITIONS TO DAOS
   public void addServiceRequest(ServiceRequestData obj) {
     this.serviceDAO.add(obj);
   }
@@ -241,5 +269,9 @@ public enum SQLRepo {
 
   public void addMove(MoveAttribute obj) {
     this.moveDAO.add(obj);
+  }
+
+  public void addEmployee(Employee obj) {
+    this.employeeDAO.add(obj);
   }
 }

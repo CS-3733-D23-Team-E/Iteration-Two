@@ -67,6 +67,7 @@ public class LocationDAO<E> extends DAO<LocationName> {
       System.out.println(
           "Exception: Cannot duplicate two set of the same locationNames, longName has to exist, shortName can be any, node type has a specific enum");
     }
+    get();
   }
 
   @Override
@@ -81,6 +82,7 @@ public class LocationDAO<E> extends DAO<LocationName> {
     } catch (SQLException e) {
       System.out.println("error deleting");
     }
+    get();
   }
 
   @Override
@@ -104,6 +106,7 @@ public class LocationDAO<E> extends DAO<LocationName> {
     } catch (SQLException e) {
       System.out.println("error adding");
     }
+    get();
   }
 
   @Override
@@ -147,5 +150,6 @@ public class LocationDAO<E> extends DAO<LocationName> {
       System.err.println("Error importing from " + filePath + " to " + tableName);
       e.printStackTrace();
     }
+    get();
   }
 }

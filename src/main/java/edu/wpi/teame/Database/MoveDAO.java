@@ -66,6 +66,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
       System.out.println(
           "Exception: Cannot duplicate two set of the same edges, start and end nodes have to exist (cannot create more ids)");
     }
+    get();
   }
 
   public void delete(MoveAttribute moveAttribute) {
@@ -86,6 +87,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
     } catch (SQLException e) {
       System.out.println("error deleting");
     }
+    get();
   }
 
   public void add(MoveAttribute moveAttribute) {
@@ -102,6 +104,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
     } catch (SQLException e) {
       System.out.println("error adding");
     }
+    get();
   }
 
   public void importFromCSV(String filePath, String tableName) {
@@ -143,5 +146,6 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
       System.err.println("Error importing from " + filePath + " to " + tableName);
       e.printStackTrace();
     }
+    get();
   }
 }

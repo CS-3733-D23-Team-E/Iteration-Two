@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.NoSuchElementException;
 import lombok.Getter;
-import org.postgresql.util.MD5Digest;
+import lombok.Setter;
 
 public class Employee {
 
@@ -36,10 +36,10 @@ public class Employee {
     }
   }
 
-  @Getter private String fullName;
-  @Getter private String username;
-  @Getter private String password;
-  @Getter private Permission permission;
+  @Getter @Setter private String fullName;
+  @Getter @Setter private String username;
+  @Getter @Setter private String password;
+  @Getter @Setter private Permission permission;
 
   public Employee(String fullName, String username, String password, Permission permission) {
     this.fullName = fullName;
@@ -48,7 +48,14 @@ public class Employee {
     this.permission = permission;
   }
 
-  private String hashPassword(String password) {
+  public Employee(String fullName, Permission permission) {
+    this.fullName = fullName;
+    this.permission = permission;
+    this.username = null;
+    this.password = null;
+  }
+
+  public String hashPassword(String password) {
     try {
 
       // Static getInstance method is called with hashing MD5
