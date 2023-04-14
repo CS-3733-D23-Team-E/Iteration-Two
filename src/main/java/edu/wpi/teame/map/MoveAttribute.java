@@ -1,11 +1,9 @@
 package edu.wpi.teame.map;
 
-import lombok.Getter;
-
 public class MoveAttribute {
-  @Getter String nodeID;
-  @Getter String longName;
-  @Getter String date;
+  String nodeID;
+  String longName;
+  String date;
 
   public MoveAttribute(String nodeID, String longName, String date) {
     this.nodeID = nodeID;
