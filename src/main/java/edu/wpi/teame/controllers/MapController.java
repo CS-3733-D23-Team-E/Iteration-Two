@@ -172,7 +172,7 @@ public class MapController {
       pathNames.add(SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
     }
     pathLabel.setText(pathNames.toString());
-    drawPath(path, whichPane(whichFloor));
+    drawPath(path);
   }
 
   /**
@@ -180,7 +180,7 @@ public class MapController {
    *
    * @param path
    */
-  private void drawPath(List<HospitalNode> path, AnchorPane curPane) {
+  private void drawPath(List<HospitalNode> path) {
 
     // create circle to symbolize start
     int x1 = path.get(0).getXCoord();
@@ -195,6 +195,9 @@ public class MapController {
       x2 = node.getXCoord();
       y2 = node.getYCoord();
 
+      mapUtil.drawCircle(x2, y2, 3);
+      mapUtil.createLabel(
+          x2, y2, SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
       mapUtil.drawLine(x1, y1, x2, y2);
 
       x1 = x2;
