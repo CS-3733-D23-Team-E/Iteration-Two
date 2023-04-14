@@ -237,6 +237,19 @@ public class DatabaseMapViewController {
     mapUtil.removeAll();
     List<HospitalNode> nodes = SQLRepo.INSTANCE.getNodesFromFloor(floor);
     for (HospitalNode node : nodes) {
+      System.out.println(node.getNeighbors());
+
+      // will draw double the amount of lines
+      for (HospitalNode neighbor : node.getNeighbors()) {
+
+        int x1 = node.getXCoord();
+        int y1 = node.getYCoord();
+        int x2 = neighbor.getXCoord();
+        int y2 = neighbor.getYCoord();
+
+        mapUtil.drawLine(x1, y1, x2, y2);
+      }
+
       String nodeTypeString =
           SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(node.getNodeID()));
       if (!nodeTypeString.equals("")) {

@@ -37,6 +37,19 @@ public class MapUtilities {
     return line;
   }
 
+  public Line drawLine(int x1, int y1, int x2, int y2, double opacity) {
+    x1 = (int) convertX(x1);
+    y1 = (int) convertY(y1);
+    x2 = (int) convertX(x2);
+    y2 = (int) convertY(y2);
+
+    Line line = new Line(x1, y1, x2, y2);
+    line.setOpacity(opacity);
+    addShape(line);
+    System.out.println("drawing lines");
+    return line;
+  }
+
   public Circle drawHospitalNode(HospitalNode hospitalNode) {
 
     int x = hospitalNode.getXCoord();
