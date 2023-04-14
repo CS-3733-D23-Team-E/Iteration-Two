@@ -55,7 +55,7 @@ public class Employee {
     this.password = null;
   }
 
-  public String hashPassword(String password) {
+  public static String hashPassword(String password) {
     try {
 
       // Static getInstance method is called with hashing MD5

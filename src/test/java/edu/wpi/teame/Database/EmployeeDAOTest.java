@@ -8,8 +8,19 @@ import org.junit.jupiter.api.Test;
 public class EmployeeDAOTest {
 
   @Test
+  public void testlogIn() {
+    SQLRepo.INSTANCE.connectToDatabase("staff", "staff");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
+
+    SQLRepo.INSTANCE.connectToDatabase("admin", "admin");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
+
+    SQLRepo.INSTANCE.connectToDatabase("test", "fail");
+  }
+
+  @Test
   public void testGetAddandDelete() {
-    SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
+    SQLRepo.INSTANCE.connectToDatabase("staff", "staff");
     int numEmployees = SQLRepo.INSTANCE.getEmployeeList().size();
 
     Employee Jamie = new Employee("Jamie Rapal", "JRapal", "password", Employee.Permission.ADMIN);

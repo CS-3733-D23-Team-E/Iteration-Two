@@ -46,7 +46,7 @@ public enum SQLRepo {
   DAO<MoveAttribute> moveDAO;
   DAO<LocationName> locationDAO;
   DAO<ServiceRequestData> serviceDAO;
-  DAO<Employee> employeeDAO;
+  EmployeeDAO employeeDAO;
   DatabaseUtility dbUtility;
 
   public void connectToDatabase(String username, String password) {
@@ -54,15 +54,17 @@ public enum SQLRepo {
       Class.forName("org.postgresql.Driver");
       activeConnection =
           DriverManager.getConnection(
-              "jdbc:postgresql://database.cs.wpi.edu:5432/teamedb", username, password);
-
-      nodeDAO = new NodeDAO(activeConnection);
-      edgeDAO = new EdgeDAO(activeConnection);
-      moveDAO = new MoveDAO(activeConnection);
-      locationDAO = new LocationDAO(activeConnection);
-      serviceDAO = new ServiceDAO(activeConnection);
+              "jdbc:postgresql://database.cs.wpi.edu:5432/teamedb", "teame", "teame50");
       employeeDAO = new EmployeeDAO(activeConnection);
-      dbUtility = new DatabaseUtility(activeConnection);
+      if (!employeeDAO.verifyLogIn(username, password)) exitDatabaseProgram();
+      else {
+        nodeDAO = new NodeDAO(activeConnection);
+        edgeDAO = new EdgeDAO(activeConnection);
+        moveDAO = new MoveDAO(activeConnection);
+        locationDAO = new LocationDAO(activeConnection);
+        serviceDAO = new ServiceDAO(activeConnection);
+        dbUtility = new DatabaseUtility(activeConnection);
+      }
 
     } catch (SQLException e) {
       throw new RuntimeException("Your username or password is incorrect");

@@ -173,4 +173,32 @@ public class EmployeeDAO extends DAO<Employee> {
     }
     this.get();
   }
+
+  public boolean verifyLogIn(String username, String password) {
+    String sql = "";
+    String hashedPassword = Employee.hashPassword(password);
+
+    try {
+      Statement stmt = activeConnection.createStatement();
+
+      sql =
+          "SELECT * FROM \"Employee\" WHERE \"username\" = '"
+              + username
+              + "' AND \"password\" = '"
+              + hashedPassword
+              + "';";
+
+      ResultSet rs = stmt.executeQuery(sql);
+
+      if (rs.next()) {
+        System.out.println("You've successfully logged in");
+        return true;
+      } else {
+        System.out.println("Your username or password is incorrect");
+        return false;
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }
