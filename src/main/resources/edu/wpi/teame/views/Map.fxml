@@ -37,11 +37,11 @@
                            <children>
                               <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <AnchorPane fx:id="mapPane1111">
+                                    <AnchorPane fx:id="mapPaneLowerTwo">
                                        <children>
                                           <StackPane fx:id="imagePane1111">
                                              <children>
-                                                <ImageView fx:id="mapImage1111" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                                                <ImageView fx:id="mapImageLowerTwo" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
                                                       <Image url="@../../../../../../../Maps/00_thelowerlevel2.png" />
                                                    </image>
@@ -65,11 +65,11 @@
                            <children>
                               <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <AnchorPane fx:id="mapPane111">
+                                    <AnchorPane fx:id="mapPaneLowerOne">
                                        <children>
                                           <StackPane fx:id="imagePane111" minHeight="0.0" minWidth="0.0">
                                              <children>
-                                                <ImageView fx:id="mapImage111" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                                                <ImageView fx:id="mapImageLowerOne" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
                                                       <Image url="@../../../../../../../Maps/00_thelowerlevel1.png" />
                                                    </image>
@@ -93,11 +93,11 @@
                            <children>
                               <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <AnchorPane fx:id="mapPane" minWidth="-Infinity">
+                                    <AnchorPane fx:id="mapPaneOne" minWidth="-Infinity">
                                        <children>
                                           <StackPane fx:id="imagePane" minHeight="-Infinity" minWidth="-Infinity">
                                              <children>
-                                                <ImageView fx:id="mapImage" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fx:id="mapImageOne" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@../../../../../../../Maps/01_thefirstfloor.png" />
                                                    </image>
@@ -121,11 +121,11 @@
                            <children>
                               <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <AnchorPane fx:id="mapPane1">
+                                    <AnchorPane fx:id="mapPaneTwo">
                                        <children>
                                           <StackPane fx:id="imagePane1" minHeight="0.0" minWidth="0.0">
                                              <children>
-                                                <ImageView fx:id="mapImage1" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                                                <ImageView fx:id="mapImageTwo" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
                                                       <Image url="@../../../../../../../Maps/02_thesecondfloor.png" />
                                                    </image>
@@ -146,11 +146,11 @@
                            <children>
                               <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <AnchorPane fx:id="mapPane11">
+                                    <AnchorPane fx:id="mapPaneThree">
                                        <children>
                                           <StackPane fx:id="imagePane11" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
-                                                <ImageView fx:id="mapImage11" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                                                <ImageView fx:id="mapImageThree" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
                                                       <Image url="@../../../../../../../Maps/03_thethirdfloor.png" />
                                                    </image>
