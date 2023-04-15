@@ -16,6 +16,10 @@ public class MapUtilities {
 
   private final Pane pane;
 
+  private String lineStyle;
+  private String circleStyle;
+  private String labelStyle;
+
   ObservableList<Node> currentNodes = FXCollections.observableArrayList();
 
   public MapUtilities(Pane pane) {
@@ -33,6 +37,7 @@ public class MapUtilities {
     y2 = (int) convertY(y2);
 
     Line line = new Line(x1, y1, x2, y2);
+    line.setStyle(lineStyle);
     addShape(line);
     return line;
   }
@@ -74,6 +79,7 @@ public class MapUtilities {
     y = (int) convertY(y);
 
     Circle circle = new Circle(x, y, radius, color);
+    circle.setStyle(circleStyle);
     addShape(circle);
     return circle;
   }
@@ -83,6 +89,7 @@ public class MapUtilities {
     y = (int) convertY(y);
 
     Circle circle = new Circle(x, y, radius, Color.BLACK);
+    circle.setStyle(circleStyle);
     addShape(circle);
     return circle;
   }
@@ -102,7 +109,7 @@ public class MapUtilities {
     Label label = new Label(text);
     label.setLayoutX(convertX(x + xOffset));
     label.setLayoutY(convertY(y + yOffset));
-
+    label.setStyle(labelStyle);
     addShape(label);
 
     return label;
@@ -164,6 +171,18 @@ public class MapUtilities {
     ObservableList<Node> result = currentNodes;
     result.removeIf(s -> (s.getClass() != obj));
     return result;
+  }
+
+  public void setLineStyle(String lineStyle) {
+    this.lineStyle = lineStyle;
+  }
+
+  public void setCircleStyle(String circleStyle) {
+    this.circleStyle = circleStyle;
+  }
+
+  public void setLabelStyle(String labelStyle) {
+    this.labelStyle = labelStyle;
   }
 
   public ObservableList<Node> getCurrentNodes() {
