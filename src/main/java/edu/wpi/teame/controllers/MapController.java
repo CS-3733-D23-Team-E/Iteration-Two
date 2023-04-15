@@ -16,7 +16,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,7 +30,7 @@ public class MapController {
   @FXML AnchorPane mapPane11;
   @FXML AnchorPane mapPane111;
   @FXML AnchorPane mapPane1111;
-
+  @FXML VBox pathBox;
   @FXML Tab floorOneTab;
   @FXML Tab floorTwoTab;
   @FXML Tab floorThreeTab;
@@ -39,7 +38,6 @@ public class MapController {
   @FXML Tab lowerLevelOneTab;
   @FXML SearchableComboBox<String> currentLocationList;
   @FXML SearchableComboBox<String> destinationList;
-  @FXML private Label pathLabel;
   @FXML MFXButton menuButton;
   @FXML MFXButton menuBarHome;
   @FXML MFXButton menuBarServices;
@@ -145,7 +143,6 @@ public class MapController {
     destinationList.setItems(floorLocations);
     currentLocationList.setValue("");
     destinationList.setValue("");
-    pathLabel.setText("");
     refreshPath(whichPane(floor));
     mapUtil = new MapUtilities(whichPane(currentFloor));
   }
@@ -171,7 +168,8 @@ public class MapController {
     for (HospitalNode node : path) {
       pathNames.add(SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
     }
-    pathLabel.setText(pathNames.toString());
+    // Create the labels
+    mapUtil.createPathLabels(pathBox, pathNames);
     drawPath(path, whichPane(whichFloor));
   }
 

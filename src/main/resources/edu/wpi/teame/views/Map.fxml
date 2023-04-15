@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,6 +18,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import net.kurobako.gesturefx.GesturePane?>
 <?import org.controlsfx.control.SearchableComboBox?>
@@ -29,7 +31,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GesturePane minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GesturePane maxScale="6.0" minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
                               <AnchorPane fx:id="mapPane1111">
                                  <children>
@@ -57,7 +59,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GesturePane minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GesturePane maxScale="6.0" minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
                               <AnchorPane fx:id="mapPane111">
                                  <children>
@@ -85,7 +87,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GesturePane minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GesturePane maxScale="6.0" minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
                               <AnchorPane fx:id="mapPane" minWidth="-Infinity">
                                  <children>
@@ -113,7 +115,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GesturePane minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GesturePane maxScale="6.0" minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
                               <AnchorPane fx:id="mapPane1">
                                  <children>
@@ -138,11 +140,19 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <GesturePane minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GesturePane maxScale="6.0" minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
                               <AnchorPane fx:id="mapPane11">
                                  <children>
-                                    <StackPane fx:id="imagePane11" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <StackPane fx:id="imagePane11" minHeight="0.0" minWidth="0.0">
+                                       <children>
+                                          <ImageView fx:id="mapImage11" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                                             <image>
+                                                <Image url="@../maps/03_thethirdfloor.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
                                  </children>
                               </AnchorPane>
                            </content>
@@ -153,7 +163,7 @@
             </Tab>
          </tabs>
       </TabPane>
-      <VBox prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #e1e1e1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
+      <VBox layoutY="100.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
          <children>
             <VBox alignment="CENTER" spacing="14.0" style="-fx-background-color: #e1e1e1;">
                <children>
@@ -218,19 +228,119 @@
                   <Insets bottom="18.0" left="15.0" right="15.0" top="18.0" />
                </padding>
             </VBox>
-            <MFXScrollPane style="-fx-background-color: #FF0000;" VBox.vgrow="ALWAYS">
+            <MFXScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox prefHeight="500.0" prefWidth="390.0" style="-fx-background-color: #e1e1e1;" />
+                  <VBox fx:id="pathBox" alignment="TOP_CENTER" prefWidth="375.0" spacing="10.0" style="-fx-background-color: #e1e1e1;">
+                     <padding>
+                        <Insets left="10.0" top="10.0" />
+                     </padding></VBox>
                </content>
+               <effect>
+                  <InnerShadow height="10.0" offsetY="2.0" radius="2.0" width="0.0">
+                     <color>
+                        <Color opacity="0.24809160828590393" />
+                     </color>
+                  </InnerShadow>
+               </effect>
             </MFXScrollPane>
          </children>
          <effect>
-            <DropShadow>
+            <DropShadow offsetX="5.0">
                <color>
-                  <Color opacity="0.25190839171409607" />
+                  <Color opacity="0.24809160828590393" />
                </color>
             </DropShadow>
          </effect>
       </VBox>
+      <VBox fx:id="menuBar" layoutX="10.0" layoutY="10.0" maxHeight="600.0" maxWidth="-Infinity" prefHeight="600.0" prefWidth="150.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <MFXButton fx:id="menuBarHome" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 18; -fx-text-fill: ffffff;" text=" Home">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/house-blank.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </MFXButton>
+            <MFXButton fx:id="menuBarServices" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 18; -fx-text-fill: ffffff;" text="Services">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/hand-holding-medical.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </MFXButton>
+            <MFXButton fx:id="menuBarSignage" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 18; -fx-text-fill: ffffff;" text="Signage">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/diamond-turn-right.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </MFXButton>
+            <MFXButton fx:id="menuBarMaps" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 18; -fx-text-fill: ffffff;" text="Maps">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/route.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </MFXButton>
+            <MFXButton fx:id="menuBarDatabase" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 16; -fx-text-fill: ffffff;" text="Database">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/folder-tree.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </MFXButton>
+            <MFXButton fx:id="menuBarBlank" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="289.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 16; -fx-text-fill: ffffff;" text=" " />
+            <MFXButton fx:id="menuBarExit" alignment="BOTTOM_CENTER" graphicTextGap="10.0" prefHeight="70.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 18; -fx-text-fill: ffffff;" text="Exit">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/sign-out-alt.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </MFXButton>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1600.0" style="-fx-background-color: #192D5A;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MFXButton fx:id="menuButton" alignment="BOTTOM_CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" rippleColor="WHITE" style="-fx-background-color: #192d5a;" text="Menu" HBox.hgrow="ALWAYS">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/menu-burger.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </MFXButton>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <MFXButton fx:id="loginButton" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" rippleColor="WHITE" style="-fx-background-color: #192d5a;" text="User">
+               <graphic>
+                  <StackPane prefHeight="50.0" prefWidth="50.0">
+                     <children>
+                        <Circle fill="#1f93ff00" radius="25.0" stroke="#e5bc3b" strokeType="INSIDE" strokeWidth="3.0" StackPane.alignment="CENTER" />
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../images/user.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+               </graphic>
+            </MFXButton>
+         </children>
+         <padding>
+            <Insets left="15.0" right="15.0" />
+         </padding>
+      </HBox>
    </children>
 </AnchorPane>
