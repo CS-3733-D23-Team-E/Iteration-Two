@@ -77,31 +77,6 @@ public class MapController {
   @FXML
   public void initialize() {
     initializeMapUtilities();
-    //    lowerLevelTwoTab.setOnSelectionChanged(
-    //        event -> {
-    //          currentFloor = Floor.LOWER_TWO;
-    //          if (!pathIsBeingDisplayed()) resetComboboxes(currentFloor);
-    //        });
-    //    lowerLevelOneTab.setOnSelectionChanged(
-    //        event -> {
-    //          currentFloor = Floor.LOWER_ONE;
-    //          if (!pathIsBeingDisplayed()) resetComboboxes(currentFloor);
-    //        });
-    //    floorOneTab.setOnSelectionChanged(
-    //        event -> {
-    //          currentFloor = Floor.ONE;
-    //          if (!pathIsBeingDisplayed()) resetComboboxes(currentFloor);
-    //        });
-    //    floorTwoTab.setOnSelectionChanged(
-    //        event -> {
-    //          currentFloor = Floor.TWO;
-    //          if (!pathIsBeingDisplayed()) resetComboboxes(currentFloor);
-    //        });
-    //    floorThreeTab.setOnSelectionChanged(
-    //        event -> {
-    //          currentFloor = Floor.THREE;
-    //          if (!pathIsBeingDisplayed()) resetComboboxes(currentFloor);
-    //        });
 
     tabPane
         .getSelectionModel()
@@ -133,17 +108,6 @@ public class MapController {
           destFromComboBox = destinationList.getValue();
           displayPath(curLocFromComboBox, destFromComboBox, currentFloor);
         });
-
-    //    mapImageLowerOne.setImage(
-    //        new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel1.png"))));
-    //    mapImageLowerTwo.setImage(
-    //        new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel2.png"))));
-    //    mapImageOne.setImage(
-    //        new Image(String.valueOf(Main.class.getResource("maps/01_thefirstfloor.png"))));
-    //    mapImageTwo.setImage(
-    //        new Image(String.valueOf(Main.class.getResource("maps/02_thesecondfloor.png"))));
-    //    mapImageThree.setImage(
-    //        new Image(String.valueOf(Main.class.getResource("maps/03_thethirdfloor.png"))));
 
     // Initially set the menu bar to invisible
     menuBar.setVisible(false);
