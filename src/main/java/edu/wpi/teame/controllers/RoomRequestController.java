@@ -41,6 +41,12 @@ public class RoomRequestController {
                     (locationName) -> {
                       return locationName.getLongName();
                     })
+                .filter(
+                    (locationName) -> {
+                      return LocationName.allLocations.get(locationName).getNodeType()
+                          == LocationName.NodeType.CONF;
+                    })
+                .sorted()
                 .toList());
     roomName.setItems(names);
     bookingTime.setItems(times);

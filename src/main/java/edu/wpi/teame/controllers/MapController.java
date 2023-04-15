@@ -7,6 +7,7 @@ import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.Main;
 import edu.wpi.teame.map.Floor;
 import edu.wpi.teame.map.HospitalNode;
+import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.map.pathfinding.AStarPathfinder;
 import edu.wpi.teame.utilities.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -131,6 +132,9 @@ public class MapController {
     mouseSetup(menuBarDatabase);
     mouseSetup(menuBarExit);
 
+    // Make sure location list is initialized so that we can filter out the hallways
+    SQLRepo.INSTANCE.getLocationList();
+
     refreshTab(currentFloor);
   }
 
@@ -139,8 +143,17 @@ public class MapController {
     currentFloor = floor;
     floorLocations =
         FXCollections.observableArrayList(
-            SQLRepo.INSTANCE.getLongNamesFromMove(
-                SQLRepo.INSTANCE.getMoveAttributeFromFloor(currentFloor)));
+            SQLRepo.INSTANCE.getMoveAttributeFromFloor(currentFloor).stream()
+                .filter(
+                    (move) -> // Filter out hallways and long names with no corresponding
+                        // LocationName
+                        LocationName.allLocations.get(move.getLongName()) == null
+                            ? false
+                            : LocationName.allLocations.get(move.getLongName()).getNodeType()
+                                != LocationName.NodeType.HALL)
+                .map((move) -> move.getLongName())
+                .sorted() // Sort alphabetically
+                .toList());
     currentLocationList.setItems(floorLocations);
     destinationList.setItems(floorLocations);
     currentLocationList.setValue("");

@@ -45,6 +45,18 @@ public class OfficeSuppliesController implements IRequestController {
                     (locationName) -> {
                       return locationName.getLongName();
                     })
+                .filter(
+                    (locationName) -> {
+                      return LocationName.allLocations.get(locationName).getNodeType()
+                              != LocationName.NodeType.HALL
+                          && LocationName.allLocations.get(locationName).getNodeType()
+                              != LocationName.NodeType.STAI
+                          && LocationName.allLocations.get(locationName).getNodeType()
+                              != LocationName.NodeType.REST
+                          && LocationName.allLocations.get(locationName).getNodeType()
+                              != LocationName.NodeType.ELEV;
+                    })
+                .sorted()
                 .toList());
     roomName.setItems(names);
     deliveryTime.setItems(deliveryTimes);
