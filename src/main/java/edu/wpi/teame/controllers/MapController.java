@@ -47,6 +47,7 @@ public class MapController {
   @FXML MFXButton menuBarBlank;
   @FXML MFXButton menuBarExit;
   @FXML VBox menuBar;
+  @FXML MFXButton startButton;
 
   @FXML ImageView mapImage; // Floor 1
   @FXML ImageView mapImage1; // Floor 2
@@ -72,14 +73,7 @@ public class MapController {
     floorTwoTab.setOnSelectionChanged(event -> refreshTab(Floor.TWO));
     floorThreeTab.setOnSelectionChanged(event -> refreshTab(Floor.THREE));
 
-    currentLocationList.setOnAction(
-        event -> {
-          curLocFromComboBox = currentLocationList.getValue();
-          destFromComboBox = destinationList.getValue();
-          displayPath(curLocFromComboBox, destFromComboBox, currentFloor);
-        });
-
-    destinationList.setOnAction(
+    startButton.setOnAction(
         event -> {
           curLocFromComboBox = currentLocationList.getValue();
           destFromComboBox = destinationList.getValue();
