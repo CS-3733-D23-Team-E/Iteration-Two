@@ -20,14 +20,6 @@ public class MapUtilities {
   private String circleStyle;
   private String labelStyle;
 
-  public void setCircleStyle(String circleStyle) {
-    this.circleStyle = circleStyle;
-  }
-
-  public void setLabelStyle(String labelStyle) {
-    this.labelStyle = labelStyle;
-  }
-
   ObservableList<Node> currentNodes = FXCollections.observableArrayList();
 
   public MapUtilities(Pane pane) {
@@ -183,6 +175,14 @@ public class MapUtilities {
 
   public void setLineStyle(String lineStyle) {
     this.lineStyle = lineStyle;
+  }
+
+  public void setCircleStyle(String circleStyle) {
+    this.circleStyle = circleStyle;
+  }
+
+  public void setLabelStyle(String labelStyle) {
+    this.labelStyle = labelStyle;
   }
 
   public ObservableList<Node> getCurrentNodes() {

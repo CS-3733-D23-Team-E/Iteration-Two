@@ -29,7 +29,7 @@
       <Rectangle fill="WHITE" height="710.0" stroke="#192d5a" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="10.0" width="1005.0" x="135.0" />
       <BorderPane prefHeight="590.0" prefWidth="1000.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="120.0">
          <center>
-            <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="750.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="30.0" tabMaxWidth="180.0" tabMinHeight="30.0" tabMinWidth="130.0" BorderPane.alignment="CENTER">
+            <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="750.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="30.0" tabMaxWidth="180.0" tabMinHeight="30.0" tabMinWidth="130.0" BorderPane.alignment="CENTER">
                <tabs>
                   <Tab fx:id="lowerLevelTwoTab" text="Lower Level 2">
                      <content>
@@ -178,10 +178,10 @@
                      <children>
                         <Label layoutX="105.0" layoutY="235.0" text="Start" />
                         <SearchableComboBox fx:id="currentLocationList" prefHeight="40.0" promptText="Location" style="-fx-border-color: #192d5a; -fx-border-width: 3; -fx-border-radius: 5;" />
-                        <Line endY="-50.0" strokeWidth="2.0" />
-                        <Line endY="-50.0" layoutX="135.0" layoutY="177.0" strokeWidth="2.0" />
+                        <Line endX="0.3857864737510681" endY="-50.0" layoutX="135.0" layoutY="177.0" strokeWidth="2.0" />
                         <SearchableComboBox fx:id="destinationList" layoutX="25.0" layoutY="86.0" prefHeight="40.0" promptText="Destination" style="-fx-border-color: #192d5a; -fx-border-width: 3; -fx-border-radius: 5;" />
                         <Label text="Destination" />
+                        <MFXButton fx:id="refreshPathButton" text="Refresh Path" />
                      </children>
                      <VBox.margin>
                         <Insets />
