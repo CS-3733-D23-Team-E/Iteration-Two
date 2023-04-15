@@ -39,24 +39,20 @@ public class MealRequestController implements IRequestController {
 
   @FXML
   public void initialize() {
-    Stream<LocationName> locationStream = SQLRepo.INSTANCE.getLocationList().stream();
+    Stream<LocationName> locationStream = LocationName.allLocations.values().stream();
     ObservableList<String> names =
         FXCollections.observableArrayList(
             locationStream
+                .filter(
+                    (locationName) -> {
+                      return locationName.getNodeType() != LocationName.NodeType.HALL
+                          && locationName.getNodeType() != LocationName.NodeType.STAI
+                          && locationName.getNodeType() != LocationName.NodeType.REST
+                          && locationName.getNodeType() != LocationName.NodeType.ELEV;
+                    })
                 .map(
                     (locationName) -> {
                       return locationName.getLongName();
-                    })
-                .filter(
-                    (locationName) -> {
-                      return LocationName.allLocations.get(locationName).getNodeType()
-                              != LocationName.NodeType.HALL
-                          && LocationName.allLocations.get(locationName).getNodeType()
-                              != LocationName.NodeType.STAI
-                          && LocationName.allLocations.get(locationName).getNodeType()
-                              != LocationName.NodeType.REST
-                          && LocationName.allLocations.get(locationName).getNodeType()
-                              != LocationName.NodeType.ELEV;
                     })
                 .sorted()
                 .toList());
