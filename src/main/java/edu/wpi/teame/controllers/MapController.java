@@ -87,15 +87,15 @@ public class MapController {
         .addListener(
             (observable, oldTab, newTab) -> {
               if (!isPathDisplayed) {
-                resetComboboxes(tabToFloor(newTab));
+                currentFloor = tabToFloor(newTab);
+                resetComboboxes();
               }
-              currentFloor = tabToFloor(newTab);
             });
 
     refreshPathButton.setOnMouseClicked(
         event -> {
           currentFloor = tabToFloor(tabPane.getSelectionModel().selectedItemProperty().getValue());
-          resetComboboxes(currentFloor);
+          resetComboboxes();
           refreshPath();
         });
 
@@ -148,7 +148,7 @@ public class MapController {
     // Make sure location list is initialized so that we can filter out the hallways
     SQLRepo.INSTANCE.getLocationList();
 
-    resetComboboxes(currentFloor);
+    resetComboboxes();
   }
 
   private void initializeMapUtilities() {
@@ -171,10 +171,10 @@ public class MapController {
     mapUtilityThree.setLineStyle("-fx-stroke: orangered; -fx-stroke-width: 4");
   }
 
-  public void resetComboboxes(Floor floor) {
+  public void resetComboboxes() {
     floorLocations =
         FXCollections.observableArrayList(
-            SQLRepo.INSTANCE.getMoveAttributeFromFloor(currentFloor).stream()
+            SQLRepo.INSTANCE.getMoveList().stream()
                 .filter(
                     (move) -> // Filter out hallways and long names with no corresponding
                         // LocationName
