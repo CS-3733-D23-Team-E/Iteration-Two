@@ -4,7 +4,6 @@ import static javafx.scene.paint.Color.BLACK;
 import static javafx.scene.paint.Color.WHITE;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.Main;
 import edu.wpi.teame.map.Floor;
 import edu.wpi.teame.map.HospitalNode;
 import edu.wpi.teame.map.pathfinding.AStarPathfinder;
@@ -17,20 +16,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
-import javafx.scene.image.Image;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import org.controlsfx.control.SearchableComboBox;
 
 public class MapController {
-  @FXML AnchorPane mapPane;
-  @FXML AnchorPane mapPane1;
-  @FXML AnchorPane mapPane11;
-  @FXML AnchorPane mapPane111;
-  @FXML AnchorPane mapPane1111;
+  @FXML AnchorPane mapPaneOne;
+  @FXML AnchorPane mapPaneTwo;
+  @FXML AnchorPane mapPaneThree;
+  @FXML AnchorPane mapPaneLowerOne;
+  @FXML AnchorPane mapPaneLowerTwo;
   @FXML VBox pathBox;
+  @FXML TabPane tabPane;
   @FXML Tab floorOneTab;
   @FXML Tab floorTwoTab;
   @FXML Tab floorThreeTab;
@@ -49,16 +51,22 @@ public class MapController {
   @FXML VBox menuBar;
   @FXML MFXButton startButton;
 
-  @FXML ImageView mapImage; // Floor 1
-  @FXML ImageView mapImage1; // Floor 2
-  @FXML ImageView mapImage11; // Floor 3
-  @FXML ImageView mapImage111; // Floor L1
-  @FXML ImageView mapImage1111; // Floor L2
+  @FXML ImageView mapImageLowerTwo; // Floor L2
+  @FXML ImageView mapImageLowerOne; // Floor L1
+  @FXML ImageView mapImageOne; // Floor 1
+  @FXML ImageView mapImageTwo; // Floor 2
+  @FXML ImageView mapImageThree; // Floor 3
+
+  boolean isPathDisplayed = false;
 
   Floor currentFloor = Floor.LOWER_TWO;
   String curLocFromComboBox;
   String destFromComboBox;
-  MapUtilities mapUtil = new MapUtilities(whichPane(currentFloor));
+  MapUtilities mapUtilityLowerTwo = new MapUtilities(mapPaneLowerTwo);
+  MapUtilities mapUtilityLowerOne = new MapUtilities(mapPaneLowerOne);
+  MapUtilities mapUtilityOne = new MapUtilities(mapPaneOne);
+  MapUtilities mapUtilityTwo = new MapUtilities(mapPaneTwo);
+  MapUtilities mapUtilityThree = new MapUtilities(mapPaneThree);
 
   ObservableList<String> floorLocations =
       FXCollections.observableArrayList(
@@ -67,29 +75,32 @@ public class MapController {
 
   @FXML
   public void initialize() {
-    lowerLevelOneTab.setOnSelectionChanged(event -> refreshTab(Floor.LOWER_ONE));
-    lowerLevelTwoTab.setOnSelectionChanged(event -> refreshTab(Floor.LOWER_TWO));
-    floorOneTab.setOnSelectionChanged(event -> refreshTab(Floor.ONE));
-    floorTwoTab.setOnSelectionChanged(event -> refreshTab(Floor.TWO));
-    floorThreeTab.setOnSelectionChanged(event -> refreshTab(Floor.THREE));
+    initializeMapUtilities();
+
+    tabPane
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (observable, oldTab, newTab) -> {
+              if (!isPathDisplayed) {
+                resetComboboxes(tabToFloor(newTab));
+              }
+              currentFloor = tabToFloor(newTab);
+            });
+
+    refreshPathButton.setOnMouseClicked(
+        event -> {
+          currentFloor = tabToFloor(tabPane.getSelectionModel().selectedItemProperty().getValue());
+          resetComboboxes(currentFloor);
+          refreshPath();
+        });
 
     startButton.setOnAction(
         event -> {
           curLocFromComboBox = currentLocationList.getValue();
           destFromComboBox = destinationList.getValue();
-          displayPath(curLocFromComboBox, destFromComboBox, currentFloor);
+          displayPath(curLocFromComboBox, destFromComboBox);
         });
-
-    mapImage.setImage(
-        new Image(String.valueOf(Main.class.getResource("maps/01_thefirstfloor.png"))));
-    mapImage1.setImage(
-        new Image(String.valueOf(Main.class.getResource("maps/02_thesecondfloor.png"))));
-    mapImage11.setImage(
-        new Image(String.valueOf(Main.class.getResource("maps/03_thethirdfloor.png"))));
-    mapImage111.setImage(
-        new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel1.png"))));
-    mapImage1111.setImage(
-        new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel2.png"))));
 
     // Initially set the menu bar to invisible
     menuBar.setVisible(false);
@@ -123,30 +134,46 @@ public class MapController {
     mouseSetup(menuBarDatabase);
     mouseSetup(menuBarExit);
 
-    refreshTab(currentFloor);
+    resetComboboxes(currentFloor);
   }
 
-  @FXML
-  public void refreshTab(Floor floor) {
-    currentFloor = floor;
+  private void initializeMapUtilities() {
+    mapUtilityLowerTwo = new MapUtilities(mapPaneLowerTwo);
+    mapUtilityLowerOne = new MapUtilities(mapPaneLowerOne);
+    mapUtilityOne = new MapUtilities(mapPaneOne);
+    mapUtilityTwo = new MapUtilities(mapPaneTwo);
+    mapUtilityThree = new MapUtilities(mapPaneThree);
+
+    mapUtilityLowerTwo.setCircleStyle("-fx-fill: gold; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityLowerOne.setCircleStyle("-fx-fill: cyan; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityOne.setCircleStyle("-fx-fill: lime; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityTwo.setCircleStyle("-fx-fill: hotpink; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityThree.setCircleStyle("-fx-fill: orangered; -fx-stroke: black; -fx-stroke-width: 1");
+
+    mapUtilityLowerTwo.setLineStyle("-fx-stroke: gold; -fx-stroke-width: 4");
+    mapUtilityLowerOne.setLineStyle("-fx-stroke: cyan; -fx-stroke-width: 4");
+    mapUtilityOne.setLineStyle("-fx-stroke: lime; -fx-stroke-width: 4");
+    mapUtilityTwo.setLineStyle("-fx-stroke: hotpink; -fx-stroke-width: 4");
+    mapUtilityThree.setLineStyle("-fx-stroke: orangered; -fx-stroke-width: 4");
+  }
+
+  public void resetComboboxes(Floor floor) {
     floorLocations =
         FXCollections.observableArrayList(
             SQLRepo.INSTANCE.getLongNamesFromMove(
-                SQLRepo.INSTANCE.getMoveAttributeFromFloor(currentFloor)));
+                SQLRepo.INSTANCE.getMoveAttributeFromFloor(floor)));
     currentLocationList.setItems(floorLocations);
     destinationList.setItems(floorLocations);
     currentLocationList.setValue("");
     destinationList.setValue("");
-    refreshPath(whichPane(floor));
-    mapUtil = new MapUtilities(whichPane(currentFloor));
   }
 
   @FXML
-  public void displayPath(String from, String to, Floor whichFloor) {
+  public void displayPath(String from, String to) {
     if (from == null || from.equals("") || to == null || to.equals("")) {
       return;
     }
-    refreshPath(whichPane(whichFloor));
+    refreshPath();
     AStarPathfinder pf = new AStarPathfinder();
 
     String toNodeID = SQLRepo.INSTANCE.getNodeIDFromName(to) + "";
@@ -165,6 +192,7 @@ public class MapController {
     // Create the labels
     mapUtil.createPathLabels(pathBox, pathNames);
     drawPath(path, whichPane(whichFloor));
+    isPathDisplayed = true;
   }
 
   /**
@@ -172,14 +200,14 @@ public class MapController {
    *
    * @param path
    */
-  private void drawPath(List<HospitalNode> path, AnchorPane curPane) {
+  private void drawPath(List<HospitalNode> path) {
+    MapUtilities currentMapUtility = whichMapUtility(currentFloor);
 
     // create circle to symbolize start
     int x1 = path.get(0).getXCoord();
     int y1 = path.get(0).getYCoord();
-    mapUtil.drawRing(x1, y1, 8, 2, WHITE, BLACK);
-    mapUtil.createLabel(x1, y1, 5, 5, "Current Location");
-
+    currentMapUtility.drawRing(x1, y1, 8, 2, WHITE, BLACK);
+    currentMapUtility.createLabel(x1, y1, 5, 5, "Current Location");
     // draw the lines between each node
     int x2, y2;
     for (int i = 1; i < path.size(); i++) {
@@ -187,36 +215,73 @@ public class MapController {
       x2 = node.getXCoord();
       y2 = node.getYCoord();
 
-      mapUtil.drawLine(x1, y1, x2, y2);
+      Floor newFloor = node.getFloor();
+      if (newFloor != currentFloor) {
+        Floor oldFloor = currentFloor;
+        currentMapUtility.createLabel(x2, y2, "Went to Floor: " + newFloor.toString());
+        currentFloor = newFloor;
+        currentMapUtility = whichMapUtility(currentFloor);
+        currentMapUtility.createLabel(x2, y2, "Came from Floor: " + oldFloor.toString());
+      }
 
+      Line pathLine = currentMapUtility.drawStyledLine(x1, y1, x2, y2);
+      Circle intermediateCircle = currentMapUtility.drawStyledCircle(x2, y2, 3);
+      intermediateCircle.setViewOrder(-1);
       x1 = x2;
       y1 = y2;
     }
 
     // create circle to symbolize end
-    mapUtil.drawCircle(x1, y1, 8, BLACK);
-    mapUtil.createLabel(x1, y1, 5, 5, "Destination");
+    Circle endingCircle = currentMapUtility.drawCircle(x1, y1, 8, BLACK);
+    endingCircle.toFront();
+    currentMapUtility.createLabel(x1, y1, 5, 5, "Destination");
   }
 
   /** removes all the lines in the currentLines list */
-  public void refreshPath(AnchorPane curPane) {
-    curPane.getChildren().removeAll(mapUtil.getCurrentNodes());
+  public void refreshPath() {
+
+    mapUtilityLowerTwo.removeAll();
+    mapUtilityLowerOne.removeAll();
+    mapUtilityOne.removeAll();
+    mapUtilityTwo.removeAll();
+    mapUtilityThree.removeAll();
+
+    isPathDisplayed = false;
   }
 
-  public AnchorPane whichPane(Floor curFloor) {
-    switch (curFloor) {
-      case ONE:
-        return mapPane;
-      case TWO:
-        return mapPane1;
-      case THREE:
-        return mapPane11;
-      case LOWER_ONE:
-        return mapPane111;
+  public MapUtilities whichMapUtility(Floor currFloor) {
+    switch (currFloor) {
       case LOWER_TWO:
-        return mapPane1111;
+        return mapUtilityLowerTwo;
+      case LOWER_ONE:
+        return mapUtilityLowerOne;
+      case ONE:
+        return mapUtilityOne;
+      case TWO:
+        return mapUtilityTwo;
+      case THREE:
+        return mapUtilityThree;
     }
-    return mapPane;
+    return mapUtilityLowerOne;
+  }
+
+  public Floor tabToFloor(Tab tab) {
+    if (tab == lowerLevelTwoTab) {
+      return Floor.LOWER_TWO;
+    }
+    if (tab == lowerLevelOneTab) {
+      return Floor.LOWER_ONE;
+    }
+    if (tab == floorOneTab) {
+      return Floor.ONE;
+    }
+    if (tab == floorTwoTab) {
+      return Floor.TWO;
+    }
+    if (tab == floorThreeTab) {
+      return Floor.THREE;
+    }
+    return Floor.ONE;
   }
 
   private void mouseSetup(MFXButton btn) {
