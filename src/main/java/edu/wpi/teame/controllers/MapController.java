@@ -181,7 +181,13 @@ public class MapController {
                         LocationName.allLocations.get(move.getLongName()) == null
                             ? false
                             : LocationName.allLocations.get(move.getLongName()).getNodeType()
-                                != LocationName.NodeType.HALL)
+                                    != LocationName.NodeType.HALL
+                                && LocationName.allLocations.get(move.getLongName()).getNodeType()
+                                    != LocationName.NodeType.STAI
+                                && LocationName.allLocations.get(move.getLongName()).getNodeType()
+                                    != LocationName.NodeType.ELEV
+                                && LocationName.allLocations.get(move.getLongName()).getNodeType()
+                                    != LocationName.NodeType.REST)
                 .map((move) -> move.getLongName())
                 .sorted() // Sort alphabetically
                 .toList());
