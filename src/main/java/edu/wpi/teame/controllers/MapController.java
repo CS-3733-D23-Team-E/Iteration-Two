@@ -6,8 +6,8 @@ import static javafx.scene.paint.Color.WHITE;
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.Floor;
 import edu.wpi.teame.map.HospitalNode;
+import edu.wpi.teame.map.pathfinding.AbstractPathfinder;
 import edu.wpi.teame.map.LocationName;
-import edu.wpi.teame.map.pathfinding.AStarPathfinder;
 import edu.wpi.teame.utilities.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
@@ -203,7 +203,7 @@ public class MapController {
       return;
     }
     refreshPath();
-    AStarPathfinder pf = new AStarPathfinder();
+    AbstractPathfinder pf = AbstractPathfinder.getInstance("A*");
 
     String toNodeID = SQLRepo.INSTANCE.getNodeIDFromName(to) + "";
     String fromNodeID = SQLRepo.INSTANCE.getNodeIDFromName(from) + "";
