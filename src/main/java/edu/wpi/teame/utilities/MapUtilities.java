@@ -56,7 +56,9 @@ public class MapUtilities {
     int y = hospitalNode.getYCoord();
 
     // TODO: change color dependent on NodeType
-    return drawCircle(x, y, 4);
+    Circle hospitalNodeCircle = drawCircle(x, y, 4);
+    hospitalNodeCircle.setId(hospitalNode.getNodeID());
+    return hospitalNodeCircle;
   }
 
   public Circle drawRing(
