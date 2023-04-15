@@ -1,198 +1,236 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import net.kurobako.gesturefx.GesturePane?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<?import net.kurobako.gesturefx.GesturePane?>
-<AnchorPane fx:id="theBigPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.MapController">
+<AnchorPane fx:id="theBigPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.MapController">
    <children>
-      <BorderPane prefHeight="590.0" prefWidth="1000.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="120.0">
-         <center>
-            <TabPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="750.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="30.0" tabMaxWidth="180.0" tabMinHeight="30.0" tabMinWidth="130.0" BorderPane.alignment="CENTER">
-               <tabs>
-                  <Tab fx:id="lowerLevelTwoTab" text="Lower Level 2">
-                     <content>
-                        <AnchorPane>
-                           <children>
-                              <GesturePane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <AnchorPane fx:id="mapPane1111">
-                                       <children>
-                                          <StackPane fx:id="imagePane1111">
-                                             <children>
-                                                <ImageView fx:id="mapImage1111" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
-                                                   <image>
-                                                      <Image url="@../maps/00_thelowerlevel2.png" />
-                                                   </image>
-                                                   <viewport>
-                                                      <Rectangle2D />
-                                                   </viewport>
-                                                </ImageView>
-                                             </children>
-                                          </StackPane>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </GesturePane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab fx:id="lowerLevelOneTab" text="Lower Level 1">
-                     <content>
-                        <AnchorPane>
-                           <children>
-                              <GesturePane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <AnchorPane fx:id="mapPane111">
-                                       <children>
-                                          <StackPane fx:id="imagePane111" minHeight="0.0" minWidth="0.0">
-                                             <children>
-                                                <ImageView fx:id="mapImage111" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
-                                                   <image>
-                                                      <Image url="@../maps/00_thelowerlevel1.png" />
-                                                   </image>
-                                                   <viewport>
-                                                      <Rectangle2D />
-                                                   </viewport>
-                                                </ImageView>
-                                             </children>
-                                          </StackPane>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </GesturePane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab fx:id="floorOneTab" text="Floor 1">
-                     <content>
-                        <AnchorPane>
-                           <children>
-                              <GesturePane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <AnchorPane fx:id="mapPane" minWidth="-Infinity">
-                                       <children>
-                                          <StackPane fx:id="imagePane" minHeight="-Infinity" minWidth="-Infinity">
-                                             <children>
-                                                <ImageView fx:id="mapImage" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../maps/01_thefirstfloor.png" />
-                                                   </image>
-                                                   <viewport>
-                                                      <Rectangle2D />
-                                                   </viewport>
-                                                </ImageView>
-                                             </children>
-                                          </StackPane>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </GesturePane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab fx:id="floorTwoTab" text="Floor 2">
-                     <content>
-                        <AnchorPane>
-                           <children>
-                              <GesturePane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <AnchorPane fx:id="mapPane1">
-                                       <children>
-                                          <StackPane fx:id="imagePane1" minHeight="0.0" minWidth="0.0">
-                                             <children>
-                                                <ImageView fx:id="mapImage1" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
-                                                   <image>
-                                                      <Image url="@../maps/02_thesecondfloor.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </children>
-                                          </StackPane>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </GesturePane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab fx:id="floorThreeTab" text="Floor 3">
-                     <content>
-                        <AnchorPane>
-                           <children>
-                              <GesturePane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <AnchorPane fx:id="mapPane11">
-                                       <children>
-                                          <StackPane fx:id="imagePane11" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <children>
-                                                <ImageView fx:id="mapImage11" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
-                                                   <image>
-                                                      <Image url="@../maps/03_thethirdfloor.png" />
-                                                   </image>
-                                                   <viewport>
-                                                      <Rectangle2D height="3400.0" width="5000.0" />
-                                                   </viewport>
-                                                </ImageView>
-                                             </children>
-                                          </StackPane>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </GesturePane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-               </tabs>
-            </TabPane>
-         </center>
-         <left>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="590.0" prefWidth="250.0" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="250.0">
+      <TabPane layoutX="384.0" layoutY="120.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="30.0" tabMaxWidth="180.0" tabMinHeight="30.0" tabMinWidth="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+         <tabs>
+            <Tab fx:id="lowerLevelTwoTab" text="Lower Level 2">
+               <content>
+                  <AnchorPane>
                      <children>
-                        <Label layoutX="105.0" layoutY="235.0" text="Start" />
-                        <SearchableComboBox fx:id="currentLocationList" prefHeight="40.0" promptText="Location" style="-fx-border-color: #192d5a; -fx-border-width: 3; -fx-border-radius: 5;" />
-                        <Line endY="-50.0" strokeWidth="2.0" />
-                        <Line endY="-50.0" layoutX="135.0" layoutY="177.0" strokeWidth="2.0" />
-                        <SearchableComboBox fx:id="destinationList" layoutX="25.0" layoutY="86.0" prefHeight="40.0" promptText="Destination" style="-fx-border-color: #192d5a; -fx-border-width: 3; -fx-border-radius: 5;" />
-                        <Label text="Destination" />
+                        <GesturePane minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <AnchorPane fx:id="mapPane1111">
+                                 <children>
+                                    <StackPane fx:id="imagePane1111">
+                                       <children>
+                                          <ImageView fx:id="mapImage1111" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                                             <image>
+                                                <Image url="@../maps/00_thelowerlevel2.png" />
+                                             </image>
+                                             <viewport>
+                                                <Rectangle2D />
+                                             </viewport>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </GesturePane>
                      </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets left="15.0" right="15.0" />
-                     </padding>
-                  </VBox>
-                  <ScrollPane prefHeight="390.0">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="234.0">
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="lowerLevelOneTab" text="Lower Level 1">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <GesturePane minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <AnchorPane fx:id="mapPane111">
+                                 <children>
+                                    <StackPane fx:id="imagePane111" minHeight="0.0" minWidth="0.0">
+                                       <children>
+                                          <ImageView fx:id="mapImage111" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                                             <image>
+                                                <Image url="@../maps/00_thelowerlevel1.png" />
+                                             </image>
+                                             <viewport>
+                                                <Rectangle2D />
+                                             </viewport>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </GesturePane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="floorOneTab" text="Floor 1">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <GesturePane minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <AnchorPane fx:id="mapPane" minWidth="-Infinity">
+                                 <children>
+                                    <StackPane fx:id="imagePane" minHeight="-Infinity" minWidth="-Infinity">
+                                       <children>
+                                          <ImageView fx:id="mapImage" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../maps/01_thefirstfloor.png" />
+                                             </image>
+                                             <viewport>
+                                                <Rectangle2D />
+                                             </viewport>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </GesturePane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="floorTwoTab" text="Floor 2">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <GesturePane minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <AnchorPane fx:id="mapPane1">
+                                 <children>
+                                    <StackPane fx:id="imagePane1" minHeight="0.0" minWidth="0.0">
+                                       <children>
+                                          <ImageView fx:id="mapImage1" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                                             <image>
+                                                <Image url="@../maps/02_thesecondfloor.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </GesturePane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="floorThreeTab" text="Floor 3">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <GesturePane minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <AnchorPane fx:id="mapPane11">
+                                 <children>
+                                    <StackPane fx:id="imagePane11" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </GesturePane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <VBox prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #e1e1e1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <VBox alignment="CENTER" spacing="14.0" style="-fx-background-color: #e1e1e1;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <ImageView fitHeight="99.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/pathfinding.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ImageView>
+                        <VBox spacing="20.0">
                            <children>
-                              <Label fx:id="pathLabel" alignment="TOP_LEFT" prefHeight="300.0" prefWidth="250.0" style="-fx-background-color: #e1e1e1;" wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                              <SearchableComboBox fx:id="currentLocationList" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="36.0" prefWidth="300.0" promptText="Start" style="-fx-border-color: #1e1e1e; -fx-border-width: 3; -fx-border-radius: 5; -fx-background-color: #D9DAD7;" />
+                              <SearchableComboBox fx:id="destinationList" layoutX="10.0" layoutY="66.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="36.0" prefWidth="300.0" promptText="Destination" style="-fx-border-color: #1e1e1e; -fx-border-width: 3; -fx-border-radius: 5; -fx-background-color: #D9DAD7;" />
                            </children>
-                        </AnchorPane>
-                    </content>
-                  </ScrollPane>
+                           <HBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <MFXRadioButton radius="10.0" selected="true" text="A*">
+                           <font>
+                              <Font name="SansSerif Regular" size="20.0" />
+                           </font>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="pathGroup" />
+                           </toggleGroup>
+                        </MFXRadioButton>
+                        <Region minWidth="25.0" HBox.hgrow="ALWAYS" />
+                        <MFXRadioButton layoutX="40.0" layoutY="20.0" radius="10.0" text="DFS" toggleGroup="$pathGroup">
+                           <font>
+                              <Font name="SansSerif Regular" size="20.0" />
+                           </font>
+                        </MFXRadioButton>
+                        <Region layoutX="44.0" layoutY="10.0" minWidth="25.0" HBox.hgrow="ALWAYS" />
+                        <MFXRadioButton layoutX="270.0" layoutY="20.0" radius="10.0" text="BFS" toggleGroup="$pathGroup">
+                           <font>
+                              <Font name="SansSerif Regular" size="20.0" />
+                           </font>
+                        </MFXRadioButton>
+                     </children>
+                     <padding>
+                        <Insets left="30.0" right="30.0" />
+                     </padding>
+                  </HBox>
+                  <MFXButton minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" style="-fx-background-color: #192D5A;" text="Start" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="SansSerif Regular" size="16.0" />
+                     </font>
+                  </MFXButton>
                </children>
+               <padding>
+                  <Insets bottom="18.0" left="15.0" right="15.0" top="18.0" />
+               </padding>
             </VBox>
-         </left>
-      </BorderPane>
+            <MFXScrollPane style="-fx-background-color: #FF0000;" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox prefHeight="500.0" prefWidth="390.0" style="-fx-background-color: #e1e1e1;" />
+               </content>
+            </MFXScrollPane>
+         </children>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.25190839171409607" />
+               </color>
+            </DropShadow>
+         </effect>
+      </VBox>
    </children>
 </AnchorPane>
