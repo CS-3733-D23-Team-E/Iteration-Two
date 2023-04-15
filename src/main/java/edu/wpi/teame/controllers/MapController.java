@@ -93,6 +93,7 @@ public class MapController {
 
     refreshPathButton.setOnMouseClicked(
         event -> {
+          currentFloor = tabToFloor(tabPane.getSelectionModel().selectedItemProperty().getValue());
           resetComboboxes(currentFloor);
           refreshPath();
         });
@@ -153,11 +154,11 @@ public class MapController {
     mapUtilityTwo = new MapUtilities(mapPaneTwo);
     mapUtilityThree = new MapUtilities(mapPaneThree);
 
-    mapUtilityLowerTwo.setCircleStyle("-fx-fill: gold; -fx-stroke: black; -fx-stroke-width: 2");
-    mapUtilityLowerOne.setCircleStyle("-fx-fill: cyan; -fx-stroke: black; -fx-stroke-width: 2");
-    mapUtilityOne.setCircleStyle("-fx-fill: lime; -fx-stroke: black; -fx-stroke-width: 2");
-    mapUtilityTwo.setCircleStyle("-fx-fill: hotpink; -fx-stroke: black; -fx-stroke-width: 2");
-    mapUtilityThree.setCircleStyle("-fx-fill: orangered; -fx-stroke: black; -fx-stroke-width: 2");
+    mapUtilityLowerTwo.setCircleStyle("-fx-fill: gold; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityLowerOne.setCircleStyle("-fx-fill: cyan; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityOne.setCircleStyle("-fx-fill: lime; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityTwo.setCircleStyle("-fx-fill: hotpink; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityThree.setCircleStyle("-fx-fill: orangered; -fx-stroke: black; -fx-stroke-width: 1");
 
     mapUtilityLowerTwo.setLineStyle("-fx-stroke: gold; -fx-stroke-width: 4");
     mapUtilityLowerOne.setLineStyle("-fx-stroke: cyan; -fx-stroke-width: 4");
@@ -232,16 +233,16 @@ public class MapController {
         currentMapUtility.createLabel(x2, y2, "Came from Floor: " + oldFloor.toString());
       }
 
-      Line pathLine = currentMapUtility.drawLine(x1, y1, x2, y2);
-      //      pathLine.setViewOrder(1);
-      Circle intermediateCircle = currentMapUtility.drawCircle(x2, y2, 3);
+      Line pathLine = currentMapUtility.drawStyledLine(x1, y1, x2, y2);
+      Circle intermediateCircle = currentMapUtility.drawStyledCircle(x2, y2, 3);
       intermediateCircle.setViewOrder(-1);
       x1 = x2;
       y1 = y2;
     }
 
     // create circle to symbolize end
-    currentMapUtility.drawCircle(x1, y1, 8, BLACK);
+    Circle endingCircle = currentMapUtility.drawCircle(x1, y1, 8, BLACK);
+    endingCircle.toFront();
     currentMapUtility.createLabel(x1, y1, 5, 5, "Destination");
   }
 
