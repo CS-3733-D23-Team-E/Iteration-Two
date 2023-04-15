@@ -22,6 +22,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import org.controlsfx.control.SearchableComboBox;
 
 public class MapController {
@@ -91,6 +93,7 @@ public class MapController {
 
     refreshPathButton.setOnMouseClicked(
         event -> {
+          currentFloor = tabToFloor(tabPane.getSelectionModel().selectedItemProperty().getValue());
           resetComboboxes(currentFloor);
           refreshPath();
         });
@@ -99,14 +102,14 @@ public class MapController {
         event -> {
           curLocFromComboBox = currentLocationList.getValue();
           destFromComboBox = destinationList.getValue();
-          displayPath(curLocFromComboBox, destFromComboBox, currentFloor);
+          displayPath(curLocFromComboBox, destFromComboBox);
         });
 
     destinationList.setOnAction(
         event -> {
           curLocFromComboBox = currentLocationList.getValue();
           destFromComboBox = destinationList.getValue();
-          displayPath(curLocFromComboBox, destFromComboBox, currentFloor);
+          displayPath(curLocFromComboBox, destFromComboBox);
         });
 
     // Initially set the menu bar to invisible
@@ -150,11 +153,18 @@ public class MapController {
     mapUtilityOne = new MapUtilities(mapPaneOne);
     mapUtilityTwo = new MapUtilities(mapPaneTwo);
     mapUtilityThree = new MapUtilities(mapPaneThree);
-    mapUtilityLowerTwo.setLineStyle("-fx-stroke: gold; -fx-stroke-width: 3");
-    mapUtilityLowerOne.setLineStyle("-fx-stroke: cyan; -fx-stroke-width: 3");
-    mapUtilityOne.setLineStyle("-fx-stroke: lime; -fx-stroke-width: 3");
-    mapUtilityTwo.setLineStyle("-fx-stroke: hotpink; -fx-stroke-width: 3");
-    mapUtilityThree.setLineStyle("-fx-stroke: orangered; -fx-stroke-width: 3");
+
+    mapUtilityLowerTwo.setCircleStyle("-fx-fill: gold; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityLowerOne.setCircleStyle("-fx-fill: cyan; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityOne.setCircleStyle("-fx-fill: lime; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityTwo.setCircleStyle("-fx-fill: hotpink; -fx-stroke: black; -fx-stroke-width: 1");
+    mapUtilityThree.setCircleStyle("-fx-fill: orangered; -fx-stroke: black; -fx-stroke-width: 1");
+
+    mapUtilityLowerTwo.setLineStyle("-fx-stroke: gold; -fx-stroke-width: 4");
+    mapUtilityLowerOne.setLineStyle("-fx-stroke: cyan; -fx-stroke-width: 4");
+    mapUtilityOne.setLineStyle("-fx-stroke: lime; -fx-stroke-width: 4");
+    mapUtilityTwo.setLineStyle("-fx-stroke: hotpink; -fx-stroke-width: 4");
+    mapUtilityThree.setLineStyle("-fx-stroke: orangered; -fx-stroke-width: 4");
   }
 
   public void resetComboboxes(Floor floor) {
@@ -169,7 +179,7 @@ public class MapController {
   }
 
   @FXML
-  public void displayPath(String from, String to, Floor whichFloor) {
+  public void displayPath(String from, String to) {
     if (from == null || from.equals("") || to == null || to.equals("")) {
       return;
     }
@@ -201,6 +211,7 @@ public class MapController {
    */
   private void drawPath(List<HospitalNode> path) {
     MapUtilities currentMapUtility = whichMapUtility(currentFloor);
+
     // create circle to symbolize start
     int x1 = path.get(0).getXCoord();
     int y1 = path.get(0).getYCoord();
@@ -222,14 +233,16 @@ public class MapController {
         currentMapUtility.createLabel(x2, y2, "Came from Floor: " + oldFloor.toString());
       }
 
-      currentMapUtility.drawLine(x1, y1, x2, y2);
-
+      Line pathLine = currentMapUtility.drawStyledLine(x1, y1, x2, y2);
+      Circle intermediateCircle = currentMapUtility.drawStyledCircle(x2, y2, 3);
+      intermediateCircle.setViewOrder(-1);
       x1 = x2;
       y1 = y2;
     }
 
     // create circle to symbolize end
-    currentMapUtility.drawCircle(x1, y1, 8, BLACK);
+    Circle endingCircle = currentMapUtility.drawCircle(x1, y1, 8, BLACK);
+    endingCircle.toFront();
     currentMapUtility.createLabel(x1, y1, 5, 5, "Destination");
   }
 
