@@ -47,13 +47,15 @@ public class OfficeSuppliesData {
     @Getter @Setter private String room;
     @Getter @Setter private String deliveryTime;
     @Getter @Setter private String officeSupply;
+    @Getter @Setter private int requestID;
 
     @Getter @Setter private Status requestStatus;
     @Getter @Setter private int quantity;
     @Getter @Setter private String assignedStaff;
 
 
-    public OfficeSuppliesData(String name, String room, Status requestStatus, String deliveryTime, String officeSupply, int q, String assignedStaff){
+    public OfficeSuppliesData(int requestID, String name, String room, Status requestStatus, String deliveryTime, String officeSupply, int q, String assignedStaff){
+        this.requestID = requestID;
         this.name =  name;
         this.room = room;
         this.quantity = q;

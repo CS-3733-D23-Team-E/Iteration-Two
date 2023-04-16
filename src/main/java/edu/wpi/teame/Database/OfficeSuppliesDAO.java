@@ -1,7 +1,7 @@
 package edu.wpi.teame.Database;
 
 import edu.wpi.teame.entities.OfficeSuppliesData;
-import org.json.JSONObject;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -34,7 +34,7 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData>{
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                officeSuppliesDataList.add(new OfficeSuppliesData(rs.getString("name"), rs.getString("room"), OfficeSuppliesData.Status.stringToStatus(rs.getString("status")), rs.getString("deliverytime"), rs.getString("officesupply"), rs.getInt("quantity"), rs.getString("staff") ));
+                officeSuppliesDataList.add(new OfficeSuppliesData(rs.getInt("requestID"),rs.getString("name"), rs.getString("room"), OfficeSuppliesData.Status.stringToStatus(rs.getString("status")), rs.getString("deliverytime"), rs.getString("officesupply"), rs.getInt("quantity"), rs.getString("staff") ));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -45,8 +45,7 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData>{
 
     @Override
     void update(OfficeSuppliesData obj, String attribute, String value){
-        String name = obj.getName();
-        String staff = obj.getAssignedStaff();
+        int requestID = obj.getRequestID();
 
         String sqlUpdate =
                 "UPDATE \"OfficeSupplies\" "
@@ -54,10 +53,8 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData>{
                         + attribute
                         + "\" = '"
                         + value
-                        + "' WHERE \"name\" = '"
-                        + name
-                        + "' AND \"staff\" = '"
-                        + staff
+                        + "' WHERE \"requestID\" = '"
+                        + requestID
                         + "';";
 
         try {
@@ -72,13 +69,10 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData>{
 
     @Override
     void delete(OfficeSuppliesData obj) {
-        String name = obj.getName();
-        String staff = obj.getAssignedStaff();
+        int requestID = obj.getRequestID();
         String sqlDelete =
-                "DELETE FROM \"OfficeSupplies\" WHERE \"name\" = '"
-                        + name
-                        + "' AND \"staff\" = '"
-                        + staff
+                "DELETE FROM \"OfficeSupplies\" WHERE \"requestID\" = '"
+                        + requestID
                         + "';";
 
         Statement stmt;
@@ -93,6 +87,7 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData>{
 
     @Override
     void add(OfficeSuppliesData obj) {
+        int requestID = generateUniqueRequestID();
         String name = obj.getName();
         String room = obj.getRoom();
         int quantity = obj.getQuantity();
@@ -102,7 +97,7 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData>{
         String staff = obj.getAssignedStaff();
 
         String sqlAdd =
-                "INSERT INTO \"OfficeSupplies\" VALUES('" + name + "','" + room + "'," + quantity + ",'"+ requestStatus + "','"+ deliveryTime + "','" + officeSupply + "','" + staff +"');";
+                "INSERT INTO \"OfficeSupplies\" VALUES("+ requestID + ",'" + name + "','" + room + "'," + quantity + ",'"+ requestStatus + "','"+ deliveryTime + "','" + officeSupply + "','" + staff +"');";
 
         Statement stmt;
         try {
@@ -112,6 +107,21 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData>{
             System.out.println("error adding");
         }
 
+    }
+
+    private int generateUniqueRequestID() {
+        int requestID = 0;
+        try {
+            Statement stmt = activeConnection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT MAX(" + requestID + ") FROM \"OfficeSupplies\"");
+            if (rs.next()) {
+                requestID = rs.getInt(1);
+            }
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return requestID + 1;
     }
 
     @Override
@@ -137,15 +147,15 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData>{
                                 + "\""
                                 + tableName
                                 + "\""
-                                + " VALUES ('"
+                                + " VALUES ("
                                 + splitL1[0]
-                                + "','"
+                                + ",'"
                                 + splitL1[1]
-                                + "',"
-                                + splitL1[2]
-                                +  ",'"
-                                + splitL1[3]
                                 + "','"
+                                + splitL1[2]
+                                +  "',"
+                                + splitL1[3]
+                                + ",'"
                                 + splitL1[4]
                                 + "','"
                                 + splitL1[5]

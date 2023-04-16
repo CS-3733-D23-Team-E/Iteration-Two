@@ -18,7 +18,10 @@ public enum SQLRepo {
     NODE,
     EDGE,
     SERVICE_REQUESTS,
-    OFFICE_SUPPLY;
+    OFFICE_SUPPLY,
+    MEAL_REQUESTS,
+    FLOWER_REQUESTS,
+    CONFERENCE_ROOM;
 
     public static String tableToString(Table tb) {
       switch (tb) {
@@ -34,6 +37,12 @@ public enum SQLRepo {
           return "ServiceRequests";
         case OFFICE_SUPPLY:
           return "OfficeSupplies";
+        case MEAL_REQUESTS:
+          return "MealService";
+        case FLOWER_REQUESTS:
+          return "FlowerService";
+        case CONFERENCE_ROOM:
+          return "ConfRoomService";
         default:
           throw new NoSuchElementException("No such Table found");
       }
