@@ -193,6 +193,7 @@
                         </VBox>
                      </children>
                   </StackPane>
+                  <MFXButton fx:id="confirmEditButton" text="Confirm Changes" visible="false" />
                </children>
             </VBox>
          </children>

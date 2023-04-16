@@ -123,6 +123,8 @@ public class DatabaseTableViewController {
   @FXML VBox editEdgeZone;
   @FXML TextField editEdgeStartField;
   @FXML TextField editEdgeEndField;
+  ///////////////////////////
+  @FXML MFXButton confirmEditButton;
 
   FileChooser saveChooser = new FileChooser();
   FileChooser selectChooser = new FileChooser();
@@ -518,6 +520,7 @@ public class DatabaseTableViewController {
       editNameZone.setVisible(false);
       editEdgeZone.setVisible(false);
       editNodeZone.setVisible(false);
+      confirmEditButton.setVisible(false);
       switch (table) {
         case EDGE:
           activeTable = edgeTable;
@@ -568,7 +571,11 @@ public class DatabaseTableViewController {
     editMoveNameChoice.setValue(move.getLongName());
     editMoveDateField.setText(move.getDate());
 
-    // set the button to edit the respective move
+    confirmEditButton.setVisible(true);
+    confirmEditButton.setOnAction(
+        (event) -> {
+          // SQLRepo.INSTANCE.updateMove(move, "");
+        });
   }
 
   private void displayNodeEdit(HospitalNode node) {
@@ -582,6 +589,8 @@ public class DatabaseTableViewController {
     editNodeYField.setText(node.getYCoord() + "");
     editNodeFloorChoice.setValue(node.getFloor());
     editNodeBuildingChoice.setValue(node.getBuilding());
+
+    confirmEditButton.setVisible(true);
   }
 
   private void displayEdgeEdit(HospitalEdge edge) {
@@ -592,6 +601,8 @@ public class DatabaseTableViewController {
 
     editEdgeStartField.setText(edge.getNodeOneID());
     editEdgeEndField.setText(edge.getNodeTwoID());
+
+    confirmEditButton.setVisible(true);
   }
 
   private void displayNameEdit(LocationName name) {
@@ -603,5 +614,7 @@ public class DatabaseTableViewController {
     editNameLongField.setText(name.getLongName());
     editNameShortField.setText(name.getShortName());
     editNameTypeChoice.setValue(name.getNodeType());
+
+    confirmEditButton.setVisible(true);
   }
 }
