@@ -7,8 +7,8 @@ import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.Main;
 import edu.wpi.teame.map.Floor;
 import edu.wpi.teame.map.HospitalNode;
-import edu.wpi.teame.map.pathfinding.AbstractPathfinder;
 import edu.wpi.teame.map.LocationName;
+import edu.wpi.teame.map.pathfinding.AbstractPathfinder;
 import edu.wpi.teame.utilities.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
@@ -328,17 +328,9 @@ public class MapController {
   }
 
   public void createPathLabels(VBox vbox, ArrayList<String> pathNames) {
-    for (int i = 0; i < pathNames.size() - 1; i++) {
+    for (int i = 1; i < pathNames.size(); i++) {
 
-      String start = pathNames.get(i);
-      String destination = pathNames.get(i + 1);
-
-      // Start Label
-      Label startLabel = new Label(start);
-      startLabel.setFont(Font.font("SansSerif", 16));
-      startLabel.setPrefWidth(125);
-      startLabel.setTextAlignment(TextAlignment.CENTER);
-      startLabel.setWrapText(true);
+      String destination = pathNames.get(i);
 
       // Arrow Image
       ImageView arrowView = new ImageView();
@@ -350,7 +342,6 @@ public class MapController {
       // Destination Label
       Label destinationLabel = new Label(destination);
       destinationLabel.setFont(Font.font("SansSerif", 16));
-      destinationLabel.setPrefWidth(125);
       destinationLabel.setTextAlignment(TextAlignment.CENTER);
       destinationLabel.setWrapText(true);
 
@@ -365,10 +356,6 @@ public class MapController {
       dropShadow.setSpread(0);
       dropShadow.setColor(new Color(0, 0, 0, 0.25));
 
-      // Regions for spacing
-      Region region1 = new Region();
-      Region region2 = new Region();
-
       // HBox
       HBox hBox = new HBox();
       hBox.setBackground(
@@ -376,12 +363,14 @@ public class MapController {
               new BackgroundFill(Color.web("#D9DAD7"), CornerRadii.EMPTY, Insets.EMPTY)));
       hBox.setPrefHeight(65);
       hBox.setEffect(dropShadow);
-      hBox.setAlignment(Pos.CENTER);
+      hBox.setAlignment(Pos.CENTER_LEFT);
       hBox.setSpacing(10);
-      hBox.setHgrow(region1, Priority.ALWAYS);
-      hBox.setHgrow(region2, Priority.ALWAYS);
       hBox.setPadding(new Insets(0, 10, 0, 10));
-      hBox.getChildren().addAll(startLabel, region1, arrowView, region2, destinationLabel);
+      hBox.getChildren().addAll(arrowView, destinationLabel);
+      hBox.setOnMouseClicked(
+              event -> {
+
+              });
 
       // Add path label to VBox
       vbox.getChildren().add(hBox);
