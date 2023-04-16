@@ -3,9 +3,7 @@ package edu.wpi.teame.Database;
 import edu.wpi.teame.entities.Employee;
 import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.map.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -49,26 +47,45 @@ public enum SQLRepo {
   EmployeeDAO employeeDAO;
   DatabaseUtility dbUtility;
 
-  public void connectToDatabase(String username, String password) {
+  public Employee connectToDatabase(String username, String password) {
     try {
       Class.forName("org.postgresql.Driver");
       activeConnection =
           DriverManager.getConnection(
               "jdbc:postgresql://database.cs.wpi.edu:5432/teamedb", "teame", "teame50");
       employeeDAO = new EmployeeDAO(activeConnection);
-      if (!employeeDAO.verifyLogIn(username, password)) exitDatabaseProgram();
-      else {
+      if (!employeeDAO.verifyLogIn(username, password)) {
+        return null;
+      } else {
         nodeDAO = new NodeDAO(activeConnection);
         edgeDAO = new EdgeDAO(activeConnection);
         moveDAO = new MoveDAO(activeConnection);
         locationDAO = new LocationDAO(activeConnection);
         serviceDAO = new ServiceDAO(activeConnection);
         dbUtility = new DatabaseUtility(activeConnection);
+
+        String sql =
+            "SELECT \"fullName\", \"permission\" FROM \"Employee\" "
+                + "WHERE \"username\" = '"
+                + username
+                + "';";
+
+        Statement stmt = activeConnection.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        if (rs.next()) {
+          return new Employee(
+              rs.getString("fullName"),
+              Employee.Permission.stringToPermission(rs.getString("permission")));
+        }
+        return null;
       }
 
     } catch (SQLException e) {
+      exitDatabaseProgram();
       throw new RuntimeException("Your username or password is incorrect");
     } catch (ClassNotFoundException e) {
+      exitDatabaseProgram();
       throw new RuntimeException("Sorry something went wrong please try again");
     }
   }
@@ -83,17 +100,20 @@ public enum SQLRepo {
     }
   }
 
-  //DatabaseReset
+  // DatabaseReset
   public void resetDatabase() {
-    this.importFromCSV(Table.NODE,
-            "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Node.csv");
-    this.importFromCSV(Table.EDGE,
-            "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Edge.csv");
-    this.importFromCSV(Table.MOVE,
-            "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Move.csv");
-    this.importFromCSV(Table.LOCATION_NAME,
-            "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\LocationName.csv");
-
+    this.importFromCSV(
+        Table.NODE,
+        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Node.csv");
+    this.importFromCSV(
+        Table.EDGE,
+        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Edge.csv");
+    this.importFromCSV(
+        Table.MOVE,
+        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Move.csv");
+    this.importFromCSV(
+        Table.LOCATION_NAME,
+        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\LocationName.csv");
   }
 
   // ALL DATABASE UTILITY

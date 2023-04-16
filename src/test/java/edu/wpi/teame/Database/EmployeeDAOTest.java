@@ -8,14 +8,15 @@ import org.junit.jupiter.api.Test;
 public class EmployeeDAOTest {
 
   @Test
-  public void testlogIn() {
+  public void testlogIn() throws RuntimeException {
     SQLRepo.INSTANCE.connectToDatabase("staff", "staff");
     SQLRepo.INSTANCE.exitDatabaseProgram();
 
     SQLRepo.INSTANCE.connectToDatabase("admin", "admin");
     SQLRepo.INSTANCE.exitDatabaseProgram();
 
-    SQLRepo.INSTANCE.connectToDatabase("test", "fail");
+    Employee failure = SQLRepo.INSTANCE.connectToDatabase("test", "fail");
+    assertNull(failure);
   }
 
   @Test
