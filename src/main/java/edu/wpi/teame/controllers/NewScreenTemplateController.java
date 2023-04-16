@@ -1,4 +1,6 @@
 package edu.wpi.teame.controllers;
 
-public class NewScreenTemplateController {
+public class NewScreenTemplateController
+{
+
 }
