@@ -1,267 +1,321 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="720.0" maxWidth="1080.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.SignageController">
+<AnchorPane maxHeight="720.0" maxWidth="1080.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #1f1f1f;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.SignageController">
    <children>
-      <StackPane alignment="TOP_LEFT" maxHeight="720.0" maxWidth="1280.0" prefHeight="720.0" prefWidth="1280.0">
+      <StackPane alignment="TOP_LEFT" maxHeight="800.0" maxWidth="1600.0" minHeight="900.0" minWidth="1600.0" prefHeight="800.0" prefWidth="1600.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
+            <ImageView fitHeight="900.0" fitWidth="1600.0" opacity="0.9" pickOnBounds="true">
                <image>
-                  <Image url="@../images/BWH_BridgeInside_JK.jpg" />
+                  <Image url="@../images/dna-163710.jpg" />
                </image>
             </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DIMGRAY" height="720.0" opacity="0.6" stroke="BLACK" strokeType="INSIDE" width="1280.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#192d5a" height="120.0" stroke="BLACK" strokeType="INSIDE" width="1280.0" />
-            <Rectangle arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="500.0" stroke="#192d5a" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="10.0" width="700.0" StackPane.alignment="TOP_CENTER">
-               <StackPane.margin>
-                  <Insets top="160.0" />
-               </StackPane.margin>
-            </Rectangle>
-            <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="700.0" prefHeight="450.0" prefWidth="700.0" StackPane.alignment="TOP_CENTER">
-               <StackPane.margin>
-                  <Insets top="270.0" />
-               </StackPane.margin>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#001a3c" height="100.0" stroke="BLACK" strokeType="INSIDE" width="1600.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Oncology">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3d3d3d" height="800.0" opacity="0.9" stroke="BLACK" strokeType="INSIDE" width="400.0" StackPane.alignment="TOP_CENTER" />
+                        <ImageView fitHeight="150.0" fitWidth="100.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER">
+                           <StackPane.margin>
+                              <Insets top="20.0" />
+                           </StackPane.margin>
                            <image>
                               <Image url="@../images/arrow-alt-right.png" />
                            </image>
-                           <effect>
-                              <Blend mode="DIFFERENCE" />
-                           </effect>
                         </ImageView>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" fillHeight="false" layoutX="260.0" layoutY="10.0" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Shapiro Ward">
+                        <Text fill="#f1f1f1" stroke="#1f1f1f" strokeType="OUTSIDE" strokeWidth="3.0" text="- Shapiro Ward" StackPane.alignment="TOP_LEFT">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="Roboto" size="36.0" />
                            </font>
+                           <StackPane.margin>
+                              <Insets left="75.0" top="175.0" />
+                           </StackPane.margin>
                         </Text>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
+                        <Text fill="#f1f1f1" stroke="#1f1f1f" strokeType="OUTSIDE" strokeWidth="3.0" text="- ER" StackPane.alignment="TOP_LEFT">
+                           <font>
+                              <Font name="Roboto" size="36.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets left="75.0" top="250.0" />
+                           </StackPane.margin>
+                        </Text>
+                        <Text fill="#f1f1f1" stroke="#1f1f1f" strokeType="OUTSIDE" strokeWidth="3.0" text="- Dentistry" StackPane.alignment="TOP_LEFT">
+                           <font>
+                              <Font name="Roboto" size="36.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets left="75.0" top="325.0" />
+                           </StackPane.margin>
+                        </Text>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3d3d3d" height="800.0" opacity="0.9" stroke="BLACK" strokeType="INSIDE" width="400.0" />
+                        <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" StackPane.alignment="TOP_CENTER">
+                           <StackPane.margin>
+                              <Insets top="10.0" />
+                           </StackPane.margin>
                            <image>
                               <Image url="@../images/arrow-alt-right.png" />
                            </image>
-                           <effect>
-                              <Blend mode="DIFFERENCE" />
-                           </effect>
                         </ImageView>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lee Bell Breast Center (Floor 2)">
+                        <Text fill="#f1f1f1" stroke="#1f1f1f" strokeType="OUTSIDE" strokeWidth="3.0" text="- Family Center" StackPane.alignment="TOP_LEFT">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="Roboto" size="36.0" />
                            </font>
+                           <StackPane.margin>
+                              <Insets left="75.0" top="175.0" />
+                           </StackPane.margin>
                         </Text>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
+                        <Text fill="#f1f1f1" stroke="#1f1f1f" strokeType="OUTSIDE" strokeWidth="3.0" text="- In-Patient" StackPane.alignment="TOP_LEFT">
+                           <font>
+                              <Font name="Roboto" size="36.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets left="75.0" top="250.0" />
+                           </StackPane.margin>
+                        </Text>
+                        <Text fill="#f1f1f1" stroke="#1f1f1f" strokeType="OUTSIDE" strokeWidth="3.0" text="- Cardiac Surgery" StackPane.alignment="TOP_LEFT">
+                           <font>
+                              <Font name="Roboto" size="36.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets left="75.0" top="325.0" />
+                           </StackPane.margin>
+                        </Text>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3d3d3d" height="800.0" opacity="0.9" stroke="BLACK" strokeType="INSIDE" width="400.0" />
+                        <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER">
+                           <StackPane.margin>
+                              <Insets top="20.0" />
+                           </StackPane.margin>
                            <image>
                               <Image url="@../images/arrow-alt-right.png" />
                            </image>
-                           <effect>
-                              <Blend mode="DIFFERENCE" />
-                           </effect>
                         </ImageView>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" fillHeight="false" layoutX="260.0" layoutY="60.0" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
-                     <children>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true">
-                           <image>
-                              <Image url="@../images/arrow-alt-right.png" />
-                           </image>
-                           <effect>
-                              <Blend mode="DIFFERENCE" />
-                           </effect>
-                        </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pediatrics">
+                        <Text fill="#f1f1f1" stroke="#1f1f1f" strokeType="OUTSIDE" strokeWidth="3.0" text="- Oncology " StackPane.alignment="TOP_LEFT">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="Roboto" size="36.0" />
                            </font>
+                           <StackPane.margin>
+                              <Insets left="75.0" top="175.0" />
+                           </StackPane.margin>
+                        </Text>
+                        <Text fill="#f1f1f1" stroke="#1f1f1f" strokeType="OUTSIDE" strokeWidth="3.0" text="- Imaging (Floor 2)" StackPane.alignment="TOP_LEFT">
+                           <font>
+                              <Font name="Roboto" size="36.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets left="75.0" top="250.0" />
+                           </StackPane.margin>
+                        </Text>
+                        <Text fill="#f1f1f1" stroke="#1f1f1f" strokeType="OUTSIDE" strokeWidth="3.0" text="- Pediatrics" StackPane.alignment="TOP_LEFT">
+                           <font>
+                              <Font name="Roboto" size="36.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets left="75.0" top="325.0" />
+                           </StackPane.margin>
                         </Text>
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER" fillHeight="false" layoutX="260.0" layoutY="111.0" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
-                     <children>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true">
-                           <image>
-                              <Image url="@../images/arrow-alt-right.png" />
-                           </image>
-                           <effect>
-                              <Blend mode="DIFFERENCE" />
-                           </effect>
-                        </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Building for Transformative Medicine">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" fillHeight="false" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
-                     <children>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true">
-                           <image>
-                              <Image url="@../images/arrow-alt-right.png" />
-                           </image>
-                           <effect>
-                              <Blend mode="DIFFERENCE" />
-                           </effect>
-                        </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Outpatient (Floor 2)">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" fillHeight="false" layoutX="260.0" layoutY="111.0" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
-                     <children>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true">
-                           <image>
-                              <Image url="@../images/arrow-alt-right.png" />
-                           </image>
-                           <effect>
-                              <Blend mode="DIFFERENCE" />
-                           </effect>
-                        </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vascular Diagnostics(Floor 2)">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </HBox>
+                  </StackPane>
                </children>
-            </VBox>
-            <Line endX="100.0" startX="-160.0" strokeWidth="3.0" StackPane.alignment="TOP_CENTER">
-               <StackPane.margin>
-                  <Insets top="260.0" />
-               </StackPane.margin>
-            </Line>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Directory" StackPane.alignment="TOP_CENTER">
-               <font>
-                  <Font name="Times New Roman Bold" size="64.0" />
-               </font>
-               <StackPane.margin>
-                  <Insets top="190.0" />
-               </StackPane.margin>
-            </Text>
-            <VBox fx:id="menuBar" maxHeight="600.0" maxWidth="-Infinity" prefHeight="600.0" prefWidth="150.0">
+               <padding>
+                  <Insets left="200.0" top="100.0" />
+               </padding>
+            </HBox>
+            <VBox fx:id="menuBar" maxHeight="800.0" maxWidth="-Infinity" prefHeight="800.0" prefWidth="250.0" style="-fx-background-color: #001A3C;">
                <children>
-                  <MFXButton fx:id="menuBarHome" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 18; -fx-text-fill: ffffff;" text=" Home">
+                  <MFXButton fx:id="menuBarHome" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text=" Home" textFill="#f1f1f1">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
                            <image>
                               <Image url="@../images/house-blank.png" />
                            </image>
                         </ImageView>
                      </graphic>
+                     <font>
+                        <Font name="Roboto" size="18.0" />
+                     </font>
                   </MFXButton>
-                  <MFXButton fx:id="menuBarServices" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 18; -fx-text-fill: ffffff;" text="Services">
+                  <Line endX="100.0" fill="#2c425e" scaleX="0.75" startX="-100.0" stroke="#2c425e" strokeWidth="2.0">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </Line>
+                  <MFXButton fx:id="menuBarServices" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Services" textFill="#f1f1f1">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
                            <image>
                               <Image url="@../images/hand-holding-medical.png" />
                            </image>
                         </ImageView>
                      </graphic>
+                     <font>
+                        <Font name="Roboto" size="18.0" />
+                     </font>
                   </MFXButton>
-                  <MFXButton fx:id="menuBarSignage" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 18; -fx-text-fill: ffffff;" text="Signage">
+                  <Line endX="100.0" fill="#2c425e" scaleX="0.75" startX="-100.0" stroke="#2c425e" strokeWidth="2.0">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </Line>
+                  <MFXButton fx:id="menuBarSignage" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Signage" textFill="#f1f1f1">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
                            <image>
                               <Image url="@../images/diamond-turn-right.png" />
                            </image>
                         </ImageView>
                      </graphic>
+                     <font>
+                        <Font name="Roboto" size="18.0" />
+                     </font>
                   </MFXButton>
-                  <MFXButton fx:id="menuBarMaps" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 18; -fx-text-fill: ffffff;" text="Maps">
+                  <Line endX="100.0" fill="#2c425e" scaleX="0.75" startX="-100.0" stroke="#2c425e" strokeWidth="2.0">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </Line>
+                  <MFXButton fx:id="menuBarMaps" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Maps" textFill="#f1f1f1">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
                            <image>
-                              <Image url="@../images/route.png" />
+                              <Image url="@../images/marker.png" />
                            </image>
                         </ImageView>
                      </graphic>
+                     <font>
+                        <Font name="Roboto" size="18.0" />
+                     </font>
                   </MFXButton>
-                  <MFXButton fx:id="menuBarDatabase" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 16; -fx-text-fill: ffffff;" text="Database">
+                  <Line endX="100.0" fill="#2c425e" scaleX="0.75" startX="-100.0" stroke="#2c425e" strokeWidth="2.0">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </Line>
+                  <MFXButton fx:id="menuBarDatabase" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Database" textFill="#f1f1f1">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
                            <image>
                               <Image url="@../images/folder-tree.png" />
                            </image>
                         </ImageView>
                      </graphic>
+                     <font>
+                        <Font name="Roboto" size="18.0" />
+                     </font>
                   </MFXButton>
-                  <MFXButton fx:id="menuBarBlank" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="290.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 16; -fx-text-fill: ffffff;" text=" " />
-                  <MFXButton fx:id="menuBarExit" alignment="BOTTOM_CENTER" graphicTextGap="10.0" prefHeight="70.0" prefWidth="150.0" style="-fx-background-color: #192d5a; -fx-font-size: 18; -fx-text-fill: ffffff;" text="Exit">
+                  <Line endX="100.0" fill="#2c425e" scaleX="0.75" startX="-100.0" stroke="#2c425e" strokeWidth="2.0">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </Line>
+                  <MFXButton fx:id="menuBarBlank" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="290.0" prefWidth="250.0" style="-fx-background-color: #001A3C;" text=" " />
+                  <Line endX="100.0" fill="#2c425e" scaleX="1.25" startX="-100.0" stroke="#2c425e" strokeWidth="2.0">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </Line>
+                  <MFXButton fx:id="menuBarExit" alignment="BOTTOM_CENTER" graphicTextGap="10.0" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Exit" textFill="#f1f1f1">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
                            <image>
                               <Image url="@../images/sign-out-alt.png" />
                            </image>
                         </ImageView>
                      </graphic>
+                     <font>
+                        <Font name="Roboto" size="18.0" />
+                     </font>
                   </MFXButton>
                </children>
                <StackPane.margin>
-                  <Insets top="120.0" />
+                  <Insets top="100.0" />
                </StackPane.margin>
             </VBox>
-            <HBox alignment="CENTER_LEFT" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1280.0" spacing="1130.0" StackPane.alignment="TOP_LEFT">
+            <HBox alignment="CENTER_LEFT" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1600.0" spacing="1390.0" StackPane.alignment="TOP_LEFT">
                <children>
-                  <MFXButton fx:id="menuButton" alignment="BOTTOM_CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" rippleColor="WHITE" style="-fx-background-color: #192d5a;" text="Menu" HBox.hgrow="ALWAYS">
+                  <MFXButton fx:id="menuButton" alignment="BOTTOM_CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="75.0" prefWidth="75.0" rippleColor="WHITE" style="-fx-background-color: #001a3c;" text="Menu" HBox.hgrow="ALWAYS">
                      <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true">
                            <image>
                               <Image url="@../images/menu-burger.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </MFXButton>
-                  <MFXButton fx:id="loginButton" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" rippleColor="WHITE" style="-fx-background-color: #192d5a;" text="User">
+                  <MFXButton fx:id="userButton" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="75.0" rippleColor="WHITE" style="-fx-background-color: #001a3c;" text="User">
                      <graphic>
-                        <StackPane prefHeight="50.0" prefWidth="50.0">
-                           <children>
-                              <Circle fill="#1f93ff00" radius="25.0" stroke="#e5bc3b" strokeType="INSIDE" strokeWidth="3.0" StackPane.alignment="CENTER" />
-                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true">
-                                 <image>
-                                    <Image url="@../images/user.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/circle-user.png" />
+                           </image>
+                        </ImageView>
                      </graphic>
                   </MFXButton>
                </children>
                <StackPane.margin>
-                  <Insets left="20.0" />
+                  <Insets left="10.0" right="10.0" />
                </StackPane.margin>
             </HBox>
+            <StackPane fx:id="loginStack" maxHeight="300.0" maxWidth="250.0" prefHeight="324.0" prefWidth="250.0" StackPane.alignment="TOP_RIGHT">
+               <children>
+                  <Rectangle arcHeight="10.0" arcWidth="5.0" fill="#e1e1e1" height="350.0" stroke="#001a3c" strokeType="INSIDE" strokeWidth="5.0" width="250.0" StackPane.alignment="TOP_RIGHT">
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
+                  </Rectangle>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                     <children>
+                        <ImageView blendMode="DIFFERENCE" fitHeight="150.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/circle-user.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets top="50.0" />
+                           </VBox.margin>
+                        </ImageView>
+                        <MFXTextField fx:id="usernameField" alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="200.0" promptText="Username" style="-fx-border-color: #001a3c; -fx-border-width: 3; -fx-background-color: #f1f1f1;">
+                           <font>
+                              <Font name="Roboto" size="18.0" />
+                           </font>
+                        </MFXTextField>
+                        <MFXTextField fx:id="passwordField" alignment="BOTTOM_LEFT" floatingTextGap="0.0" prefHeight="50.0" prefWidth="200.0" promptText="Password" style="-fx-border-color: #001a3c; -fx-border-width: 3; -fx-background-color: #f1f1f1;" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Roboto" size="18.0" />
+                           </font>
+                        </MFXTextField>
+                        <MFXButton fx:id="loginButton" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #001a3c; -fx-text-fill: #f1f1f1;" text="Login">
+                           <font>
+                              <Font name="Roboto Black" size="14.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </VBox>
+               </children>
+               <StackPane.margin>
+                  <Insets top="100.0" />
+               </StackPane.margin>
+            </StackPane>
          </children>
       </StackPane>
    </children>
