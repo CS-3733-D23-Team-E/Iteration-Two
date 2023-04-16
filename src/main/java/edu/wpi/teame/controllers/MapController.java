@@ -218,7 +218,7 @@ public class MapController {
       pathNames.add(SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
     }
     // Create the labels
-    createPathLabels(pathBox, pathNames);
+    createPathLabels(pathBox, path);
     drawPath(path);
     isPathDisplayed = true;
   }
@@ -327,10 +327,10 @@ public class MapController {
         });
   }
 
-  public void createPathLabels(VBox vbox, ArrayList<String> pathNames) {
-    for (int i = 1; i < pathNames.size(); i++) {
+  public void createPathLabels(VBox vbox, List<HospitalNode> path) {
+    for (HospitalNode node: path) {
 
-      String destination = pathNames.get(i);
+      String destination = SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID()));
 
       // Arrow Image
       ImageView arrowView = new ImageView();
