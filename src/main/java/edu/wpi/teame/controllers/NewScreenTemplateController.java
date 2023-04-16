@@ -41,12 +41,12 @@ public class NewScreenTemplateController {
     menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_VIEW));
     menuBarExit.setOnMouseClicked((event -> Platform.exit()));
 
-    mouseSetup(menuBarHome);
-    mouseSetup(menuBarServices);
-    mouseSetup(menuBarSignage);
-    mouseSetup(menuBarMaps);
-    mouseSetup(menuBarDatabase);
-    mouseSetup(menuBarExit);
+    mouseSetupMenuBar(menuBarHome);
+    mouseSetupMenuBar(menuBarServices);
+    mouseSetupMenuBar(menuBarSignage);
+    mouseSetupMenuBar(menuBarMaps);
+    mouseSetupMenuBar(menuBarDatabase);
+    mouseSetupMenuBar(menuBarExit);
   }
 
   private void mouseSetup(MFXButton btn) {
@@ -62,6 +62,20 @@ public class NewScreenTemplateController {
           btn.setTextFill(WHITE);
         });
   }
+
+    private void mouseSetupMenuBar(MFXButton btn) {
+        btn.setOnMouseEntered(
+                event -> {
+                    btn.setStyle(
+                            "-fx-background-color: #ffffff; -fx-alignment: baseline-left; -fx-border-color: #192d5a; -fx-border-width: 2;");
+                    btn.setTextFill(Color.web("#192d5aff", 1.0));
+                });
+        btn.setOnMouseExited(
+                event -> {
+                    btn.setStyle("-fx-background-color: #192d5aff; -fx-alignment: baseline-left;");
+                    btn.setTextFill(WHITE);
+                });
+    }
 
   public void menuBarVisible(boolean bool) {
     menuBarHome.setVisible(bool);
