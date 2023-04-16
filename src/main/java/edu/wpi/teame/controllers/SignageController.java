@@ -2,6 +2,7 @@ package edu.wpi.teame.controllers;
 
 import static javafx.scene.paint.Color.WHITE;
 
+import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -28,13 +29,16 @@ public class SignageController {
   @FXML VBox menuBar;
   @FXML StackPane loginStack;
 
+  // TODO: Make login work
   boolean menuVisibilty = false;
   boolean loginVisible = false;
 
   public void initialize() {
     // Initially set the menu bar to invisible
+      SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     menuBarVisible(false);
     loginPopout(false);
+    menuButton.setDisable(true);
 
     // makes the buttons get highlighted when the mouse hovers over them
     mouseSetup(menuBarHome);
@@ -59,7 +63,11 @@ public class SignageController {
           loginVisible = !loginVisible;
           loginPopout(loginVisible);
         });
-    loginButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
+
+    loginButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.HOME);
+        });
 
     // Navigation controls for the button in the menu bar
     menuBarHome.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
