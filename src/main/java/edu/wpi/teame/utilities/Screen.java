@@ -10,7 +10,7 @@ public enum Screen {
   MEAL_REQUEST("views/MealRequest.fxml"),
   FLOWER_REQUEST("views/FlowerRequest.fxml"),
   OFFICE_SUPPLIES_REQUEST("views/OfficeSuppliesRequest.fxml"),
-  MAP("views/Map.fxml"),
+  MAP("views/NewScreenTemplate.fxml"),
   DATABASE_VIEW("views/DatabaseEditor.fxml"),
   MAP_DATA_EDITOR("views/MapDataEditor.fxml");
 
