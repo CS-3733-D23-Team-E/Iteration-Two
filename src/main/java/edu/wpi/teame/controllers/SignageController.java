@@ -5,12 +5,18 @@ import static javafx.scene.paint.Color.WHITE;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class SignageController {
-  @FXML MFXButton returnButtonSignage;
+  @FXML MFXButton userButton;
+  @FXML MFXButton loginButton;
+  @FXML MFXTextField usernameField;
+  @FXML MFXTextField passwordField;
   @FXML MFXButton menuButton;
   @FXML MFXButton menuBarHome;
   @FXML MFXButton menuBarServices;
@@ -19,11 +25,16 @@ public class SignageController {
   @FXML MFXButton menuBarSignage;
   @FXML MFXButton menuBarBlank;
   @FXML MFXButton menuBarExit;
+  @FXML VBox menuBar;
+  @FXML StackPane loginStack;
+
   boolean menuVisibilty = false;
+  boolean loginVisible = false;
 
   public void initialize() {
     // Initially set the menu bar to invisible
     menuBarVisible(false);
+    loginPopout(false);
 
     // makes the buttons get highlighted when the mouse hovers over them
     mouseSetup(menuBarHome);
@@ -42,6 +53,13 @@ public class SignageController {
           menuVisibilty = !menuVisibilty;
           menuBarVisible(menuVisibilty);
         });
+
+    userButton.setOnMouseClicked(
+        event -> {
+          loginVisible = !loginVisible;
+          loginPopout(loginVisible);
+        });
+    loginButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
 
     // Navigation controls for the button in the menu bar
     menuBarHome.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
@@ -64,6 +82,11 @@ public class SignageController {
     menuBarDatabase.setVisible(bool);
     menuBarExit.setVisible(bool);
     menuBarBlank.setVisible(bool);
+    menuBar.setVisible(bool);
+  }
+
+  public void loginPopout(boolean bool) {
+    loginStack.setVisible(bool);
   }
 
   private void mouseSetup(MFXButton btn) {
