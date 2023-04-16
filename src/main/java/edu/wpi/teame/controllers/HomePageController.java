@@ -46,8 +46,7 @@ public class HomePageController {
     menuBarHome.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
     menuBarMaps.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
     menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate((Screen.MAP_DATA_EDITOR)));
-    menuBarExit.setOnMouseClicked(event -> Platform.exit()); // Uncomment when we
-    // know where exit goes
+    menuBarExit.setOnMouseClicked(event -> Platform.exit());
 
     loggedIn = false;
     loginButton.setOnMouseClicked(event -> attemptLogin());
