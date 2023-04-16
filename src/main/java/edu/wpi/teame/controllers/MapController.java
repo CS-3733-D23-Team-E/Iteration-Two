@@ -7,7 +7,8 @@ import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.Main;
 import edu.wpi.teame.map.Floor;
 import edu.wpi.teame.map.HospitalNode;
-import edu.wpi.teame.map.pathfinding.AStarPathfinder;
+import edu.wpi.teame.map.pathfinding.AbstractPathfinder;
+import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
@@ -91,9 +92,9 @@ public class MapController {
         .addListener(
             (observable, oldTab, newTab) -> {
               if (!isPathDisplayed) {
-                resetComboboxes(tabToFloor(newTab));
+                currentFloor = tabToFloor(newTab);
+                resetComboboxes();
               }
-              currentFloor = tabToFloor(newTab);
             });
 
     //    refreshPathButton.setOnMouseClicked(
@@ -143,7 +144,10 @@ public class MapController {
     mouseSetup(menuBarDatabase);
     mouseSetup(menuBarExit);
 
-    resetComboboxes(currentFloor);
+    // Make sure location list is initialized so that we can filter out the hallways
+    SQLRepo.INSTANCE.getLocationList();
+
+    resetComboboxes();
   }
 
   private void initializeMapUtilities() {
@@ -166,11 +170,26 @@ public class MapController {
     mapUtilityThree.setLineStyle("-fx-stroke: orangered; -fx-stroke-width: 4");
   }
 
-  public void resetComboboxes(Floor floor) {
+  public void resetComboboxes() {
     floorLocations =
         FXCollections.observableArrayList(
-            SQLRepo.INSTANCE.getLongNamesFromMove(
-                SQLRepo.INSTANCE.getMoveAttributeFromFloor(floor)));
+            SQLRepo.INSTANCE.getMoveList().stream()
+                .filter(
+                    (move) -> // Filter out hallways and long names with no corresponding
+                        // LocationName
+                        LocationName.allLocations.get(move.getLongName()) == null
+                            ? false
+                            : LocationName.allLocations.get(move.getLongName()).getNodeType()
+                                    != LocationName.NodeType.HALL
+                                && LocationName.allLocations.get(move.getLongName()).getNodeType()
+                                    != LocationName.NodeType.STAI
+                                && LocationName.allLocations.get(move.getLongName()).getNodeType()
+                                    != LocationName.NodeType.ELEV
+                                && LocationName.allLocations.get(move.getLongName()).getNodeType()
+                                    != LocationName.NodeType.REST)
+                .map((move) -> move.getLongName())
+                .sorted() // Sort alphabetically
+                .toList());
     currentLocationList.setItems(floorLocations);
     destinationList.setItems(floorLocations);
     currentLocationList.setValue("");
@@ -183,7 +202,7 @@ public class MapController {
       return;
     }
     refreshPath();
-    AStarPathfinder pf = new AStarPathfinder();
+    AbstractPathfinder pf = AbstractPathfinder.getInstance("A*");
 
     String toNodeID = SQLRepo.INSTANCE.getNodeIDFromName(to) + "";
     String fromNodeID = SQLRepo.INSTANCE.getNodeIDFromName(from) + "";

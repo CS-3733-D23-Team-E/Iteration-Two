@@ -33,14 +33,19 @@ public class RoomRequestController {
   @FXML
   public void initialize() {
     // Add the items to the combo boxes
-    Stream<LocationName> locationStream = SQLRepo.INSTANCE.getLocationList().stream();
+    Stream<LocationName> locationStream = LocationName.allLocations.values().stream();
     ObservableList<String> names =
         FXCollections.observableArrayList(
             locationStream
+                .filter(
+                    (locationName) -> {
+                      return locationName.getNodeType() == LocationName.NodeType.CONF;
+                    })
                 .map(
                     (locationName) -> {
                       return locationName.getLongName();
                     })
+                .sorted()
                 .toList());
     roomName.setItems(names);
     bookingTime.setItems(times);
