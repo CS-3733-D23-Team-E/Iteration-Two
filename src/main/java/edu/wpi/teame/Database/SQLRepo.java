@@ -1,5 +1,6 @@
 package edu.wpi.teame.Database;
 
+import edu.wpi.teame.entities.OfficeSuppliesData;
 import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.map.*;
 import java.sql.Connection;
@@ -16,7 +17,8 @@ public enum SQLRepo {
     MOVE,
     NODE,
     EDGE,
-    SERVICE_REQUESTS;
+    SERVICE_REQUESTS,
+    OFFICE_SUPPLY;
 
     public static String tableToString(Table tb) {
       switch (tb) {
@@ -30,6 +32,8 @@ public enum SQLRepo {
           return "Edge";
         case SERVICE_REQUESTS:
           return "ServiceRequests";
+        case OFFICE_SUPPLY:
+          return "OfficeSupplies";
         default:
           throw new NoSuchElementException("No such Table found");
       }
@@ -44,6 +48,8 @@ public enum SQLRepo {
   DAO<ServiceRequestData> serviceDAO;
   DatabaseUtility dbUtility;
 
+  DAO<OfficeSuppliesData> officesupplyDAO;
+
   public void connectToDatabase(String username, String password) {
     try {
       Class.forName("org.postgresql.Driver");
@@ -55,6 +61,7 @@ public enum SQLRepo {
       edgeDAO = new EdgeDAO(activeConnection);
       moveDAO = new MoveDAO(activeConnection);
       locationDAO = new LocationDAO(activeConnection);
+      officesupplyDAO = new OfficeSuppliesDAO(activeConnection);
       serviceDAO = new ServiceDAO(activeConnection);
       dbUtility = new DatabaseUtility(activeConnection);
 
@@ -130,6 +137,8 @@ public enum SQLRepo {
         case SERVICE_REQUESTS:
           this.serviceDAO.importFromCSV(filepath, "ServiceRequests");
           break;
+        case OFFICE_SUPPLY:
+          this.officesupplyDAO.importFromCSV(filepath, "OfficeSupplies");
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -154,6 +163,9 @@ public enum SQLRepo {
         case SERVICE_REQUESTS:
           this.serviceDAO.exportToCSV(filepath, tableName);
           break;
+        case OFFICE_SUPPLY:
+          this.officesupplyDAO.exportToCSV(filepath, tableName);
+          break;
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -161,8 +173,11 @@ public enum SQLRepo {
   }
 
   public List<ServiceRequestData> getServiceRequestList() {
-
     return this.serviceDAO.get();
+  }
+
+  public List<OfficeSuppliesData> getOfficeSupplyList(){
+    return this.officesupplyDAO.get();
   }
 
   public List<HospitalNode> getNodeList() {
@@ -187,6 +202,10 @@ public enum SQLRepo {
     this.serviceDAO.update(obj, attribute, value);
   }
 
+  public void updateOfficeSupply(OfficeSuppliesData obj, String attribute, String value){
+    this.officesupplyDAO.update(obj, attribute, value);
+  }
+
   public void updateNode(HospitalNode obj, String attribute, String value) {
     this.nodeDAO.update(obj, attribute, value);
   }
@@ -207,6 +226,7 @@ public enum SQLRepo {
     this.serviceDAO.delete(obj);
   }
 
+  public void deleteOfficeSupplyRequest(OfficeSuppliesData obj) {this.officesupplyDAO.delete(obj);}
   public void deletenode(HospitalNode obj) {
     this.nodeDAO.delete(obj);
   }
@@ -225,6 +245,10 @@ public enum SQLRepo {
 
   public void addServiceRequest(ServiceRequestData obj) {
     this.serviceDAO.add(obj);
+  }
+
+  public void addOfficeSupplyRequest(OfficeSuppliesData obj) {
+    this.officesupplyDAO.add(obj);
   }
 
   public void addNode(HospitalNode obj) {

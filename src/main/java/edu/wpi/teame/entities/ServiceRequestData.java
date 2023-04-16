@@ -1,9 +1,14 @@
 package edu.wpi.teame.entities;
 
 import java.util.NoSuchElementException;
+
+import edu.wpi.teame.Database.OfficeSuppliesDAO;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
+
+import static edu.wpi.teame.entities.OfficeSuppliesData.Status.getString;
+import static javax.swing.UIManager.getString;
 
 public class ServiceRequestData {
   public enum Status {
@@ -12,16 +17,7 @@ public class ServiceRequestData {
     DONE;
 
     public static String statusToString(Status st) {
-      switch (st) {
-        case PENDING:
-          return "PENDING";
-        case IN_PROGRESS:
-          return "IN_PROGRESS";
-        case DONE:
-          return "DONE";
-        default:
-          throw new NoSuchElementException("No such status found");
-      }
+      return getString(st);
     }
 
     public static Status stringToStatus(String st) {
