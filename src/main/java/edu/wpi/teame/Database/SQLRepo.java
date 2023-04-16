@@ -1,7 +1,6 @@
 package edu.wpi.teame.Database;
 
-import edu.wpi.teame.entities.OfficeSuppliesData;
-import edu.wpi.teame.entities.ServiceRequestData;
+import edu.wpi.teame.entities.*;
 import edu.wpi.teame.map.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -58,6 +57,9 @@ public enum SQLRepo {
   DatabaseUtility dbUtility;
 
   DAO<OfficeSuppliesData> officesupplyDAO;
+  DAO<MealRequestData> mealDAO;
+  DAO<FlowerRequestData> flowerDAO;
+  DAO<ConferenceRequestData> conferenceDAO;
 
   public void connectToDatabase(String username, String password) {
     try {
@@ -71,6 +73,9 @@ public enum SQLRepo {
       moveDAO = new MoveDAO(activeConnection);
       locationDAO = new LocationDAO(activeConnection);
       officesupplyDAO = new OfficeSuppliesDAO(activeConnection);
+      mealDAO = new MealDAO(activeConnection);
+      flowerDAO = new FlowerDAO(activeConnection);
+      conferenceDAO = new ConferenceRoomDAO(activeConnection);
       serviceDAO = new ServiceDAO(activeConnection);
       dbUtility = new DatabaseUtility(activeConnection);
 
@@ -148,6 +153,16 @@ public enum SQLRepo {
           break;
         case OFFICE_SUPPLY:
           this.officesupplyDAO.importFromCSV(filepath, "OfficeSupplies");
+          break;
+        case MEAL_REQUESTS:
+          this.mealDAO.importFromCSV(filepath, "MealService");
+          break;
+        case CONFERENCE_ROOM:
+          this.conferenceDAO.importFromCSV(filepath, "ConfRoomService");
+          break;
+        case FLOWER_REQUESTS:
+          this.flowerDAO.importFromCSV(filepath, "FlowerService");
+          break;
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -175,6 +190,15 @@ public enum SQLRepo {
         case OFFICE_SUPPLY:
           this.officesupplyDAO.exportToCSV(filepath, tableName);
           break;
+        case MEAL_REQUESTS:
+          this.mealDAO.exportToCSV(filepath, tableName);
+          break;
+        case CONFERENCE_ROOM:
+          this.conferenceDAO.exportToCSV(filepath, tableName);
+          break;
+        case FLOWER_REQUESTS:
+          this.flowerDAO.exportToCSV(filepath, tableName);
+          break;
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -187,6 +211,16 @@ public enum SQLRepo {
 
   public List<OfficeSuppliesData> getOfficeSupplyList(){
     return this.officesupplyDAO.get();
+  }
+
+  public List<MealRequestData> getMealRequestsList(){
+    return this.mealDAO.get();
+  }
+  public List<ConferenceRequestData> getConfList(){
+    return this.conferenceDAO.get();
+  }
+  public List<FlowerRequestData> getFlowerRequestsList(){
+    return this.flowerDAO.get();
   }
 
   public List<HospitalNode> getNodeList() {
@@ -215,6 +249,18 @@ public enum SQLRepo {
     this.officesupplyDAO.update(obj, attribute, value);
   }
 
+  public void updateMealRequest(MealRequestData obj, String attribute, String value){
+    this.mealDAO.update(obj, attribute, value);
+  }
+
+  public void updateConfRoomRequest(ConferenceRequestData obj, String attribute, String value){
+    this.conferenceDAO.update(obj, attribute, value);
+  }
+
+  public void updateFlowerRequest(FlowerRequestData obj, String attribute, String value){
+    this.flowerDAO.update(obj, attribute, value);
+  }
+
   public void updateNode(HospitalNode obj, String attribute, String value) {
     this.nodeDAO.update(obj, attribute, value);
   }
@@ -236,6 +282,9 @@ public enum SQLRepo {
   }
 
   public void deleteOfficeSupplyRequest(OfficeSuppliesData obj) {this.officesupplyDAO.delete(obj);}
+  public void deleteMealRequest(MealRequestData obj) {this.mealDAO.delete(obj);}
+  public void deleteConfRoomRequest(ConferenceRequestData obj) {this.conferenceDAO.delete(obj);}
+  public void deleteFlowerRequest(FlowerRequestData obj) {this.flowerDAO.delete(obj);}
   public void deletenode(HospitalNode obj) {
     this.nodeDAO.delete(obj);
   }
@@ -258,6 +307,15 @@ public enum SQLRepo {
 
   public void addOfficeSupplyRequest(OfficeSuppliesData obj) {
     this.officesupplyDAO.add(obj);
+  }
+  public void addMealRequest(MealRequestData obj) {
+    this.mealDAO.add(obj);
+  }
+  public void addConfRoomRequest(ConferenceRequestData obj) {
+    this.conferenceDAO.add(obj);
+  }
+  public void addFlowerRequest(FlowerRequestData obj) {
+    this.flowerDAO.add(obj);
   }
 
   public void addNode(HospitalNode obj) {
