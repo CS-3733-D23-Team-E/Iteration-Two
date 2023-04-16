@@ -38,7 +38,7 @@ class AStarPathfinder extends AbstractPathfinder {
       HospitalNode current = queue.remove();
       if (current.equals(to)) {
         // If this is the end node, reconstruct the path based on the parent map and return it
-        return reconstructPath(parentMap, current); 
+        return reconstructPath(parentMap, current);
       }
       for (HospitalNode neighbor : current.getNeighbors()) {
         int newCost = neighbor.getEdgeCosts().get(current) + costMap.get(current);

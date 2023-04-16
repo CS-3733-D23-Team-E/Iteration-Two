@@ -7,6 +7,8 @@ import edu.wpi.teame.map.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -174,7 +176,17 @@ public class DatabaseTableViewController {
     shortNameCol.setCellValueFactory(new PropertyValueFactory<LocationName, String>("shortName"));
     nodeTypeCol.setCellValueFactory(new PropertyValueFactory<LocationName, String>("nodeType"));
 
-    locationTable.setItems(FXCollections.observableArrayList(dC.getLocationList()));
+    editNameTypeChoice.setItems(
+        FXCollections.observableArrayList(LocationName.NodeType.allNodeTypes()));
+
+    List<LocationName> locs = dC.getLocationList();
+    ArrayList<String> longNames = new ArrayList<>();
+    for (LocationName name : locs) {
+      longNames.add(name.getLongName());
+    }
+    editMoveNameChoice.setItems(FXCollections.observableArrayList(longNames));
+
+    locationTable.setItems(FXCollections.observableArrayList(locs));
     locationTable
         .getSelectionModel()
         .selectedItemProperty()
@@ -191,6 +203,10 @@ public class DatabaseTableViewController {
     nodeYCol.setCellValueFactory(new PropertyValueFactory<HospitalNode, Integer>("yCoord"));
     floorCol.setCellValueFactory(new PropertyValueFactory<HospitalNode, Floor>("floor"));
     buildingCol.setCellValueFactory(new PropertyValueFactory<HospitalNode, String>("building"));
+
+    editNodeFloorChoice.setItems(FXCollections.observableArrayList(Floor.allFloors()));
+    editNodeBuildingChoice.setItems(
+        FXCollections.observableArrayList(HospitalNode.allBuildings())); // TODO: DO
 
     nodeTable.setItems(FXCollections.observableArrayList(dC.getNodeList()));
     nodeTable
@@ -340,6 +356,7 @@ public class DatabaseTableViewController {
                 activeTable.setItems(FXCollections.observableArrayList(dC.getEdgeList()));
                 break;
             }
+            activeTable.refresh();
             /*
             try {
               dC.importFromCSV(
@@ -574,7 +591,14 @@ public class DatabaseTableViewController {
     confirmEditButton.setVisible(true);
     confirmEditButton.setOnAction(
         (event) -> {
-          // SQLRepo.INSTANCE.updateMove(move, "");
+          SQLRepo.INSTANCE.updateMove(move, "longName", editMoveNameChoice.getValue());
+          SQLRepo.INSTANCE.updateMove(move, "nodeID", editMoveIDField.getText());
+          SQLRepo.INSTANCE.updateMove(
+              move,
+              "date",
+              editMoveDateField.getText()); // TODO: Switch to date picker implementation
+          moveTable.setItems(FXCollections.observableArrayList(SQLRepo.INSTANCE.getMoveList()));
+          moveTable.refresh();
         });
   }
 
@@ -591,6 +615,17 @@ public class DatabaseTableViewController {
     editNodeBuildingChoice.setValue(node.getBuilding());
 
     confirmEditButton.setVisible(true);
+    confirmEditButton.setOnAction(
+        (event) -> {
+          SQLRepo.INSTANCE.updateNode(node, "nodeID", editNodeIDField.getText());
+          SQLRepo.INSTANCE.updateNode(node, "xcoord", editNodeXField.getText());
+          SQLRepo.INSTANCE.updateNode(node, "ycoord", editNodeYField.getText());
+          SQLRepo.INSTANCE.updateNode(
+              node, "floor", Floor.floorToString(editNodeFloorChoice.getValue()));
+          SQLRepo.INSTANCE.updateNode(node, "building", editNodeBuildingChoice.getValue());
+          nodeTable.setItems(FXCollections.observableArrayList(SQLRepo.INSTANCE.getNodeList()));
+          nodeTable.refresh();
+        });
   }
 
   private void displayEdgeEdit(HospitalEdge edge) {
@@ -603,6 +638,13 @@ public class DatabaseTableViewController {
     editEdgeEndField.setText(edge.getNodeTwoID());
 
     confirmEditButton.setVisible(true);
+    confirmEditButton.setOnAction(
+        (event) -> {
+          SQLRepo.INSTANCE.updateEdge(edge, "startNode", editEdgeStartField.getText());
+          SQLRepo.INSTANCE.updateEdge(edge, "startNode", editEdgeEndField.getText());
+          edgeTable.setItems(FXCollections.observableArrayList(SQLRepo.INSTANCE.getEdgeList()));
+          edgeTable.refresh();
+        });
   }
 
   private void displayNameEdit(LocationName name) {
@@ -616,5 +658,15 @@ public class DatabaseTableViewController {
     editNameTypeChoice.setValue(name.getNodeType());
 
     confirmEditButton.setVisible(true);
+    confirmEditButton.setOnAction(
+        (event) -> {
+          SQLRepo.INSTANCE.updateLocation(name, "longName", editNameLongField.getText());
+          SQLRepo.INSTANCE.updateLocation(name, "shortName", editNameShortField.getText());
+          SQLRepo.INSTANCE.updateLocation(
+              name, "nodeType", editNameTypeChoice.getValue().toString());
+          locationTable.setItems(
+              FXCollections.observableArrayList(SQLRepo.INSTANCE.getLocationList()));
+          locationTable.refresh();
+        });
   }
 }

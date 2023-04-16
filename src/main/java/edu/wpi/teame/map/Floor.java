@@ -1,5 +1,6 @@
 package edu.wpi.teame.map;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public enum Floor {
@@ -47,5 +48,16 @@ public enum Floor {
       default:
         throw new NoSuchElementException("No such Floor found");
     }
+  }
+
+  public static ArrayList<Floor> allFloors() {
+    ArrayList<Floor> allFloors = new ArrayList<>();
+    allFloors.add(LOWER_TWO);
+    allFloors.add(LOWER_ONE);
+    allFloors.add(GROUND);
+    allFloors.add(ONE);
+    allFloors.add(TWO);
+    allFloors.add(THREE);
+    return allFloors;
   }
 }
