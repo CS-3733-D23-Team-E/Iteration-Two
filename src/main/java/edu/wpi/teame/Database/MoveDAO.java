@@ -25,7 +25,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
    *
    * @return list of move attribute objects
    */
-  public List<MoveAttribute> get() {
+  List<MoveAttribute> get() {
     moveAttributes = new ArrayList<>();
     String query = "SELECT * FROM teame.\"Move\" ORDER BY \"nodeID\" ASC;";
 
@@ -43,7 +43,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
     return moveAttributes;
   }
 
-  public void update(MoveAttribute moveAttribute, String attribute, String value) {
+  void update(MoveAttribute moveAttribute, String attribute, String value) {
     String nodeID = moveAttribute.getNodeID();
     String longName = moveAttribute.getLongName();
     String sqlUpdate =
@@ -69,7 +69,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
     get();
   }
 
-  public void delete(MoveAttribute moveAttribute) {
+  void delete(MoveAttribute moveAttribute) {
     String nodeId = moveAttribute.getNodeID();
     String longName = moveAttribute.getLongName();
     String sqlDelete =
@@ -90,7 +90,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
     get();
   }
 
-  public void add(MoveAttribute moveAttribute) {
+  void add(MoveAttribute moveAttribute) {
     int nodeId = Integer.parseInt(moveAttribute.getNodeID());
     String longName = moveAttribute.getLongName();
     String date = moveAttribute.getDate();
@@ -102,12 +102,12 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
     } catch (SQLException e) {
-      System.out.println("error adding");
+      System.out.println(e.getMessage());
     }
     get();
   }
 
-  public void importFromCSV(String filePath, String tableName) {
+  void importFromCSV(String filePath, String tableName) {
     try {
       BufferedReader mreader = new BufferedReader(new FileReader(filePath));
       String line;
