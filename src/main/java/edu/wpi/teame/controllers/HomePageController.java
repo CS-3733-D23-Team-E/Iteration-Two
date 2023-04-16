@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 public class HomePageController {
   @FXML MFXButton serviceRequestButton;
@@ -28,6 +29,10 @@ public class HomePageController {
   @FXML MFXButton menuBarSignage;
   @FXML MFXButton menuBarBlank;
   @FXML MFXButton menuBarExit;
+  @FXML Text dateText;
+  @FXML Text timeText;
+
+
 
   Boolean loggedIn;
 
