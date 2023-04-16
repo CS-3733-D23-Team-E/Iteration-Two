@@ -83,6 +83,19 @@ public enum SQLRepo {
     }
   }
 
+  //DatabaseReset
+  public void resetDatabase() {
+    this.importFromCSV(Table.NODE,
+            "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Node.csv");
+    this.importFromCSV(Table.EDGE,
+            "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Edge.csv");
+    this.importFromCSV(Table.MOVE,
+            "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Move.csv");
+    this.importFromCSV(Table.LOCATION_NAME,
+            "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\LocationName.csv");
+
+  }
+
   // ALL DATABASE UTILITY
   public int getNodeIDFromName(String longName) {
     return this.dbUtility.getNodeIDFromName(longName);
