@@ -2,7 +2,6 @@ package edu.wpi.teame.map;
 
 import static java.util.Objects.hash;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import lombok.Getter;
@@ -86,25 +85,6 @@ public class LocationName {
         default:
           throw new NoSuchElementException("No such NodeType found");
       }
-    }
-
-    public static ArrayList<NodeType> allNodeTypes() {
-      ArrayList<NodeType> allTypes = new ArrayList<>();
-
-      allTypes.add(HALL);
-      allTypes.add(CONF);
-      allTypes.add(DEPT);
-      allTypes.add(INFO);
-      allTypes.add(SERV);
-      allTypes.add(LABS);
-      allTypes.add(RETL);
-      allTypes.add(STAI);
-      allTypes.add(ELEV);
-      allTypes.add(REST);
-      allTypes.add(BATH);
-      allTypes.add(EXIT);
-
-      return allTypes;
     }
   }
 

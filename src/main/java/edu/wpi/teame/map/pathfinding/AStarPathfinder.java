@@ -3,7 +3,7 @@ package edu.wpi.teame.map.pathfinding;
 import edu.wpi.teame.map.HospitalNode;
 import java.util.*;
 
-class AStarPathfinder extends AbstractPathfinder {
+public class AStarPathfinder extends AbstractPathfinder {
   /**
    * * Finds the least cost path from the starting HospitalNode to the target HospitalNode using the
    * A-star algorithm
@@ -16,6 +16,7 @@ class AStarPathfinder extends AbstractPathfinder {
   @Override
   public List<HospitalNode> findPath(HospitalNode from, HospitalNode to) {
     HashMap<HospitalNode, Integer> costMap = new HashMap<>();
+    HashSet<HospitalNode> visited = new HashSet<HospitalNode>();
     HashMap<HospitalNode, HospitalNode> parentMap = new HashMap<HospitalNode, HospitalNode>();
 
     PriorityQueue<HospitalNode> queue =
@@ -36,6 +37,13 @@ class AStarPathfinder extends AbstractPathfinder {
 
     while (!queue.isEmpty()) {
       HospitalNode current = queue.remove();
+      if (visited.contains(current)) {
+        // If we've already visited this node, skip it
+        continue;
+      } else {
+        // Otherwise, mark node as visited
+        visited.add(current);
+      }
       if (current.equals(to)) {
         // If this is the end node, reconstruct the path based on the parent map and return it
         return reconstructPath(parentMap, current);
@@ -44,8 +52,6 @@ class AStarPathfinder extends AbstractPathfinder {
         int newCost = neighbor.getEdgeCosts().get(current) + costMap.get(current);
         // If we've already explored the children of this node, don't add it to the queue
         if (!parentMap.containsKey(neighbor) || costMap.get(neighbor) > newCost) {
-          // Parent map doubles as a visited set
-          // If there's a cheaper path to this node, update the cost and parent
           costMap.put(neighbor, newCost);
           queue.add(neighbor);
           parentMap.put(neighbor, current);
@@ -64,5 +70,23 @@ class AStarPathfinder extends AbstractPathfinder {
                 Math.pow(from.getXCoord() - to.getXCoord(), 2)
                     + Math.pow(from.getYCoord() - to.getYCoord(), 2))
         + (int) floorBias * Math.abs(from.getFloor().ordinal() - to.getFloor().ordinal());
+  }
+
+  /**
+   * * Reconstructs the path from the starting coordinate to the target coordinate
+   *
+   * @param parentMap a map of coordinates to their parent coordinates
+   * @param current the target coordinate
+   * @return a list of coordinates representing the shortest path from the starting coordinate to
+   *     the target coordinate
+   */
+  private List<HospitalNode> reconstructPath(
+      HashMap<HospitalNode, HospitalNode> parentMap, HospitalNode current) {
+    LinkedList<HospitalNode> path = new LinkedList<HospitalNode>();
+    while (current != null) {
+      path.addFirst(current);
+      current = parentMap.get(current);
+    }
+    return path;
   }
 }
