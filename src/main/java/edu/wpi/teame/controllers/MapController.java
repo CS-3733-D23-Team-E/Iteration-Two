@@ -229,6 +229,7 @@ public class MapController {
    * @param path
    */
   private void drawPath(List<HospitalNode> path) {
+    currentFloor = path.get(0).getFloor();
     MapUtilities currentMapUtility = whichMapUtility(currentFloor);
 
     // create circle to symbolize start
@@ -328,7 +329,7 @@ public class MapController {
   }
 
   public void createPathLabels(VBox vbox, List<HospitalNode> path) {
-    for (HospitalNode node: path) {
+    for (HospitalNode node : path) {
 
       String destination = SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID()));
 
@@ -367,10 +368,6 @@ public class MapController {
       hBox.setSpacing(10);
       hBox.setPadding(new Insets(0, 10, 0, 10));
       hBox.getChildren().addAll(arrowView, destinationLabel);
-      hBox.setOnMouseClicked(
-              event -> {
-
-              });
 
       // Add path label to VBox
       vbox.getChildren().add(hBox);
