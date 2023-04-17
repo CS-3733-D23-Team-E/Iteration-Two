@@ -14,7 +14,6 @@
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="900.0" style="-fx-background-color: #f1f1f1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="750.0" prefWidth="900.0" spacing="75.0" AnchorPane.topAnchor="50.0">
@@ -83,7 +82,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <DatePicker maxHeight="42.0" maxWidth="300.0" prefHeight="42.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
+                              <DatePicker maxHeight="42.0" maxWidth="300.0" prefHeight="30.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
