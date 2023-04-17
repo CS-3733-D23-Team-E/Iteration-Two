@@ -7,8 +7,7 @@ import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.Main;
 import edu.wpi.teame.map.Floor;
 import edu.wpi.teame.map.HospitalNode;
-import edu.wpi.teame.map.LocationName;
-import edu.wpi.teame.map.pathfinding.AbstractPathfinder;
+import edu.wpi.teame.map.pathfinding.AStarPathfinder;
 import edu.wpi.teame.utilities.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
@@ -17,31 +16,22 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import org.controlsfx.control.SearchableComboBox;
 
 public class MapController {
-  @FXML AnchorPane mapPaneOne;
-  @FXML AnchorPane mapPaneTwo;
-  @FXML AnchorPane mapPaneThree;
-  @FXML AnchorPane mapPaneLowerOne;
-  @FXML AnchorPane mapPaneLowerTwo;
-  @FXML VBox pathBox;
-  @FXML TabPane tabPane;
+  @FXML AnchorPane mapPane;
+  @FXML AnchorPane mapPane1;
+  @FXML AnchorPane mapPane11;
+  @FXML AnchorPane mapPane111;
+  @FXML AnchorPane mapPane1111;
+
   @FXML Tab floorOneTab;
   @FXML Tab floorTwoTab;
   @FXML Tab floorThreeTab;
@@ -49,6 +39,7 @@ public class MapController {
   @FXML Tab lowerLevelOneTab;
   @FXML SearchableComboBox<String> currentLocationList;
   @FXML SearchableComboBox<String> destinationList;
+  @FXML private Label pathLabel;
   @FXML MFXButton menuButton;
   @FXML MFXButton menuBarHome;
   @FXML MFXButton menuBarServices;
@@ -58,24 +49,17 @@ public class MapController {
   @FXML MFXButton menuBarBlank;
   @FXML MFXButton menuBarExit;
   @FXML VBox menuBar;
-  @FXML MFXButton startButton;
 
-  @FXML ImageView mapImageLowerTwo; // Floor L2
-  @FXML ImageView mapImageLowerOne; // Floor L1
-  @FXML ImageView mapImageOne; // Floor 1
-  @FXML ImageView mapImageTwo; // Floor 2
-  @FXML ImageView mapImageThree; // Floor 3
-
-  boolean isPathDisplayed = false;
+  @FXML ImageView mapImage; // Floor 1
+  @FXML ImageView mapImage1; // Floor 2
+  @FXML ImageView mapImage11; // Floor 3
+  @FXML ImageView mapImage111; // Floor L1
+  @FXML ImageView mapImage1111; // Floor L2
 
   Floor currentFloor = Floor.LOWER_TWO;
   String curLocFromComboBox;
   String destFromComboBox;
-  MapUtilities mapUtilityLowerTwo = new MapUtilities(mapPaneLowerTwo);
-  MapUtilities mapUtilityLowerOne = new MapUtilities(mapPaneLowerOne);
-  MapUtilities mapUtilityOne = new MapUtilities(mapPaneOne);
-  MapUtilities mapUtilityTwo = new MapUtilities(mapPaneTwo);
-  MapUtilities mapUtilityThree = new MapUtilities(mapPaneThree);
+  MapUtilities mapUtil = new MapUtilities(whichPane(currentFloor));
 
   ObservableList<String> floorLocations =
       FXCollections.observableArrayList(
@@ -84,33 +68,36 @@ public class MapController {
 
   @FXML
   public void initialize() {
-    initializeMapUtilities();
+    lowerLevelOneTab.setOnSelectionChanged(event -> refreshTab(Floor.LOWER_ONE));
+    lowerLevelTwoTab.setOnSelectionChanged(event -> refreshTab(Floor.LOWER_TWO));
+    floorOneTab.setOnSelectionChanged(event -> refreshTab(Floor.ONE));
+    floorTwoTab.setOnSelectionChanged(event -> refreshTab(Floor.TWO));
+    floorThreeTab.setOnSelectionChanged(event -> refreshTab(Floor.THREE));
 
-    tabPane
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (observable, oldTab, newTab) -> {
-              if (!isPathDisplayed) {
-                currentFloor = tabToFloor(newTab);
-                resetComboboxes();
-              }
-            });
-
-    //    refreshPathButton.setOnMouseClicked(
-    //        event -> {
-    //          currentFloor =
-    // tabToFloor(tabPane.getSelectionModel().selectedItemProperty().getValue());
-    //          resetComboboxes(currentFloor);
-    //          refreshPath();
-    //        });
-
-    startButton.setOnAction(
+    currentLocationList.setOnAction(
         event -> {
           curLocFromComboBox = currentLocationList.getValue();
           destFromComboBox = destinationList.getValue();
-          displayPath(curLocFromComboBox, destFromComboBox);
+          displayPath(curLocFromComboBox, destFromComboBox, currentFloor);
         });
+
+    destinationList.setOnAction(
+        event -> {
+          curLocFromComboBox = currentLocationList.getValue();
+          destFromComboBox = destinationList.getValue();
+          displayPath(curLocFromComboBox, destFromComboBox, currentFloor);
+        });
+
+    mapImage.setImage(
+        new Image(String.valueOf(Main.class.getResource("maps/01_thefirstfloor.png"))));
+    mapImage1.setImage(
+        new Image(String.valueOf(Main.class.getResource("maps/02_thesecondfloor.png"))));
+    mapImage11.setImage(
+        new Image(String.valueOf(Main.class.getResource("maps/03_thethirdfloor.png"))));
+    mapImage111.setImage(
+        new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel1.png"))));
+    mapImage1111.setImage(
+        new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel2.png"))));
 
     // Initially set the menu bar to invisible
     menuBar.setVisible(false);
@@ -144,65 +131,32 @@ public class MapController {
     mouseSetup(menuBarDatabase);
     mouseSetup(menuBarExit);
 
-    // Make sure location list is initialized so that we can filter out the hallways
-    SQLRepo.INSTANCE.getLocationList();
-
-    resetComboboxes();
+    refreshTab(currentFloor);
   }
 
-  private void initializeMapUtilities() {
-    mapUtilityLowerTwo = new MapUtilities(mapPaneLowerTwo);
-    mapUtilityLowerOne = new MapUtilities(mapPaneLowerOne);
-    mapUtilityOne = new MapUtilities(mapPaneOne);
-    mapUtilityTwo = new MapUtilities(mapPaneTwo);
-    mapUtilityThree = new MapUtilities(mapPaneThree);
-
-    mapUtilityLowerTwo.setCircleStyle("-fx-fill: gold; -fx-stroke: black; -fx-stroke-width: 1");
-    mapUtilityLowerOne.setCircleStyle("-fx-fill: cyan; -fx-stroke: black; -fx-stroke-width: 1");
-    mapUtilityOne.setCircleStyle("-fx-fill: lime; -fx-stroke: black; -fx-stroke-width: 1");
-    mapUtilityTwo.setCircleStyle("-fx-fill: hotpink; -fx-stroke: black; -fx-stroke-width: 1");
-    mapUtilityThree.setCircleStyle("-fx-fill: orangered; -fx-stroke: black; -fx-stroke-width: 1");
-
-    mapUtilityLowerTwo.setLineStyle("-fx-stroke: gold; -fx-stroke-width: 4");
-    mapUtilityLowerOne.setLineStyle("-fx-stroke: cyan; -fx-stroke-width: 4");
-    mapUtilityOne.setLineStyle("-fx-stroke: lime; -fx-stroke-width: 4");
-    mapUtilityTwo.setLineStyle("-fx-stroke: hotpink; -fx-stroke-width: 4");
-    mapUtilityThree.setLineStyle("-fx-stroke: orangered; -fx-stroke-width: 4");
-  }
-
-  public void resetComboboxes() {
+  @FXML
+  public void refreshTab(Floor floor) {
+    currentFloor = floor;
     floorLocations =
         FXCollections.observableArrayList(
-            SQLRepo.INSTANCE.getMoveList().stream()
-                .filter(
-                    (move) -> // Filter out hallways and long names with no corresponding
-                        // LocationName
-                        LocationName.allLocations.get(move.getLongName()) == null
-                            ? false
-                            : LocationName.allLocations.get(move.getLongName()).getNodeType()
-                                    != LocationName.NodeType.HALL
-                                && LocationName.allLocations.get(move.getLongName()).getNodeType()
-                                    != LocationName.NodeType.STAI
-                                && LocationName.allLocations.get(move.getLongName()).getNodeType()
-                                    != LocationName.NodeType.ELEV
-                                && LocationName.allLocations.get(move.getLongName()).getNodeType()
-                                    != LocationName.NodeType.REST)
-                .map((move) -> move.getLongName())
-                .sorted() // Sort alphabetically
-                .toList());
+            SQLRepo.INSTANCE.getLongNamesFromMove(
+                SQLRepo.INSTANCE.getMoveAttributeFromFloor(currentFloor)));
     currentLocationList.setItems(floorLocations);
     destinationList.setItems(floorLocations);
     currentLocationList.setValue("");
     destinationList.setValue("");
+    pathLabel.setText("");
+    refreshPath(whichPane(floor));
+    mapUtil = new MapUtilities(whichPane(currentFloor));
   }
 
   @FXML
-  public void displayPath(String from, String to) {
+  public void displayPath(String from, String to, Floor whichFloor) {
     if (from == null || from.equals("") || to == null || to.equals("")) {
       return;
     }
-    refreshPath();
-    AbstractPathfinder pf = AbstractPathfinder.getInstance("A*");
+    refreshPath(whichPane(whichFloor));
+    AStarPathfinder pf = new AStarPathfinder();
 
     String toNodeID = SQLRepo.INSTANCE.getNodeIDFromName(to) + "";
     String fromNodeID = SQLRepo.INSTANCE.getNodeIDFromName(from) + "";
@@ -217,10 +171,8 @@ public class MapController {
     for (HospitalNode node : path) {
       pathNames.add(SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
     }
-    // Create the labels
-    createPathLabels(pathBox, path);
-    drawPath(path);
-    isPathDisplayed = true;
+    pathLabel.setText(pathNames.toString());
+    drawPath(path, whichPane(whichFloor));
   }
 
   /**
@@ -228,15 +180,14 @@ public class MapController {
    *
    * @param path
    */
-  private void drawPath(List<HospitalNode> path) {
-    currentFloor = path.get(0).getFloor();
-    MapUtilities currentMapUtility = whichMapUtility(currentFloor);
+  private void drawPath(List<HospitalNode> path, AnchorPane curPane) {
 
     // create circle to symbolize start
     int x1 = path.get(0).getXCoord();
     int y1 = path.get(0).getYCoord();
-    currentMapUtility.drawRing(x1, y1, 8, 2, WHITE, BLACK);
-    currentMapUtility.createLabel(x1, y1, 5, 5, "Current Location");
+    mapUtil.drawRing(x1, y1, 8, 2, WHITE, BLACK);
+    mapUtil.createLabel(x1, y1, 5, 5, "Current Location");
+
     // draw the lines between each node
     int x2, y2;
     for (int i = 1; i < path.size(); i++) {
@@ -244,74 +195,36 @@ public class MapController {
       x2 = node.getXCoord();
       y2 = node.getYCoord();
 
-      Floor newFloor = node.getFloor();
-      if (newFloor != currentFloor) {
-        Floor oldFloor = currentFloor;
-        currentMapUtility.createLabel(x2, y2, "Went to Floor: " + newFloor.toString());
-        currentFloor = newFloor;
-        currentMapUtility = whichMapUtility(currentFloor);
-        currentMapUtility.createLabel(x2, y2, "Came from Floor: " + oldFloor.toString());
-      }
+      mapUtil.drawLine(x1, y1, x2, y2);
 
-      Line pathLine = currentMapUtility.drawStyledLine(x1, y1, x2, y2);
-      Circle intermediateCircle = currentMapUtility.drawStyledCircle(x2, y2, 3);
-      intermediateCircle.setViewOrder(-1);
       x1 = x2;
       y1 = y2;
     }
 
     // create circle to symbolize end
-    Circle endingCircle = currentMapUtility.drawCircle(x1, y1, 8, BLACK);
-    endingCircle.toFront();
-    currentMapUtility.createLabel(x1, y1, 5, 5, "Destination");
+    mapUtil.drawCircle(x1, y1, 8, BLACK);
+    mapUtil.createLabel(x1, y1, 5, 5, "Destination");
   }
 
   /** removes all the lines in the currentLines list */
-  public void refreshPath() {
-
-    mapUtilityLowerTwo.removeAll();
-    mapUtilityLowerOne.removeAll();
-    mapUtilityOne.removeAll();
-    mapUtilityTwo.removeAll();
-    mapUtilityThree.removeAll();
-    pathBox.getChildren().clear();
-
-    isPathDisplayed = false;
+  public void refreshPath(AnchorPane curPane) {
+    curPane.getChildren().removeAll(mapUtil.getCurrentNodes());
   }
 
-  public MapUtilities whichMapUtility(Floor currFloor) {
-    switch (currFloor) {
-      case LOWER_TWO:
-        return mapUtilityLowerTwo;
-      case LOWER_ONE:
-        return mapUtilityLowerOne;
+  public AnchorPane whichPane(Floor curFloor) {
+    switch (curFloor) {
       case ONE:
-        return mapUtilityOne;
+        return mapPane;
       case TWO:
-        return mapUtilityTwo;
+        return mapPane1;
       case THREE:
-        return mapUtilityThree;
+        return mapPane11;
+      case LOWER_ONE:
+        return mapPane111;
+      case LOWER_TWO:
+        return mapPane1111;
     }
-    return mapUtilityLowerOne;
-  }
-
-  public Floor tabToFloor(Tab tab) {
-    if (tab == lowerLevelTwoTab) {
-      return Floor.LOWER_TWO;
-    }
-    if (tab == lowerLevelOneTab) {
-      return Floor.LOWER_ONE;
-    }
-    if (tab == floorOneTab) {
-      return Floor.ONE;
-    }
-    if (tab == floorTwoTab) {
-      return Floor.TWO;
-    }
-    if (tab == floorThreeTab) {
-      return Floor.THREE;
-    }
-    return Floor.ONE;
+    return mapPane;
   }
 
   private void mouseSetup(MFXButton btn) {
@@ -326,51 +239,5 @@ public class MapController {
           btn.setStyle("-fx-background-color: #192d5aff; -fx-alignment: center;");
           btn.setTextFill(WHITE);
         });
-  }
-
-  public void createPathLabels(VBox vbox, List<HospitalNode> path) {
-    for (HospitalNode node : path) {
-
-      String destination = SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID()));
-
-      // Arrow Image
-      ImageView arrowView = new ImageView();
-      Image arrow = new Image(String.valueOf(Main.class.getResource("images/right-arrow.png")));
-      arrowView.setImage(arrow);
-      arrowView.setPreserveRatio(true);
-      arrowView.setFitWidth(30);
-
-      // Destination Label
-      Label destinationLabel = new Label(destination);
-      destinationLabel.setFont(Font.font("SansSerif", 16));
-      destinationLabel.setTextAlignment(TextAlignment.CENTER);
-      destinationLabel.setWrapText(true);
-
-      // Drop Shadow
-      DropShadow dropShadow = new DropShadow();
-      dropShadow.setBlurType(BlurType.THREE_PASS_BOX);
-      dropShadow.setWidth(21);
-      dropShadow.setHeight(21);
-      dropShadow.setRadius(4);
-      dropShadow.setOffsetX(-4);
-      dropShadow.setOffsetY(4);
-      dropShadow.setSpread(0);
-      dropShadow.setColor(new Color(0, 0, 0, 0.25));
-
-      // HBox
-      HBox hBox = new HBox();
-      hBox.setBackground(
-          new Background(
-              new BackgroundFill(Color.web("#D9DAD7"), CornerRadii.EMPTY, Insets.EMPTY)));
-      hBox.setPrefHeight(65);
-      hBox.setEffect(dropShadow);
-      hBox.setAlignment(Pos.CENTER_LEFT);
-      hBox.setSpacing(10);
-      hBox.setPadding(new Insets(0, 10, 0, 10));
-      hBox.getChildren().addAll(arrowView, destinationLabel);
-
-      // Add path label to VBox
-      vbox.getChildren().add(hBox);
-    }
   }
 }
