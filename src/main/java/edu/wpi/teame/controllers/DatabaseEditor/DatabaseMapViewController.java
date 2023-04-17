@@ -7,7 +7,7 @@ import edu.wpi.teame.map.HospitalNode;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.MapUtilities;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -16,7 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -116,6 +115,8 @@ public class DatabaseMapViewController {
     // Sidebar functions
     cancelButton.setOnAction(event -> sidebar.setVisible(false));
 
+    confirmButton.setOnAction(event -> uploadChangesToDatabase());
+
     updateCombo();
     updateNodeTypeCombo();
 
@@ -129,24 +130,23 @@ public class DatabaseMapViewController {
           refreshTab(currentFloor);
         });
 
-    addNodeButton.setOnAction(
-        event -> {
-          // SQLRepo.INSTANCE.addNode(new HospitalNode("7000", 500, 500, currentFloor, "New node"));
-          // SQLRepo.INSTANCE.addMove(new MoveAttribute("7000", "Test", "New node"));
-          // TODO: HELLLLLLPPPPPPPPPP
-        });
+//    addNodeButton.setOnAction(
+//        event -> {
+//          // SQLRepo.INSTANCE.addNode(new HospitalNode("7000", 500, 500, currentFloor, "New node"));
+//          // SQLRepo.INSTANCE.addMove(new MoveAttribute("7000", "Test", "New node"));
+//          // TODO: HELLLLLLPPPPPPPPPP
+//        });
 
-    // We love fixing bugs in the eleventh hour :)
-    mapImage.setImage(
+    mapImageLowerTwo.setImage(
+            new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel2.png"))));
+    mapImageLowerOne.setImage(
+            new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel1.png"))));
+    mapImageOne.setImage(
         new Image(String.valueOf(Main.class.getResource("maps/01_thefirstfloor.png"))));
-    mapImage1.setImage(
+    mapImageTwo.setImage(
         new Image(String.valueOf(Main.class.getResource("maps/02_thesecondfloor.png"))));
-    mapImage11.setImage(
+    mapImageThree.setImage(
         new Image(String.valueOf(Main.class.getResource("maps/03_thethirdfloor.png"))));
-    mapImage111.setImage(
-        new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel1.png"))));
-    mapImage1111.setImage(
-        new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel2.png"))));
   }
 
   public void loadFloorNodes(Floor floor) {
@@ -172,41 +172,34 @@ public class DatabaseMapViewController {
 
     nodeCircle.setOnMouseClicked(
             event -> {
-              displayEditMenu(node, nodeCircle);
+              setEditMenuVisible(true);
             });
 
     nodeLabel.setOnMouseClicked(
             event -> {
-              displayEditMenu(node, nodeLabel);
+              setEditMenuVisible(true);
             });
 
-    confirmButton.setOnAction(event -> updateCoordinates(node, xField.getText(), yField.getText()));
   }
 
   public void refreshTab(Floor newFloor) {
     currentFloor = newFloor;
-    //    mapUtil.removeAll(Circle.class);
-    //    System.out.println("1");
-    //    System.out.println(whichPane(currentFloor).getChildren());
-    //    mapUtil.removeAll(Label.class);
     mapUtil.removeAll();
-    //    System.out.println("2");
-    //    System.out.println(whichPane(currentFloor).getChildren());
     mapUtil = new MapUtilities(whichPane(currentFloor));
     loadFloorNodes(newFloor);
-    //    System.out.println("3");
-    //    System.out.println(whichPane(currentFloor).getChildren());
   }
 
-  private void displayEditMenu() {
-    xField.setText((int) mapUtil.PaneXToImageX(currentCircle) + "");
-    yField.setText((int) mapUtil.PaneYToImageY(currentCircle.getCenterY()) + "");
-    sidebar.setVisible(true);
-    coordFields.setVisible(true);
-    nameFields.setVisible(false);
+  private void setEditMenuVisible(boolean isVisible) {
+    sidebar.setVisible(isVisible);
+
   }
 
   private void updateEditMenu() {
+    // for dragging functionality
+//    xField.setText((int) mapUtil.PaneXToImageX(currentCircle.getCenterX()) + "");
+//    yField.setText((int) mapUtil.PaneYToImageY(currentCircle.getCenterY()) + "");
+    String nodeID = currentCircle.getId();
+    xField.setText(currentCircle.getId());
 
   }
 
@@ -261,13 +254,15 @@ public class DatabaseMapViewController {
     }
   }
 
-  private void updateCoordinates(HospitalNode node, String x, String y) {
-    System.out.println(whichPane(currentFloor).getChildren());
-    SQLRepo.INSTANCE.updateNode(node, "xcoord", x);
-    SQLRepo.INSTANCE.updateNode(node, "ycoord", y);
-    //    whichPane(currentFloor).getChildren().remove(mapUtil.getCurrentNodes());
-    refreshTab(currentFloor);
-    System.out.println(whichPane(currentFloor).getChildren());
+  private void uploadChangesToDatabase() {
+    String nodeID = currentCircle.getId();
+    HospitalNode hospitalNode = HospitalNode.allNodes.get(nodeID);
+
+    SQLRepo.INSTANCE.updateNode(hospitalNode, "xcoord", Integer.toString(hospitalNode.getXCoord()));
+    SQLRepo.INSTANCE.updateNode(hospitalNode, "ycoord", Integer.toString(hospitalNode.getYCoord()));
+
+
+
   }
 
   private void updateName(HospitalNode node, String newName) {
@@ -359,5 +354,21 @@ public class DatabaseMapViewController {
   }
 
    */
+
+  public MapUtilities whichMapUtility(Floor currFloor) {
+    switch (currFloor) {
+      case LOWER_TWO:
+        return mapUtilityLowerTwo;
+      case LOWER_ONE:
+        return mapUtilityLowerOne;
+      case ONE:
+        return mapUtilityOne;
+      case TWO:
+        return mapUtilityTwo;
+      case THREE:
+        return mapUtilityThree;
+    }
+    return mapUtilityLowerOne;
+  }
 
 }
