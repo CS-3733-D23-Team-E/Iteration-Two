@@ -20,6 +20,7 @@ public enum SQLRepo {
     OFFICE_SUPPLY,
     MEAL_REQUESTS,
     FLOWER_REQUESTS,
+    FURNITURE_REQUESTS,
     CONFERENCE_ROOM;
 
     public static String tableToString(Table tb) {
@@ -42,6 +43,8 @@ public enum SQLRepo {
           return "FlowerService";
         case CONFERENCE_ROOM:
           return "ConfRoomService";
+        case FURNITURE_REQUESTS:
+          return "FurnitureService";
         default:
           throw new NoSuchElementException("No such Table found");
       }
@@ -53,6 +56,7 @@ public enum SQLRepo {
   DAO<HospitalEdge> edgeDAO;
   DAO<MoveAttribute> moveDAO;
   DAO<LocationName> locationDAO;
+  DAO<FurnitureRequestData> furnitureDAO;
   DAO<ServiceRequestData> serviceDAO;
   DatabaseUtility dbUtility;
 
