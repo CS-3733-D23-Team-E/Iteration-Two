@@ -1,5 +1,6 @@
 package edu.wpi.teame.utilities;
 
+import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.HospitalNode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,6 +43,27 @@ public class MapUtilities {
     Circle circle = drawCircle(x, y, 4);
     circle.setId(hospitalNode.getNodeID());
     return circle;
+  }
+
+  /**
+   * draws a circle representing a HospitalNode, and assigns the HospitalNode's nodeID to the ID
+   * attribute of the circle
+   *
+   * @param hospitalNode
+   * @return
+   */
+  public Label drawLocationNameFromHospitalNode(HospitalNode hospitalNode) {
+
+    String labelName =
+        SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(hospitalNode.getNodeID()));
+
+    int x = hospitalNode.getXCoord();
+    int y = hospitalNode.getYCoord();
+
+    // TODO: change color/image/shape dependent on NodeType
+    Label label = drawLabel(x, y, labelName);
+    label.setId(labelName);
+    return label;
   }
 
   /**
@@ -170,7 +192,7 @@ public class MapUtilities {
    * @param text
    * @return
    */
-  public Label createLabel(int x, int y, String text) {
+  public Label drawLabel(int x, int y, String text) {
     Label label = new Label(text);
     label.setLayoutX(convertX(x));
     label.setLayoutY(convertY(y));
@@ -190,8 +212,8 @@ public class MapUtilities {
    * @param text
    * @return
    */
-  public Label createLabel(int x, int y, int xOffset, int yOffset, String text) {
-    Label label = this.createLabel(x + xOffset, y + yOffset, text);
+  public Label drawLabel(int x, int y, int xOffset, int yOffset, String text) {
+    Label label = this.drawLabel(x + xOffset, y + yOffset, text);
     return label;
   }
 
@@ -202,7 +224,7 @@ public class MapUtilities {
    * @return
    */
   public Label createStyledLabel(int x, int y, String text) {
-    Label label = this.createLabel(x, y, text);
+    Label label = this.drawLabel(x, y, text);
     label.setStyle(labelStyle);
     return label;
   }

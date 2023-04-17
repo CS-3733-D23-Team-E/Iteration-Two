@@ -235,7 +235,7 @@ public class MapController {
     int x1 = path.get(0).getXCoord();
     int y1 = path.get(0).getYCoord();
     currentMapUtility.drawRing(x1, y1, 8, 2, WHITE, BLACK);
-    currentMapUtility.createLabel(x1, y1, 5, 5, "Current Location");
+    currentMapUtility.drawLabel(x1, y1, 5, 5, "Current Location");
     // draw the lines between each node
     int x2, y2;
     for (int i = 1; i < path.size(); i++) {
@@ -246,10 +246,10 @@ public class MapController {
       Floor newFloor = node.getFloor();
       if (newFloor != currentFloor) {
         Floor oldFloor = currentFloor;
-        currentMapUtility.createLabel(x2, y2, "Went to Floor: " + newFloor.toString());
+        currentMapUtility.drawLabel(x2, y2, "Went to Floor: " + newFloor.toString());
         currentFloor = newFloor;
         currentMapUtility = whichMapUtility(currentFloor);
-        currentMapUtility.createLabel(x2, y2, "Came from Floor: " + oldFloor.toString());
+        currentMapUtility.drawLabel(x2, y2, "Came from Floor: " + oldFloor.toString());
       }
 
       Line pathLine = currentMapUtility.drawStyledLine(x1, y1, x2, y2);
@@ -262,7 +262,7 @@ public class MapController {
     // create circle to symbolize end
     Circle endingCircle = currentMapUtility.drawCircle(x1, y1, 8, BLACK);
     endingCircle.toFront();
-    currentMapUtility.createLabel(x1, y1, 5, 5, "Destination");
+    currentMapUtility.drawLabel(x1, y1, 5, 5, "Destination");
   }
 
   /** removes all the lines in the currentLines list */

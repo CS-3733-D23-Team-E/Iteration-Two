@@ -159,7 +159,7 @@ public class DatabaseMapViewController {
     Label nodeLabel = new Label();
     try {
       nodeLabel =
-          mapUtil.createLabel(
+          mapUtil.drawLabel(
               node.getXCoord(),
               node.getYCoord(),
               SQLRepo.INSTANCE.getShortNameFromNodeID(node.getNodeID()));
