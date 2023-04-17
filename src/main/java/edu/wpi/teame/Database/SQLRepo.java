@@ -82,6 +82,7 @@ public enum SQLRepo {
       conferenceDAO = new ConferenceRoomDAO(activeConnection);
       serviceDAO = new ServiceDAO(activeConnection);
       dbUtility = new DatabaseUtility(activeConnection);
+      furnitureDAO = new FurnitureDAO(activeConnection);
 
     } catch (SQLException e) {
       throw new RuntimeException("Your username or password is incorrect");
@@ -167,6 +168,9 @@ public enum SQLRepo {
         case FLOWER_REQUESTS:
           this.flowerDAO.importFromCSV(filepath, "FlowerService");
           break;
+        case FURNITURE_REQUESTS:
+          this.furnitureDAO.importFromCSV(filepath, "FurnitureService");
+          break;
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -203,6 +207,9 @@ public enum SQLRepo {
         case FLOWER_REQUESTS:
           this.flowerDAO.exportToCSV(filepath, tableName);
           break;
+        case FURNITURE_REQUESTS:
+          this.furnitureDAO.exportToCSV(filepath, tableName);
+          break;
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -213,18 +220,24 @@ public enum SQLRepo {
     return this.serviceDAO.get();
   }
 
-  public List<OfficeSuppliesData> getOfficeSupplyList(){
+  public List<OfficeSuppliesData> getOfficeSupplyList() {
     return this.officesupplyDAO.get();
   }
 
-  public List<MealRequestData> getMealRequestsList(){
+  public List<MealRequestData> getMealRequestsList() {
     return this.mealDAO.get();
   }
-  public List<ConferenceRequestData> getConfList(){
+
+  public List<ConferenceRequestData> getConfList() {
     return this.conferenceDAO.get();
   }
-  public List<FlowerRequestData> getFlowerRequestsList(){
+
+  public List<FlowerRequestData> getFlowerRequestsList() {
     return this.flowerDAO.get();
+  }
+
+  public List<FurnitureRequestData> getFurnitureRequestsList() {
+    return this.furnitureDAO.get();
   }
 
   public List<HospitalNode> getNodeList() {
@@ -249,19 +262,23 @@ public enum SQLRepo {
     this.serviceDAO.update(obj, attribute, value);
   }
 
-  public void updateOfficeSupply(OfficeSuppliesData obj, String attribute, String value){
+  public void updateOfficeSupply(OfficeSuppliesData obj, String attribute, String value) {
     this.officesupplyDAO.update(obj, attribute, value);
   }
 
-  public void updateMealRequest(MealRequestData obj, String attribute, String value){
+  public void updateMealRequest(MealRequestData obj, String attribute, String value) {
     this.mealDAO.update(obj, attribute, value);
   }
 
-  public void updateConfRoomRequest(ConferenceRequestData obj, String attribute, String value){
+  public void updateConfRoomRequest(ConferenceRequestData obj, String attribute, String value) {
     this.conferenceDAO.update(obj, attribute, value);
   }
 
-  public void updateFlowerRequest(FlowerRequestData obj, String attribute, String value){
+  public void updateFurnitureRequest(FurnitureRequestData obj, String attribute, String value) {
+    this.furnitureDAO.update(obj, attribute, value);
+  }
+
+  public void updateFlowerRequest(FlowerRequestData obj, String attribute, String value) {
     this.flowerDAO.update(obj, attribute, value);
   }
 
@@ -285,10 +302,26 @@ public enum SQLRepo {
     this.serviceDAO.delete(obj);
   }
 
-  public void deleteOfficeSupplyRequest(OfficeSuppliesData obj) {this.officesupplyDAO.delete(obj);}
-  public void deleteMealRequest(MealRequestData obj) {this.mealDAO.delete(obj);}
-  public void deleteConfRoomRequest(ConferenceRequestData obj) {this.conferenceDAO.delete(obj);}
-  public void deleteFlowerRequest(FlowerRequestData obj) {this.flowerDAO.delete(obj);}
+  public void deleteOfficeSupplyRequest(OfficeSuppliesData obj) {
+    this.officesupplyDAO.delete(obj);
+  }
+
+  public void deleteMealRequest(MealRequestData obj) {
+    this.mealDAO.delete(obj);
+  }
+
+  public void deleteConfRoomRequest(ConferenceRequestData obj) {
+    this.conferenceDAO.delete(obj);
+  }
+
+  public void deleteFurnitureRequest(FurnitureRequestData obj) {
+    this.furnitureDAO.delete(obj);
+  }
+
+  public void deleteFlowerRequest(FlowerRequestData obj) {
+    this.flowerDAO.delete(obj);
+  }
+
   public void deletenode(HospitalNode obj) {
     this.nodeDAO.delete(obj);
   }
@@ -312,12 +345,19 @@ public enum SQLRepo {
   public void addOfficeSupplyRequest(OfficeSuppliesData obj) {
     this.officesupplyDAO.add(obj);
   }
+
   public void addMealRequest(MealRequestData obj) {
     this.mealDAO.add(obj);
   }
+
   public void addConfRoomRequest(ConferenceRequestData obj) {
     this.conferenceDAO.add(obj);
   }
+
+  public void addFurnitureRequest(FurnitureRequestData obj) {
+    this.furnitureDAO.add(obj);
+  }
+
   public void addFlowerRequest(FlowerRequestData obj) {
     this.flowerDAO.add(obj);
   }

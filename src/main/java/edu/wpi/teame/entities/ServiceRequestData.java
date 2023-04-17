@@ -1,14 +1,12 @@
 package edu.wpi.teame.entities;
 
-import java.util.NoSuchElementException;
+import static edu.wpi.teame.entities.OfficeSuppliesData.Status.getString;
+import static javax.swing.UIManager.getString;
 
-import edu.wpi.teame.Database.OfficeSuppliesDAO;
+import java.util.NoSuchElementException;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
-
-import static edu.wpi.teame.entities.OfficeSuppliesData.Status.getString;
-import static javax.swing.UIManager.getString;
 
 public class ServiceRequestData {
   public enum Status {
