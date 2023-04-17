@@ -12,15 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 public class DatabaseMapViewController {
 
@@ -40,37 +39,51 @@ public class DatabaseMapViewController {
 
   // Sidebar Elements
   @FXML VBox sidebar;
-  // @FXML TextField longNameField;
-  // @FXML TextField shortNameField;
-  @FXML ComboBox<String> longNameSelector;
-  @FXML MFXButton addLocationButton;
+
+  @FXML
+  Text editPageText;
+
   @FXML TextField xField;
   @FXML TextField yField;
+  @FXML ComboBox<String> buildingSelector;
   @FXML MFXButton confirmButton;
   @FXML MFXButton deleteNodeButton;
-  @FXML MFXButton addNodeButton;
-  @FXML MFXButton cancelButton; // clicking will revert changes and close the sidebar
-  // @FXML MFXButton refreshButton;
-  @FXML HBox coordFields;
+  @FXML MFXButton cancelButton;
 
-  @FXML HBox nameFields;
+  @FXML MFXButton addEdgeButton;
+  @FXML MFXButton removeEdgeButton;
+  @FXML TableView edgeView;
+  @FXML TableColumn edgeList;
+  @FXML TextField addEdgeField;
 
   @FXML TextField newLongNameField;
   @FXML TextField newShortNameField;
+  @FXML MFXButton addLocationButton;
+  @FXML ComboBox<String> longNameSelector;
+
   @FXML ComboBox<LocationName.NodeType> nodeTypeChoice;
 
-  @FXML ImageView mapImage; // Floor 1
-  @FXML ImageView mapImage1; // Floor 2
-  @FXML ImageView mapImage11; // Floor 3
-  @FXML ImageView mapImage111; // Floor L1
-  @FXML ImageView mapImage1111; // Floor L2
+//  @FXML ImageView mapImage; // Floor 1
+//  @FXML ImageView mapImage1; // Floor 2
+//  @FXML ImageView mapImage11; // Floor 3
+//  @FXML ImageView mapImage111; // Floor L1
+//  @FXML ImageView mapImage1111; // Floor L2
+
+  @FXML ImageView mapImageLowerTwo; // Floor L2
+  @FXML ImageView mapImageLowerOne; // Floor L1
+  @FXML ImageView mapImageOne; // Floor 1
+  @FXML ImageView mapImageTwo; // Floor 2
+  @FXML ImageView mapImageThree; // Floor 3
 
   Floor currentFloor;
   MapUtilities mapUtil;
+  MapUtilities mapUtilityLowerTwo = new MapUtilities(lowerTwoMapPane);
+  MapUtilities mapUtilityLowerOne = new MapUtilities(lowerOneMapPane);
+  MapUtilities mapUtilityOne = new MapUtilities(floorOneMapPane);
+  MapUtilities mapUtilityTwo = new MapUtilities(floorTwoMapPane);
+  MapUtilities mapUtilityThree = new MapUtilities(floorThreeMapPane);
 
-  HospitalNode currentNode;
-  Circle currentCircle;
-  Label currentLabel;
+  private Circle currentCircle;
 
   @FXML
   public void initialize() {
@@ -112,7 +125,7 @@ public class DatabaseMapViewController {
 
     deleteNodeButton.setOnAction(
         event -> {
-          SQLRepo.INSTANCE.deletenode(currentNode);
+//          SQLRepo.INSTANCE.deletenode(currentNode);
           refreshTab(currentFloor);
         });
 
@@ -136,10 +149,41 @@ public class DatabaseMapViewController {
         new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel2.png"))));
   }
 
+  public void loadFloorNodes(Floor floor) {
+    List<HospitalNode> nodes = SQLRepo.INSTANCE.getNodesFromFloor(floor);
+    for (HospitalNode node : nodes) {
+      String nodeTypeString =
+              SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(node.getNodeID()));
+      if (!nodeTypeString.equals("")) {
+        LocationName.NodeType nodeType = LocationName.NodeType.stringToNodeType(nodeTypeString);
+        if (nodeType == LocationName.NodeType.HALL) {
+          continue;
+        }
+      }
+
+      setupNode(node);
+    }
+  }
+
+  private void setupNode(HospitalNode node) {
+    String nodeID = node.getNodeID();
+    Circle nodeCircle = mapUtil.drawHospitalNode(node);
+    Label nodeLabel = mapUtil.drawHospitalNodeLabel(node);
+
+    nodeCircle.setOnMouseClicked(
+            event -> {
+              displayEditMenu(node, nodeCircle);
+            });
+
+    nodeLabel.setOnMouseClicked(
+            event -> {
+              displayEditMenu(node, nodeLabel);
+            });
+
+    confirmButton.setOnAction(event -> updateCoordinates(node, xField.getText(), yField.getText()));
+  }
+
   public void refreshTab(Floor newFloor) {
-    currentLabel = null;
-    currentCircle = null;
-    currentNode = null;
     currentFloor = newFloor;
     //    mapUtil.removeAll(Circle.class);
     //    System.out.println("1");
@@ -154,100 +198,44 @@ public class DatabaseMapViewController {
     //    System.out.println(whichPane(currentFloor).getChildren());
   }
 
-  private void editableNode(HospitalNode node) {
-    Circle nodePoint = mapUtil.drawHospitalNode(node);
-    Label nodeLabel = new Label();
-    try {
-      nodeLabel =
-          mapUtil.createLabel(
-              node.getXCoord(),
-              node.getYCoord(),
-              SQLRepo.INSTANCE.getShortNameFromNodeID(node.getNodeID()));
-    } catch (SQLException e) {
-      System.out.println(e);
-    }
-    Label finalNodeLabel = nodeLabel;
-
-    nodePoint.setOnMouseClicked(
-        event -> {
-          displayMetadata(node, nodePoint);
-          updateCurrentNode(node, nodePoint, finalNodeLabel);
-        });
-
-    nodeLabel.setOnMouseClicked(
-        event -> {
-          displayNameData(node, finalNodeLabel);
-        });
-
-    nodePoint.setOnMouseDragged(
-        event -> {
-          updateCurrentNode(node, nodePoint, finalNodeLabel);
-          ((Circle) event.getSource()).setCenterX(event.getX());
-
-          finalNodeLabel.setLayoutX(event.getX());
-
-          ((Circle) event.getSource()).setCenterY(event.getY());
-          finalNodeLabel.setLayoutY(event.getY());
-          displayMetadata(node, nodePoint);
-        });
-    confirmButton.setOnAction(event -> updateCoordinates(node, xField.getText(), yField.getText()));
-  }
-
-  private void displayMetadata(HospitalNode node, Circle nodePoint) {
-    // longNameField.setText(SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
-
-    xField.setText((int) mapUtil.PaneXToImageX(nodePoint.getCenterX()) + "");
-    yField.setText((int) mapUtil.PaneYToImageY(nodePoint.getCenterY()) + "");
+  private void displayEditMenu() {
+    xField.setText((int) mapUtil.PaneXToImageX(currentCircle) + "");
+    yField.setText((int) mapUtil.PaneYToImageY(currentCircle.getCenterY()) + "");
     sidebar.setVisible(true);
     coordFields.setVisible(true);
     nameFields.setVisible(false);
   }
 
-  private void displayNameData(HospitalNode node, Label nodeLabel) {
-    longNameSelector.setValue(
-        SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
+  private void updateEditMenu() {
 
-    confirmButton.setOnAction(event -> updateName(node, longNameSelector.getValue()));
-
-    addLocationButton.setOnAction(
-        event -> {
-          String longName = newLongNameField.getText();
-          String shortName = newShortNameField.getText();
-          LocationName.NodeType nodeType = nodeTypeChoice.getValue();
-          LocationName locationName = new LocationName(longName, shortName, nodeType);
-          SQLRepo.INSTANCE.addLocation(locationName);
-          updateCombo();
-        });
-
-    sidebar.setVisible(true);
-    coordFields.setVisible(false);
-    nameFields.setVisible(true);
   }
+
+//  private void displayNameData(HospitalNode node, Label nodeLabel) {
+//    longNameSelector.setValue(
+//        SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
+//
+//    confirmButton.setOnAction(event -> updateName(node, longNameSelector.getValue()));
+//
+//    addLocationButton.setOnAction(
+//        event -> {
+//          String longName = newLongNameField.getText();
+//          String shortName = newShortNameField.getText();
+//          LocationName.NodeType nodeType = nodeTypeChoice.getValue();
+//          LocationName locationName = new LocationName(longName, shortName, nodeType);
+//          SQLRepo.INSTANCE.addLocation(locationName);
+//          updateCombo();
+//        });
+//
+//    sidebar.setVisible(true);
+//    coordFields.setVisible(false);
+//    nameFields.setVisible(true);
+//  }
 
   private void updateMetadata(HospitalNode node, Circle nodePoint) {
     // longNameField.setText(SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
 
     xField.setText(mapUtil.PaneXToImageX(nodePoint.getCenterX()) + "");
     yField.setText(mapUtil.PaneYToImageY(nodePoint.getCenterY()) + "");
-  }
-
-  public void loadFloorNodes(Floor floor) {
-    //    mapUtil.removeAllByType(Circle.class);
-    //    mapUtil.removeAllByType(Label.class);
-    mapUtil.removeAll();
-    List<HospitalNode> nodes = SQLRepo.INSTANCE.getNodesFromFloor(floor);
-    for (HospitalNode node : nodes) {
-      String nodeTypeString =
-          SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(node.getNodeID()));
-      if (!nodeTypeString.equals("")) {
-        LocationName.NodeType nodeType = LocationName.NodeType.stringToNodeType(nodeTypeString);
-        if (nodeType == LocationName.NodeType.HALL) {
-          continue;
-        }
-      }
-
-      editableNode(node);
-    }
   }
 
   private void refreshNode(HospitalNode node, Circle nodeCircle, Label nodeLabel) {
@@ -257,31 +245,7 @@ public class DatabaseMapViewController {
     nodeLabel.setLayoutY(mapUtil.convertY(node.getYCoord()));
   }
 
-  private void updateCurrentNode(HospitalNode node, Circle circle, Label label) {
-    if (currentNode != null && !currentNode.equals(node)) {
-      refreshNode(currentNode, currentCircle, currentLabel);
-      for (Node nodeCircle : mapUtil.filterShapes(Circle.class)) {
-        Circle aCircle = ((Circle) nodeCircle);
-        aCircle.setFill(Color.BLACK);
-      }
-    }
-    circle.setFill(Color.RED);
-    currentNode = node;
-    currentCircle = circle;
-    currentLabel = label;
-  }
 
-  /*
-  private void updateNodeDatabase() {
-    for (int i = 0; i < modifiedNodes.size(); i++) {
-      editFromNode(modifiedNodes.get(i));
-    }
-    for (HospitalNode node : modifiedNodes) {
-      editFromNode(node);
-    }
-  }
-
-   */
 
   private void updateImage(
       Circle nodePoint, String name, String x, String y, int originalX, int originalY) {
@@ -369,4 +333,31 @@ public class DatabaseMapViewController {
     }
     return floorOneMapPane;
   }
+
+  //  private void updateCurrentNode(HospitalNode node, Circle circle, Label label) {
+//    if (currentNode != null && !currentNode.equals(node)) {
+//      refreshNode(currentNode, currentCircle, currentLabel);
+//      for (Node nodeCircle : mapUtil.filterShapes(Circle.class)) {
+//        Circle aCircle = ((Circle) nodeCircle);
+//        aCircle.setFill(Color.BLACK);
+//      }
+//    }
+//    circle.setFill(Color.RED);
+//    currentNode = node;
+//    currentCircle = circle;
+//    currentLabel = label;
+//  }
+
+  /*
+  private void updateNodeDatabase() {
+    for (int i = 0; i < modifiedNodes.size(); i++) {
+      editFromNode(modifiedNodes.get(i));
+    }
+    for (HospitalNode node : modifiedNodes) {
+      editFromNode(node);
+    }
+  }
+
+   */
+
 }

@@ -1,5 +1,6 @@
 package edu.wpi.teame.utilities;
 
+import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.HospitalNode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+
+import java.sql.SQLException;
 
 public class MapUtilities {
   private final int MAP_X = 5000;
@@ -42,6 +45,32 @@ public class MapUtilities {
     Circle circle = drawCircle(x, y, 4);
     circle.setId(hospitalNode.getNodeID());
     return circle;
+  }
+
+  /**
+   * draws a circle representing a HospitalNode, and assigns the HospitalNode's nodeID to the ID
+   * attribute of the circle
+   *
+   * @param hospitalNode
+   * @return
+   */
+  public Label drawHospitalNodeLabel(HospitalNode hospitalNode) {
+
+    int x = hospitalNode.getXCoord();
+    int y = hospitalNode.getYCoord();
+    String nodeID = hospitalNode.getNodeID();
+    String shortName = "ERROR";
+
+    try {
+      shortName = SQLRepo.INSTANCE.getShortNameFromNodeID(nodeID);
+    } catch (SQLException e) {
+      System.out.println(e);
+      System.out.println("shortname was not acquired from node ID");
+    }
+
+    Label label = createLabel(x, y, shortName);
+    label.setId(hospitalNode.getNodeID());
+    return label;
   }
 
   /**
