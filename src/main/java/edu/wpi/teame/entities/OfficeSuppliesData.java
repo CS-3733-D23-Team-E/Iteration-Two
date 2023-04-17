@@ -45,8 +45,10 @@ public class OfficeSuppliesData {
 
     @Getter @Setter private String name;
     @Getter @Setter private String room;
+    @Getter @Setter private String deliveryDate;
     @Getter @Setter private String deliveryTime;
     @Getter @Setter private String officeSupply;
+    @Getter @Setter private String notes;
     @Getter @Setter private int requestID;
 
     @Getter @Setter private Status requestStatus;
@@ -54,15 +56,17 @@ public class OfficeSuppliesData {
     @Getter @Setter private String assignedStaff;
 
 
-    public OfficeSuppliesData(int requestID, String name, String room, Status requestStatus, String deliveryTime, String officeSupply, int q, String assignedStaff){
+    public OfficeSuppliesData(int requestID, String name, String room, String deliveryDate, String deliveryTime, String assignedStaff, String officeSupply, int q, String notes, Status requestStatus){
         this.requestID = requestID;
         this.name =  name;
         this.room = room;
-        this.quantity = q;
-        this.requestStatus = requestStatus;
+        this.deliveryDate = deliveryDate;
         this.deliveryTime = deliveryTime;
-        this.officeSupply = officeSupply;
         this.assignedStaff = assignedStaff;
+        this.officeSupply = officeSupply;
+        this.quantity = q;
+        this.notes = notes;
+        this.requestStatus = requestStatus;
     }
 
 }

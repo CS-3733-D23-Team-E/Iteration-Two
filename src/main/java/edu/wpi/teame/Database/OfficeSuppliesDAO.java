@@ -34,7 +34,7 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData>{
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                officeSuppliesDataList.add(new OfficeSuppliesData(rs.getInt("requestID"),rs.getString("name"), rs.getString("room"), OfficeSuppliesData.Status.stringToStatus(rs.getString("status")), rs.getString("deliverytime"), rs.getString("officesupply"), rs.getInt("quantity"), rs.getString("staff") ));
+                officeSuppliesDataList.add(new OfficeSuppliesData(rs.getInt("requestID"),rs.getString("name"), rs.getString("room"), rs.getString("deliveryDate"), rs.getString("deliverytime"), rs.getString("staff"), rs.getString("officesupply"), rs.getInt("quantity"), rs.getString("notes"),OfficeSuppliesData.Status.stringToStatus(rs.getString("status"))));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -90,14 +90,16 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData>{
         int requestID = generateUniqueRequestID();
         String name = obj.getName();
         String room = obj.getRoom();
+        String deliveryDate = obj.getDeliveryDate();
         int quantity = obj.getQuantity();
         OfficeSuppliesData.Status requestStatus = obj.getRequestStatus();
         String deliveryTime = obj.getDeliveryTime();
         String officeSupply = obj.getOfficeSupply();
+        String notes = obj.getNotes();
         String staff = obj.getAssignedStaff();
 
         String sqlAdd =
-                "INSERT INTO \"OfficeSupplies\" VALUES("+ requestID + ",'" + name + "','" + room + "'," + quantity + ",'"+ requestStatus + "','"+ deliveryTime + "','" + officeSupply + "','" + staff +"');";
+                "INSERT INTO \"OfficeSupplies\" VALUES("+ requestID + ",'" + name + "','" + room + "','" + deliveryDate+"','"+ deliveryTime + "','" + staff + "','"+ officeSupply + "'," + quantity + ",'" + notes + "','" + requestStatus +"');";
 
         Statement stmt;
         try {
@@ -161,8 +163,12 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData>{
                                 + splitL1[5]
                                 + "','"
                                 + splitL1[6]
-                                + "','"
+                                + "',"
                                 +splitL1[7]
+                                + ",'"
+                                + splitL1[8]
+                                + "','"
+                                + splitL1[9]
                                 + "'); ";
                 stmt.execute(sql);
             }
