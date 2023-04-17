@@ -14,7 +14,7 @@
             <content>
               <AnchorPane>
                      <children>
-                        <fx:include source="DatabaseEditor.fxml" />
+                        <fx:include source="DatabaseTableView.fxml" />
                      </children>
                   </AnchorPane>
             </content>
@@ -23,7 +23,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0">
                      <children>
-                        <fx:include fx:id="mapView" source="MapEditorView.fxml" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                        <fx:include fx:id="mapView" source="DatabaseMapView.fxml" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                      </children>
                   </AnchorPane>
             </content>

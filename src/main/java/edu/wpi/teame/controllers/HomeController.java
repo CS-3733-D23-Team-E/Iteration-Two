@@ -40,7 +40,7 @@ public class HomeController {
     ButtonUtilities.addButtonHover(signageButton, ColorPalette.DARK_BLUE, ColorPalette.WHITE, true);
     signageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
 
-    databaseViewButton.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_VIEW));
+    databaseViewButton.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
 
     ButtonUtilities.addButtonHover(
         mealRequestButton, ColorPalette.DARK_BLUE, ColorPalette.WHITE, true);
