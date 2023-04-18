@@ -6,11 +6,12 @@ import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import org.controlsfx.control.SearchableComboBox;
 import org.json.JSONObject;
 
@@ -18,14 +19,18 @@ public class MealRequestController implements IRequestController {
   @FXML MFXButton returnButtonMealRequest;
   @FXML MFXButton cancelButton;
   @FXML MFXButton submitButton;
-  @FXML MFXTextField notes;
-  @FXML MFXTextField recipientName;
+  @FXML TextField notes;
+  @FXML TextField recipientName;
   @FXML SearchableComboBox<String> roomName;
   @FXML SearchableComboBox<String> deliveryTime;
-  @FXML SearchableComboBox<String> mainCourseChoice;
-  @FXML SearchableComboBox<String> sideCourseChoice;
-  @FXML MFXTextField assignedStaff;
-  @FXML MFXButton clearForm;
+  @FXML DatePicker deliveryDate;
+  @FXML SearchableComboBox<String> mainCourse;
+  @FXML SearchableComboBox<String> sideCourse;
+  @FXML SearchableComboBox<String> drinkChoice;
+
+  @FXML TextField allergies;
+  @FXML SearchableComboBox<String> assignedStaff;
+  @FXML MFXButton resetButton;
 
   ObservableList<String> deliveryTimes =
       FXCollections.observableArrayList(
@@ -37,24 +42,36 @@ public class MealRequestController implements IRequestController {
   ObservableList<String> sideCourses =
       FXCollections.observableArrayList("Fries", "Apple Slices", "Tater Tots", "Carrots");
 
+  ObservableList<String> drinks =
+      FXCollections.observableArrayList("Water", "Apple Juice", "Orange Juice", "Coffee", "Tea");
+
   @FXML
   public void initialize() {
-    Stream<LocationName> locationStream = SQLRepo.INSTANCE.getLocationList().stream();
+    Stream<LocationName> locationStream = LocationName.allLocations.values().stream();
     ObservableList<String> names =
         FXCollections.observableArrayList(
             locationStream
+                .filter(
+                    (locationName) -> {
+                      return locationName.getNodeType() != LocationName.NodeType.HALL
+                          && locationName.getNodeType() != LocationName.NodeType.STAI
+                          && locationName.getNodeType() != LocationName.NodeType.REST
+                          && locationName.getNodeType() != LocationName.NodeType.ELEV;
+                    })
                 .map(
                     (locationName) -> {
                       return locationName.getLongName();
                     })
+                .sorted()
                 .toList());
     roomName.setItems(names);
-    mainCourseChoice.setItems(mainCourses);
-    sideCourseChoice.setItems(sideCourses);
+    mainCourse.setItems(mainCourses);
+    sideCourse.setItems(sideCourses);
+    drinkChoice.setItems(drinks);
     deliveryTime.setItems(deliveryTimes);
     cancelButton.setOnMouseClicked(event -> cancelRequest());
     submitButton.setOnMouseClicked(event -> sendRequest());
-    clearForm.setOnMouseClicked(event -> clearForm());
+    resetButton.setOnMouseClicked(event -> clearForm());
   }
 
   public ServiceRequestData sendRequest() {
@@ -64,8 +81,10 @@ public class MealRequestController implements IRequestController {
     requestData.put("recipientName", recipientName.getText());
     requestData.put("roomName", roomName.getValue());
     requestData.put("deliveryTime", deliveryTime.getValue());
-    requestData.put("mainCourse", mainCourseChoice.getValue());
-    requestData.put("sideCourse", sideCourseChoice.getValue());
+    requestData.put("mainCourse", mainCourse.getValue());
+    requestData.put("sideCourse", sideCourse.getValue());
+    requestData.put("drinkChoice", drinkChoice.getValue());
+    requestData.put("deliveryDate", deliveryDate.getValue());
     requestData.put("notes", notes.getText());
 
     // Create the service request data
@@ -74,7 +93,7 @@ public class MealRequestController implements IRequestController {
             ServiceRequestData.RequestType.MEALDELIVERY,
             requestData,
             ServiceRequestData.Status.PENDING,
-            assignedStaff.getText());
+            assignedStaff.getValue());
 
     // Return to home screen
     Navigation.navigate(Screen.HOME);
@@ -93,9 +112,11 @@ public class MealRequestController implements IRequestController {
     recipientName.clear();
     roomName.setValue(null);
     deliveryTime.setValue(null);
-    mainCourseChoice.setValue(null);
-    sideCourseChoice.setValue(null);
+    mainCourse.setValue(null);
+    sideCourse.setValue(null);
+    drinkChoice.setValue(null);
+    deliveryDate.setValue(null);
     notes.clear();
-    assignedStaff.clear();
+    assignedStaff.setValue(null);
   }
 }
