@@ -28,8 +28,6 @@ public class SignageController {
   boolean loginVisible = false;
 
   public void initialize() {
-    // Initially set the menu bar to invisible
-    SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
 
     loginPopout(false);
     loginFailBox.setVisible(false);
