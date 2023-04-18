@@ -4,6 +4,7 @@ import static javafx.scene.paint.Color.BLACK;
 import static javafx.scene.paint.Color.WHITE;
 
 import edu.wpi.teame.Database.SQLRepo;
+import edu.wpi.teame.Main;
 import edu.wpi.teame.map.Floor;
 import edu.wpi.teame.map.HospitalNode;
 import edu.wpi.teame.map.LocationName;
@@ -16,15 +17,21 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import org.controlsfx.control.SearchableComboBox;
 
 public class MapController {
@@ -33,7 +40,7 @@ public class MapController {
   @FXML AnchorPane mapPaneThree;
   @FXML AnchorPane mapPaneLowerOne;
   @FXML AnchorPane mapPaneLowerTwo;
-
+  @FXML VBox pathBox;
   @FXML TabPane tabPane;
   @FXML Tab floorOneTab;
   @FXML Tab floorTwoTab;
@@ -42,7 +49,6 @@ public class MapController {
   @FXML Tab lowerLevelOneTab;
   @FXML SearchableComboBox<String> currentLocationList;
   @FXML SearchableComboBox<String> destinationList;
-  @FXML private Label pathLabel;
   @FXML MFXButton menuButton;
   @FXML MFXButton menuBarHome;
   @FXML MFXButton menuBarServices;
@@ -51,9 +57,8 @@ public class MapController {
   @FXML MFXButton menuBarDatabase;
   @FXML MFXButton menuBarBlank;
   @FXML MFXButton menuBarExit;
-
-  @FXML MFXButton refreshPathButton;
   @FXML VBox menuBar;
+  @FXML MFXButton startButton;
 
   @FXML ImageView mapImageLowerTwo; // Floor L2
   @FXML ImageView mapImageLowerOne; // Floor L1
@@ -92,21 +97,15 @@ public class MapController {
               }
             });
 
-    refreshPathButton.setOnMouseClicked(
-        event -> {
-          currentFloor = tabToFloor(tabPane.getSelectionModel().selectedItemProperty().getValue());
-          resetComboboxes();
-          refreshPath();
-        });
+    //    refreshPathButton.setOnMouseClicked(
+    //        event -> {
+    //          currentFloor =
+    // tabToFloor(tabPane.getSelectionModel().selectedItemProperty().getValue());
+    //          resetComboboxes(currentFloor);
+    //          refreshPath();
+    //        });
 
-    currentLocationList.setOnAction(
-        event -> {
-          curLocFromComboBox = currentLocationList.getValue();
-          destFromComboBox = destinationList.getValue();
-          displayPath(curLocFromComboBox, destFromComboBox);
-        });
-
-    destinationList.setOnAction(
+    startButton.setOnAction(
         event -> {
           curLocFromComboBox = currentLocationList.getValue();
           destFromComboBox = destinationList.getValue();
@@ -218,7 +217,8 @@ public class MapController {
     for (HospitalNode node : path) {
       pathNames.add(SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
     }
-    pathLabel.setText(pathNames.toString());
+    // Create the labels
+    createPathLabels(pathBox, path);
     drawPath(path);
     isPathDisplayed = true;
   }
@@ -229,6 +229,7 @@ public class MapController {
    * @param path
    */
   private void drawPath(List<HospitalNode> path) {
+    currentFloor = path.get(0).getFloor();
     MapUtilities currentMapUtility = whichMapUtility(currentFloor);
 
     // create circle to symbolize start
@@ -267,13 +268,13 @@ public class MapController {
 
   /** removes all the lines in the currentLines list */
   public void refreshPath() {
-    pathLabel.setText("");
 
     mapUtilityLowerTwo.removeAll();
     mapUtilityLowerOne.removeAll();
     mapUtilityOne.removeAll();
     mapUtilityTwo.removeAll();
     mapUtilityThree.removeAll();
+    pathBox.getChildren().clear();
 
     isPathDisplayed = false;
   }
@@ -325,5 +326,51 @@ public class MapController {
           btn.setStyle("-fx-background-color: #192d5aff; -fx-alignment: center;");
           btn.setTextFill(WHITE);
         });
+  }
+
+  public void createPathLabels(VBox vbox, List<HospitalNode> path) {
+    for (HospitalNode node : path) {
+
+      String destination = SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID()));
+
+      // Arrow Image
+      ImageView arrowView = new ImageView();
+      Image arrow = new Image(String.valueOf(Main.class.getResource("images/right-arrow.png")));
+      arrowView.setImage(arrow);
+      arrowView.setPreserveRatio(true);
+      arrowView.setFitWidth(30);
+
+      // Destination Label
+      Label destinationLabel = new Label(destination);
+      destinationLabel.setFont(Font.font("SansSerif", 16));
+      destinationLabel.setTextAlignment(TextAlignment.CENTER);
+      destinationLabel.setWrapText(true);
+
+      // Drop Shadow
+      DropShadow dropShadow = new DropShadow();
+      dropShadow.setBlurType(BlurType.THREE_PASS_BOX);
+      dropShadow.setWidth(21);
+      dropShadow.setHeight(21);
+      dropShadow.setRadius(4);
+      dropShadow.setOffsetX(-4);
+      dropShadow.setOffsetY(4);
+      dropShadow.setSpread(0);
+      dropShadow.setColor(new Color(0, 0, 0, 0.25));
+
+      // HBox
+      HBox hBox = new HBox();
+      hBox.setBackground(
+          new Background(
+              new BackgroundFill(Color.web("#D9DAD7"), CornerRadii.EMPTY, Insets.EMPTY)));
+      hBox.setPrefHeight(65);
+      hBox.setEffect(dropShadow);
+      hBox.setAlignment(Pos.CENTER_LEFT);
+      hBox.setSpacing(10);
+      hBox.setPadding(new Insets(0, 10, 0, 10));
+      hBox.getChildren().addAll(arrowView, destinationLabel);
+
+      // Add path label to VBox
+      vbox.getChildren().add(hBox);
+    }
   }
 }
