@@ -290,7 +290,7 @@
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../images/route.png" />
+                        <Image url="@../images/marker.png" />
                      </image>
                   </ImageView>
                </graphic>
