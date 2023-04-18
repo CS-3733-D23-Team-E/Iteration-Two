@@ -2,6 +2,7 @@ package edu.wpi.teame.utilities;
 
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.HospitalNode;
+import edu.wpi.teame.map.LocationName;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -39,11 +40,60 @@ public class MapUtilities {
 
     int x = hospitalNode.getXCoord();
     int y = hospitalNode.getYCoord();
+    String nodeID = hospitalNode.getNodeID();
 
     // TODO: change color/image/shape dependent on NodeType
+
+    LocationName.NodeType nodeType =
+        LocationName.NodeType.stringToNodeType(
+            SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(nodeID)));
+
     Circle circle = drawCircle(x, y, 4);
-    circle.setId(hospitalNode.getNodeID());
+    setHospitalNodeColor(circle, nodeType);
+
+    circle.setId(nodeID);
     return circle;
+  }
+
+  private void setHospitalNodeColor(Circle circle, LocationName.NodeType nodeType) {
+    switch (nodeType) {
+      case HALL:
+        circle.setFill(Color.BLACK);
+        break;
+      case CONF:
+        circle.setFill(Color.GRAY);
+        break;
+      case DEPT:
+        circle.setFill(Color.WHITE);
+        break;
+      case INFO:
+        circle.setFill(Color.VIOLET);
+        break;
+      case SERV:
+        circle.setFill(Color.PURPLE);
+        break;
+      case LABS:
+        circle.setFill(Color.GREEN);
+        break;
+      case RETL:
+        circle.setFill(Color.YELLOW);
+        break;
+      case STAI:
+        circle.setFill(Color.ORANGE);
+        break;
+      case ELEV:
+        circle.setFill(Color.STEELBLUE);
+        break;
+      case REST:
+        circle.setFill(Color.BLUE);
+        break;
+      case BATH:
+        circle.setFill(Color.AQUA);
+        return;
+      case EXIT:
+        circle.setFill(Color.RED);
+        break;
+    }
   }
 
   /**
