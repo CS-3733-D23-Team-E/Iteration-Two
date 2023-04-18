@@ -7,6 +7,7 @@ import edu.wpi.teame.map.*;
 import edu.wpi.teame.utilities.MapUtilities;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -89,10 +90,8 @@ public class DatabaseMapViewController {
 
   @FXML
   public void initialize() {
-    //    System.out.println("Initializing databasemapviewcontroller!");
     initializeMapUtilities();
     currentFloor = Floor.LOWER_TWO;
-    //    mapUtil = new MapUtilities(lowerTwoMapPane);
 
     sidebar.setVisible(true);
     // Sidebar functions
@@ -117,8 +116,6 @@ public class DatabaseMapViewController {
   }
 
   private void cancel() {
-    //    System.out.println(currentCircle);
-    //    System.out.println(currentLabel);
     if (currentCircle != null) {
       currentCircle.setRadius(5);
       currentLabel.setVisible(false);
@@ -128,8 +125,6 @@ public class DatabaseMapViewController {
     displayAddMenu();
     // workingList.clear();
     // turn circle back to normal
-
-    //    System.out.println(currentCircle);
 
   }
 
@@ -184,18 +179,6 @@ public class DatabaseMapViewController {
           setEditMenuVisible(true);
           updateEditMenu();
         });
-
-    //    nodeLabel.setOnMouseClicked(
-    //        event -> {
-    //          if (currentCircle != null) {
-    //            currentCircle.setFill(BLACK);
-    //          }
-    //          currentCircle = nodeCircle;
-    //          currentCircle.setFill(RED);
-    //          currentLabel = nodeLabel;
-    //          setEditMenuVisible(true);
-    //          updateEditMenu();
-    //        });
   }
 
   public void refreshMap() {
@@ -310,21 +293,72 @@ public class DatabaseMapViewController {
   private void uploadChangesToDatabase() {
     String nodeID = currentCircle.getId();
     HospitalNode hospitalNode = allNodes.get(nodeID);
+    LocationName.NodeType nodeType =
+        LocationName.NodeType.stringToNodeType(
+            SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(nodeID)));
 
-    String newX = xField.getText();
-    String newY = yField.getText();
+    List<HospitalNode> nodesToBeUpdated = new ArrayList<>();
+    nodesToBeUpdated.add(hospitalNode);
 
-    // update the database
-    SQLRepo.INSTANCE.updateNode(hospitalNode, "xcoord", newX);
-    SQLRepo.INSTANCE.updateNode(hospitalNode, "ycoord", newY);
-    edgeUpdateDatabase();
+    if (nodeType == LocationName.NodeType.ELEV) {
+      // Getting Elevator (elevator letter) which is at the 10th index TODO parse/link elevator
+      // better
+      String elevatorName =
+          SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(nodeID)).substring(0, 10);
 
-    // EDIT THE MOVE
-    SQLRepo.INSTANCE.updateUsingNodeID(
-        nodeID,
-        SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(nodeID)),
-        "longName",
-        longNameSelector.getValue());
+      List<LocationName> locationNames = SQLRepo.INSTANCE.getLocationList();
+      locationNames =
+          locationNames.stream()
+              .filter(locationName -> locationName.getLongName().contains(elevatorName))
+              .toList();
+      nodesToBeUpdated =
+          locationNames.stream()
+              .map(
+                  locationName ->
+                      HospitalNode.allNodes.get(
+                          Integer.toString(
+                              SQLRepo.INSTANCE.getNodeIDFromName(locationName.getLongName()))))
+              .toList();
+
+      for (HospitalNode node : nodesToBeUpdated) {
+
+        String currentNodeID = node.getNodeID();
+
+        String newX = xField.getText();
+        String newY = yField.getText();
+
+        // update the database
+        SQLRepo.INSTANCE.updateNode(node, "xcoord", newX);
+        SQLRepo.INSTANCE.updateNode(node, "ycoord", newY);
+        edgeUpdateDatabase();
+
+        if (currentNodeID.equals(nodeID)) {
+          SQLRepo.INSTANCE.updateUsingNodeID(
+              nodeID,
+              SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(nodeID)),
+              "longName",
+              longNameSelector.getValue());
+          continue;
+        }
+      }
+
+    } else {
+      String newX = xField.getText();
+      String newY = yField.getText();
+      nodeID = hospitalNode.getNodeID();
+
+      // update the database
+      SQLRepo.INSTANCE.updateNode(hospitalNode, "xcoord", newX);
+      SQLRepo.INSTANCE.updateNode(hospitalNode, "ycoord", newY);
+      edgeUpdateDatabase();
+
+      // EDIT THE MOVE
+      SQLRepo.INSTANCE.updateUsingNodeID(
+          nodeID,
+          SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(nodeID)),
+          "longName",
+          longNameSelector.getValue());
+    }
 
     // RELOAD THE DATABASE
     refreshMap();
@@ -383,32 +417,6 @@ public class DatabaseMapViewController {
     }
     return mapPaneOne;
   }
-
-  //  private void updateCurrentNode(HospitalNode node, Circle circle, Label label) {
-  //    if (currentNode != null && !currentNode.equals(node)) {
-  //      refreshNode(currentNode, currentCircle, currentLabel);
-  //      for (Node nodeCircle : mapUtil.filterShapes(Circle.class)) {
-  //        Circle aCircle = ((Circle) nodeCircle);
-  //        aCircle.setFill(Color.BLACK);
-  //      }
-  //    }
-  //    circle.setFill(Color.RED);
-  //    currentNode = node;
-  //    currentCircle = circle;
-  //    currentLabel = label;
-  //  }
-
-  /*
-  private void updateNodeDatabase() {
-    for (int i = 0; i < modifiedNodes.size(); i++) {
-      editFromNode(modifiedNodes.get(i));
-    }
-    for (HospitalNode node : modifiedNodes) {
-      editFromNode(node);
-    }
-  }
-
-   */
 
   public MapUtilities whichMapUtility(Floor currFloor) {
     switch (currFloor) {
@@ -494,7 +502,6 @@ public class DatabaseMapViewController {
   }
 
   private void refreshEdgeTable() {
-    // edgeView.getItems().clear();
     edgeView.setItems(FXCollections.observableList(workingList));
   }
 
@@ -508,16 +515,6 @@ public class DatabaseMapViewController {
   }
 
   private int makeNewNodeID() {
-    //    System.out.println(
-    //        allNodes.keySet().stream()
-    //            .sorted(
-    //                new Comparator<>() {
-    //                  @Override
-    //                  public int compare(String str1, String str2) {
-    //                    return Integer.parseInt((String) str1) - Integer.parseInt((String) str2);
-    //                  }
-    //                })
-    //            .toList());
     return (Integer.parseInt(
             allNodes.keySet().stream()
                 .sorted(
