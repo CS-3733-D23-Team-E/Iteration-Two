@@ -36,27 +36,27 @@
                         <Insets />
                      </VBox.margin>
                   </Line>
-                  <Button fx:id="mapEditorSwapButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-background-color: #001A3C;" text="Map Editor" textFill="WHITE">
+                  <MFXButton fx:id="mapEditorSwapButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-background-color: #001A3C;" text="Map Editor" textFill="WHITE">
                      <font>
                         <Font name="Roboto" size="16.0" />
                      </font>
-                  </Button>
+                  </MFXButton>
                   <Line endX="125.0" layoutX="37.0" layoutY="86.0" />
                   <Button fx:id="requestsButton" layoutX="48.0" layoutY="106.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-background-color: #001A3C;" text="Requests" textFill="WHITE">
                      <font>
                         <Font name="Roboto" size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="importButton" layoutX="48.0" layoutY="197.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-background-color: #001A3C;" text="Import" textFill="WHITE">
+                  <MFXButton fx:id="importButton" layoutX="48.0" layoutY="197.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-background-color: #001A3C;" text="Import" textFill="WHITE">
                      <font>
                         <Font name="Roboto" size="16.0" />
                      </font>
-                  </Button>
-                  <Button fx:id="exportButton" layoutX="48.0" layoutY="267.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-background-color: #001A3C;" text="Export" textFill="WHITE">
+                  </MFXButton>
+                  <MFXButton fx:id="exportButton" layoutX="48.0" layoutY="267.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-background-color: #001A3C;" text="Export" textFill="WHITE">
                      <font>
                         <Font name="Roboto" size="16.0" />
                      </font>
-                  </Button>
+                  </MFXButton>
                </children>
                <HBox.margin>
                   <Insets top="25.0" />
