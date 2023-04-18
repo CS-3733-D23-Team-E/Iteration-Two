@@ -6,11 +6,11 @@ import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import org.controlsfx.control.SearchableComboBox;
 import org.json.JSONObject;
 
@@ -19,14 +19,14 @@ public class OfficeSuppliesController implements IRequestController {
   @FXML MFXButton returnButtonOfficeSuppliesRequest;
   @FXML MFXButton submitButton;
   @FXML MFXButton cancelButton;
-  @FXML MFXButton clearForm;
-  @FXML MFXTextField recipientName;
+  @FXML MFXButton resetButton;
+  @FXML TextField recipientName;
   @FXML SearchableComboBox<String> roomName;
-  @FXML MFXTextField notes;
+  @FXML TextField notes;
   @FXML SearchableComboBox<String> deliveryTime;
-  @FXML SearchableComboBox<String> officeSupplyType;
-  @FXML MFXTextField quantityOfSupplies;
-  @FXML MFXTextField assignedStaff;
+  @FXML SearchableComboBox<String> supplyType;
+  @FXML TextField quantityOfSupplies;
+  @FXML SearchableComboBox<String> assignedStaff;
 
   ObservableList<String> deliveryTimes =
       FXCollections.observableArrayList(
@@ -56,10 +56,10 @@ public class OfficeSuppliesController implements IRequestController {
                 .toList());
     roomName.setItems(names);
     deliveryTime.setItems(deliveryTimes);
-    officeSupplyType.setItems(officeSupplies);
+    supplyType.setItems(officeSupplies);
     submitButton.setOnMouseClicked(event -> sendRequest());
     cancelButton.setOnMouseClicked(event -> cancelRequest());
-    clearForm.setOnMouseClicked(event -> clearForm());
+    resetButton.setOnMouseClicked(event -> clearForm());
   }
 
   private void clearForm() {
@@ -67,9 +67,9 @@ public class OfficeSuppliesController implements IRequestController {
     roomName.setValue(null);
     notes.clear();
     deliveryTime.setValue(null);
-    officeSupplyType.setValue(null);
+    supplyType.setValue(null);
     quantityOfSupplies.clear();
-    assignedStaff.clear();
+    assignedStaff.setValue(null);
   }
 
   @Override
@@ -78,7 +78,7 @@ public class OfficeSuppliesController implements IRequestController {
     requestData.put("staffName", recipientName.getText());
     requestData.put("officeName", roomName.getValue());
     requestData.put("deliveryTime", deliveryTime.getValue());
-    requestData.put("supplyType", officeSupplyType.getValue());
+    requestData.put("supplyType", supplyType.getValue());
     requestData.put("numOfSupplies", quantityOfSupplies.getText());
     requestData.put("notes", notes.getText());
 
@@ -87,7 +87,7 @@ public class OfficeSuppliesController implements IRequestController {
             ServiceRequestData.RequestType.OFFICESUPPLIESDELIVERY,
             requestData,
             ServiceRequestData.Status.PENDING,
-            assignedStaff.getText());
+            assignedStaff.getValue());
 
     Navigation.navigate(Screen.HOME);
 
