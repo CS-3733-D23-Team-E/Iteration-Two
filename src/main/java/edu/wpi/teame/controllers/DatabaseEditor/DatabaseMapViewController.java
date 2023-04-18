@@ -282,6 +282,7 @@ public class DatabaseMapViewController {
           new LocationName(
               newLongNameField.getText(), newShortNameField.getText(), nodeTypeChoice.getValue());
       longNameSelector.getItems().add(addedLN.getLongName());
+      SQLRepo.INSTANCE.addLocation(addedLN);
       newShortNameField.setText("");
       newLongNameField.setText("");
       nodeTypeChoice.setValue(null);
@@ -290,8 +291,9 @@ public class DatabaseMapViewController {
     }
   }
 
-  private void removeLocation(){
-    LocationName toBeDeleted = new LocationName(longNameSelector.getValue(),"", LocationName.NodeType.INFO);
+  private void removeLocation() {
+    LocationName toBeDeleted =
+        new LocationName(longNameSelector.getValue(), "", LocationName.NodeType.INFO);
     SQLRepo.INSTANCE.deleteLocation(toBeDeleted);
     longNameSelector.getItems().remove(longNameSelector.getValue());
   }
@@ -469,11 +471,11 @@ public class DatabaseMapViewController {
           workingList.remove(edgeView.getSelectionModel().getSelectedItem());
           refreshEdgeTable();
         }));
-    removeLocationButton.setOnAction(event -> {
-      removeLocation();
-    });
+    removeLocationButton.setOnAction(
+        event -> {
+          removeLocation();
+        });
     addLocationButton.setOnAction(event -> addLocationName());
-
   }
 
   private void refreshEdgeTable() {
