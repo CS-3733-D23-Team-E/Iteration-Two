@@ -10,6 +10,12 @@ import org.junit.jupiter.api.Test;
 public class NodeDAOTest {
 
   @Test
+  public void testResetDatabase() {
+    SQLRepo.INSTANCE.connectToDatabase("admin", "admin");
+    SQLRepo.INSTANCE.resetDatabase();
+  }
+
+  @Test
   public void testGetAddandDelete() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     List<HospitalNode> originalNodes = SQLRepo.INSTANCE.getNodeList();
