@@ -133,11 +133,6 @@ public class MapUtilities {
     int y1 = node.getYCoord();
     int x2 = neighbor.getXCoord();
     int y2 = neighbor.getYCoord();
-    System.out.println("edge");
-    System.out.println("x1: " + x1);
-    System.out.println("y1: " + y1);
-    System.out.println("x2: " + x2);
-    System.out.println("y2: " + y2);
 
     return drawLine(x1, y1, x2, y2);
   }
