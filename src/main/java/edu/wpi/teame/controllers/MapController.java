@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
@@ -78,7 +79,8 @@ public class MapController {
   @FXML GesturePane gesturePane3;
   boolean isPathDisplayed = false;
   Floor currentFloor = Floor.LOWER_TWO;
-  HBox currentLabel;
+
+  Circle currentCircle = new Circle();
   HBox previousLabel;
   AbstractPathfinder pf = AbstractPathfinder.getInstance("A*");
   String curLocFromComboBox;
@@ -102,10 +104,10 @@ public class MapController {
         .selectedItemProperty()
         .addListener(
             (observable, oldTab, newTab) -> {
-              if (!isPathDisplayed) {
-                currentFloor = tabToFloor(newTab);
-                resetComboboxes();
-              }
+              //              if (!isPathDisplayed) {
+              //                currentFloor = tabToFloor(newTab);
+              //                resetComboboxes();
+              //              }
               // Set the zoom and position of the new pane to the old one
               AnchorPane oldPane = (AnchorPane) oldTab.getContent();
               GesturePane oldGesture = (GesturePane) oldPane.getChildren().get(0);
@@ -113,13 +115,6 @@ public class MapController {
               GesturePane newGesture = (GesturePane) newPane.getChildren().get(0);
               adjustGesture(oldGesture, newGesture);
             });
-    //    refreshPathButton.setOnMouseClicked(
-    //        event -> {
-    //          currentFloor =
-    // tabToFloor(tabPane.getSelectionModel().selectedItemProperty().getValue());
-    //          resetComboboxes(currentFloor);
-    //          refreshPath();
-    //        });
 
     startButton.setOnAction(
         event -> {
@@ -273,7 +268,8 @@ public class MapController {
     int y1 = path.get(0).getYCoord();
     startX = x1;
     startY = y1;
-    currentMapUtility.drawRing(x1, y1, 8, 2, WHITE, BLACK);
+    Circle currentLocationCircle = currentMapUtility.drawRing(x1, y1, 8, 2, WHITE, BLACK);
+    currentLocationCircle.setId(path.get(0).getNodeID());
     currentMapUtility.createLabel(x1, y1, 5, 5, "Current Location");
 
     // draw the lines between each node
@@ -295,12 +291,14 @@ public class MapController {
       Line pathLine = currentMapUtility.drawStyledLine(x1, y1, x2, y2);
       Circle intermediateCircle = currentMapUtility.drawStyledCircle(x2, y2, 3);
       intermediateCircle.setViewOrder(-1);
+      intermediateCircle.setId(node.getNodeID());
       x1 = x2;
       y1 = y2;
     }
 
     // create circle to symbolize end
     Circle endingCircle = currentMapUtility.drawCircle(x1, y1, 8, BLACK);
+    endingCircle.setId(path.get(path.size() - 1).getNodeID());
     endingCircle.toFront();
     currentMapUtility.createLabel(x1, y1, 5, 5, "Destination");
 
@@ -466,6 +464,11 @@ public class MapController {
       hBox.setOnMouseClicked(
           event -> {
             Floor nodeFloor = currentNode.getFloor();
+
+            // reset highlighted node
+            currentCircle.setRadius(4);
+            currentCircle.setViewOrder(0);
+
             tabPane.getSelectionModel().select(floorToTab(nodeFloor));
             MapUtilities currentMapUtility = whichMapUtility(nodeFloor);
             GesturePane startingPane = ((GesturePane) currentMapUtility.getPane().getParent());
@@ -492,6 +495,22 @@ public class MapController {
                 new Point2D(
                     currentMapUtility.convertX(currentNode.getXCoord()),
                     currentMapUtility.convertY(currentNode.getYCoord())));
+
+            // get Circle that was selected from label
+            List<Node> nodeList =
+                currentMapUtility.getCurrentNodes().stream()
+                    .filter(
+                        node -> {
+                          try {
+                            return node.getId().equals(currentNode.getNodeID());
+                          } catch (NullPointerException n) {
+                            return false;
+                          }
+                        })
+                    .toList();
+            currentCircle = (Circle) nodeList.get(0);
+            currentCircle.setRadius(9);
+            currentCircle.setViewOrder(-2);
 
             // Set the current label as the previous
             previousLabel = hBox;
