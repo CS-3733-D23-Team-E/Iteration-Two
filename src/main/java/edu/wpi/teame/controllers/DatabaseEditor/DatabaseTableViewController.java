@@ -1,5 +1,7 @@
 package edu.wpi.teame.controllers.DatabaseEditor;
 
+import static java.lang.Integer.parseInt;
+
 import edu.wpi.teame.App;
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.entities.ServiceRequestData;
@@ -424,8 +426,8 @@ public class DatabaseTableViewController {
     String flr = floorField.getText();
     String building = buildingField.getText();
     try {
-      nodeX = Integer.parseInt(xField.getText());
-      nodeY = Integer.parseInt(yField.getText());
+      nodeX = parseInt(xField.getText());
+      nodeY = parseInt(yField.getText());
       toAdd = new HospitalNode(new NodeInitializer(nodeI, nodeX, nodeY, flr, building));
       // DatabaseController.INSTANCE.addToTable(DatabaseController.Table.NODE, toAdd);
       SQLRepo.INSTANCE.addNode(toAdd);
@@ -472,7 +474,7 @@ public class DatabaseTableViewController {
     String date = dateField.getText();
     // MoveAttribute newMoveAttribute;
     try {
-      toAdd = new MoveAttribute(nodeID, name, date);
+      toAdd = new MoveAttribute(parseInt(nodeID), name, date);
       // DatabaseController.INSTANCE.addToTable(DatabaseController.Table.MOVE, toAdd);
       SQLRepo.INSTANCE.addMove(toAdd);
       confirmPop.show(App.getPrimaryStage());
