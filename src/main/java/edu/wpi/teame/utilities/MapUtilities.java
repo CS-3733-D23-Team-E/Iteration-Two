@@ -47,7 +47,7 @@ public class MapUtilities {
         LocationName.NodeType.stringToNodeType(
             SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(nodeID)));
 
-    Circle circle = drawCircle(x, y, 4);
+    Circle circle = drawCircle(x, y, 5);
     setHospitalNodeColor(circle, nodeType);
 
     circle.setId(nodeID);
@@ -107,17 +107,9 @@ public class MapUtilities {
     int x = hospitalNode.getXCoord();
     int y = hospitalNode.getYCoord();
     String nodeID = hospitalNode.getNodeID();
-    //    String shortName = "ERROR";
     String longName = SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(nodeID));
 
-    //    try {
-    //      shortName = SQLRepo.INSTANCE.getShortNameFromNodeID(nodeID);
-    //    } catch (SQLException e) {
-    //      System.out.println(e);
-    //      System.out.println("shortname was not acquired from node ID");
-    //    }
-
-    Label label = createLabel(x, y, longName);
+    Label label = createStyledLabel(x, y, 10, 10, longName);
     label.setId("label" + hospitalNode.getNodeID());
     return label;
   }
@@ -296,6 +288,12 @@ public class MapUtilities {
    */
   public Label createStyledLabel(int x, int y, String text) {
     Label label = this.createLabel(x, y, text);
+    label.setStyle(labelStyle);
+    return label;
+  }
+
+  public Label createStyledLabel(int x, int y, int xOffset, int yOffset, String text) {
+    Label label = this.createLabel(x, y, xOffset, yOffset, text);
     label.setStyle(labelStyle);
     return label;
   }

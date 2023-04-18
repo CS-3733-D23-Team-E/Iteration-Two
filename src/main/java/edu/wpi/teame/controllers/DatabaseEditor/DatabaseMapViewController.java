@@ -7,7 +7,6 @@ import edu.wpi.teame.map.*;
 import edu.wpi.teame.utilities.MapUtilities;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
 public class DatabaseMapViewController {
@@ -122,7 +120,7 @@ public class DatabaseMapViewController {
     //    System.out.println(currentCircle);
     //    System.out.println(currentLabel);
     if (currentCircle != null) {
-      currentCircle.setRadius(4);
+      currentCircle.setRadius(5);
       currentLabel.setVisible(false);
     }
     currentCircle = null;
@@ -149,34 +147,21 @@ public class DatabaseMapViewController {
                 edge -> HospitalNode.allNodes.get(edge.getNodeOneID()).getFloor() == currentFloor)
             .toList();
 
-    for (HospitalNode node : floorNodes) {
-      setupNode(node);
-    }
-
     for (HospitalEdge edge : floorEdges) {
-
       whichMapUtility(currentFloor)
           .drawEdge(
               HospitalNode.allNodes.get(edge.getNodeOneID()),
               HospitalNode.allNodes.get(edge.getNodeTwoID()));
+    }
+
+    for (HospitalNode node : floorNodes) {
+      setupNode(node);
     }
   }
 
   public void initialLoadFloor(Floor floor) {
     currentFloor = floor;
     loadFloorNodes();
-  }
-
-  private ArrayList<Line> drawEdges(HospitalNode node) {
-    MapUtilities currentMapUtility = whichMapUtility(currentFloor);
-    ArrayList<Line> listOfEdges = new ArrayList<>();
-
-    for (HospitalNode neighbor : node.getNeighbors()) {
-      Line line = currentMapUtility.drawEdge(node, neighbor);
-      listOfEdges.add(line);
-    }
-
-    return listOfEdges;
   }
 
   private void setupNode(HospitalNode node) {
@@ -189,11 +174,11 @@ public class DatabaseMapViewController {
     nodeCircle.setOnMouseClicked(
         event -> {
           if (currentCircle != null && currentLabel != null) {
-            currentCircle.setRadius(4);
+            currentCircle.setRadius(5);
             currentLabel.setVisible(false);
           }
           currentCircle = nodeCircle;
-          currentCircle.setRadius(7);
+          currentCircle.setRadius(9);
           currentLabel = nodeLabel;
           currentLabel.setVisible(true);
           setEditMenuVisible(true);
@@ -466,6 +451,12 @@ public class DatabaseMapViewController {
     mapUtilityOne = new MapUtilities(mapPaneOne);
     mapUtilityTwo = new MapUtilities(mapPaneTwo);
     mapUtilityThree = new MapUtilities(mapPaneThree);
+
+    mapUtilityLowerTwo.setLabelStyle("-fx-font-size: 10pt");
+    mapUtilityLowerOne.setLabelStyle("-fx-font-size: 10pt");
+    mapUtilityOne.setLabelStyle("-fx-font-size: 10pt");
+    mapUtilityTwo.setLabelStyle("-fx-font-size: 10pt");
+    mapUtilityThree.setLabelStyle("-fx-font-size: 10pt");
   }
 
   private void initializeButtons() {
