@@ -4,9 +4,13 @@ import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.*;
 import edu.wpi.teame.utilities.MapUtilities;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import java.util.ArrayList;
+
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -15,6 +19,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+
+import static edu.wpi.teame.map.HospitalNode.allNodes;
 
 public class DatabaseMapViewController {
 
@@ -47,8 +53,8 @@ public class DatabaseMapViewController {
   @FXML MFXButton addEdgeButton;
   @FXML MFXButton removeEdgeButton;
   @FXML TableView<HospitalEdge> edgeView;
-  @FXML TableColumn<HospitalEdge, String> edgeList;
-  @FXML TextField addEdgeField;
+  @FXML TableColumn<HospitalEdge, String> edgeColumn;
+  @FXML ComboBox<String> addEdgeField;
 
   @FXML TextField newLongNameField;
   @FXML TextField newShortNameField;
@@ -73,9 +79,11 @@ public class DatabaseMapViewController {
   private Circle currentCircle;
   private Label currentLabel;
 
-  ArrayList<HospitalEdge> edges = new ArrayList<>();
-  ArrayList<HospitalEdge> addList = new ArrayList<>();
-  ArrayList<HospitalEdge> deleteList = new ArrayList<>();
+  LinkedList<HospitalEdge> edges = new LinkedList<>();
+  LinkedList<HospitalEdge> addList = new LinkedList<>();
+  LinkedList<HospitalEdge> deleteList = new LinkedList<>();
+
+  HospitalNode curNode;
 
   @FXML
   public void initialize() {
@@ -98,12 +106,7 @@ public class DatabaseMapViewController {
               refreshMap();
             });
 
-    // POPULATE COMBOBOXES
-    buildingSelector.setItems(FXCollections.observableArrayList(HospitalNode.allBuildings()));
-    nodeTypeChoice.setItems(
-        FXCollections.observableArrayList(LocationName.NodeType.allNodeTypes()));
-
-    edgeList.setCellValueFactory(new PropertyValueFactory<HospitalEdge, String>("nodeTwoID"));
+    edgeColumn.setCellValueFactory(new PropertyValueFactory<HospitalEdge, String>("nodeTwoID"));
   }
 
   private void cancel() {}
@@ -177,16 +180,16 @@ public class DatabaseMapViewController {
 
   private void updateEditMenu() {
     String nodeID = currentCircle.getId();
-    HospitalNode hospitalNode = HospitalNode.allNodes.get(nodeID);
+    curNode = allNodes.get(nodeID);
     edges =
-        (ArrayList)
+        (LinkedList)
             SQLRepo.INSTANCE.getEdgeList().stream()
                 .filter((edge) -> (edge.getNodeOneID().equals(nodeID)));
     addList.clear();
     deleteList.clear();
 
-    String x = Integer.toString(hospitalNode.getXCoord());
-    String y = Integer.toString(hospitalNode.getYCoord());
+    String x = Integer.toString(curNode.getXCoord());
+    String y = Integer.toString(curNode.getYCoord());
     longNameSelector.setValue(SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(nodeID)));
 
     xField.setText(x);
@@ -215,7 +218,7 @@ public class DatabaseMapViewController {
 
   private void uploadChangesToDatabase() {
     String nodeID = currentCircle.getId();
-    HospitalNode hospitalNode = HospitalNode.allNodes.get(nodeID);
+    HospitalNode hospitalNode = allNodes.get(nodeID);
 
     String newX = xField.getText();
     String newY = yField.getText();
@@ -223,29 +226,24 @@ public class DatabaseMapViewController {
     // update the database
     SQLRepo.INSTANCE.updateNode(hospitalNode, "xcoord", newX);
     SQLRepo.INSTANCE.updateNode(hospitalNode, "ycoord", newY);
+    edgeUpdateDatabase();
   }
 
   private void addNodeToDatabase() {}
 
   private void updateCombo() {
+    // POPULATE COMBOBOXES
+
     List<LocationName> locationNames = SQLRepo.INSTANCE.getLocationList();
     List<String> longNames = SQLRepo.INSTANCE.getLongNamesFromLocationName(locationNames);
     longNameSelector.setItems(FXCollections.observableList(longNames));
-  }
 
-  private void editFromNode(HospitalNode node) {
-    SQLRepo.INSTANCE.updateNode(node, "xcoord", node.getXCoord() + "");
-    System.out.println("theoretical new x coord: " + node.getXCoord());
-    SQLRepo.INSTANCE.updateNode(node, "ycoord", node.getYCoord() + "");
-    System.out.println("theoretical new y coord: " + node.getYCoord());
+    buildingSelector.setItems(FXCollections.observableArrayList(HospitalNode.allBuildings()));
 
-    //    // update the move name
-    //    SQLRepo.INSTANCE.updateUsingNodeID(
-    //        node.getNodeID(),
-    //        SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())),
-    //        "longName",
-    //        longName);
-    //    SQLRepo.INSTANCE.updateLocation(locationName, "shortName", locationName.getShortName());
+    nodeTypeChoice.setItems(
+            FXCollections.observableArrayList(LocationName.NodeType.allNodeTypes()));
+
+    addEdgeField.setItems(FXCollections.observableList((List)allNodes.keySet()));
   }
 
   public AnchorPane whichPane(Floor curFloor) {
@@ -337,21 +335,52 @@ public class DatabaseMapViewController {
     addEdgeButton.setOnAction(
         (event -> {
           // if item is in edge list, remove from delete list
-          // if item is not in edge list, add to add list
-
+          if(edges.contains(addEdgeField.getValue())){
+            deleteList.remove(addEdgeField.getValue());
+          }else {// if item is not in edge list, add to add list
+            addList.add(new HospitalEdge(currentCircle.getId(),addEdgeField.getValue()));
+          }
           // refresh the table
-        }));
+          refreshEdgeTable();
+        }
+        ));
 
     removeEdgeButton.setOnAction(
         (event -> {
           // if item is in edge list, add to delete list
-          // if item is not in the edge list, remove from add list
-
+          if (edges.contains(edgeView.getSelectionModel().getSelectedItem())){
+            deleteList.add(edgeView.getSelectionModel().getSelectedItem());
+          }
+          else {// if item is not in the edge list, remove from add list
+            addList.remove(edgeView.getSelectionModel().getSelectedItem());
+          }
           // refresh the table
-        }));
+          refreshEdgeTable();
+        }
+        )
+    );
+  }
+  private void refreshEdgeTable(){
+    edgeView.getItems().clear();
+    edgeView.setItems(FXCollections.observableArrayList(edges));
   }
 
   private void edgeUpdateDatabase() {
-    //for (HospitalEdge edge : addList) {}
+    for (HospitalEdge edgeAddition : addList) {
+      SQLRepo.INSTANCE.addEdge(edgeAddition);
+    }
+    for(HospitalEdge edgeDeletion : deleteList){
+      SQLRepo.INSTANCE.deleteEdge(edgeDeletion);
+    }
+  }
+
+  private String getNewNodeID(){
+    return (Integer.parseInt(allNodes.keySet().stream().sorted(new Comparator<>() {
+      @Override
+      public int compare(String str1, String str2){
+        return Integer.parseInt((String) str1)-Integer.parseInt((String) str2);
+      }
+    }).toList().get(allNodes.size()-1)+5))+"";
   }
 }
+
