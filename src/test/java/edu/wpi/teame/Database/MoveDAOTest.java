@@ -60,6 +60,8 @@ public class MoveDAOTest {
   public void exportMove() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     SQLRepo.INSTANCE.exportToCSV(
-        SQLRepo.Table.MOVE, "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733", "MoveExport");
+        SQLRepo.Table.MOVE,
+        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop",
+        "MoveExport");
   }
 }
