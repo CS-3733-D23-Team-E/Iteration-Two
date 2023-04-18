@@ -136,13 +136,13 @@ public class MapController {
     menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
     menuBarExit.setOnMouseClicked((event -> Platform.exit()));
 
-    // makes the buttons get highlighted when the mouse hovers over them
-    mouseSetup(menuBarHome);
-    mouseSetup(menuBarServices);
-    mouseSetup(menuBarSignage);
-    mouseSetup(menuBarMaps);
-    mouseSetup(menuBarDatabase);
-    mouseSetup(menuBarExit);
+    // makes the menu bar buttons get highlighted when the mouse hovers over them
+    mouseSetupMenuBar(menuBarHome, true);
+    mouseSetupMenuBar(menuBarServices, true);
+    mouseSetupMenuBar(menuBarSignage, true);
+    mouseSetupMenuBar(menuBarMaps, true);
+    mouseSetupMenuBar(menuBarDatabase, true);
+    mouseSetupMenuBar(menuBarExit, false);
 
     // Make sure location list is initialized so that we can filter out the hallways
     SQLRepo.INSTANCE.getLocationList();
@@ -326,6 +326,36 @@ public class MapController {
           btn.setStyle("-fx-background-color: #192d5aff; -fx-alignment: center;");
           btn.setTextFill(WHITE);
         });
+  }
+
+  private void mouseSetupMenuBar(MFXButton btn, boolean isLeftAligned) {
+    if (isLeftAligned) {
+      btn.setOnMouseEntered(
+          event -> {
+            btn.setStyle(
+                "-fx-background-color: #f1f1f1; -fx-alignment: baseline-left; -fx-border-color: #001A3C; -fx-border-width: 0; -fx-font-size: 18;");
+            btn.setTextFill(Color.web("#192d5aff", 1.0));
+          });
+      btn.setOnMouseExited(
+          event -> {
+            btn.setStyle(
+                "-fx-background-color: #001A3C; -fx-alignment: baseline-left;-fx-font-size: 18;");
+            btn.setTextFill(WHITE);
+          });
+    } else {
+      btn.setOnMouseEntered(
+          event -> {
+            btn.setStyle(
+                "-fx-background-color: #f1f1f1; -fx-alignment: baseline-center; -fx-border-color: #001A3C; -fx-border-width: 0; -fx-font-size: 18;");
+            btn.setTextFill(Color.web("#192d5aff", 1.0));
+          });
+      btn.setOnMouseExited(
+          event -> {
+            btn.setStyle(
+                "-fx-background-color: #001A3C; -fx-alignment: baseline-center;-fx-font-size: 18;");
+            btn.setTextFill(WHITE);
+          });
+    }
   }
 
   public void createPathLabels(VBox vbox, List<HospitalNode> path) {
