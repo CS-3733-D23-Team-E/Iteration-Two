@@ -36,7 +36,6 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
             new MoveAttribute(
                 rs.getString("nodeID"), rs.getString("longName"), rs.getString("date")));
       }
-      System.out.println("Move table retrieved successfully");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

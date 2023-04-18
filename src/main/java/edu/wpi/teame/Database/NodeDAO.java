@@ -176,6 +176,10 @@ public class NodeDAO<E> extends DAO<HospitalNode> {
           System.out.println("Could not import nodeID " + splitL1[0]);
         }
       }
+
+      System.out.println(
+              "Imported " + (rows.size()) + " rows from " + filePath + " to " + tableName);
+
     } catch (FileNotFoundException e) {
       System.out.println(e.getMessage());
     } catch (IOException e) {
