@@ -22,11 +22,11 @@ public class FlowerRequestController implements IRequestController {
 
   ObservableList<String> flowerNum =
       FXCollections.observableArrayList(
-          "1 - $5",
-          "2 - $10",
-          "Small Bouquet (6) - $15",
-          "Medium Bouquet (8) - $18",
-          "Large Bouquet (12) - $20");
+          "1",
+          "2",
+          "Small Bouquet (6)",
+          "Medium Bouquet (8)",
+          "Large Bouquet (12)");
 
   ObservableList<String> yesNo = FXCollections.observableArrayList("yes", "no");
 
