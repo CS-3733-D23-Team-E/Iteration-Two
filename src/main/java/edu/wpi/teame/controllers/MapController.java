@@ -70,6 +70,7 @@ public class MapController {
   boolean isPathDisplayed = false;
   Floor currentFloor = Floor.LOWER_TWO;
   String currentMode = "A*";
+  AbstractPathfinder pf = AbstractPathfinder.getInstance("A*");
 
   String curLocFromComboBox;
   String destFromComboBox;
@@ -205,21 +206,14 @@ public class MapController {
     }
     refreshPath();
 
-    AbstractPathfinder pf;
-    currentMode = pathGroup.getSelectedToggle().toString();
-    switch (currentMode) {
-      case "A*":
-        pf = AbstractPathfinder.getInstance("A*");
-        break;
-      case "DFS":
-        pf = AbstractPathfinder.getInstance("DFS");
-        break;
-      case "BFS":
-        pf = AbstractPathfinder.getInstance("BFS");
-        break;
-      default:
-        pf = AbstractPathfinder.getInstance("A*");
-        break;
+    if (aStarButton.isSelected()) {
+      pf = AbstractPathfinder.getInstance("A*");
+    }
+    if (dfsButton.isSelected()) {
+      pf = AbstractPathfinder.getInstance("DFS");
+    }
+    if (bfsButton.isSelected()) {
+      pf = AbstractPathfinder.getInstance("BFS");
     }
 
     System.out.println(pf);
