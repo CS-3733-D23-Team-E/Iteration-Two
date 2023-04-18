@@ -59,9 +59,11 @@ public class DatabaseMapViewController {
   @FXML TextField newLongNameField;
   @FXML TextField newShortNameField;
   @FXML MFXButton addLocationButton;
-  @FXML ComboBox<String> longNameSelector;
 
   @FXML ComboBox<LocationName.NodeType> nodeTypeChoice;
+
+  @FXML ComboBox<String> longNameSelector;
+  
 
   @FXML ImageView mapImageLowerTwo; // Floor L2
   @FXML ImageView mapImageLowerOne; // Floor L1
@@ -89,7 +91,7 @@ public class DatabaseMapViewController {
 
   @FXML
   public void initialize() {
-    System.out.println("Initializing databasemapviewcontroller!");
+    //    System.out.println("Initializing databasemapviewcontroller!");
     initializeMapUtilities();
     currentFloor = Floor.LOWER_TWO;
     //    mapUtil = new MapUtilities(lowerTwoMapPane);
@@ -117,14 +119,21 @@ public class DatabaseMapViewController {
   }
 
   private void cancel() {
+    //    System.out.println(currentCircle);
+    //    System.out.println(currentLabel);
+    if (currentCircle != null) {
+      currentCircle.setFill(BLACK);
+      currentLabel.setVisible(false);
+    }
 
     displayAddMenu();
     // workingList.clear();
     // turn circle back to normal
-    if (currentCircle != null) {
-      currentCircle.setFill(BLACK);
-    }
+
+    //    System.out.println(currentCircle);
+
     currentCircle = null;
+    currentLabel = null;
   }
 
   private void deleteNode() {
@@ -168,17 +177,17 @@ public class DatabaseMapViewController {
           updateEditMenu();
         });
 
-//    nodeLabel.setOnMouseClicked(
-//        event -> {
-//          if (currentCircle != null) {
-//            currentCircle.setFill(BLACK);
-//          }
-//          currentCircle = nodeCircle;
-//          currentCircle.setFill(RED);
-//          currentLabel = nodeLabel;
-//          setEditMenuVisible(true);
-//          updateEditMenu();
-//        });
+    //    nodeLabel.setOnMouseClicked(
+    //        event -> {
+    //          if (currentCircle != null) {
+    //            currentCircle.setFill(BLACK);
+    //          }
+    //          currentCircle = nodeCircle;
+    //          currentCircle.setFill(RED);
+    //          currentLabel = nodeLabel;
+    //          setEditMenuVisible(true);
+    //          updateEditMenu();
+    //        });
   }
 
   public void refreshMap() {
@@ -210,7 +219,7 @@ public class DatabaseMapViewController {
 
     for (HospitalEdge edge : edges) {
       workingList.add(edge);
-      System.out.println("item added to working list!");
+      // System.out.println("item added to working list!");
     }
     //    workingList = FXCollections.observableList(edges);
 
@@ -243,10 +252,10 @@ public class DatabaseMapViewController {
     String nodeID = getNewNodeID();
     currentCircle = new Circle();
     currentCircle.setId(nodeID);
-    System.out.println(nodeID);
+    // System.out.println(nodeID);
     editPageText.setText("Add Node: ID = " + nodeID);
 
-    System.out.println("making sure we are here");
+    // System.out.println("making sure we are here");
 
     // clear all items
     xField.setText("");
@@ -424,7 +433,7 @@ public class DatabaseMapViewController {
             addList.add(new HospitalEdge(currentCircle.getId(), addEdgeField.getValue()));
           }
           workingList.add(new HospitalEdge(currentCircle.getId(), addEdgeField.getValue()));
-          System.out.println("item added to working list!");
+          // System.out.println("item added to working list!");
           // refresh the table
           refreshEdgeTable();
         }));
@@ -434,17 +443,17 @@ public class DatabaseMapViewController {
           // if item is in edge list, add to delete list
           if (edges.contains(edgeView.getSelectionModel().getSelectedItem())) {
             deleteList.add(edgeView.getSelectionModel().getSelectedItem());
-            System.out.println("added to delete list!");
+            // System.out.println("added to delete list!");
           } else { // if item is not in the edge list, remove from add list
             addList.remove(edgeView.getSelectionModel().getSelectedItem());
           }
           workingList.remove(edgeView.getSelectionModel().getSelectedItem());
-          System.out.println(edgeView.getSelectionModel().getSelectedItem());
-          System.out.println("working list:");
-          System.out.println(workingList);
-          System.out.println(workingList.size());
-          System.out.println("delete list:");
-          System.out.println(deleteList);
+          //          System.out.println(edgeView.getSelectionModel().getSelectedItem());
+          //          System.out.println("working list:");
+          //          System.out.println(workingList);
+          //          System.out.println(workingList.size());
+          //          System.out.println("delete list:");
+          //          System.out.println(deleteList);
 
           // refresh the table
           refreshEdgeTable();
