@@ -41,12 +41,12 @@ public class NewScreenTemplateController {
     menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
     menuBarExit.setOnMouseClicked((event -> Platform.exit()));
 
-    mouseSetupMenuBar(menuBarHome);
-    mouseSetupMenuBar(menuBarServices);
-    mouseSetupMenuBar(menuBarSignage);
-    mouseSetupMenuBar(menuBarMaps);
-    mouseSetupMenuBar(menuBarDatabase);
-    mouseSetupMenuBar(menuBarExit);
+    mouseSetupMenuBar(menuBarHome, true);
+    mouseSetupMenuBar(menuBarServices, true);
+    mouseSetupMenuBar(menuBarSignage, true);
+    mouseSetupMenuBar(menuBarMaps, true);
+    mouseSetupMenuBar(menuBarDatabase, true);
+    mouseSetupMenuBar(menuBarExit, false);
   }
 
   private void mouseSetup(MFXButton btn) {
@@ -63,20 +63,35 @@ public class NewScreenTemplateController {
         });
   }
 
-  private void mouseSetupMenuBar(MFXButton btn) {
-    btn.setOnMouseEntered(
-        event -> {
-          btn.setStyle(
-              "-fx-background-color: #f1f1f1; -fx-alignment: baseline-left; -fx-border-color: #001A3C; -fx-border-width: 0; -fx-font-size: 18;");
-          btn.setTextFill(Color.web("#192d5aff", 1.0));
-        });
-    btn.setOnMouseExited(
-        event -> {
-          btn.setStyle(
-              "-fx-background-color: #001A3C; -fx-alignment: baseline-left;-fx-font-size: 18;");
-          btn.setTextFill(WHITE);
-        });
-  }
+    private void mouseSetupMenuBar(MFXButton btn, boolean isLeftAligned) {
+        if (isLeftAligned) {
+            btn.setOnMouseEntered(
+                    event -> {
+                        btn.setStyle(
+                                "-fx-background-color: #f1f1f1; -fx-alignment: baseline-left; -fx-border-color: #001A3C; -fx-border-width: 0; -fx-font-size: 18;");
+                        btn.setTextFill(Color.web("#192d5aff", 1.0));
+                    });
+            btn.setOnMouseExited(
+                    event -> {
+                        btn.setStyle(
+                                "-fx-background-color: #001A3C; -fx-alignment: baseline-left;-fx-font-size: 18;");
+                        btn.setTextFill(WHITE);
+                    });
+        } else {
+            btn.setOnMouseEntered(
+                    event -> {
+                        btn.setStyle(
+                                "-fx-background-color: #f1f1f1; -fx-alignment: baseline-center; -fx-border-color: #001A3C; -fx-border-width: 0; -fx-font-size: 18;");
+                        btn.setTextFill(Color.web("#192d5aff", 1.0));
+                    });
+            btn.setOnMouseExited(
+                    event -> {
+                        btn.setStyle(
+                                "-fx-background-color: #001A3C; -fx-alignment: baseline-center;-fx-font-size: 18;");
+                        btn.setTextFill(WHITE);
+                    });
+        }
+    }
 
   public void menuBarVisible(boolean bool) {
     menuBarHome.setVisible(bool);
