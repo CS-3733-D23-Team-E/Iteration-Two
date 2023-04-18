@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="900.0" style="-fx-background-color: #f1f1f1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="900.0" style="-fx-background-color: #f1f1f1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="edu.wpi.teame.controllers.FlowerRequestController">
    <children>
       <VBox prefHeight="750.0" prefWidth="900.0" spacing="75.0" AnchorPane.topAnchor="50.0">
          <children>
@@ -41,7 +41,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <TextField maxHeight="70.0" prefHeight="70.0" style="-fx-border-color: #5C5C5C;" />
+                              <TextField fx:id="recipientName" maxHeight="70.0" prefHeight="70.0" style="-fx-border-color: #5C5C5C;" />
                            </children>
                            <VBox.margin>
                               <Insets />
@@ -63,7 +63,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox maxHeight="70.0" maxWidth="300.0" prefHeight="52.0" prefWidth="267.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="roomName" maxHeight="70.0" maxWidth="300.0" prefHeight="52.0" prefWidth="267.0" style="-fx-border-color: #5C5C5C;" />
                            </children>
                         </VBox>
                         <VBox maxWidth="300.0" prefHeight="72.0" prefWidth="267.0">
@@ -82,7 +82,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <DatePicker maxHeight="42.0" maxWidth="300.0" prefHeight="30.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
+                              <DatePicker fx:id="deliveryDate" maxHeight="42.0" maxWidth="300.0" prefHeight="30.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -101,7 +101,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox maxHeight="50.0" maxWidth="300.0" prefHeight="44.0" prefWidth="267.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="deliveryTime" maxHeight="50.0" maxWidth="300.0" prefHeight="44.0" prefWidth="267.0" style="-fx-border-color: #5C5C5C;" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -111,7 +111,7 @@
                                     <Font name="Roboto" size="24.0" />
                                  </font>
                               </Text>
-                              <SearchableComboBox maxHeight="50.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="assignedStaff" maxHeight="50.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
                            </children>
                         </VBox>
                      </children>
@@ -142,7 +142,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="flowerChoice" maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -161,7 +161,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="numOfFlowers" maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -180,7 +180,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="cardQuestion" maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -190,7 +190,7 @@
                                     <Font name="Roboto" size="24.0" />
                                  </font>
                               </Text>
-                              <TextField maxHeight="70.0" prefHeight="70.0" style="-fx-border-color: #5C5C5C;" />
+                              <TextField fx:id="cardMessage" maxHeight="70.0" prefHeight="70.0" style="-fx-border-color: #5C5C5C;" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -200,7 +200,7 @@
                                     <Font name="Roboto" size="24.0" />
                                  </font>
                               </Text>
-                              <TextField maxHeight="70.0" prefHeight="70.0" style="-fx-border-color: #5C5C5C;" />
+                              <TextField fx:id="notes" maxHeight="70.0" prefHeight="70.0" style="-fx-border-color: #5C5C5C;" />
                            </children>
                         </VBox>
                      </children>
@@ -215,17 +215,17 @@
                   <Insets left="125.0" />
                </VBox.margin>
                <children>
-                  <MFXButton maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #e1e1e1; -fx-text-fill: #1f1f1f; -fx-border-color: #1f1f1f; -fx-border-width: 2; -fx-border-radius: 10;" text="Cancel">
+                  <MFXButton fx:id="cancelButton" maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #e1e1e1; -fx-text-fill: #1f1f1f; -fx-border-color: #1f1f1f; -fx-border-width: 2; -fx-border-radius: 10;" text="Cancel">
                      <font>
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" style="-fx-text-fill: #FB0000; -fx-background-color: #e1e1e1; -fx-border-color: #FB0000; -fx-border-width: 2; -fx-border-radius: 10;" text="Reset">
+                  <MFXButton fx:id="resetButton" maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" style="-fx-text-fill: #FB0000; -fx-background-color: #e1e1e1; -fx-border-color: #FB0000; -fx-border-width: 2; -fx-border-radius: 10;" text="Reset">
                      <font>
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #3B63A5; -fx-text-fill: #f1f1f1; -fx-background-radius: 10;" text="Submit">
+                  <MFXButton fx:id="submitButton" maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #3B63A5; -fx-text-fill: #f1f1f1; -fx-background-radius: 10;" text="Submit">
                      <font>
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
