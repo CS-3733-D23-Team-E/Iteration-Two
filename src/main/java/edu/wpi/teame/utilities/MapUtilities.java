@@ -2,7 +2,6 @@ package edu.wpi.teame.utilities;
 
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.HospitalNode;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -59,16 +58,17 @@ public class MapUtilities {
     int x = hospitalNode.getXCoord();
     int y = hospitalNode.getYCoord();
     String nodeID = hospitalNode.getNodeID();
-    String shortName = "ERROR";
+    //    String shortName = "ERROR";
+    String longName = SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(nodeID));
 
-    try {
-      shortName = SQLRepo.INSTANCE.getShortNameFromNodeID(nodeID);
-    } catch (SQLException e) {
-      System.out.println(e);
-      System.out.println("shortname was not acquired from node ID");
-    }
+    //    try {
+    //      shortName = SQLRepo.INSTANCE.getShortNameFromNodeID(nodeID);
+    //    } catch (SQLException e) {
+    //      System.out.println(e);
+    //      System.out.println("shortname was not acquired from node ID");
+    //    }
 
-    Label label = createLabel(x, y, shortName);
+    Label label = createLabel(x, y, longName);
     label.setId("label" + hospitalNode.getNodeID());
     return label;
   }

@@ -1,16 +1,15 @@
 package edu.wpi.teame.controllers.DatabaseEditor;
 
+import static edu.wpi.teame.map.HospitalNode.allNodes;
+
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.*;
 import edu.wpi.teame.utilities.MapUtilities;
 import io.github.palexdev.materialfx.controls.MFXButton;
-
 import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.Arrays;
 import java.util.List;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,15 +19,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
-import static edu.wpi.teame.map.HospitalNode.allNodes;
-
 public class DatabaseMapViewController {
 
-  @FXML AnchorPane lowerOneMapPane;
-  @FXML AnchorPane lowerTwoMapPane;
-  @FXML AnchorPane floorOneMapPane;
-  @FXML AnchorPane floorTwoMapPane;
-  @FXML AnchorPane floorThreeMapPane;
+  @FXML AnchorPane mapPaneLowerTwo;
+  @FXML AnchorPane mapPaneLowerOne;
+  @FXML AnchorPane mapPaneOne;
+  @FXML AnchorPane mapPaneTwo;
+  @FXML AnchorPane mapPaneThree;
 
   @FXML Tab floorOneTab;
   @FXML Tab floorTwoTab;
@@ -36,7 +33,7 @@ public class DatabaseMapViewController {
   @FXML Tab lowerLevelTwoTab;
   @FXML Tab lowerLevelOneTab;
 
-  @FXML TabPane tabs;
+  @FXML TabPane tabPane;
 
   // Sidebar Elements
   @FXML VBox sidebar;
@@ -70,11 +67,11 @@ public class DatabaseMapViewController {
   @FXML ImageView mapImageThree; // Floor 3
 
   Floor currentFloor;
-  MapUtilities mapUtilityLowerTwo = new MapUtilities(lowerTwoMapPane);
-  MapUtilities mapUtilityLowerOne = new MapUtilities(lowerOneMapPane);
-  MapUtilities mapUtilityOne = new MapUtilities(floorOneMapPane);
-  MapUtilities mapUtilityTwo = new MapUtilities(floorTwoMapPane);
-  MapUtilities mapUtilityThree = new MapUtilities(floorThreeMapPane);
+  MapUtilities mapUtilityLowerTwo = new MapUtilities(mapPaneLowerTwo);
+  MapUtilities mapUtilityLowerOne = new MapUtilities(mapPaneLowerOne);
+  MapUtilities mapUtilityOne = new MapUtilities(mapPaneOne);
+  MapUtilities mapUtilityTwo = new MapUtilities(mapPaneTwo);
+  MapUtilities mapUtilityThree = new MapUtilities(mapPaneThree);
 
   private Circle currentCircle;
   private Label currentLabel;
@@ -98,7 +95,8 @@ public class DatabaseMapViewController {
     updateCombo(); // TODO: Change
     deleteNodeButton.setOnAction(event -> deleteNode());
 
-    tabs.getSelectionModel()
+    tabPane
+        .getSelectionModel()
         .selectedItemProperty()
         .addListener(
             (observable, oldValue, newValue) -> {
@@ -116,15 +114,6 @@ public class DatabaseMapViewController {
   public void loadFloorNodes() {
     List<HospitalNode> nodes = SQLRepo.INSTANCE.getNodesFromFloor(currentFloor);
     for (HospitalNode node : nodes) {
-      String nodeTypeString =
-          SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(node.getNodeID()));
-      if (!nodeTypeString.equals("")) {
-        LocationName.NodeType nodeType = LocationName.NodeType.stringToNodeType(nodeTypeString);
-        if (nodeType == LocationName.NodeType.HALL) {
-          continue;
-        }
-      }
-
       setupNode(node);
     }
   }
@@ -132,15 +121,6 @@ public class DatabaseMapViewController {
   public void initialLoadFloor(Floor floor) {
     List<HospitalNode> nodes = SQLRepo.INSTANCE.getNodesFromFloor(floor);
     for (HospitalNode node : nodes) {
-      String nodeTypeString =
-          SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(node.getNodeID()));
-      if (!nodeTypeString.equals("")) {
-        LocationName.NodeType nodeType = LocationName.NodeType.stringToNodeType(nodeTypeString);
-        if (nodeType == LocationName.NodeType.HALL) {
-          continue;
-        }
-      }
-
       setupNode(node);
     }
   }
@@ -168,9 +148,7 @@ public class DatabaseMapViewController {
 
   public void refreshMap() {
     MapUtilities currentMapUtility = whichMapUtility(currentFloor);
-
     currentMapUtility.removeAll();
-    currentMapUtility = new MapUtilities(whichPane(currentFloor));
     loadFloorNodes();
   }
 
@@ -241,25 +219,25 @@ public class DatabaseMapViewController {
     buildingSelector.setItems(FXCollections.observableArrayList(HospitalNode.allBuildings()));
 
     nodeTypeChoice.setItems(
-            FXCollections.observableArrayList(LocationName.NodeType.allNodeTypes()));
+        FXCollections.observableArrayList(LocationName.NodeType.allNodeTypes()));
 
-    addEdgeField.setItems(FXCollections.observableList((List)allNodes.keySet()));
+    // addEdgeField.setItems(FXCollections.observableList((List) allNodes.keySet()));
   }
 
   public AnchorPane whichPane(Floor curFloor) {
     switch (curFloor) {
       case ONE:
-        return floorOneMapPane;
+        return mapPaneOne;
       case TWO:
-        return floorTwoMapPane;
+        return mapPaneTwo;
       case THREE:
-        return floorThreeMapPane;
+        return mapPaneThree;
       case LOWER_ONE:
-        return lowerOneMapPane;
+        return mapPaneLowerOne;
       case LOWER_TWO:
-        return lowerTwoMapPane;
+        return mapPaneLowerTwo;
     }
-    return floorOneMapPane;
+    return mapPaneOne;
   }
 
   //  private void updateCurrentNode(HospitalNode node, Circle circle, Label label) {
@@ -324,43 +302,40 @@ public class DatabaseMapViewController {
   }
 
   private void initializeMapUtilities() {
-    mapUtilityLowerTwo = new MapUtilities(lowerTwoMapPane);
-    mapUtilityLowerOne = new MapUtilities(lowerOneMapPane);
-    mapUtilityOne = new MapUtilities(floorOneMapPane);
-    mapUtilityTwo = new MapUtilities(floorTwoMapPane);
-    mapUtilityThree = new MapUtilities(floorThreeMapPane);
+    mapUtilityLowerTwo = new MapUtilities(mapPaneLowerTwo);
+    mapUtilityLowerOne = new MapUtilities(mapPaneLowerOne);
+    mapUtilityOne = new MapUtilities(mapPaneOne);
+    mapUtilityTwo = new MapUtilities(mapPaneTwo);
+    mapUtilityThree = new MapUtilities(mapPaneThree);
   }
 
   private void initializeButtons() {
     addEdgeButton.setOnAction(
         (event -> {
           // if item is in edge list, remove from delete list
-          if(edges.contains(addEdgeField.getValue())){
+          if (edges.contains(addEdgeField.getValue())) {
             deleteList.remove(addEdgeField.getValue());
-          }else {// if item is not in edge list, add to add list
-            addList.add(new HospitalEdge(currentCircle.getId(),addEdgeField.getValue()));
+          } else { // if item is not in edge list, add to add list
+            addList.add(new HospitalEdge(currentCircle.getId(), addEdgeField.getValue()));
           }
           // refresh the table
           refreshEdgeTable();
-        }
-        ));
+        }));
 
     removeEdgeButton.setOnAction(
         (event -> {
           // if item is in edge list, add to delete list
-          if (edges.contains(edgeView.getSelectionModel().getSelectedItem())){
+          if (edges.contains(edgeView.getSelectionModel().getSelectedItem())) {
             deleteList.add(edgeView.getSelectionModel().getSelectedItem());
-          }
-          else {// if item is not in the edge list, remove from add list
+          } else { // if item is not in the edge list, remove from add list
             addList.remove(edgeView.getSelectionModel().getSelectedItem());
           }
           // refresh the table
           refreshEdgeTable();
-        }
-        )
-    );
+        }));
   }
-  private void refreshEdgeTable(){
+
+  private void refreshEdgeTable() {
     edgeView.getItems().clear();
     edgeView.setItems(FXCollections.observableArrayList(edges));
   }
@@ -369,18 +344,25 @@ public class DatabaseMapViewController {
     for (HospitalEdge edgeAddition : addList) {
       SQLRepo.INSTANCE.addEdge(edgeAddition);
     }
-    for(HospitalEdge edgeDeletion : deleteList){
+    for (HospitalEdge edgeDeletion : deleteList) {
       SQLRepo.INSTANCE.deleteEdge(edgeDeletion);
     }
   }
 
-  private String getNewNodeID(){
-    return (Integer.parseInt(allNodes.keySet().stream().sorted(new Comparator<>() {
-      @Override
-      public int compare(String str1, String str2){
-        return Integer.parseInt((String) str1)-Integer.parseInt((String) str2);
-      }
-    }).toList().get(allNodes.size()-1)+5))+"";
+  private String getNewNodeID() {
+    return (Integer.parseInt(
+            allNodes.keySet().stream()
+                    .sorted(
+                        new Comparator<>() {
+                          @Override
+                          public int compare(String str1, String str2) {
+                            return Integer.parseInt((String) str1)
+                                - Integer.parseInt((String) str2);
+                          }
+                        })
+                    .toList()
+                    .get(allNodes.size() - 1)
+                + 5))
+        + "";
   }
 }
-
