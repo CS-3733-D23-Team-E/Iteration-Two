@@ -318,7 +318,7 @@ public class MapController {
     btn.setOnMouseEntered(
         event -> {
           btn.setStyle(
-              "-fx-background-color: #ffffff; -fx-alignment: center; -fx-border-color: #192d5a; -fx-border-width: 2;");
+              "-fx-background-color: #f1f1f1; -fx-alignment: center; -fx-border-color: #192d5a; -fx-border-width: 2;");
           btn.setTextFill(Color.web("#192d5aff", 1.0));
         });
     btn.setOnMouseExited(
