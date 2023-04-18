@@ -1,9 +1,9 @@
 package edu.wpi.teame.Database;
 
+import static java.lang.Integer.parseInt;
+
 import edu.wpi.teame.map.MoveAttribute;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -126,7 +126,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
                 + tableName
                 + "\""
                 + " VALUES ("
-                + splitL1[0]
+                + parseInt(splitL1[0])
                 + ",'"
                 + splitL1[1]
                 + "','"
