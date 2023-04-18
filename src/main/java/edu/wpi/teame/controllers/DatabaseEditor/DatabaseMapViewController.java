@@ -84,6 +84,7 @@ public class DatabaseMapViewController {
     //    mapUtil = new MapUtilities(lowerTwoMapPane);
 
     sidebar.setVisible(false);
+
     // Sidebar functions
     cancelButton.setOnAction(event -> cancel());
     confirmButton.setOnAction(event -> uploadChangesToDatabase());
