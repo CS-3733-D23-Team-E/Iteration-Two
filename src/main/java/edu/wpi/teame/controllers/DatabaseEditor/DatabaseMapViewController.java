@@ -246,7 +246,7 @@ public class DatabaseMapViewController {
   private void displayAddMenu() {
     setEditMenuVisible(false);
 
-    String nodeID = getNewNodeID();
+    String nodeID = makeNewNodeID();
     currentCircle = new Circle();
     currentCircle.setId(nodeID);
     // System.out.println(nodeID);
@@ -323,7 +323,7 @@ public class DatabaseMapViewController {
   }
 
   private void addNodeToDatabase() {
-    String id = getNewNodeID();
+    String id = makeNewNodeID();
     // add respective node
     HospitalNode node =
         new HospitalNode(
@@ -490,9 +490,19 @@ public class DatabaseMapViewController {
     }
   }
 
-  private String getNewNodeID() {
+  private String makeNewNodeID() {
+    System.out.println(
+        allNodes.keySet().stream()
+            .sorted(
+                new Comparator<>() {
+                  @Override
+                  public int compare(String str1, String str2) {
+                    return Integer.parseInt((String) str1) - Integer.parseInt((String) str2);
+                  }
+                })
+            .toList());
     return (Integer.parseInt(
-            allNodes.keySet().stream()
+                allNodes.keySet().stream()
                     .sorted(
                         new Comparator<>() {
                           @Override
@@ -502,8 +512,8 @@ public class DatabaseMapViewController {
                           }
                         })
                     .toList()
-                    .get(allNodes.size() - 1)
-                + 5))
+                    .get(allNodes.size() - 1))
+            + 5)
         + "";
   }
 }
