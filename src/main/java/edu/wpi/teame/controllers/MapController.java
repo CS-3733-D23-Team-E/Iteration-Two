@@ -342,7 +342,7 @@ public class MapController {
 
       // Destination Label
       Label destinationLabel = new Label(destination);
-      destinationLabel.setFont(Font.font("SansSerif", 16));
+      destinationLabel.setFont(Font.font("Roboto", 16));
       destinationLabel.setTextAlignment(TextAlignment.CENTER);
       destinationLabel.setWrapText(true);
 

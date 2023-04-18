@@ -11,7 +11,9 @@ public enum Screen {
   FLOWER_REQUEST("views/FlowerRequest.fxml"),
   OFFICE_SUPPLIES_REQUEST("views/OfficeSuppliesRequest.fxml"),
   MAP("views/Map.fxml"),
-  DATABASE_EDITOR("views/DatabaseEditor/DatabaseEditor.fxml");
+  DATABASE_EDITOR("views/DatabaseEditor/DatabaseTableView.fxml"),
+  DATABASE_TABLEVIEW("views/DatabaseEditor/DatabaseTableView.fxml"),
+  DATABASE_MAPVIEW("views/DatabaseEditor/DatabaseMapView.fxml");
 
   private final String filename;
 
