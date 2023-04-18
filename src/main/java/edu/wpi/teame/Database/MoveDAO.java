@@ -25,7 +25,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
    *
    * @return list of move attribute objects
    */
-  List<MoveAttribute> get() {
+  public List<MoveAttribute> get() {
     moveAttributes = new ArrayList<>();
     String query = "SELECT * FROM teame.\"Move\" ORDER BY \"nodeID\" ASC;";
 
@@ -33,8 +33,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
         ResultSet rs = stmt.executeQuery(query)) {
       while (rs.next()) {
         moveAttributes.add(
-            new MoveAttribute(
-                rs.getString("nodeID"), rs.getString("longName"), rs.getString("date")));
+            new MoveAttribute(rs.getInt("nodeID"), rs.getString("longName"), rs.getString("date")));
       }
       System.out.println("Move table retrieved successfully");
     } catch (SQLException e) {
@@ -43,8 +42,8 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
     return moveAttributes;
   }
 
-  void update(MoveAttribute moveAttribute, String attribute, String value) {
-    String nodeID = moveAttribute.getNodeID();
+  public void update(MoveAttribute moveAttribute, String attribute, String value) {
+    int nodeID = moveAttribute.getNodeID();
     String longName = moveAttribute.getLongName();
     String sqlUpdate =
         "UPDATE \"Move\" "
@@ -52,9 +51,9 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
             + attribute
             + "\" = '"
             + value
-            + "' WHERE \"nodeID\" = '"
+            + "' WHERE \"nodeID\" = "
             + nodeID
-            + "' AND \"longName\" = '"
+            + " AND \"longName\" = '"
             + longName
             + "';";
 
@@ -66,16 +65,15 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
       System.out.println(
           "Exception: Cannot duplicate two set of the same edges, start and end nodes have to exist (cannot create more ids)");
     }
-    get();
   }
 
-  void delete(MoveAttribute moveAttribute) {
-    String nodeId = moveAttribute.getNodeID();
+  public void delete(MoveAttribute moveAttribute) {
+    int nodeId = moveAttribute.getNodeID();
     String longName = moveAttribute.getLongName();
     String sqlDelete =
-        "DELETE FROM \"Move\" WHERE \"nodeID\" = '"
+        "DELETE FROM \"Move\" WHERE \"nodeID\" = "
             + nodeId
-            + "' AND \"longName\" = '"
+            + " AND \"longName\" = '"
             + longName
             + "';";
 
@@ -87,27 +85,25 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
     } catch (SQLException e) {
       System.out.println("error deleting");
     }
-    get();
   }
 
-  void add(MoveAttribute moveAttribute) {
-    int nodeId = Integer.parseInt(moveAttribute.getNodeID());
+  public void add(MoveAttribute moveAttribute) {
+    int nodeId = moveAttribute.getNodeID();
     String longName = moveAttribute.getLongName();
     String date = moveAttribute.getDate();
     String sqlAdd =
-        "INSERT INTO \"Move\" VALUES(" + nodeId + ",'" + longName + "' , '" + date + "');";
+        "INSERT INTO \"Move\" VALUES(" + nodeId + ",'" + longName + "','" + date + "');";
 
     Statement stmt;
     try {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
+      System.out.println(e);
     }
-    get();
   }
 
-  void importFromCSV(String filePath, String tableName) {
+  public void importFromCSV(String filePath, String tableName) {
     try {
       BufferedReader mreader = new BufferedReader(new FileReader(filePath));
       String line;
@@ -133,10 +129,11 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
                 + splitL1[0]
                 + ",'"
                 + splitL1[1]
-                + "', TO_DATE('"
+                + "','"
                 + splitL1[2]
                 + "', 'MM/DD/YYYY'));";
         // System.out.println(sql);
+
         stmt.execute(sql);
       }
 
@@ -147,6 +144,5 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
       System.err.println("Error importing from " + filePath + " to " + tableName);
       e.printStackTrace();
     }
-    get();
   }
 }
