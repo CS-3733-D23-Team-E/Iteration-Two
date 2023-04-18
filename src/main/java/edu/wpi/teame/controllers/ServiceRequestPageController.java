@@ -65,13 +65,14 @@ public class ServiceRequestPageController {
     menuBarExit.setOnMouseClicked((event -> Platform.exit()));
     logoutButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
 
-    // makes the buttons get highlighted when the mouse hovers over them
-    mouseSetup(menuBarHome);
-    mouseSetup(menuBarServices);
-    mouseSetup(menuBarSignage);
-    mouseSetup(menuBarMaps);
-    mouseSetup(menuBarDatabase);
-    mouseSetup(menuBarExit);
+    // makes the menu bar buttons get highlighted when the mouse hovers over them
+    mouseSetupMenuBar(menuBarHome, true);
+    mouseSetupMenuBar(menuBarServices, true);
+    mouseSetupMenuBar(menuBarSignage, true);
+    mouseSetupMenuBar(menuBarMaps, true);
+    mouseSetupMenuBar(menuBarDatabase, true);
+    mouseSetupMenuBar(menuBarExit, false);
+
     mouseSetup(logoutButton);
   }
 
@@ -94,13 +95,43 @@ public class ServiceRequestPageController {
     btn.setOnMouseEntered(
         event -> {
           btn.setStyle(
-              "-fx-background-color: #ffffff; -fx-alignment: center; -fx-border-color: #192d5a; -fx-border-width: 2;");
+              "-fx-background-color: #ffffff; -fx-alignment: center; -fx-border-color: #001A3C; -fx-border-width: 2;");
           btn.setTextFill(Color.web("#192d5aff", 1.0));
         });
     btn.setOnMouseExited(
         event -> {
-          btn.setStyle("-fx-background-color: #192d5aff; -fx-alignment: center;");
+          btn.setStyle("-fx-background-color: #001A3C; -fx-alignment: center;");
           btn.setTextFill(WHITE);
         });
+  }
+
+  private void mouseSetupMenuBar(MFXButton btn, boolean isLeftAligned) {
+    if (isLeftAligned) {
+      btn.setOnMouseEntered(
+          event -> {
+            btn.setStyle(
+                "-fx-background-color: #ffffff; -fx-alignment: baseline-left; -fx-border-color: #001A3C; -fx-border-width: 0; -fx-font-size: 18;");
+            btn.setTextFill(Color.web("#192d5aff", 1.0));
+          });
+      btn.setOnMouseExited(
+          event -> {
+            btn.setStyle(
+                "-fx-background-color: #001A3C; -fx-alignment: baseline-left;-fx-font-size: 18;");
+            btn.setTextFill(WHITE);
+          });
+    } else {
+      btn.setOnMouseEntered(
+          event -> {
+            btn.setStyle(
+                "-fx-background-color: #ffffff; -fx-alignment: baseline-center; -fx-border-color: #001A3C; -fx-border-width: 0; -fx-font-size: 18;");
+            btn.setTextFill(Color.web("#192d5aff", 1.0));
+          });
+      btn.setOnMouseExited(
+          event -> {
+            btn.setStyle(
+                "-fx-background-color: #001A3C; -fx-alignment: baseline-center;-fx-font-size: 18;");
+            btn.setTextFill(WHITE);
+          });
+    }
   }
 }
