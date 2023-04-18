@@ -1,11 +1,14 @@
 package edu.wpi.teame.controllers.DatabaseEditor;
 
 import static edu.wpi.teame.map.HospitalNode.allNodes;
+import static javafx.scene.paint.Color.BLACK;
+import static javafx.scene.paint.Color.RED;
 
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.*;
 import edu.wpi.teame.utilities.MapUtilities;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,9 +79,11 @@ public class DatabaseMapViewController {
   private Circle currentCircle;
   private Label currentLabel;
 
-  LinkedList<HospitalEdge> edges = new LinkedList<>();
-  LinkedList<HospitalEdge> addList = new LinkedList<>();
-  LinkedList<HospitalEdge> deleteList = new LinkedList<>();
+  List<HospitalEdge> edges = new LinkedList<>();
+  List<HospitalEdge> addList = new LinkedList<>();
+  List<HospitalEdge> deleteList = new LinkedList<>();
+
+  List<HospitalEdge> workingList = new LinkedList<>();
 
   HospitalNode curNode;
 
@@ -88,7 +93,7 @@ public class DatabaseMapViewController {
     currentFloor = Floor.LOWER_TWO;
     //    mapUtil = new MapUtilities(lowerTwoMapPane);
 
-    sidebar.setVisible(false);
+    sidebar.setVisible(true);
     // Sidebar functions
     cancelButton.setOnAction(event -> cancel());
     confirmButton.setOnAction(event -> uploadChangesToDatabase());
@@ -105,11 +110,27 @@ public class DatabaseMapViewController {
             });
 
     edgeColumn.setCellValueFactory(new PropertyValueFactory<HospitalEdge, String>("nodeTwoID"));
+
+    displayAddMenu();
+    initializeButtons();
   }
 
-  private void cancel() {}
+  private void cancel() {
 
-  private void deleteNode() {}
+    displayAddMenu();
+    // workingList.clear();
+    // turn circle back to normal
+    if (currentCircle != null) {
+      currentCircle.setFill(BLACK);
+    }
+    currentCircle = null;
+  }
+
+  private void deleteNode() {
+    SQLRepo.INSTANCE.deletenode(curNode);
+    displayAddMenu();
+    refreshMap();
+  }
 
   public void loadFloorNodes() {
     List<HospitalNode> nodes = SQLRepo.INSTANCE.getNodesFromFloor(currentFloor);
@@ -133,16 +154,26 @@ public class DatabaseMapViewController {
 
     nodeCircle.setOnMouseClicked(
         event -> {
+          if (currentCircle != null) {
+            currentCircle.setFill(BLACK);
+          }
           currentCircle = nodeCircle;
+          currentCircle.setFill(RED);
           currentLabel = nodeLabel;
           setEditMenuVisible(true);
+          updateEditMenu();
         });
 
     nodeLabel.setOnMouseClicked(
         event -> {
+          if (currentCircle != null) {
+            currentCircle.setFill(BLACK);
+          }
           currentCircle = nodeCircle;
+          currentCircle.setFill(RED);
           currentLabel = nodeLabel;
           setEditMenuVisible(true);
+          updateEditMenu();
         });
   }
 
@@ -153,22 +184,36 @@ public class DatabaseMapViewController {
   }
 
   private void setEditMenuVisible(boolean isVisible) {
-    editPageText.setText("Edit Node");
+    if (isVisible) {
+      editPageText.setText("Edit Node");
+    } else {
+      editPageText.setText("Add Node");
+    }
   }
 
+  // APPEARS WHEN YOU CLICK ON A NODE
   private void updateEditMenu() {
     String nodeID = currentCircle.getId();
+    editPageText.setText("Edit Node: ID = " + nodeID);
+
     curNode = allNodes.get(nodeID);
     edges =
-        (LinkedList)
-            SQLRepo.INSTANCE.getEdgeList().stream()
-                .filter((edge) -> (edge.getNodeOneID().equals(nodeID)));
-    addList.clear();
-    deleteList.clear();
+        SQLRepo.INSTANCE.getEdgeList().stream()
+            .filter((edge) -> (edge.getNodeOneID().equals(nodeID)))
+            .toList();
+
+    for (HospitalEdge edge : edges) {
+      workingList.add(edge);
+    }
+
+    addList = new LinkedList<>();
+    deleteList = new LinkedList<>();
 
     String x = Integer.toString(curNode.getXCoord());
     String y = Integer.toString(curNode.getYCoord());
     longNameSelector.setValue(SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(nodeID)));
+
+    buildingSelector.setValue(curNode.getBuilding());
 
     xField.setText(x);
     yField.setText(y);
@@ -179,14 +224,35 @@ public class DatabaseMapViewController {
         });
 
     edgeView.setItems(FXCollections.observableList(edges));
+
+    deleteNodeButton.setVisible(true);
   }
 
+  // APPEARS WHEN YOU CLICK OFF A NODE/CANCEL (DEFAULT)
   private void displayAddMenu() {
+    setEditMenuVisible(false);
 
-    // assign a new node id???? (or have a way to edit it)
+    String nodeID = getNewNodeID();
+    currentCircle = new Circle();
+    currentCircle.setId(nodeID);
+    System.out.println(nodeID);
+    editPageText.setText("Add Node: ID = " + nodeID);
 
+    System.out.println("making sure we are here");
+
+    // clear all items
     xField.setText("");
     yField.setText("");
+    edges = new LinkedList<>();
+    addList = new LinkedList<>();
+    workingList = new LinkedList<>();
+    deleteList = new LinkedList<>();
+    longNameSelector.setValue(null);
+    buildingSelector.setValue(null);
+    // edgeView.getItems().clear();
+    deleteNodeButton.setVisible(false);
+
+    edgeView.setItems(FXCollections.observableList(workingList));
 
     confirmButton.setOnAction(
         (event -> {
@@ -205,9 +271,39 @@ public class DatabaseMapViewController {
     SQLRepo.INSTANCE.updateNode(hospitalNode, "xcoord", newX);
     SQLRepo.INSTANCE.updateNode(hospitalNode, "ycoord", newY);
     edgeUpdateDatabase();
+
+    // EDIT THE MOVE
+    SQLRepo.INSTANCE.updateUsingNodeID(
+        nodeID,
+        SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(nodeID)),
+        "longName",
+        longNameSelector.getValue());
+
+    // RELOAD THE DATABASE
+    refreshMap();
+
+    // CLOSE THE MENU
+    displayAddMenu();
   }
 
-  private void addNodeToDatabase() {}
+  private void addNodeToDatabase() {
+    String id = getNewNodeID();
+    // add respective node
+    HospitalNode node =
+        new HospitalNode(
+            id,
+            Integer.parseInt(xField.getText()),
+            Integer.parseInt(yField.getText()),
+            currentFloor,
+            buildingSelector.getValue());
+    SQLRepo.INSTANCE.addNode(node);
+    // add respective move
+    MoveAttribute move =
+        new MoveAttribute(id, longNameSelector.getValue(), LocalDate.now().toString());
+    SQLRepo.INSTANCE.addMove(move);
+    // add respective edges
+    edgeUpdateDatabase();
+  }
 
   private void updateCombo() {
     // POPULATE COMBOBOXES
@@ -221,7 +317,7 @@ public class DatabaseMapViewController {
     nodeTypeChoice.setItems(
         FXCollections.observableArrayList(LocationName.NodeType.allNodeTypes()));
 
-    // addEdgeField.setItems(FXCollections.observableList((List) allNodes.keySet()));
+    addEdgeField.setItems(FXCollections.observableList(allNodes.keySet().stream().toList()));
   }
 
   public AnchorPane whichPane(Floor curFloor) {
@@ -318,6 +414,7 @@ public class DatabaseMapViewController {
           } else { // if item is not in edge list, add to add list
             addList.add(new HospitalEdge(currentCircle.getId(), addEdgeField.getValue()));
           }
+          workingList.add(new HospitalEdge(currentCircle.getId(), addEdgeField.getValue()));
           // refresh the table
           refreshEdgeTable();
         }));
@@ -330,14 +427,15 @@ public class DatabaseMapViewController {
           } else { // if item is not in the edge list, remove from add list
             addList.remove(edgeView.getSelectionModel().getSelectedItem());
           }
+          workingList.remove(new HospitalEdge(currentCircle.getId(), addEdgeField.getValue()));
           // refresh the table
           refreshEdgeTable();
         }));
   }
 
   private void refreshEdgeTable() {
-    edgeView.getItems().clear();
-    edgeView.setItems(FXCollections.observableArrayList(edges));
+    // edgeView.getItems().clear();
+    edgeView.setItems(FXCollections.observableArrayList(workingList));
   }
 
   private void edgeUpdateDatabase() {
