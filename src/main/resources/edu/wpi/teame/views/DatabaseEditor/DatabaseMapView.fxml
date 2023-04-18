@@ -211,7 +211,12 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <MFXButton fx:id="addLocationButton" text="Create Location" />
+                              <HBox>
+                                 <children>
+                                    <MFXButton fx:id="removeLocationButton" text="Remove Location" />
+                                    <MFXButton fx:id="addLocationButton" text="Create Location" />
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                         <VBox>
