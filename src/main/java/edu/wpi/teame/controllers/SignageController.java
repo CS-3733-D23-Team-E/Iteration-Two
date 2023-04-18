@@ -43,15 +43,15 @@ public class SignageController {
   }
 
   private void attemptLogin() {
-    // Employee staffMember =
-    // SQLRepo.INSTANCE.connectToDatabase(usernameField.getText(),passwordField.getText());
-    //      if(staffMember == null){
-    //          loginFailBox.setVisible(true);
-    //          closeButton.setOnMouseClicked(event -> loginFailBox.setVisible(false));// popup to
-    // display incorrect login message
-    //          return;
-    //      }
-    // Successful login
+     Employee staffMember =
+     SQLRepo.INSTANCE.connectToDatabase(usernameField.getText(),passwordField.getText());
+          if(staffMember == null){
+              loginFailBox.setVisible(true);
+              closeButton.setOnMouseClicked(event -> loginFailBox.setVisible(false));// popup to
+     display incorrect login message
+              return;
+          }
+     Successful login
     Navigation.navigate(Screen.HOME);
   }
 
