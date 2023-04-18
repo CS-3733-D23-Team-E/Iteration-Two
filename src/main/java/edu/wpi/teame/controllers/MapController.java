@@ -11,8 +11,10 @@ import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.map.pathfinding.AbstractPathfinder;
 import edu.wpi.teame.utilities.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +23,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -31,6 +34,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 import net.kurobako.gesturefx.GesturePane;
 import org.controlsfx.control.SearchableComboBox;
 
@@ -74,6 +78,8 @@ public class MapController {
   @FXML GesturePane gesturePane3;
   boolean isPathDisplayed = false;
   Floor currentFloor = Floor.LOWER_TWO;
+  HBox currentLabel;
+  HBox previousLabel;
   AbstractPathfinder pf = AbstractPathfinder.getInstance("A*");
   String curLocFromComboBox;
   String destFromComboBox;
@@ -464,6 +470,20 @@ public class MapController {
             MapUtilities currentMapUtility = whichMapUtility(nodeFloor);
             GesturePane startingPane = ((GesturePane) currentMapUtility.getPane().getParent());
 
+            // Outline the hbox
+            hBox.setBorder(
+                new Border(
+                    new BorderStroke(
+                        Color.web(ColorPalette.LIGHT_BLUE.getHexCode()),
+                        BorderStrokeStyle.SOLID,
+                        CornerRadii.EMPTY,
+                        new BorderWidths(2))));
+
+            // Remove the previous outline unless previous is null or the same box is clicked again
+            if (previousLabel != null && previousLabel != hBox) {
+              previousLabel.setBorder(Border.EMPTY);
+            }
+
             // Zoom in on the starting node
             startingPane.zoomTo(2, startingPane.targetPointAtViewportCentre());
 
@@ -472,6 +492,28 @@ public class MapController {
                 new Point2D(
                     currentMapUtility.convertX(currentNode.getXCoord()),
                     currentMapUtility.convertY(currentNode.getYCoord())));
+
+            // Set the current label as the previous
+            previousLabel = hBox;
+          });
+
+      // Make the box bigger when hovering
+      hBox.setOnMouseEntered(
+          event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200));
+            scaleTransition.setNode(hBox);
+            scaleTransition.setToX(1.02);
+            scaleTransition.setToY(1.02);
+            scaleTransition.play();
+          });
+      // Smaller on exit
+      hBox.setOnMouseExited(
+          event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200));
+            scaleTransition.setNode(hBox);
+            scaleTransition.setToX(1);
+            scaleTransition.setToY(1);
+            scaleTransition.play();
           });
 
       // Add path label to VBox

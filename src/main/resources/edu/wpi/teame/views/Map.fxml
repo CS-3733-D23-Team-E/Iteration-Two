@@ -67,13 +67,13 @@
                               <Region minWidth="30.0" HBox.hgrow="ALWAYS" />
                               <MFXRadioButton fx:id="dfsButton" layoutX="40.0" layoutY="20.0" radius="10.0" text="DFS" toggleGroup="$pathGroup">
                                  <font>
-                                    <Font name="SansSerif Regular" size="20.0" />
+                                    <Font name="Roboto" size="20.0" />
                                  </font>
                               </MFXRadioButton>
                               <Region layoutX="44.0" layoutY="10.0" minWidth="30.0" HBox.hgrow="ALWAYS" />
                               <MFXRadioButton fx:id="bfsButton" layoutX="270.0" layoutY="20.0" radius="10.0" text="BFS" toggleGroup="$pathGroup">
                                  <font>
-                                    <Font name="SansSerif Regular" size="20.0" />
+                                    <Font name="Roboto" size="20.0" />
                                  </font>
                               </MFXRadioButton>
                            </children>
@@ -81,7 +81,7 @@
                               <Insets left="30.0" right="30.0" />
                            </padding>
                         </HBox>
-                        <MFXButton fx:id="startButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" style="-fx-background-color: #192D5A;" text="Start" textAlignment="CENTER" textFill="WHITE">
+                        <MFXButton fx:id="startButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" style="-fx-background-color: #001A3C;" text="Start" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="SansSerif Regular" size="16.0" />
                            </font>
@@ -91,7 +91,7 @@
                         <Insets bottom="18.0" left="15.0" right="15.0" top="18.0" />
                      </padding>
                   </VBox>
-                  <MFXScrollPane hbarPolicy="NEVER" style="-fx-background-color: #f1f1f1;" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+                  <MFXScrollPane hbarPolicy="NEVER" style="-fx-background-color: #f1f1f1;" thumbColor="#001a3c" thumbHoverColor="#001a3c" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
                      <content>
                         <VBox fx:id="pathBox" alignment="TOP_CENTER" prefWidth="375.0" spacing="10.0" style="-fx-background-color: #e1e1e1;">
                            <padding>
