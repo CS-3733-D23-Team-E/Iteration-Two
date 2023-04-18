@@ -1,8 +1,6 @@
 package edu.wpi.teame.controllers.DatabaseEditor;
 
 import static edu.wpi.teame.map.HospitalNode.allNodes;
-import static javafx.scene.paint.Color.BLACK;
-import static javafx.scene.paint.Color.RED;
 
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.*;
@@ -122,7 +120,7 @@ public class DatabaseMapViewController {
     //    System.out.println(currentCircle);
     //    System.out.println(currentLabel);
     if (currentCircle != null) {
-      currentCircle.setFill(BLACK);
+      currentCircle.setRadius(4);
       currentLabel.setVisible(false);
     }
     currentCircle = null;
@@ -165,11 +163,11 @@ public class DatabaseMapViewController {
     nodeCircle.setOnMouseClicked(
         event -> {
           if (currentCircle != null && currentLabel != null) {
-            currentCircle.setFill(BLACK);
+            currentCircle.setRadius(4);
             currentLabel.setVisible(false);
           }
           currentCircle = nodeCircle;
-          currentCircle.setFill(RED);
+          currentCircle.setRadius(7);
           currentLabel = nodeLabel;
           currentLabel.setVisible(true);
           setEditMenuVisible(true);
