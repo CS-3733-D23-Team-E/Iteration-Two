@@ -19,9 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -65,10 +63,14 @@ public class MapController {
   @FXML ImageView mapImageOne; // Floor 1
   @FXML ImageView mapImageTwo; // Floor 2
   @FXML ImageView mapImageThree; // Floor 3
-
+  @FXML ToggleGroup pathGroup;
+  @FXML RadioButton aStarButton;
+  @FXML RadioButton dfsButton;
+  @FXML RadioButton bfsButton;
   boolean isPathDisplayed = false;
-
   Floor currentFloor = Floor.LOWER_TWO;
+  String currentMode = "A*";
+
   String curLocFromComboBox;
   String destFromComboBox;
   MapUtilities mapUtilityLowerTwo = new MapUtilities(mapPaneLowerTwo);
@@ -202,7 +204,25 @@ public class MapController {
       return;
     }
     refreshPath();
-    AbstractPathfinder pf = AbstractPathfinder.getInstance("A*");
+
+    AbstractPathfinder pf;
+    currentMode = pathGroup.getSelectedToggle().toString();
+    switch (currentMode) {
+      case "A*":
+        pf = AbstractPathfinder.getInstance("A*");
+        break;
+      case "DFS":
+        pf = AbstractPathfinder.getInstance("DFS");
+        break;
+      case "BFS":
+        pf = AbstractPathfinder.getInstance("BFS");
+        break;
+      default:
+        pf = AbstractPathfinder.getInstance("A*");
+        break;
+    }
+
+    System.out.println(pf);
 
     String toNodeID = SQLRepo.INSTANCE.getNodeIDFromName(to) + "";
     String fromNodeID = SQLRepo.INSTANCE.getNodeIDFromName(from) + "";
