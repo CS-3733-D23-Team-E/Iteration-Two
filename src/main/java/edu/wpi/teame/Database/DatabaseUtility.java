@@ -36,7 +36,7 @@ public class DatabaseUtility {
   }
 
   public String getShortNameFromNodeID(String nodeID) throws SQLException {
-    String sqlMove = "SELECT \"longName\" FROM \"Move\" WHERE \"nodeID\" = '" + nodeID + "';";
+    String sqlMove = "SELECT \"longName\" FROM \"Move\" WHERE \"nodeID\" = " + nodeID + ";";
     Statement stmt = activeConnection.createStatement();
     ResultSet rs = stmt.executeQuery(sqlMove);
     String longName;
@@ -66,9 +66,9 @@ public class DatabaseUtility {
             + columnName
             + "\" = '"
             + value
-            + "' WHERE \"nodeID\" = '"
+            + "' WHERE \"nodeID\" = "
             + nodeID
-            + "' AND \"longName\" = '"
+            + " AND \"longName\" = '"
             + oldLocationName
             + "';";
     try {
@@ -114,8 +114,7 @@ public class DatabaseUtility {
 
       while (rs.next()) {
         moveAttributes.add(
-            new MoveAttribute(
-                rs.getInt("nodeid") + "", rs.getString("longName"), rs.getString("date")));
+            new MoveAttribute(rs.getInt("nodeID"), rs.getString("longName"), rs.getString("date")));
       }
 
       return moveAttributes;
