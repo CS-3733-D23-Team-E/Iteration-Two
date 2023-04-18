@@ -2,7 +2,7 @@ package edu.wpi.teame.utilities;
 
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.HospitalNode;
-import java.awt.*;
+import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -12,8 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javax.swing.*;
-
-import java.sql.SQLException;
 
 public class MapUtilities {
   private final int MAP_X = 5000;
@@ -71,7 +69,7 @@ public class MapUtilities {
     }
 
     Label label = createLabel(x, y, shortName);
-    label.setId(hospitalNode.getNodeID());
+    label.setId("label" + hospitalNode.getNodeID());
     return label;
   }
 

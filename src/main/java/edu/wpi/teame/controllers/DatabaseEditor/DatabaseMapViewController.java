@@ -1,19 +1,15 @@
 package edu.wpi.teame.controllers.DatabaseEditor;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.Main;
-import edu.wpi.teame.map.Floor;
-import edu.wpi.teame.map.HospitalNode;
-import edu.wpi.teame.map.LocationName;
+import edu.wpi.teame.map.*;
 import edu.wpi.teame.utilities.MapUtilities;
 import io.github.palexdev.materialfx.controls.MFXButton;
-
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -39,8 +35,7 @@ public class DatabaseMapViewController {
   // Sidebar Elements
   @FXML VBox sidebar;
 
-  @FXML
-  Text editPageText;
+  @FXML Text editPageText;
 
   @FXML TextField xField;
   @FXML TextField yField;
@@ -51,8 +46,8 @@ public class DatabaseMapViewController {
 
   @FXML MFXButton addEdgeButton;
   @FXML MFXButton removeEdgeButton;
-  @FXML TableView edgeView;
-  @FXML TableColumn edgeList;
+  @FXML TableView<HospitalEdge> edgeView;
+  @FXML TableColumn<HospitalEdge, String> edgeList;
   @FXML TextField addEdgeField;
 
   @FXML TextField newLongNameField;
@@ -62,12 +57,6 @@ public class DatabaseMapViewController {
 
   @FXML ComboBox<LocationName.NodeType> nodeTypeChoice;
 
-//  @FXML ImageView mapImage; // Floor 1
-//  @FXML ImageView mapImage1; // Floor 2
-//  @FXML ImageView mapImage11; // Floor 3
-//  @FXML ImageView mapImage111; // Floor L1
-//  @FXML ImageView mapImage1111; // Floor L2
-
   @FXML ImageView mapImageLowerTwo; // Floor L2
   @FXML ImageView mapImageLowerOne; // Floor L1
   @FXML ImageView mapImageOne; // Floor 1
@@ -75,7 +64,6 @@ public class DatabaseMapViewController {
   @FXML ImageView mapImageThree; // Floor 3
 
   Floor currentFloor;
-  MapUtilities mapUtil;
   MapUtilities mapUtilityLowerTwo = new MapUtilities(lowerTwoMapPane);
   MapUtilities mapUtilityLowerOne = new MapUtilities(lowerOneMapPane);
   MapUtilities mapUtilityOne = new MapUtilities(floorOneMapPane);
@@ -83,77 +71,66 @@ public class DatabaseMapViewController {
   MapUtilities mapUtilityThree = new MapUtilities(floorThreeMapPane);
 
   private Circle currentCircle;
+  private Label currentLabel;
+
+  ArrayList<HospitalEdge> edges = new ArrayList<>();
+  ArrayList<HospitalEdge> addList = new ArrayList<>();
+  ArrayList<HospitalEdge> deleteList = new ArrayList<>();
 
   @FXML
   public void initialize() {
-    mapUtil = new MapUtilities(lowerTwoMapPane);
-    lowerLevelOneTab.setOnSelectionChanged(
-        event -> {
-          if (lowerLevelOneTab.isSelected()) refreshTab(Floor.LOWER_ONE);
-        });
-    lowerLevelTwoTab.setOnSelectionChanged(
-        event -> {
-          if (lowerLevelTwoTab.isSelected()) refreshTab(Floor.LOWER_TWO);
-        });
-    floorOneTab.setOnSelectionChanged(
-        event -> {
-          if (floorOneTab.isSelected()) refreshTab(Floor.ONE);
-        });
-    floorTwoTab.setOnSelectionChanged(
-        event -> {
-          if (floorTwoTab.isSelected()) refreshTab(Floor.TWO);
-        });
-    floorThreeTab.setOnSelectionChanged(
-        event -> {
-          if (floorThreeTab.isSelected()) refreshTab(Floor.THREE);
-        });
-
+    initializeMapUtilities();
     currentFloor = Floor.LOWER_TWO;
-    // refreshButton.setOnMouseClicked(event -> loadFloorNodes(Floor.LOWER_ONE));
+    //    mapUtil = new MapUtilities(lowerTwoMapPane);
+
     sidebar.setVisible(false);
-
     // Sidebar functions
-    cancelButton.setOnAction(event -> sidebar.setVisible(false));
-
+    cancelButton.setOnAction(event -> cancel());
     confirmButton.setOnAction(event -> uploadChangesToDatabase());
-
-    updateCombo();
-    updateNodeTypeCombo();
+    updateCombo(); // TODO: Change
+    deleteNodeButton.setOnAction(event -> deleteNode());
 
     tabs.getSelectionModel()
         .selectedItemProperty()
-        .addListener((observable, oldValue, newValue) -> sidebar.setVisible(false));
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              currentFloor = tabToFloor(newValue);
+              refreshMap();
+            });
 
-    deleteNodeButton.setOnAction(
-        event -> {
-//          SQLRepo.INSTANCE.deletenode(currentNode);
-          refreshTab(currentFloor);
-        });
+    // POPULATE COMBOBOXES
+    buildingSelector.setItems(FXCollections.observableArrayList(HospitalNode.allBuildings()));
+    nodeTypeChoice.setItems(
+        FXCollections.observableArrayList(LocationName.NodeType.allNodeTypes()));
 
-//    addNodeButton.setOnAction(
-//        event -> {
-//          // SQLRepo.INSTANCE.addNode(new HospitalNode("7000", 500, 500, currentFloor, "New node"));
-//          // SQLRepo.INSTANCE.addMove(new MoveAttribute("7000", "Test", "New node"));
-//          // TODO: HELLLLLLPPPPPPPPPP
-//        });
-
-    mapImageLowerTwo.setImage(
-            new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel2.png"))));
-    mapImageLowerOne.setImage(
-            new Image(String.valueOf(Main.class.getResource("maps/00_thelowerlevel1.png"))));
-    mapImageOne.setImage(
-        new Image(String.valueOf(Main.class.getResource("maps/01_thefirstfloor.png"))));
-    mapImageTwo.setImage(
-        new Image(String.valueOf(Main.class.getResource("maps/02_thesecondfloor.png"))));
-    mapImageThree.setImage(
-        new Image(String.valueOf(Main.class.getResource("maps/03_thethirdfloor.png"))));
+    edgeList.setCellValueFactory(new PropertyValueFactory<HospitalEdge, String>("nodeTwoID"));
   }
 
-  public void loadFloorNodes(Floor floor) {
+  private void cancel() {}
+
+  private void deleteNode() {}
+
+  public void loadFloorNodes() {
+    List<HospitalNode> nodes = SQLRepo.INSTANCE.getNodesFromFloor(currentFloor);
+    for (HospitalNode node : nodes) {
+      String nodeTypeString =
+          SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(node.getNodeID()));
+      if (!nodeTypeString.equals("")) {
+        LocationName.NodeType nodeType = LocationName.NodeType.stringToNodeType(nodeTypeString);
+        if (nodeType == LocationName.NodeType.HALL) {
+          continue;
+        }
+      }
+
+      setupNode(node);
+    }
+  }
+
+  public void initialLoadFloor(Floor floor) {
     List<HospitalNode> nodes = SQLRepo.INSTANCE.getNodesFromFloor(floor);
     for (HospitalNode node : nodes) {
       String nodeTypeString =
-              SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(node.getNodeID()));
+          SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(node.getNodeID()));
       if (!nodeTypeString.equals("")) {
         LocationName.NodeType nodeType = LocationName.NodeType.stringToNodeType(nodeTypeString);
         if (nodeType == LocationName.NodeType.HALL) {
@@ -167,135 +144,93 @@ public class DatabaseMapViewController {
 
   private void setupNode(HospitalNode node) {
     String nodeID = node.getNodeID();
-    Circle nodeCircle = mapUtil.drawHospitalNode(node);
-    Label nodeLabel = mapUtil.drawHospitalNodeLabel(node);
+    MapUtilities currentMapUtility = whichMapUtility(currentFloor);
+    Circle nodeCircle = currentMapUtility.drawHospitalNode(node);
+    Label nodeLabel = currentMapUtility.drawHospitalNodeLabel(node);
 
     nodeCircle.setOnMouseClicked(
-            event -> {
-              setEditMenuVisible(true);
-            });
+        event -> {
+          currentCircle = nodeCircle;
+          currentLabel = nodeLabel;
+          setEditMenuVisible(true);
+        });
 
     nodeLabel.setOnMouseClicked(
-            event -> {
-              setEditMenuVisible(true);
-            });
-
+        event -> {
+          currentCircle = nodeCircle;
+          currentLabel = nodeLabel;
+          setEditMenuVisible(true);
+        });
   }
 
-  public void refreshTab(Floor newFloor) {
-    currentFloor = newFloor;
-    mapUtil.removeAll();
-    mapUtil = new MapUtilities(whichPane(currentFloor));
-    loadFloorNodes(newFloor);
+  public void refreshMap() {
+    MapUtilities currentMapUtility = whichMapUtility(currentFloor);
+
+    currentMapUtility.removeAll();
+    currentMapUtility = new MapUtilities(whichPane(currentFloor));
+    loadFloorNodes();
   }
 
   private void setEditMenuVisible(boolean isVisible) {
-    sidebar.setVisible(isVisible);
-
+    editPageText.setText("Edit Node");
   }
 
   private void updateEditMenu() {
-    // for dragging functionality
-//    xField.setText((int) mapUtil.PaneXToImageX(currentCircle.getCenterX()) + "");
-//    yField.setText((int) mapUtil.PaneYToImageY(currentCircle.getCenterY()) + "");
     String nodeID = currentCircle.getId();
-    xField.setText(currentCircle.getId());
+    HospitalNode hospitalNode = HospitalNode.allNodes.get(nodeID);
+    edges =
+        (ArrayList)
+            SQLRepo.INSTANCE.getEdgeList().stream()
+                .filter((edge) -> (edge.getNodeOneID().equals(nodeID)));
+    addList.clear();
+    deleteList.clear();
 
+    String x = Integer.toString(hospitalNode.getXCoord());
+    String y = Integer.toString(hospitalNode.getYCoord());
+    longNameSelector.setValue(SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(nodeID)));
+
+    xField.setText(x);
+    yField.setText(y);
+
+    confirmButton.setOnAction(
+        (event) -> {
+          uploadChangesToDatabase();
+        });
+
+    edgeView.setItems(FXCollections.observableList(edges));
   }
 
-//  private void displayNameData(HospitalNode node, Label nodeLabel) {
-//    longNameSelector.setValue(
-//        SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
-//
-//    confirmButton.setOnAction(event -> updateName(node, longNameSelector.getValue()));
-//
-//    addLocationButton.setOnAction(
-//        event -> {
-//          String longName = newLongNameField.getText();
-//          String shortName = newShortNameField.getText();
-//          LocationName.NodeType nodeType = nodeTypeChoice.getValue();
-//          LocationName locationName = new LocationName(longName, shortName, nodeType);
-//          SQLRepo.INSTANCE.addLocation(locationName);
-//          updateCombo();
-//        });
-//
-//    sidebar.setVisible(true);
-//    coordFields.setVisible(false);
-//    nameFields.setVisible(true);
-//  }
+  private void displayAddMenu() {
 
-  private void updateMetadata(HospitalNode node, Circle nodePoint) {
-    // longNameField.setText(SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())));
+    // assign a new node id???? (or have a way to edit it)
 
-    xField.setText(mapUtil.PaneXToImageX(nodePoint.getCenterX()) + "");
-    yField.setText(mapUtil.PaneYToImageY(nodePoint.getCenterY()) + "");
-  }
+    xField.setText("");
+    yField.setText("");
 
-  private void refreshNode(HospitalNode node, Circle nodeCircle, Label nodeLabel) {
-    nodeCircle.setCenterX(mapUtil.convertX(node.getXCoord()));
-    nodeCircle.setCenterY(mapUtil.convertY(node.getYCoord()));
-    nodeLabel.setLayoutX(mapUtil.convertX(node.getXCoord()));
-    nodeLabel.setLayoutY(mapUtil.convertY(node.getYCoord()));
-  }
-
-
-
-  private void updateImage(
-      Circle nodePoint, String name, String x, String y, int originalX, int originalY) {
-    try {
-      int newX = Integer.parseInt(x);
-      int newY = Integer.parseInt(y);
-      nodePoint.setTranslateX(newX - originalX);
-      nodePoint.setTranslateY(newY - originalY);
-      // something to update the label
-
-    } catch (NumberFormatException e) {
-      // do nothing or create a popup
-    }
+    confirmButton.setOnAction(
+        (event -> {
+          addNodeToDatabase();
+        }));
   }
 
   private void uploadChangesToDatabase() {
     String nodeID = currentCircle.getId();
     HospitalNode hospitalNode = HospitalNode.allNodes.get(nodeID);
 
-    SQLRepo.INSTANCE.updateNode(hospitalNode, "xcoord", Integer.toString(hospitalNode.getXCoord()));
-    SQLRepo.INSTANCE.updateNode(hospitalNode, "ycoord", Integer.toString(hospitalNode.getYCoord()));
+    String newX = xField.getText();
+    String newY = yField.getText();
 
-
-
+    // update the database
+    SQLRepo.INSTANCE.updateNode(hospitalNode, "xcoord", newX);
+    SQLRepo.INSTANCE.updateNode(hospitalNode, "ycoord", newY);
   }
 
-  private void updateName(HospitalNode node, String newName) {
-    SQLRepo.INSTANCE.updateUsingNodeID(
-        node.getNodeID(),
-        SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID())),
-        "longName",
-        newName);
-    refreshTab(currentFloor);
-  }
+  private void addNodeToDatabase() {}
 
   private void updateCombo() {
     List<LocationName> locationNames = SQLRepo.INSTANCE.getLocationList();
     List<String> longNames = SQLRepo.INSTANCE.getLongNamesFromLocationName(locationNames);
     longNameSelector.setItems(FXCollections.observableList(longNames));
-  }
-
-  private void updateNodeTypeCombo() {
-    List<LocationName.NodeType> nodeComboList = new ArrayList<>();
-    nodeComboList.add(LocationName.NodeType.BATH);
-    nodeComboList.add(LocationName.NodeType.CONF);
-    nodeComboList.add(LocationName.NodeType.DEPT);
-    nodeComboList.add(LocationName.NodeType.ELEV);
-    nodeComboList.add(LocationName.NodeType.EXIT);
-    nodeComboList.add(LocationName.NodeType.HALL);
-    nodeComboList.add(LocationName.NodeType.INFO);
-    nodeComboList.add(LocationName.NodeType.LABS);
-    nodeComboList.add(LocationName.NodeType.REST);
-    nodeComboList.add(LocationName.NodeType.RETL);
-    nodeComboList.add(LocationName.NodeType.SERV);
-    nodeComboList.add(LocationName.NodeType.STAI);
-
-    nodeTypeChoice.setItems(FXCollections.observableArrayList(nodeComboList));
   }
 
   private void editFromNode(HospitalNode node) {
@@ -330,18 +265,18 @@ public class DatabaseMapViewController {
   }
 
   //  private void updateCurrentNode(HospitalNode node, Circle circle, Label label) {
-//    if (currentNode != null && !currentNode.equals(node)) {
-//      refreshNode(currentNode, currentCircle, currentLabel);
-//      for (Node nodeCircle : mapUtil.filterShapes(Circle.class)) {
-//        Circle aCircle = ((Circle) nodeCircle);
-//        aCircle.setFill(Color.BLACK);
-//      }
-//    }
-//    circle.setFill(Color.RED);
-//    currentNode = node;
-//    currentCircle = circle;
-//    currentLabel = label;
-//  }
+  //    if (currentNode != null && !currentNode.equals(node)) {
+  //      refreshNode(currentNode, currentCircle, currentLabel);
+  //      for (Node nodeCircle : mapUtil.filterShapes(Circle.class)) {
+  //        Circle aCircle = ((Circle) nodeCircle);
+  //        aCircle.setFill(Color.BLACK);
+  //      }
+  //    }
+  //    circle.setFill(Color.RED);
+  //    currentNode = node;
+  //    currentCircle = circle;
+  //    currentLabel = label;
+  //  }
 
   /*
   private void updateNodeDatabase() {
@@ -371,4 +306,52 @@ public class DatabaseMapViewController {
     return mapUtilityLowerOne;
   }
 
+  public Floor tabToFloor(Tab tab) {
+    if (tab == lowerLevelTwoTab) {
+      return Floor.LOWER_TWO;
+    }
+    if (tab == lowerLevelOneTab) {
+      return Floor.LOWER_ONE;
+    }
+    if (tab == floorOneTab) {
+      return Floor.ONE;
+    }
+    if (tab == floorTwoTab) {
+      return Floor.TWO;
+    }
+    if (tab == floorThreeTab) {
+      return Floor.THREE;
+    }
+    return Floor.ONE;
+  }
+
+  private void initializeMapUtilities() {
+    mapUtilityLowerTwo = new MapUtilities(lowerTwoMapPane);
+    mapUtilityLowerOne = new MapUtilities(lowerOneMapPane);
+    mapUtilityOne = new MapUtilities(floorOneMapPane);
+    mapUtilityTwo = new MapUtilities(floorTwoMapPane);
+    mapUtilityThree = new MapUtilities(floorThreeMapPane);
+  }
+
+  private void initializeButtons() {
+    addEdgeButton.setOnAction(
+        (event -> {
+          // if item is in edge list, remove from delete list
+          // if item is not in edge list, add to add list
+
+          // refresh the table
+        }));
+
+    removeEdgeButton.setOnAction(
+        (event -> {
+          // if item is in edge list, add to delete list
+          // if item is not in the edge list, remove from add list
+
+          // refresh the table
+        }));
+  }
+
+  private void edgeUpdateDatabase() {
+    //for (HospitalEdge edge : addList) {}
+  }
 }
