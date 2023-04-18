@@ -21,11 +21,11 @@ public class MoveDAOTest {
 
     // add update
     SQLRepo.INSTANCE.updateMove(
-        new MoveAttribute(1200, "Hall 3 Level 1", "1/1/2023"), "date", "Test");
+        new MoveAttribute(1200, "Hall 3 Level 1", "2023-01-01"), "date", "2023-01-02");
 
     // reset update
     SQLRepo.INSTANCE.updateMove(
-        new MoveAttribute(1200, "Hall 3 Level 1", "Test"), "date", "1/1/2023");
+        new MoveAttribute(1200, "Hall 3 Level 1", "2023-01-02"), "date", "2023-01-01");
   }
 
   @Test

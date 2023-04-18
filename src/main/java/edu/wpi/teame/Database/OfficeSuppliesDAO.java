@@ -1,5 +1,7 @@
 package edu.wpi.teame.Database;
 
+import static java.lang.Integer.parseInt;
+
 import edu.wpi.teame.entities.OfficeSuppliesData;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -174,7 +176,7 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData> {
                 + tableName
                 + "\""
                 + " VALUES ("
-                + splitL1[0]
+                + parseInt(splitL1[0])
                 + ",'"
                 + splitL1[1]
                 + "','"
@@ -188,7 +190,7 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData> {
                 + "','"
                 + splitL1[6]
                 + "',"
-                + splitL1[7]
+                + parseInt(splitL1[7])
                 + ",'"
                 + splitL1[8]
                 + "','"
