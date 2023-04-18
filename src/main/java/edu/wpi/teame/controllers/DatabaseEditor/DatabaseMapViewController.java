@@ -63,7 +63,6 @@ public class DatabaseMapViewController {
   @FXML ComboBox<LocationName.NodeType> nodeTypeChoice;
 
   @FXML ComboBox<String> longNameSelector;
-  
 
   @FXML ImageView mapImageLowerTwo; // Floor L2
   @FXML ImageView mapImageLowerOne; // Floor L1
@@ -125,15 +124,14 @@ public class DatabaseMapViewController {
       currentCircle.setFill(BLACK);
       currentLabel.setVisible(false);
     }
-
+    currentCircle = null;
+    currentLabel = null;
     displayAddMenu();
     // workingList.clear();
     // turn circle back to normal
 
     //    System.out.println(currentCircle);
 
-    currentCircle = null;
-    currentLabel = null;
   }
 
   private void deleteNode() {
@@ -239,6 +237,7 @@ public class DatabaseMapViewController {
         (event) -> {
           uploadChangesToDatabase();
         });
+    addLocationButton.setOnAction(event -> addLocationName());
 
     edgeView.setItems(FXCollections.observableList(workingList));
 
@@ -275,6 +274,21 @@ public class DatabaseMapViewController {
         (event -> {
           addNodeToDatabase();
         }));
+    addLocationButton.setOnAction(event -> addLocationName());
+  }
+
+  private void addLocationName() {
+    if (newLongNameField.getText() != "" && newShortNameField.getText() != "") {
+      LocationName addedLN =
+          new LocationName(
+              newLongNameField.getText(), newShortNameField.getText(), nodeTypeChoice.getValue());
+      longNameSelector.getItems().add(addedLN.getLongName());
+      newShortNameField.setText("");
+      newLongNameField.setText("");
+      nodeTypeChoice.setValue(null);
+    } else {
+      // nothing
+    }
   }
 
   private void uploadChangesToDatabase() {
@@ -448,14 +462,6 @@ public class DatabaseMapViewController {
             addList.remove(edgeView.getSelectionModel().getSelectedItem());
           }
           workingList.remove(edgeView.getSelectionModel().getSelectedItem());
-          //          System.out.println(edgeView.getSelectionModel().getSelectedItem());
-          //          System.out.println("working list:");
-          //          System.out.println(workingList);
-          //          System.out.println(workingList.size());
-          //          System.out.println("delete list:");
-          //          System.out.println(deleteList);
-
-          // refresh the table
           refreshEdgeTable();
         }));
   }
