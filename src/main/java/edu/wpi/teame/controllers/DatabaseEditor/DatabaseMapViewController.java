@@ -3,6 +3,8 @@ package edu.wpi.teame.controllers.DatabaseEditor;
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.*;
 import edu.wpi.teame.utilities.MapUtilities;
+import edu.wpi.teame.utilities.Navigation;
+import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +63,7 @@ public class DatabaseMapViewController {
   @FXML ImageView mapImageOne; // Floor 1
   @FXML ImageView mapImageTwo; // Floor 2
   @FXML ImageView mapImageThree; // Floor 3
+  @FXML Button tableEditorSwapButton;
 
   Floor currentFloor;
   MapUtilities mapUtilityLowerTwo = new MapUtilities(lowerTwoMapPane);
@@ -105,6 +108,11 @@ public class DatabaseMapViewController {
         FXCollections.observableArrayList(LocationName.NodeType.allNodeTypes()));
 
     edgeList.setCellValueFactory(new PropertyValueFactory<HospitalEdge, String>("nodeTwoID"));
+
+    tableEditorSwapButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.DATABASE_TABLEVIEW);
+        });
   }
 
   private void cancel() {}

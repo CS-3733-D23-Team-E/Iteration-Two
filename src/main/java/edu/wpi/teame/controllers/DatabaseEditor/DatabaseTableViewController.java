@@ -4,6 +4,8 @@ import edu.wpi.teame.App;
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.map.*;
+import edu.wpi.teame.utilities.Navigation;
+import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.File;
@@ -17,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -25,14 +28,15 @@ import javafx.stage.Popup;
 public class DatabaseTableViewController {
 
   // common buttons:
-  @FXML MFXButton importButton;
-  @FXML MFXButton exportButton;
-  // @FXML MFXButton backButton;
+  @FXML Button importButton;
+  @FXML Button exportButton;
   @FXML MFXButton deleteButton;
   @FXML MFXButton addNodeButton;
   @FXML MFXButton addMoveButton;
   @FXML MFXButton addLocationButton;
   @FXML MFXButton addEdgeButton;
+  @FXML AnchorPane mapView;
+  @FXML AnchorPane tableView;
 
   // Tabs
   @FXML TabPane tableTabs;
@@ -127,6 +131,7 @@ public class DatabaseTableViewController {
   @FXML TextField editEdgeEndField;
   ///////////////////////////
   @FXML MFXButton confirmEditButton;
+  @FXML Button mapEditorSwapButton;
 
   FileChooser saveChooser = new FileChooser();
   FileChooser selectChooser = new FileChooser();
@@ -251,8 +256,6 @@ public class DatabaseTableViewController {
 
     moveTable.setPlaceholder(new Label("No rows to display"));
 
-    // backButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
-
     deleteButton.setOnMouseClicked(
         event -> {
           removeItem();
@@ -270,6 +273,11 @@ public class DatabaseTableViewController {
                 }
               }
             });
+
+    mapEditorSwapButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.DATABASE_MAPVIEW);
+        });
 
     addMoveButton.setOnMouseClicked(
         event -> {
