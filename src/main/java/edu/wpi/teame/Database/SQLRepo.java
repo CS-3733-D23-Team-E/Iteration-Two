@@ -1,10 +1,10 @@
 package edu.wpi.teame.Database;
 
-import edu.wpi.teame.entities.*;
+import edu.wpi.teame.Main;
+import edu.wpi.teame.entities.Employee;
+import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.map.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -17,11 +17,7 @@ public enum SQLRepo {
     NODE,
     EDGE,
     SERVICE_REQUESTS,
-    OFFICE_SUPPLY,
-    MEAL_REQUESTS,
-    FLOWER_REQUESTS,
-    FURNITURE_REQUESTS,
-    CONFERENCE_ROOM;
+    EMPLOYEE;
 
     public static String tableToString(Table tb) {
       switch (tb) {
@@ -35,16 +31,8 @@ public enum SQLRepo {
           return "Edge";
         case SERVICE_REQUESTS:
           return "ServiceRequests";
-        case OFFICE_SUPPLY:
-          return "OfficeSupplies";
-        case MEAL_REQUESTS:
-          return "MealService";
-        case FLOWER_REQUESTS:
-          return "FlowerService";
-        case CONFERENCE_ROOM:
-          return "ConfRoomService";
-        case FURNITURE_REQUESTS:
-          return "FurnitureService";
+        case EMPLOYEE:
+          return "Employee";
         default:
           throw new NoSuchElementException("No such Table found");
       }
@@ -56,37 +44,34 @@ public enum SQLRepo {
   DAO<HospitalEdge> edgeDAO;
   DAO<MoveAttribute> moveDAO;
   DAO<LocationName> locationDAO;
-  DAO<FurnitureRequestData> furnitureDAO;
   DAO<ServiceRequestData> serviceDAO;
+  EmployeeDAO employeeDAO;
   DatabaseUtility dbUtility;
 
-  DAO<OfficeSuppliesData> officesupplyDAO;
-  DAO<MealRequestData> mealDAO;
-  DAO<FlowerRequestData> flowerDAO;
-  DAO<ConferenceRequestData> conferenceDAO;
-
-  public void connectToDatabase(String username, String password) {
+  public Employee connectToDatabase(String username, String password) {
     try {
       Class.forName("org.postgresql.Driver");
       activeConnection =
           DriverManager.getConnection(
-              "jdbc:postgresql://database.cs.wpi.edu:5432/teamedb", username, password);
-
-      nodeDAO = new NodeDAO(activeConnection);
-      edgeDAO = new EdgeDAO(activeConnection);
-      moveDAO = new MoveDAO(activeConnection);
-      locationDAO = new LocationDAO(activeConnection);
-      officesupplyDAO = new OfficeSuppliesDAO(activeConnection);
-      mealDAO = new MealDAO(activeConnection);
-      flowerDAO = new FlowerDAO(activeConnection);
-      conferenceDAO = new ConferenceRoomDAO(activeConnection);
-      serviceDAO = new ServiceDAO(activeConnection);
-      dbUtility = new DatabaseUtility(activeConnection);
-      furnitureDAO = new FurnitureDAO(activeConnection);
-
+              "jdbc:postgresql://database.cs.wpi.edu:5432/teamedb", "teame", "teame50");
+      employeeDAO = new EmployeeDAO(activeConnection);
+      Employee loggedIn = employeeDAO.verifyLogIn(username, password);
+      if (loggedIn == null) {
+        return null;
+      } else {
+        nodeDAO = new NodeDAO(activeConnection);
+        edgeDAO = new EdgeDAO(activeConnection);
+        moveDAO = new MoveDAO(activeConnection);
+        locationDAO = new LocationDAO(activeConnection);
+        serviceDAO = new ServiceDAO(activeConnection);
+        dbUtility = new DatabaseUtility(activeConnection);
+        return loggedIn;
+      }
     } catch (SQLException e) {
+      exitDatabaseProgram();
       throw new RuntimeException("Your username or password is incorrect");
     } catch (ClassNotFoundException e) {
+      exitDatabaseProgram();
       throw new RuntimeException("Sorry something went wrong please try again");
     }
   }
@@ -101,6 +86,20 @@ public enum SQLRepo {
     }
   }
 
+  // DatabaseReset
+  public void resetDatabase() {
+
+    String node = Main.class.getResource("Data/NewData/Node.csv").getFile().replaceAll("%20", " ");
+    String edge = Main.class.getResource("Data/NewData/Edge.csv").getFile().replaceAll("%20", " ");
+    String move = Main.class.getResource("Data/NewData/Move.csv").getFile().replaceAll("%20", " ");
+    String location = Main.class.getResource("Data/NewData/LocationName.csv").getFile().replaceAll("%20", " ");
+    this.importFromCSV(Table.NODE, node);
+    this.importFromCSV(Table.EDGE, edge);
+    this.importFromCSV(Table.MOVE, move);
+    this.importFromCSV(Table.LOCATION_NAME, location);
+  }
+
+  // ALL DATABASE UTILITY
   public int getNodeIDFromName(String longName) {
     return this.dbUtility.getNodeIDFromName(longName);
   }
@@ -138,6 +137,7 @@ public enum SQLRepo {
     return this.dbUtility.getLongNamesFromLocationName(ln);
   }
 
+  // ALL IMPORTS FOR DAOS
   public void importFromCSV(Table table, String filepath) {
     try {
       switch (table) {
@@ -156,20 +156,8 @@ public enum SQLRepo {
         case SERVICE_REQUESTS:
           this.serviceDAO.importFromCSV(filepath, "ServiceRequests");
           break;
-        case OFFICE_SUPPLY:
-          this.officesupplyDAO.importFromCSV(filepath, "OfficeSupplies");
-          break;
-        case MEAL_REQUESTS:
-          this.mealDAO.importFromCSV(filepath, "MealService");
-          break;
-        case CONFERENCE_ROOM:
-          this.conferenceDAO.importFromCSV(filepath, "ConfRoomService");
-          break;
-        case FLOWER_REQUESTS:
-          this.flowerDAO.importFromCSV(filepath, "FlowerService");
-          break;
-        case FURNITURE_REQUESTS:
-          this.furnitureDAO.importFromCSV(filepath, "FurnitureService");
+        case EMPLOYEE:
+          this.employeeDAO.importFromCSV(filepath, "Employee");
           break;
       }
     } catch (Exception e) {
@@ -177,6 +165,7 @@ public enum SQLRepo {
     }
   }
 
+  // ALL EXPORTS FOR DAOS
   public void exportToCSV(Table table, String filepath, String tableName) {
     try {
       switch (table) {
@@ -195,20 +184,8 @@ public enum SQLRepo {
         case SERVICE_REQUESTS:
           this.serviceDAO.exportToCSV(filepath, tableName);
           break;
-        case OFFICE_SUPPLY:
-          this.officesupplyDAO.exportToCSV(filepath, tableName);
-          break;
-        case MEAL_REQUESTS:
-          this.mealDAO.exportToCSV(filepath, tableName);
-          break;
-        case CONFERENCE_ROOM:
-          this.conferenceDAO.exportToCSV(filepath, tableName);
-          break;
-        case FLOWER_REQUESTS:
-          this.flowerDAO.exportToCSV(filepath, tableName);
-          break;
-        case FURNITURE_REQUESTS:
-          this.furnitureDAO.exportToCSV(filepath, tableName);
+        case EMPLOYEE:
+          this.employeeDAO.exportToCSV(filepath, tableName);
           break;
       }
     } catch (Exception e) {
@@ -216,28 +193,9 @@ public enum SQLRepo {
     }
   }
 
+  // ALL GETS FOR DAOS
   public List<ServiceRequestData> getServiceRequestList() {
     return this.serviceDAO.get();
-  }
-
-  public List<OfficeSuppliesData> getOfficeSupplyList() {
-    return this.officesupplyDAO.get();
-  }
-
-  public List<MealRequestData> getMealRequestsList() {
-    return this.mealDAO.get();
-  }
-
-  public List<ConferenceRequestData> getConfList() {
-    return this.conferenceDAO.get();
-  }
-
-  public List<FlowerRequestData> getFlowerRequestsList() {
-    return this.flowerDAO.get();
-  }
-
-  public List<FurnitureRequestData> getFurnitureRequestsList() {
-    return this.furnitureDAO.get();
   }
 
   public List<HospitalNode> getNodeList() {
@@ -245,12 +203,10 @@ public enum SQLRepo {
   }
 
   public List<HospitalEdge> getEdgeList() {
-
     return this.edgeDAO.get();
   }
 
   public List<LocationName> getLocationList() {
-
     return this.locationDAO.get();
   }
 
@@ -258,28 +214,13 @@ public enum SQLRepo {
     return this.moveDAO.get();
   }
 
+  public List<Employee> getEmployeeList() {
+    return this.employeeDAO.get();
+  }
+
+  // ALL UPDATES FOR DAOS
   public void updateServiceRequest(ServiceRequestData obj, String attribute, String value) {
     this.serviceDAO.update(obj, attribute, value);
-  }
-
-  public void updateOfficeSupply(OfficeSuppliesData obj, String attribute, String value) {
-    this.officesupplyDAO.update(obj, attribute, value);
-  }
-
-  public void updateMealRequest(MealRequestData obj, String attribute, String value) {
-    this.mealDAO.update(obj, attribute, value);
-  }
-
-  public void updateConfRoomRequest(ConferenceRequestData obj, String attribute, String value) {
-    this.conferenceDAO.update(obj, attribute, value);
-  }
-
-  public void updateFurnitureRequest(FurnitureRequestData obj, String attribute, String value) {
-    this.furnitureDAO.update(obj, attribute, value);
-  }
-
-  public void updateFlowerRequest(FlowerRequestData obj, String attribute, String value) {
-    this.flowerDAO.update(obj, attribute, value);
   }
 
   public void updateNode(HospitalNode obj, String attribute, String value) {
@@ -298,28 +239,13 @@ public enum SQLRepo {
     this.locationDAO.update(obj, attribute, value);
   }
 
+  public void updateEmployee(Employee obj, String attribute, String value) {
+    this.employeeDAO.update(obj, attribute, value);
+  }
+
+  // ALL DELETES FOR DAOS
   public void deleteServiceRequest(ServiceRequestData obj) {
     this.serviceDAO.delete(obj);
-  }
-
-  public void deleteOfficeSupplyRequest(OfficeSuppliesData obj) {
-    this.officesupplyDAO.delete(obj);
-  }
-
-  public void deleteMealRequest(MealRequestData obj) {
-    this.mealDAO.delete(obj);
-  }
-
-  public void deleteConfRoomRequest(ConferenceRequestData obj) {
-    this.conferenceDAO.delete(obj);
-  }
-
-  public void deleteFurnitureRequest(FurnitureRequestData obj) {
-    this.furnitureDAO.delete(obj);
-  }
-
-  public void deleteFlowerRequest(FlowerRequestData obj) {
-    this.flowerDAO.delete(obj);
   }
 
   public void deletenode(HospitalNode obj) {
@@ -338,28 +264,13 @@ public enum SQLRepo {
     this.moveDAO.delete(obj);
   }
 
+  public void deleteEmployee(Employee obj) {
+    this.employeeDAO.delete(obj);
+  }
+
+  // ALL ADDITIONS TO DAOS
   public void addServiceRequest(ServiceRequestData obj) {
     this.serviceDAO.add(obj);
-  }
-
-  public void addOfficeSupplyRequest(OfficeSuppliesData obj) {
-    this.officesupplyDAO.add(obj);
-  }
-
-  public void addMealRequest(MealRequestData obj) {
-    this.mealDAO.add(obj);
-  }
-
-  public void addConfRoomRequest(ConferenceRequestData obj) {
-    this.conferenceDAO.add(obj);
-  }
-
-  public void addFurnitureRequest(FurnitureRequestData obj) {
-    this.furnitureDAO.add(obj);
-  }
-
-  public void addFlowerRequest(FlowerRequestData obj) {
-    this.flowerDAO.add(obj);
   }
 
   public void addNode(HospitalNode obj) {
@@ -376,5 +287,9 @@ public enum SQLRepo {
 
   public void addMove(MoveAttribute obj) {
     this.moveDAO.add(obj);
+  }
+
+  public void addEmployee(Employee obj) {
+    this.employeeDAO.add(obj);
   }
 }

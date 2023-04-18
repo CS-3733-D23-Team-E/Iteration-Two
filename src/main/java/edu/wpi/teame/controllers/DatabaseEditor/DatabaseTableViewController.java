@@ -586,7 +586,9 @@ public class DatabaseTableViewController {
     editEdgeZone.setVisible(false);
     editNodeZone.setVisible(false);
 
-    editMoveIDField.setText(move.getNodeID());
+    String nodeID = Integer.toString(move.getNodeID());
+
+    editMoveIDField.setText(nodeID);
     editMoveNameChoice.setValue(move.getLongName());
     editMoveDateField.setText(move.getDate());
 
