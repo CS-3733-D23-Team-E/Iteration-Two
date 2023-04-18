@@ -9,6 +9,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class SignageController {
@@ -17,6 +18,10 @@ public class SignageController {
   @FXML MFXTextField usernameField;
   @FXML MFXTextField passwordField;
   @FXML StackPane loginStack;
+  @FXML
+  VBox loginFailBox;
+
+  @FXML MFXButton closeButton;
 
   // TODO: Make login work
 
@@ -27,6 +32,7 @@ public class SignageController {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
 
     loginPopout(false);
+    loginFailBox.setVisible(false);
 
     userButton.setOnMouseClicked(
         event -> {
@@ -36,9 +42,21 @@ public class SignageController {
 
     loginButton.setOnMouseClicked(
         event -> {
-          Navigation.navigate(Screen.HOME);
+           attemptLogin();
         });
   }
+
+  private void attemptLogin(){
+      //Employee staffMember = SQLRepo.INSTANCE.connectToDatabase(usernameField.getText(),passwordField.getText());
+//      if(staffMember == null){
+//          loginFailBox.setVisible(true);
+//          closeButton.setOnMouseClicked(event -> loginFailBox.setVisible(false));// popup to display incorrect login message
+//          return;
+//      }
+      // Successful login
+      Navigation.navigate(Screen.HOME);
+  }
+
 
   public void loginPopout(boolean bool) {
     loginStack.setVisible(bool);
