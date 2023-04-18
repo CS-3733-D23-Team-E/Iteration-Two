@@ -42,6 +42,7 @@ public class ServiceRequestData {
     MEALDELIVERY,
     FLOWERDELIVERY,
     OFFICESUPPLIESDELIVERY,
+    FURNITUREDELIVERY,
     CONFERENCEROOM;
 
     public static RequestType stringToRequestType(String rt) {
