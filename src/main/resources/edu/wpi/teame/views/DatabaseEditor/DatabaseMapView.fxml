@@ -62,7 +62,7 @@
                                  <children>
                                     <AnchorPane fx:id="mapPane1111" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <StackPane fx:id="imagePane1111" layoutX="-14.0" layoutY="14.0" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="-14.0" AnchorPane.leftAnchor="-14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                                          <StackPane fx:id="imagePane1111" layoutX="-14.0" layoutY="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
                                                 <ImageView fx:id="mapImageLowerTwo" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
@@ -90,7 +90,7 @@
                                  <children>
                                     <AnchorPane fx:id="mapPane111" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <StackPane fx:id="imagePane111" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <StackPane fx:id="imagePane111" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
                                                 <ImageView fx:id="mapImageLowerOne" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
@@ -118,7 +118,7 @@
                                  <children>
                                     <AnchorPane fx:id="mapPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <StackPane fx:id="imagePane" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <StackPane fx:id="imagePane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
                                                 <ImageView fx:id="mapImageOne" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -146,7 +146,7 @@
                                  <children>
                                     <AnchorPane fx:id="mapPane1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <StackPane fx:id="imagePane1" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <StackPane fx:id="imagePane1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
                                                 <ImageView fx:id="mapImageTwo" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
@@ -171,7 +171,7 @@
                                  <children>
                                     <AnchorPane fx:id="mapPane11" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <StackPane fx:id="imagePane11" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <StackPane fx:id="imagePane11" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
                                                 <ImageView fx:id="mapImageThree" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
@@ -193,7 +193,7 @@
                   </Tab>
                </tabs>
             </TabPane>
-            <AnchorPane prefWidth="460.0">
+            <AnchorPane fx:id="sidebar" prefWidth="460.0">
                <children>
                   <VBox fx:id="editNodeView" alignment="TOP_CENTER" layoutX="193.0" layoutY="5.0" spacing="20.0" style="-fx-background-color: #F1F1F1;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                      <children>
