@@ -12,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
@@ -33,7 +32,6 @@ public class DatabaseMapViewController {
   @FXML TabPane tabs;
 
   // Sidebar Elements
-  @FXML VBox sidebar;
 
   @FXML Text editPageText;
 
@@ -83,7 +81,6 @@ public class DatabaseMapViewController {
     currentFloor = Floor.LOWER_TWO;
     //    mapUtil = new MapUtilities(lowerTwoMapPane);
 
-    sidebar.setVisible(false);
     // Sidebar functions
     cancelButton.setOnAction(event -> cancel());
     confirmButton.setOnAction(event -> uploadChangesToDatabase());
