@@ -18,6 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
@@ -30,6 +31,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import net.kurobako.gesturefx.GesturePane;
 import org.controlsfx.control.SearchableComboBox;
 
 public class MapController {
@@ -57,21 +59,22 @@ public class MapController {
   @FXML MFXButton menuBarExit;
   @FXML VBox menuBar;
   @FXML MFXButton startButton;
-
   @FXML ImageView mapImageLowerTwo; // Floor L2
   @FXML ImageView mapImageLowerOne; // Floor L1
   @FXML ImageView mapImageOne; // Floor 1
   @FXML ImageView mapImageTwo; // Floor 2
   @FXML ImageView mapImageThree; // Floor 3
-  @FXML ToggleGroup pathGroup;
   @FXML RadioButton aStarButton;
   @FXML RadioButton dfsButton;
   @FXML RadioButton bfsButton;
+  @FXML GesturePane gesturePaneL2;
+  @FXML GesturePane gesturePaneL1;
+  @FXML GesturePane gesturePane1;
+  @FXML GesturePane gesturePane2;
+  @FXML GesturePane gesturePane3;
   boolean isPathDisplayed = false;
   Floor currentFloor = Floor.LOWER_TWO;
-  String currentMode = "A*";
   AbstractPathfinder pf = AbstractPathfinder.getInstance("A*");
-
   String curLocFromComboBox;
   String destFromComboBox;
   MapUtilities mapUtilityLowerTwo = new MapUtilities(mapPaneLowerTwo);
@@ -88,7 +91,6 @@ public class MapController {
   @FXML
   public void initialize() {
     initializeMapUtilities();
-
     tabPane
         .getSelectionModel()
         .selectedItemProperty()
@@ -98,8 +100,13 @@ public class MapController {
                 currentFloor = tabToFloor(newTab);
                 resetComboboxes();
               }
+              // Set the zoom and position of the new pane to the old one
+              AnchorPane oldPane = (AnchorPane) oldTab.getContent();
+              GesturePane oldGesture = (GesturePane) oldPane.getChildren().get(0);
+              AnchorPane newPane = (AnchorPane) newTab.getContent();
+              GesturePane newGesture = (GesturePane) newPane.getChildren().get(0);
+              adjustGesture(oldGesture, newGesture);
             });
-
     //    refreshPathButton.setOnMouseClicked(
     //        event -> {
     //          currentFloor =
@@ -206,6 +213,7 @@ public class MapController {
     }
     refreshPath();
 
+    // Choose the pathfinding method based on the selected radio button
     if (aStarButton.isSelected()) {
       pf = AbstractPathfinder.getInstance("A*");
     }
@@ -215,8 +223,6 @@ public class MapController {
     if (bfsButton.isSelected()) {
       pf = AbstractPathfinder.getInstance("BFS");
     }
-
-    System.out.println(pf);
 
     String toNodeID = SQLRepo.INSTANCE.getNodeIDFromName(to) + "";
     String fromNodeID = SQLRepo.INSTANCE.getNodeIDFromName(from) + "";
@@ -243,14 +249,27 @@ public class MapController {
    * @param path
    */
   private void drawPath(List<HospitalNode> path) {
+
+    // Reset the zoom of gesture panes
+    gesturePaneL2.reset();
+    gesturePaneL1.reset();
+    gesturePane1.reset();
+    gesturePane2.reset();
+    gesturePane3.reset();
+
     currentFloor = path.get(0).getFloor();
     MapUtilities currentMapUtility = whichMapUtility(currentFloor);
+    Floor startingFloor = currentFloor;
 
+    int startX, startY;
     // create circle to symbolize start
     int x1 = path.get(0).getXCoord();
     int y1 = path.get(0).getYCoord();
+    startX = x1;
+    startY = y1;
     currentMapUtility.drawRing(x1, y1, 8, 2, WHITE, BLACK);
     currentMapUtility.createLabel(x1, y1, 5, 5, "Current Location");
+
     // draw the lines between each node
     int x2, y2;
     for (int i = 1; i < path.size(); i++) {
@@ -278,6 +297,19 @@ public class MapController {
     Circle endingCircle = currentMapUtility.drawCircle(x1, y1, 8, BLACK);
     endingCircle.toFront();
     currentMapUtility.createLabel(x1, y1, 5, 5, "Destination");
+
+    // Switch the current tab to the same floor as the starting point
+    currentFloor = startingFloor;
+    tabPane.getSelectionModel().select(floorToTab(startingFloor));
+    currentMapUtility = whichMapUtility(currentFloor);
+    GesturePane startingPane = ((GesturePane) currentMapUtility.getPane().getParent());
+
+    // Zoom in on the starting node
+    startingPane.zoomTo(2, startingPane.targetPointAtViewportCentre());
+
+    // Pan so starting node is centered
+    startingPane.centreOn(
+        new Point2D(currentMapUtility.convertX(startX), currentMapUtility.convertY(startY)));
   }
 
   /** removes all the lines in the currentLines list */
@@ -328,6 +360,25 @@ public class MapController {
     return Floor.ONE;
   }
 
+  public Tab floorToTab(Floor floor) {
+    if (floor == Floor.LOWER_TWO) {
+      return lowerLevelTwoTab;
+    }
+    if (floor == Floor.LOWER_ONE) {
+      return lowerLevelOneTab;
+    }
+    if (floor == Floor.ONE) {
+      return floorOneTab;
+    }
+    if (floor == Floor.TWO) {
+      return floorTwoTab;
+    }
+    if (floor == Floor.THREE) {
+      return floorThreeTab;
+    }
+    return floorOneTab;
+  }
+
   private void mouseSetup(MFXButton btn) {
     btn.setOnMouseEntered(
         event -> {
@@ -340,6 +391,11 @@ public class MapController {
           btn.setStyle("-fx-background-color: #192d5aff; -fx-alignment: center;");
           btn.setTextFill(WHITE);
         });
+  }
+
+  public void adjustGesture(GesturePane oldGesture, GesturePane newGesture) {
+    newGesture.centreOn(oldGesture.targetPointAtViewportCentre());
+    newGesture.zoomTo(oldGesture.getCurrentScale(), newGesture.targetPointAtViewportCentre());
   }
 
   public void createPathLabels(VBox vbox, List<HospitalNode> path) {

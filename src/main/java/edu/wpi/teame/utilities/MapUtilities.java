@@ -15,7 +15,6 @@ import javax.swing.*;
 public class MapUtilities {
   private final int MAP_X = 5000;
   private final int MAP_Y = 3400;
-
   private final Pane pane;
 
   private String lineStyle = "";
@@ -298,5 +297,9 @@ public class MapUtilities {
 
   public ObservableList<Node> getCurrentNodes() {
     return currentNodes;
+  }
+
+  public Pane getPane() {
+    return pane;
   }
 }
