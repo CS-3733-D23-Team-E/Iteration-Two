@@ -352,6 +352,6 @@ public class DatabaseMapViewController {
   }
 
   private void edgeUpdateDatabase() {
-    //for (HospitalEdge edge : addList) {}
+    // for (HospitalEdge edge : addList) {}
   }
 }
