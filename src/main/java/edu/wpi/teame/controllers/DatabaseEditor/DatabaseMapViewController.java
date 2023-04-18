@@ -89,6 +89,7 @@ public class DatabaseMapViewController {
 
   @FXML
   public void initialize() {
+    System.out.println("Initializing databasemapviewcontroller!");
     initializeMapUtilities();
     currentFloor = Floor.LOWER_TWO;
     //    mapUtil = new MapUtilities(lowerTwoMapPane);
@@ -151,30 +152,33 @@ public class DatabaseMapViewController {
     MapUtilities currentMapUtility = whichMapUtility(currentFloor);
     Circle nodeCircle = currentMapUtility.drawHospitalNode(node);
     Label nodeLabel = currentMapUtility.drawHospitalNodeLabel(node);
+    nodeLabel.setVisible(false);
 
     nodeCircle.setOnMouseClicked(
         event -> {
-          if (currentCircle != null) {
+          if (currentCircle != null && currentLabel != null) {
             currentCircle.setFill(BLACK);
+            currentLabel.setVisible(false);
           }
           currentCircle = nodeCircle;
           currentCircle.setFill(RED);
           currentLabel = nodeLabel;
+          currentLabel.setVisible(true);
           setEditMenuVisible(true);
           updateEditMenu();
         });
 
-    nodeLabel.setOnMouseClicked(
-        event -> {
-          if (currentCircle != null) {
-            currentCircle.setFill(BLACK);
-          }
-          currentCircle = nodeCircle;
-          currentCircle.setFill(RED);
-          currentLabel = nodeLabel;
-          setEditMenuVisible(true);
-          updateEditMenu();
-        });
+//    nodeLabel.setOnMouseClicked(
+//        event -> {
+//          if (currentCircle != null) {
+//            currentCircle.setFill(BLACK);
+//          }
+//          currentCircle = nodeCircle;
+//          currentCircle.setFill(RED);
+//          currentLabel = nodeLabel;
+//          setEditMenuVisible(true);
+//          updateEditMenu();
+//        });
   }
 
   public void refreshMap() {
@@ -202,9 +206,13 @@ public class DatabaseMapViewController {
             .filter((edge) -> (edge.getNodeOneID().equals(nodeID)))
             .toList();
 
+    workingList = new LinkedList<>();
+
     for (HospitalEdge edge : edges) {
       workingList.add(edge);
+      System.out.println("item added to working list!");
     }
+    //    workingList = FXCollections.observableList(edges);
 
     addList = new LinkedList<>();
     deleteList = new LinkedList<>();
@@ -223,7 +231,7 @@ public class DatabaseMapViewController {
           uploadChangesToDatabase();
         });
 
-    edgeView.setItems(FXCollections.observableList(edges));
+    edgeView.setItems(FXCollections.observableList(workingList));
 
     deleteNodeButton.setVisible(true);
   }
@@ -303,6 +311,7 @@ public class DatabaseMapViewController {
     SQLRepo.INSTANCE.addMove(move);
     // add respective edges
     edgeUpdateDatabase();
+    refreshMap();
   }
 
   private void updateCombo() {
@@ -415,6 +424,7 @@ public class DatabaseMapViewController {
             addList.add(new HospitalEdge(currentCircle.getId(), addEdgeField.getValue()));
           }
           workingList.add(new HospitalEdge(currentCircle.getId(), addEdgeField.getValue()));
+          System.out.println("item added to working list!");
           // refresh the table
           refreshEdgeTable();
         }));
@@ -424,10 +434,18 @@ public class DatabaseMapViewController {
           // if item is in edge list, add to delete list
           if (edges.contains(edgeView.getSelectionModel().getSelectedItem())) {
             deleteList.add(edgeView.getSelectionModel().getSelectedItem());
+            System.out.println("added to delete list!");
           } else { // if item is not in the edge list, remove from add list
             addList.remove(edgeView.getSelectionModel().getSelectedItem());
           }
-          workingList.remove(new HospitalEdge(currentCircle.getId(), addEdgeField.getValue()));
+          workingList.remove(edgeView.getSelectionModel().getSelectedItem());
+          System.out.println(edgeView.getSelectionModel().getSelectedItem());
+          System.out.println("working list:");
+          System.out.println(workingList);
+          System.out.println(workingList.size());
+          System.out.println("delete list:");
+          System.out.println(deleteList);
+
           // refresh the table
           refreshEdgeTable();
         }));
@@ -435,7 +453,7 @@ public class DatabaseMapViewController {
 
   private void refreshEdgeTable() {
     // edgeView.getItems().clear();
-    edgeView.setItems(FXCollections.observableArrayList(workingList));
+    edgeView.setItems(FXCollections.observableList(workingList));
   }
 
   private void edgeUpdateDatabase() {
