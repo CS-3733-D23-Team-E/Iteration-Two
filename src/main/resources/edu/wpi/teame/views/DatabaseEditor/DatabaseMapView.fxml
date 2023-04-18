@@ -307,7 +307,7 @@
                               <MFXButton fx:id="cancelButton" prefWidth="67.0" style="-fx-background-color: transparent; -fx-border-color: #000000; -fx-border-radius: 10;" text="Cancel" />
                               <Region HBox.hgrow="ALWAYS" />
                               <MFXButton fx:id="deleteNodeButton" prefWidth="67.0" style="-fx-background-color: transparent; -fx-border-color: #FB0000; -fx-border-radius: 10;" text="Delete" textFill="#fb0000" HBox.hgrow="ALWAYS" />
-                              <MFXButton fx:id="confirmButton" prefHeight="50.0" prefWidth="67.0" style="-fx-background-color: #3B63A5; -fx-background-radius: 10;" text="Confirm" textFill="WHITE" HBox.hgrow="ALWAYS">
+                              <MFXButton fx:id="confirmButton" prefWidth="67.0" style="-fx-background-color: #3B63A5; -fx-background-radius: 10;" text="Confirm" textFill="WHITE" HBox.hgrow="ALWAYS">
                                  <font>
                                     <Font name="Roboto" size="13.0" />
                                  </font></MFXButton>
