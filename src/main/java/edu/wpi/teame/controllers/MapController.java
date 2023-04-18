@@ -399,16 +399,32 @@ public class MapController {
   }
 
   public void createPathLabels(VBox vbox, List<HospitalNode> path) {
-    for (HospitalNode node : path) {
+    for (int i = 0; i < path.size(); i++) {
 
-      String destination = SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(node.getNodeID()));
+      String destination =
+          SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(path.get(i).getNodeID()));
 
-      // Arrow Image
-      ImageView arrowView = new ImageView();
-      Image arrow = new Image(String.valueOf(Main.class.getResource("images/right-arrow.png")));
-      arrowView.setImage(arrow);
-      arrowView.setPreserveRatio(true);
-      arrowView.setFitWidth(30);
+      // Image
+      Image icon;
+      ImageView pathIcon = new ImageView();
+      if (i == 0) {
+        icon = new Image(String.valueOf(Main.class.getResource("images/start.png")));
+      } else if (i == path.size() - 1) {
+        icon = new Image(String.valueOf(Main.class.getResource("images/destination.png")));
+      } else {
+        icon = new Image(String.valueOf(Main.class.getResource("images/right-arrow.png")));
+      }
+      pathIcon.setImage(icon);
+      pathIcon.setPreserveRatio(true);
+      pathIcon.setFitWidth(30);
+
+      // Line
+      Line line = new Line();
+      line.setStartX(0);
+      line.setStartY(0);
+      line.setEndX(0);
+      line.setEndY(50);
+      line.setOpacity(0.25);
 
       // Destination Label
       Label destinationLabel = new Label(destination);
@@ -437,7 +453,7 @@ public class MapController {
       hBox.setAlignment(Pos.CENTER_LEFT);
       hBox.setSpacing(10);
       hBox.setPadding(new Insets(0, 10, 0, 10));
-      hBox.getChildren().addAll(arrowView, destinationLabel);
+      hBox.getChildren().addAll(pathIcon, line, destinationLabel);
 
       // Add path label to VBox
       vbox.getChildren().add(hBox);

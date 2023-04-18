@@ -26,9 +26,9 @@
    <children>
       <HBox nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
          <children>
-            <VBox alignment="TOP_CENTER" prefWidth="400.0">
+            <VBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="400.0">
                <children>
-                  <VBox alignment="CENTER" spacing="14.0" style="-fx-background-color: #e1e1e1;">
+                  <VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" spacing="14.0" style="-fx-background-color: #f1f1f1;">
                      <children>
                         <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                            <children>
@@ -42,8 +42,8 @@
                               </ImageView>
                               <VBox spacing="20.0">
                                  <children>
-                                    <SearchableComboBox fx:id="currentLocationList" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" promptText="Start" style="-fx-border-color: #1e1e1e; -fx-border-width: 3; -fx-border-radius: 5; -fx-background-color: #D9DAD7;" />
-                                    <SearchableComboBox fx:id="destinationList" layoutX="10.0" layoutY="66.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" promptText="Destination" style="-fx-border-color: #1e1e1e; -fx-border-width: 3; -fx-border-radius: 5; -fx-background-color: #D9DAD7;" />
+                                    <SearchableComboBox fx:id="currentLocationList" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" promptText="Start" style="-fx-border-color: #1e1e1e; -fx-border-width: 3; -fx-border-radius: 5; -fx-background-radius: 5; -fx-background-color: #D9DAD7;" />
+                                    <SearchableComboBox fx:id="destinationList" layoutX="10.0" layoutY="66.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" promptText="Destination" style="-fx-border-color: #1e1e1e; -fx-border-width: 3; -fx-border-radius: 5; -fx-background-radius: 5; -fx-background-color: #D9DAD7;" />
                                  </children>
                                  <HBox.margin>
                                     <Insets bottom="10.0" top="10.0" />
@@ -91,7 +91,7 @@
                         <Insets bottom="18.0" left="15.0" right="15.0" top="18.0" />
                      </padding>
                   </VBox>
-                  <MFXScrollPane hbarPolicy="NEVER" style="-fx-background-color: #e1e1e1;" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+                  <MFXScrollPane hbarPolicy="NEVER" style="-fx-background-color: #f1f1f1;" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
                      <content>
                         <VBox fx:id="pathBox" alignment="TOP_CENTER" prefWidth="375.0" spacing="10.0" style="-fx-background-color: #e1e1e1;">
                            <padding>
@@ -109,7 +109,7 @@
                   </MFXScrollPane>
                </children>
             </VBox>
-            <TabPane fx:id="tabPane" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="30.0" tabMaxWidth="180.0" tabMinHeight="30.0" tabMinWidth="130.0" HBox.hgrow="ALWAYS">
+            <TabPane fx:id="tabPane" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="30.0" tabMaxWidth="225.0" tabMinHeight="40.0" tabMinWidth="200.0" HBox.hgrow="ALWAYS">
                <tabs>
                   <Tab fx:id="lowerLevelTwoTab" text="Lower Level 2">
                      <content>
@@ -308,7 +308,7 @@
             </MFXButton>
          </children>
       </VBox>
-      <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="75.0" style="-fx-background-color: #192D5A;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="75.0" style="-fx-background-color: #001A3C;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <MFXButton fx:id="menuButton" alignment="BOTTOM_CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" rippleColor="WHITE" style="-fx-background-color: #192d5a;" text="Menu" HBox.hgrow="ALWAYS">
                <graphic>
