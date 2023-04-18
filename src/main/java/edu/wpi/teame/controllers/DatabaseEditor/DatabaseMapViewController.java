@@ -7,6 +7,8 @@ import static javafx.scene.paint.Color.RED;
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.*;
 import edu.wpi.teame.utilities.MapUtilities;
+import edu.wpi.teame.utilities.Navigation;
+import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -110,10 +112,16 @@ public class DatabaseMapViewController {
               refreshMap();
             });
 
+    tableEditorSwapButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.DATABASE_TABLEVIEW);
+        });
+
     edgeColumn.setCellValueFactory(new PropertyValueFactory<HospitalEdge, String>("nodeTwoID"));
 
     displayAddMenu();
     initializeButtons();
+    initialLoadFloor(Floor.LOWER_TWO);
   }
 
   private void cancel() {
