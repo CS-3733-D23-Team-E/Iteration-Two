@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
 public class DatabaseMapViewController {
@@ -112,17 +113,42 @@ public class DatabaseMapViewController {
   private void deleteNode() {}
 
   public void loadFloorNodes() {
-    List<HospitalNode> nodes = SQLRepo.INSTANCE.getNodesFromFloor(currentFloor);
-    for (HospitalNode node : nodes) {
+    List<HospitalNode> floorNodes = SQLRepo.INSTANCE.getNodesFromFloor(currentFloor);
+    List<HospitalEdge> floorEdges =
+        SQLRepo.INSTANCE.getEdgeList().stream()
+            .filter(
+                edge -> HospitalNode.allNodes.get(edge.getNodeOneID()).getFloor() == currentFloor)
+            .toList();
+
+    for (HospitalNode node : floorNodes) {
       setupNode(node);
+    }
+
+    for (HospitalEdge edge : floorEdges) {
+      whichMapUtility(currentFloor)
+          .drawEdge(
+              HospitalNode.allNodes.get(edge.getNodeOneID()),
+              HospitalNode.allNodes.get(edge.getNodeTwoID()));
     }
   }
 
   public void initialLoadFloor(Floor floor) {
-    List<HospitalNode> nodes = SQLRepo.INSTANCE.getNodesFromFloor(floor);
-    for (HospitalNode node : nodes) {
-      setupNode(node);
+    currentFloor = floor;
+    loadFloorNodes();
+  }
+
+  private ArrayList<Line> drawEdges(HospitalNode node) {
+    MapUtilities currentMapUtility = whichMapUtility(currentFloor);
+    ArrayList<Line> listOfEdges = new ArrayList<>();
+    //
+    //    HospitalNode realHospitalNode = HospitalNode.allNodes.get(node.getNodeID());
+
+    for (HospitalNode neighbor : node.getNeighbors()) {
+      Line line = currentMapUtility.drawEdge(node, neighbor);
+      listOfEdges.add(line);
     }
+
+    return listOfEdges;
   }
 
   private void setupNode(HospitalNode node) {

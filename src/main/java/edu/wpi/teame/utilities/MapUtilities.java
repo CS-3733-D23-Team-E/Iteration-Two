@@ -42,8 +42,7 @@ public class MapUtilities {
     int y = hospitalNode.getYCoord();
     String nodeID = hospitalNode.getNodeID();
 
-    // TODO: change color/image/shape dependent on NodeType
-
+    //    System.out.println("nodetype: " + SQLRepo.INSTANCE.getNodeTypeFromNodeID(105));
     LocationName.NodeType nodeType =
         LocationName.NodeType.stringToNodeType(
             SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(nodeID)));
@@ -121,6 +120,26 @@ public class MapUtilities {
     Label label = createLabel(x, y, longName);
     label.setId("label" + hospitalNode.getNodeID());
     return label;
+  }
+
+  /**
+   * Draws the edge between two given nodes
+   *
+   * @param node
+   * @param neighbor
+   */
+  public Line drawEdge(HospitalNode node, HospitalNode neighbor) {
+    int x1 = node.getXCoord();
+    int y1 = node.getYCoord();
+    int x2 = neighbor.getXCoord();
+    int y2 = neighbor.getYCoord();
+    System.out.println("edge");
+    System.out.println("x1: " + x1);
+    System.out.println("y1: " + y1);
+    System.out.println("x2: " + x2);
+    System.out.println("y2: " + y2);
+
+    return drawLine(x1, x2, y1, y2);
   }
 
   /**
