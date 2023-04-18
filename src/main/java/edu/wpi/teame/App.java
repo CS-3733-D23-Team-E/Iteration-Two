@@ -38,7 +38,7 @@ public class App extends Application {
     primaryStage.setMinWidth(1600);
     primaryStage.setMinHeight(900);
     primaryStage.show();
-    Navigation.navigate(Screen.SIGNAGE_TEXT);
+    Navigation.navigate(Screen.HOME);
   }
 
   @Override
