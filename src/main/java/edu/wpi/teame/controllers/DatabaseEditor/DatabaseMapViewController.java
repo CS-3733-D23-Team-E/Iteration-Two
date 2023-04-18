@@ -59,6 +59,7 @@ public class DatabaseMapViewController {
   @FXML TextField newLongNameField;
   @FXML TextField newShortNameField;
   @FXML MFXButton addLocationButton;
+  @FXML MFXButton removeLocationButton;
 
   @FXML ComboBox<LocationName.NodeType> nodeTypeChoice;
 
@@ -237,7 +238,6 @@ public class DatabaseMapViewController {
         (event) -> {
           uploadChangesToDatabase();
         });
-    addLocationButton.setOnAction(event -> addLocationName());
 
     edgeView.setItems(FXCollections.observableList(workingList));
 
@@ -274,7 +274,6 @@ public class DatabaseMapViewController {
         (event -> {
           addNodeToDatabase();
         }));
-    addLocationButton.setOnAction(event -> addLocationName());
   }
 
   private void addLocationName() {
@@ -289,6 +288,12 @@ public class DatabaseMapViewController {
     } else {
       // nothing
     }
+  }
+
+  private void removeLocation(){
+    LocationName toBeDeleted = new LocationName(longNameSelector.getValue(),"", LocationName.NodeType.INFO);
+    SQLRepo.INSTANCE.deleteLocation(toBeDeleted);
+    longNameSelector.getItems().remove(longNameSelector.getValue());
   }
 
   private void uploadChangesToDatabase() {
@@ -464,6 +469,11 @@ public class DatabaseMapViewController {
           workingList.remove(edgeView.getSelectionModel().getSelectedItem());
           refreshEdgeTable();
         }));
+    removeLocationButton.setOnAction(event -> {
+      removeLocation();
+    });
+    addLocationButton.setOnAction(event -> addLocationName());
+
   }
 
   private void refreshEdgeTable() {
