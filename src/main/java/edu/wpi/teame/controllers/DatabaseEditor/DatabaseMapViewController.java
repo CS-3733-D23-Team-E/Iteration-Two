@@ -168,17 +168,17 @@ public class DatabaseMapViewController {
           updateEditMenu();
         });
 
-//    nodeLabel.setOnMouseClicked(
-//        event -> {
-//          if (currentCircle != null) {
-//            currentCircle.setFill(BLACK);
-//          }
-//          currentCircle = nodeCircle;
-//          currentCircle.setFill(RED);
-//          currentLabel = nodeLabel;
-//          setEditMenuVisible(true);
-//          updateEditMenu();
-//        });
+    //    nodeLabel.setOnMouseClicked(
+    //        event -> {
+    //          if (currentCircle != null) {
+    //            currentCircle.setFill(BLACK);
+    //          }
+    //          currentCircle = nodeCircle;
+    //          currentCircle.setFill(RED);
+    //          currentLabel = nodeLabel;
+    //          setEditMenuVisible(true);
+    //          updateEditMenu();
+    //        });
   }
 
   public void refreshMap() {
@@ -240,9 +240,9 @@ public class DatabaseMapViewController {
   private void displayAddMenu() {
     setEditMenuVisible(false);
 
-    String nodeID = getNewNodeID();
+    int nodeID = getNewNodeID();
     currentCircle = new Circle();
-    currentCircle.setId(nodeID);
+    currentCircle.setId(Integer.toString(nodeID));
     System.out.println(nodeID);
     editPageText.setText("Add Node: ID = " + nodeID);
 
@@ -295,11 +295,11 @@ public class DatabaseMapViewController {
   }
 
   private void addNodeToDatabase() {
-    String id = getNewNodeID();
+    int id = getNewNodeID();
     // add respective node
     HospitalNode node =
         new HospitalNode(
-            id,
+            Integer.toString(id),
             Integer.parseInt(xField.getText()),
             Integer.parseInt(yField.getText()),
             currentFloor,
@@ -465,20 +465,18 @@ public class DatabaseMapViewController {
     }
   }
 
-  private String getNewNodeID() {
-    return (Integer.parseInt(
+  private int getNewNodeID() {
+    return Integer.parseInt(
             allNodes.keySet().stream()
-                    .sorted(
-                        new Comparator<>() {
-                          @Override
-                          public int compare(String str1, String str2) {
-                            return Integer.parseInt((String) str1)
-                                - Integer.parseInt((String) str2);
-                          }
-                        })
-                    .toList()
-                    .get(allNodes.size() - 1)
-                + 5))
-        + "";
+                .sorted(
+                    new Comparator<>() {
+                      @Override
+                      public int compare(String str1, String str2) {
+                        return Integer.parseInt((String) str1) - Integer.parseInt((String) str2);
+                      }
+                    })
+                .toList()
+                .get(allNodes.size() - 1))
+        + 5;
   }
 }
