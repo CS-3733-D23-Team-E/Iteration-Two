@@ -3,6 +3,8 @@ package edu.wpi.teame.Database;
 import static org.junit.jupiter.api.Assertions.*;
 
 import edu.wpi.teame.entities.Employee;
+import java.io.File;
+import javax.swing.filechooser.FileSystemView;
 import org.junit.jupiter.api.Test;
 
 public class EmployeeDAOTest {
@@ -60,13 +62,12 @@ public class EmployeeDAOTest {
   public void testImportExport() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
 
-    SQLRepo.INSTANCE.exportToCSV(
-        SQLRepo.Table.EMPLOYEE,
-        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop",
-        "Employee");
-    SQLRepo.INSTANCE.importFromCSV(
-        SQLRepo.Table.EMPLOYEE,
-        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\Employee");
+    FileSystemView view = FileSystemView.getFileSystemView();
+    File file = view.getHomeDirectory();
+    String desktopPath = file.getPath();
+
+    SQLRepo.INSTANCE.exportToCSV(SQLRepo.Table.EMPLOYEE, desktopPath, "Employee");
+    SQLRepo.INSTANCE.importFromCSV(SQLRepo.Table.EMPLOYEE, desktopPath + "\\Employee");
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

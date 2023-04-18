@@ -156,6 +156,7 @@ public class EmployeeDAO extends DAO<Employee> {
                 + splitL1[3]
                 + "'); ";
         try {
+          System.out.println(sql);
           stmt.execute(sql);
         } catch (SQLException e) {
           System.out.println("Could not import employee " + splitL1[0]);
