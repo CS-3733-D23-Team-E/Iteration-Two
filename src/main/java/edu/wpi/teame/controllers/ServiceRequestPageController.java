@@ -7,6 +7,7 @@ import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class ServiceRequestPageController {
@@ -19,14 +20,21 @@ public class ServiceRequestPageController {
   @FXML MFXButton menuBarDatabase;
   @FXML MFXButton menuBarBlank;
   @FXML MFXButton menuBarExit;
+  @FXML MFXButton userButton;
+  @FXML VBox menuBar;
+
+  @FXML VBox logoutBox;
+  @FXML MFXButton logoutButton;
 
   boolean menuVisibilty = false;
+  boolean logoutVisible = false;
 
   @FXML
   public void initialize() {
 
     // Initially set the menu bar to invisible
     menuBarVisible(false);
+    logoutPopup(false);
 
     // When the menu button is clicked, invert the value of menuVisibility and set the menu bar to
     // that value
@@ -36,6 +44,12 @@ public class ServiceRequestPageController {
         event -> {
           menuVisibilty = !menuVisibilty;
           menuBarVisible(menuVisibilty);
+        });
+
+    userButton.setOnMouseClicked(
+        event -> {
+          logoutVisible = !logoutVisible;
+          logoutPopup(logoutVisible);
         });
 
     // Navigation controls for the button in the menu bar
@@ -49,6 +63,7 @@ public class ServiceRequestPageController {
     menuBarMaps.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
     menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
     menuBarExit.setOnMouseClicked((event -> Platform.exit()));
+    logoutButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
 
     // makes the buttons get highlighted when the mouse hovers over them
     mouseSetup(menuBarHome);
@@ -57,6 +72,11 @@ public class ServiceRequestPageController {
     mouseSetup(menuBarMaps);
     mouseSetup(menuBarDatabase);
     mouseSetup(menuBarExit);
+    mouseSetup(logoutButton);
+  }
+
+  public void logoutPopup(boolean bool) {
+    logoutBox.setVisible(bool);
   }
 
   public void menuBarVisible(boolean bool) {
@@ -67,6 +87,7 @@ public class ServiceRequestPageController {
     menuBarDatabase.setVisible(bool);
     menuBarBlank.setVisible(bool);
     menuBarExit.setVisible(bool);
+    menuBar.setVisible(bool);
   }
 
   private void mouseSetup(MFXButton btn) {

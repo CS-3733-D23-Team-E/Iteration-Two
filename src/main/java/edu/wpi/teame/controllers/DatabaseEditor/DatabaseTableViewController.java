@@ -1,11 +1,11 @@
 package edu.wpi.teame.controllers.DatabaseEditor;
 
+import static java.lang.Integer.parseInt;
+
 import edu.wpi.teame.App;
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.map.*;
-import edu.wpi.teame.utilities.Navigation;
-import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.File;
@@ -19,7 +19,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -28,15 +27,14 @@ import javafx.stage.Popup;
 public class DatabaseTableViewController {
 
   // common buttons:
-  @FXML Button importButton;
-  @FXML Button exportButton;
+  @FXML MFXButton importButton;
+  @FXML MFXButton exportButton;
+  // @FXML MFXButton backButton;
   @FXML MFXButton deleteButton;
   @FXML MFXButton addNodeButton;
   @FXML MFXButton addMoveButton;
   @FXML MFXButton addLocationButton;
   @FXML MFXButton addEdgeButton;
-  @FXML AnchorPane mapView;
-  @FXML AnchorPane tableView;
 
   // Tabs
   @FXML TabPane tableTabs;
@@ -131,7 +129,6 @@ public class DatabaseTableViewController {
   @FXML TextField editEdgeEndField;
   ///////////////////////////
   @FXML MFXButton confirmEditButton;
-  @FXML Button mapEditorSwapButton;
 
   FileChooser saveChooser = new FileChooser();
   FileChooser selectChooser = new FileChooser();
@@ -210,8 +207,7 @@ public class DatabaseTableViewController {
     buildingCol.setCellValueFactory(new PropertyValueFactory<HospitalNode, String>("building"));
 
     editNodeFloorChoice.setItems(FXCollections.observableArrayList(Floor.allFloors()));
-    editNodeBuildingChoice.setItems(
-        FXCollections.observableArrayList(HospitalNode.allBuildings())); // TODO: DO
+    editNodeBuildingChoice.setItems(FXCollections.observableArrayList(HospitalNode.allBuildings()));
 
     nodeTable.setItems(FXCollections.observableArrayList(dC.getNodeList()));
     nodeTable
@@ -256,6 +252,8 @@ public class DatabaseTableViewController {
 
     moveTable.setPlaceholder(new Label("No rows to display"));
 
+    // backButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
+
     deleteButton.setOnMouseClicked(
         event -> {
           removeItem();
@@ -273,11 +271,6 @@ public class DatabaseTableViewController {
                 }
               }
             });
-
-    mapEditorSwapButton.setOnMouseClicked(
-        event -> {
-          Navigation.navigate(Screen.DATABASE_MAPVIEW);
-        });
 
     addMoveButton.setOnMouseClicked(
         event -> {
@@ -432,8 +425,8 @@ public class DatabaseTableViewController {
     String flr = floorField.getText();
     String building = buildingField.getText();
     try {
-      nodeX = Integer.parseInt(xField.getText());
-      nodeY = Integer.parseInt(yField.getText());
+      nodeX = parseInt(xField.getText());
+      nodeY = parseInt(yField.getText());
       toAdd = new HospitalNode(new NodeInitializer(nodeI, nodeX, nodeY, flr, building));
       // DatabaseController.INSTANCE.addToTable(DatabaseController.Table.NODE, toAdd);
       SQLRepo.INSTANCE.addNode(toAdd);
@@ -480,7 +473,7 @@ public class DatabaseTableViewController {
     String date = dateField.getText();
     // MoveAttribute newMoveAttribute;
     try {
-      toAdd = new MoveAttribute(nodeID, name, date);
+      toAdd = new MoveAttribute(parseInt(nodeID), name, date);
       // DatabaseController.INSTANCE.addToTable(DatabaseController.Table.MOVE, toAdd);
       SQLRepo.INSTANCE.addMove(toAdd);
       confirmPop.show(App.getPrimaryStage());
@@ -592,7 +585,9 @@ public class DatabaseTableViewController {
     editEdgeZone.setVisible(false);
     editNodeZone.setVisible(false);
 
-    editMoveIDField.setText(move.getNodeID());
+    String nodeID = Integer.toString(move.getNodeID());
+
+    editMoveIDField.setText(nodeID);
     editMoveNameChoice.setValue(move.getLongName());
     editMoveDateField.setText(move.getDate());
 
