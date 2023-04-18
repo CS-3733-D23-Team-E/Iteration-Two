@@ -125,6 +125,10 @@ public class DatabaseMapViewController {
     }
 
     for (HospitalEdge edge : floorEdges) {
+
+      System.out.println("ONE: " + HospitalNode.allNodes.get(edge.getNodeOneID()));
+      System.out.println("TWO: " + HospitalNode.allNodes.get(edge.getNodeTwoID()));
+
       whichMapUtility(currentFloor)
           .drawEdge(
               HospitalNode.allNodes.get(edge.getNodeOneID()),

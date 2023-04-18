@@ -139,7 +139,7 @@ public class MapUtilities {
     System.out.println("x2: " + x2);
     System.out.println("y2: " + y2);
 
-    return drawLine(x1, x2, y1, y2);
+    return drawLine(x1, y1, x2, y2);
   }
 
   /**
