@@ -39,16 +39,16 @@ public class Employee {
   @Getter @Setter private String fullName;
   @Getter @Setter private String username;
   @Getter @Setter private String password;
-  @Getter @Setter private Permission permission;
+  @Getter @Setter private String permission;
 
-  public Employee(String fullName, String username, String password, Permission permission) {
+  public Employee(String fullName, String username, String password, String permission) {
     this.fullName = fullName;
     this.username = username;
     this.password = hashPassword(password);
     this.permission = permission;
   }
 
-  public Employee(String fullName, Permission permission) {
+  public Employee(String fullName, String permission) {
     this.fullName = fullName;
     this.permission = permission;
     this.username = null;

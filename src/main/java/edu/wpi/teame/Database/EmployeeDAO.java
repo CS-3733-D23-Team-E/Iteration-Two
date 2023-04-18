@@ -32,10 +32,7 @@ public class EmployeeDAO extends DAO<Employee> {
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        employeeList.add(
-            new Employee(
-                rs.getString("fullName"),
-                Employee.Permission.stringToPermission(rs.getString("permission"))));
+        employeeList.add(new Employee(rs.getString("fullName"), rs.getString("permission")));
       }
       if (employeeList.isEmpty()) System.out.println("There was a problem returning the employees");
     } catch (SQLException e) {
@@ -101,7 +98,7 @@ public class EmployeeDAO extends DAO<Employee> {
       String fullName = obj.getFullName();
       String username = obj.getUsername();
       String password = obj.getPassword();
-      String perm = obj.getPermission().toString();
+      String perm = obj.getPermission();
 
       Statement stmt = activeConnection.createStatement();
       String sql =
@@ -174,7 +171,7 @@ public class EmployeeDAO extends DAO<Employee> {
     this.get();
   }
 
-  public boolean verifyLogIn(String username, String password) {
+  public Employee verifyLogIn(String username, String password) {
     String sql = "";
     String hashedPassword = Employee.hashPassword(password);
 
@@ -192,10 +189,10 @@ public class EmployeeDAO extends DAO<Employee> {
 
       if (rs.next()) {
         System.out.println("You've successfully logged in");
-        return true;
+        return new Employee(rs.getString("fullName"), rs.getString("permission"));
       } else {
         System.out.println("Your username or password is incorrect");
-        return false;
+        return null;
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);

@@ -1,5 +1,6 @@
 package edu.wpi.teame.Database;
 
+import edu.wpi.teame.Main;
 import edu.wpi.teame.entities.Employee;
 import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.map.*;
@@ -54,7 +55,8 @@ public enum SQLRepo {
           DriverManager.getConnection(
               "jdbc:postgresql://database.cs.wpi.edu:5432/teamedb", "teame", "teame50");
       employeeDAO = new EmployeeDAO(activeConnection);
-      if (!employeeDAO.verifyLogIn(username, password)) {
+      Employee loggedIn = employeeDAO.verifyLogIn(username, password);
+      if (loggedIn == null) {
         return null;
       } else {
         nodeDAO = new NodeDAO(activeConnection);
@@ -63,24 +65,8 @@ public enum SQLRepo {
         locationDAO = new LocationDAO(activeConnection);
         serviceDAO = new ServiceDAO(activeConnection);
         dbUtility = new DatabaseUtility(activeConnection);
-
-        String sql =
-            "SELECT \"fullName\", \"permission\" FROM \"Employee\" "
-                + "WHERE \"username\" = '"
-                + username
-                + "';";
-
-        Statement stmt = activeConnection.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-
-        if (rs.next()) {
-          return new Employee(
-              rs.getString("fullName"),
-              Employee.Permission.stringToPermission(rs.getString("permission")));
-        }
-        return null;
+        return loggedIn;
       }
-
     } catch (SQLException e) {
       exitDatabaseProgram();
       throw new RuntimeException("Your username or password is incorrect");
@@ -102,18 +88,16 @@ public enum SQLRepo {
 
   // DatabaseReset
   public void resetDatabase() {
-    this.importFromCSV(
-        Table.NODE,
-        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Node.csv");
-    this.importFromCSV(
-        Table.EDGE,
-        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Edge.csv");
-    this.importFromCSV(
-        Table.MOVE,
-        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\Move.csv");
-    this.importFromCSV(
-        Table.LOCATION_NAME,
-        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Ethical-Easter-Bunnies\\Data\\NewData\\LocationName.csv");
+
+    String node = Main.class.getResource("Data/NewData/Node.csv").getFile().replaceAll("%20", " ");
+    String edge = Main.class.getResource("Data/NewData/Edge.csv").getFile().replaceAll("%20", " ");
+    String move = Main.class.getResource("Data/NewData/Move.csv").getFile().replaceAll("%20", " ");
+    String location =
+        Main.class.getResource("Data/NewData/LocationName.csv").getFile().replaceAll("%20", " ");
+    this.importFromCSV(Table.NODE, node);
+    this.importFromCSV(Table.EDGE, edge);
+    this.importFromCSV(Table.MOVE, move);
+    this.importFromCSV(Table.LOCATION_NAME, location);
   }
 
   // ALL DATABASE UTILITY

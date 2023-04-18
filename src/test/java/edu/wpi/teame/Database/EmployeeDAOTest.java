@@ -24,7 +24,7 @@ public class EmployeeDAOTest {
     SQLRepo.INSTANCE.connectToDatabase("staff", "staff");
     int numEmployees = SQLRepo.INSTANCE.getEmployeeList().size();
 
-    Employee Jamie = new Employee("Jamie Rapal", "JRapal", "password", Employee.Permission.ADMIN);
+    Employee Jamie = new Employee("Jamie Rapal", "JRapal", "password", "ADMIN");
     SQLRepo.INSTANCE.addEmployee(Jamie);
     int numEmployees2 = SQLRepo.INSTANCE.getEmployeeList().size();
     assertEquals(numEmployees + 1, numEmployees2);
@@ -40,7 +40,7 @@ public class EmployeeDAOTest {
   public void testUpdate() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
 
-    Employee Jamie = new Employee("Jamie Rapal", "JRapal", "password", Employee.Permission.ADMIN);
+    Employee Jamie = new Employee("Jamie Rapal", "JRapal", "password", "ADMIN");
     SQLRepo.INSTANCE.addEmployee(Jamie);
     SQLRepo.INSTANCE.updateEmployee(Jamie, "fullName", "Jamie R");
     Jamie.setFullName("Jamie R");

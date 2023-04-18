@@ -127,7 +127,6 @@ public class LocationDAO<E> extends DAO<LocationName> {
 
       for (String l1 : rows) {
         String[] splitL1 = l1.split(",");
-        System.out.println(l1);
         String sql =
             "INSERT INTO \""
                 + tableName
@@ -139,7 +138,6 @@ public class LocationDAO<E> extends DAO<LocationName> {
                 + "','"
                 + splitL1[2]
                 + "'); ";
-        System.out.println(sql);
         stmt.execute(sql);
       }
 
