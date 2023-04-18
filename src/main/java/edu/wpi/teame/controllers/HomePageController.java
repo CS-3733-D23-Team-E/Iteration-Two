@@ -1,8 +1,7 @@
 package edu.wpi.teame.controllers;
 
-import static javafx.scene.paint.Color.WHITE;
-
 import edu.wpi.teame.entities.LoginData;
+import edu.wpi.teame.utilities.ButtonUtilities;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -120,12 +119,12 @@ public class HomePageController {
     menuBarExit.setOnMouseClicked((event -> Platform.exit()));
 
     // makes the menu bar buttons get highlighted when the mouse hovers over them
-      mouseSetupMenuBar(menuBarHome, "baseline-left");
-      mouseSetupMenuBar(menuBarServices, "baseline-left");
-      mouseSetupMenuBar(menuBarSignage, "baseline-left");
-      mouseSetupMenuBar(menuBarMaps, "baseline-left");
-      mouseSetupMenuBar(menuBarDatabase, "baseline-left");
-      mouseSetupMenuBar(menuBarExit, "baseline-center");
+    ButtonUtilities.mouseSetupMenuBar(menuBarHome, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarServices, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarSignage, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarMaps, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarDatabase, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarExit, "baseline-center");
 
     // makes the buttons highlight when they are hovered over
     mouseSetup(serviceRequestButton);
@@ -168,21 +167,6 @@ public class HomePageController {
           btn.setTextFill(Color.web("#f1f1f1", 1.0));
         });
   }
-
-    private void mouseSetupMenuBar(MFXButton btn, String alignment) {
-        btn.setOnMouseEntered(
-                event -> {
-                    btn.setStyle(
-                            "-fx-background-color: #f1f1f1; -fx-alignment: alignment; -fx-border-color: #001A3C; -fx-border-width: 0; -fx-font-size: 18;");
-                    btn.setTextFill(Color.web("#192d5aff", 1.0));
-                });
-        btn.setOnMouseExited(
-                event -> {
-                    btn.setStyle(
-                            "-fx-background-color: #001A3C; -fx-alignment: alignment;-fx-font-size: 18;");
-                    btn.setTextFill(WHITE);
-                });
-    }
 
   public void logoutPopup(boolean bool) {
     logoutBox.setVisible(bool);
