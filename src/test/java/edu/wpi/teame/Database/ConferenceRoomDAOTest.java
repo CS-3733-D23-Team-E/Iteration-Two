@@ -63,7 +63,7 @@ public class ConferenceRoomDAOTest {
 
     SQLRepo.INSTANCE.addConfRoomRequest(conferenceRequest);
     SQLRepo.INSTANCE.updateConfRoomRequest(conferenceRequest, "status", "PENDING");
-    // SQLRepo.INSTANCE.deleteConfRoomRequest(conferenceRequest);
+    SQLRepo.INSTANCE.deleteConfRoomRequest(conferenceRequest);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

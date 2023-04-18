@@ -72,7 +72,7 @@ public class FlowerDAOTest {
             FlowerRequestData.Status.IN_PROGRESS);
     SQLRepo.INSTANCE.addFlowerRequest(flowerRequest);
     SQLRepo.INSTANCE.updateFlowerRequest(flowerRequest, "status", "DONE");
-    // SQLRepo.INSTANCE.deleteFlowerRequest(flowerRequest);
+    SQLRepo.INSTANCE.deleteFlowerRequest(flowerRequest);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

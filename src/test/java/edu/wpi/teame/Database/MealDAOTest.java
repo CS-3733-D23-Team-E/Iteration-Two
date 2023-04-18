@@ -73,7 +73,7 @@ public class MealDAOTest {
 
     SQLRepo.INSTANCE.addMealRequest(mealRequest);
     SQLRepo.INSTANCE.updateMealRequest(mealRequest, "status", "DONE");
-    // SQLRepo.INSTANCE.deleteMealRequest(mealRequest);
+    SQLRepo.INSTANCE.deleteMealRequest(mealRequest);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }
