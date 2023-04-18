@@ -35,17 +35,18 @@ public class MoveDAOTest {
 
     int lengthList = moveAttributes.size();
 
-    SQLRepo.INSTANCE.addMove(new MoveAttribute(2535, "HallNode", "Test"));
+    SQLRepo.INSTANCE.addMove(new MoveAttribute(2535, "HallNode", "2023-01-01"));
 
     moveAttributes = SQLRepo.INSTANCE.getMoveList();
 
     assertTrue(moveAttributes.size() == lengthList + 1);
 
-    // SQLRepo.INSTANCE.deleteMove(new MoveAttribute("2535", "HallNode", "Test"));
+    SQLRepo.INSTANCE.deleteMove(new MoveAttribute(2535, "HallNode", "2023-01-01"));
 
-    // moveAttributes = SQLRepo.INSTANCE.getMoveList();
+    moveAttributes = SQLRepo.INSTANCE.getMoveList();
+    System.out.println(moveAttributes.size() + " " + lengthList);
 
-    // assertTrue(moveAttributes.size() == lengthList);
+    assertTrue(moveAttributes.size() == lengthList);
   }
 
   @Test

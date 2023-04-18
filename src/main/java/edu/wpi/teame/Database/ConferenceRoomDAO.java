@@ -1,5 +1,7 @@
 package edu.wpi.teame.Database;
 
+import static java.lang.Integer.parseInt;
+
 import edu.wpi.teame.entities.ConferenceRequestData;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -170,7 +172,7 @@ public class ConferenceRoomDAO<E> extends DAO<ConferenceRequestData> {
                 + tableName
                 + "\""
                 + " VALUES ("
-                + splitL1[0]
+                + parseInt(splitL1[0])
                 + ",'"
                 + splitL1[1]
                 + "','"

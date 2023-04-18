@@ -1,5 +1,7 @@
 package edu.wpi.teame.Database;
 
+import static java.lang.Integer.parseInt;
+
 import edu.wpi.teame.entities.MealRequestData;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -182,7 +184,7 @@ public class MealDAO<E> extends DAO<MealRequestData> {
                 + tableName
                 + "\""
                 + " VALUES ("
-                + splitL1[0]
+                + parseInt(splitL1[0])
                 + ",'"
                 + splitL1[1]
                 + "','"

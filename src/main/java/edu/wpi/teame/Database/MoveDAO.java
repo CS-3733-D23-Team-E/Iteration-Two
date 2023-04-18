@@ -99,7 +99,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
     } catch (SQLException e) {
-      System.out.println("error adding");
+      System.out.println(e);
     }
   }
 

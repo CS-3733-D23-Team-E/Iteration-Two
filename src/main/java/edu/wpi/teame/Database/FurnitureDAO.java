@@ -1,5 +1,7 @@
 package edu.wpi.teame.Database;
 
+import static java.lang.Integer.parseInt;
+
 import edu.wpi.teame.entities.FurnitureRequestData;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -171,7 +173,7 @@ public class FurnitureDAO<E> extends DAO<FurnitureRequestData> {
                 + tableName
                 + "\""
                 + " VALUES ("
-                + splitL1[0]
+                + parseInt(splitL1[0])
                 + ",'"
                 + splitL1[1]
                 + "','"

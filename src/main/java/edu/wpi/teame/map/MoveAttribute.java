@@ -12,16 +12,4 @@ public class MoveAttribute {
     this.longName = longName;
     this.date = date;
   }
-
-  public int getNodeID() {
-    return nodeID;
-  }
-
-  public String getLongName() {
-    return longName;
-  }
-
-  public String getDate() {
-    return date;
-  }
 }
