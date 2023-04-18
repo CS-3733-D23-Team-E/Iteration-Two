@@ -63,47 +63,31 @@ public class DatabaseServiceRequestViewController {
 
     SQLRepo dC = SQLRepo.INSTANCE;
 
-    mealRecipientNameCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("recipientName"));
+    mealRecipientNameCol.setCellValueFactory(
+        new PropertyValueFactory<MealRequestData, String>("recipientName"));
     mealRoomCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("room"));
     mealDateCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("date"));
     mealTimeCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("time"));
     mealStaffCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("staff"));
-    mealMainCourseCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("mainCourse"));
-    mealSideCourseCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("sideCourse"));
+    mealMainCourseCol.setCellValueFactory(
+        new PropertyValueFactory<MealRequestData, String>("mainCourse"));
+    mealSideCourseCol.setCellValueFactory(
+        new PropertyValueFactory<MealRequestData, String>("sideCourse"));
     mealDrinkCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("drink"));
-    mealAllergiesCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("allergies"));
+    mealAllergiesCol.setCellValueFactory(
+        new PropertyValueFactory<MealRequestData, String>("allergies"));
     mealNotesCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("notes"));
 
     mealTable.setItems(FXCollections.observableArrayList(dC.getMealRequestsList()));
-      mealTable
-              .getSelectionModel()
-              .selectedItemProperty()
-              .addListener(
-                      (obs, oldSelection, newSelection) -> {
-                          if (newSelection != null) {
-                              //displayMoveEdit(newSelection);
-                          }
-                      });
-      mealTable.setEditable(true);
-
-    /*    Stream<LocationName> locationStream = LocationName.allLocations.values().stream();
-            ObservableList<String> names =
-                    FXCollections.observableArrayList(
-                            locationStream
-                                    .filter(
-                                            (locationName) -> {
-                                                return locationName.getNodeType() != LocationName.NodeType.HALL
-                                                        && locationName.getNodeType() != LocationName.NodeType.STAI
-                                                        && locationName.getNodeType() != LocationName.NodeType.REST
-                                                        && locationName.getNodeType() != LocationName.NodeType.ELEV;
-                                            })
-                                    .map(
-                                            (locationName) -> {
-                                                return locationName.getLongName();
-                                            })
-                                    .sorted()
-                                    .toList());
-            editRoomField.setItems(names);
-    */
+    mealTable
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (obs, oldSelection, newSelection) -> {
+              if (newSelection != null) {
+                // displayMoveEdit(newSelection);
+              }
+            });
+    mealTable.setEditable(true);
   }
 }
