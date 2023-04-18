@@ -33,8 +33,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
         ResultSet rs = stmt.executeQuery(query)) {
       while (rs.next()) {
         moveAttributes.add(
-            new MoveAttribute(
-                rs.getString("nodeID"), rs.getString("longName"), rs.getString("date")));
+            new MoveAttribute(rs.getInt("nodeID"), rs.getString("longName"), rs.getString("date")));
       }
       System.out.println("Move table retrieved successfully");
     } catch (SQLException e) {
@@ -44,7 +43,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
   }
 
   public void update(MoveAttribute moveAttribute, String attribute, String value) {
-    String nodeID = moveAttribute.getNodeID();
+    int nodeID = moveAttribute.getNodeID();
     String longName = moveAttribute.getLongName();
     String sqlUpdate =
         "UPDATE \"Move\" "
@@ -52,9 +51,9 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
             + attribute
             + "\" = '"
             + value
-            + "' WHERE \"nodeID\" = '"
+            + "' WHERE \"nodeID\" = "
             + nodeID
-            + "' AND \"longName\" = '"
+            + " AND \"longName\" = '"
             + longName
             + "';";
 
@@ -69,12 +68,12 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
   }
 
   public void delete(MoveAttribute moveAttribute) {
-    String nodeId = moveAttribute.getNodeID();
+    int nodeId = moveAttribute.getNodeID();
     String longName = moveAttribute.getLongName();
     String sqlDelete =
-        "DELETE FROM \"Move\" WHERE \"nodeID\" = '"
+        "DELETE FROM \"Move\" WHERE \"nodeID\" = "
             + nodeId
-            + "' AND \"longName\" = '"
+            + " AND \"longName\" = '"
             + longName
             + "';";
 
@@ -89,11 +88,11 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
   }
 
   public void add(MoveAttribute moveAttribute) {
-    int nodeId = Integer.parseInt(moveAttribute.getNodeID());
+    int nodeId = moveAttribute.getNodeID();
     String longName = moveAttribute.getLongName();
     String date = moveAttribute.getDate();
     String sqlAdd =
-        "INSERT INTO \"Move\" VALUES(" + nodeId + ",'" + longName + "' , '" + date + "');";
+        "INSERT INTO \"Move\" VALUES(" + nodeId + ",'" + longName + "','" + date + "');";
 
     Statement stmt;
     try {
