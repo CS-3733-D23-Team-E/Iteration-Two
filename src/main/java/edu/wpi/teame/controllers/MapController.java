@@ -401,8 +401,9 @@ public class MapController {
   public void createPathLabels(VBox vbox, List<HospitalNode> path) {
     for (int i = 0; i < path.size(); i++) {
 
+      HospitalNode currentNode = path.get(i);
       String destination =
-          SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(path.get(i).getNodeID()));
+          SQLRepo.INSTANCE.getNamefromNodeID(Integer.parseInt(currentNode.getNodeID()));
 
       // Image
       Image icon;
@@ -454,6 +455,24 @@ public class MapController {
       hBox.setSpacing(10);
       hBox.setPadding(new Insets(0, 10, 0, 10));
       hBox.getChildren().addAll(pathIcon, line, destinationLabel);
+
+      // Add the event listener
+      hBox.setOnMouseClicked(
+          event -> {
+            Floor nodeFloor = currentNode.getFloor();
+            tabPane.getSelectionModel().select(floorToTab(nodeFloor));
+            MapUtilities currentMapUtility = whichMapUtility(nodeFloor);
+            GesturePane startingPane = ((GesturePane) currentMapUtility.getPane().getParent());
+
+            // Zoom in on the starting node
+            startingPane.zoomTo(2, startingPane.targetPointAtViewportCentre());
+
+            // Pan so starting node is centered
+            startingPane.centreOn(
+                new Point2D(
+                    currentMapUtility.convertX(currentNode.getXCoord()),
+                    currentMapUtility.convertY(currentNode.getYCoord())));
+          });
 
       // Add path label to VBox
       vbox.getChildren().add(hBox);
