@@ -131,7 +131,8 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
                 + splitL1[1]
                 + "','"
                 + splitL1[2]
-                + "'); ";
+                + "', 'MM/DD/YYYY'));";
+
         stmt.execute(sql);
       }
 
