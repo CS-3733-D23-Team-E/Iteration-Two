@@ -35,11 +35,10 @@ public class App extends Application {
 
     final Scene scene = new Scene(root);
     primaryStage.setScene(scene);
-    primaryStage.setMinWidth(640);
-    primaryStage.setMinHeight(480);
-    primaryStage.setResizable(false);
+    primaryStage.setMinWidth(1600);
+    primaryStage.setMinHeight(900);
     primaryStage.show();
-    Navigation.navigate(Screen.HOME);
+    Navigation.navigate(Screen.SIGNAGE_TEXT);
   }
 
   @Override
