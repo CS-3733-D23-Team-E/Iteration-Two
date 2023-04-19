@@ -82,7 +82,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <DatePicker fx:id="deliveryDate" maxHeight="42.0" maxWidth="300.0" prefHeight="27.2" prefWidth="300.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
+                              <DatePicker fx:id="deliveryDate" maxHeight="42.0" maxWidth="300.0" prefHeight="27.2" prefWidth="300.0" styleClass="MFXTextField" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">

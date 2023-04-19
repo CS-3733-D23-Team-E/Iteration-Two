@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<AnchorPane prefHeight="750.0" prefWidth="900.0" style="-fx-background-color: #f1f1f1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.FurnitureController">
+<AnchorPane prefHeight="750.0" prefWidth="900.0" style="-fx-background-color: #f1f1f1;" stylesheets="@../styles/eStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.FurnitureController">
    <children>
       <VBox prefHeight="750.0" prefWidth="900.0" spacing="75.0" AnchorPane.topAnchor="50.0">
          <children>
@@ -41,7 +41,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <TextField fx:id="recipientName" maxHeight="70.0" prefHeight="70.0" style="-fx-border-color: #5c5c5c;" />
+                              <TextField fx:id="recipientName" maxHeight="70.0" prefHeight="70.0" styleClass="MFXTextField" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                            <VBox.margin>
                               <Insets />
@@ -63,7 +63,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox fx:id="roomName" maxHeight="70.0" maxWidth="300.0" prefHeight="52.0" prefWidth="267.0" style="-fx-border-color: #5c5c5c;" />
+                              <SearchableComboBox fx:id="roomName" maxHeight="70.0" maxWidth="300.0" prefHeight="52.0" prefWidth="267.0" style="-fx-border-color: #5c5c5c;" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                         <VBox maxWidth="300.0" prefHeight="72.0" prefWidth="267.0">
@@ -82,7 +82,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <DatePicker fx:id="deliveryDate" maxHeight="40.0" maxWidth="300.0" style="-fx-border-color: #5c5c5c;" />
+                              <DatePicker fx:id="deliveryDate" maxHeight="40.0" maxWidth="300.0" style="-fx-border-color: #5c5c5c;" styleClass="MFXTextField" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -101,7 +101,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox fx:id="deliveryTime" maxHeight="50.0" maxWidth="300.0" prefHeight="44.0" prefWidth="267.0" style="-fx-border-color: #5c5c5c;" />
+                              <SearchableComboBox fx:id="deliveryTime" maxHeight="50.0" maxWidth="300.0" prefHeight="44.0" prefWidth="267.0" style="-fx-border-color: #5c5c5c;" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -111,7 +111,7 @@
                                     <Font name="Roboto" size="24.0" />
                                  </font>
                               </Text>
-                              <SearchableComboBox fx:id="assignedStaff" maxHeight="50.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5c5c5c;" />
+                              <SearchableComboBox fx:id="assignedStaff" maxHeight="50.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5c5c5c;" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                      </children>
@@ -142,7 +142,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox fx:id="furnitureType" maxHeight="30.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5c5c5c;">
+                              <SearchableComboBox fx:id="furnitureType" maxHeight="30.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5c5c5c;" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -159,7 +159,7 @@
                                     <Font name="Roboto" size="24.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="notes" maxHeight="30.0" prefHeight="70.0" style="-fx-border-color: #5c5c5c;">
+                              <TextField fx:id="notes" maxHeight="30.0" prefHeight="70.0" style="-fx-border-color: #5c5c5c;" styleClass="MFXTextField" stylesheets="@../styles/eStyleSheet.css">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -188,7 +188,7 @@
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton fx:id="submitButton" maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #3B63A5; -fx-text-fill: #f1f1f1; -fx-background-radius: 10;" text="Submit">
+                  <MFXButton fx:id="submitButton" maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" styleClass="submitButton" stylesheets="@../styles/eStyleSheet.css" text="Submit">
                      <font>
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
