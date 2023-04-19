@@ -2,8 +2,8 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -15,13 +15,13 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import org.controlsfx.control.SearchableComboBox?>
+<?import javafx.scene.control.Tooltip?>
 
-<?import javafx.scene.control.Label?>
 <AnchorPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.DatabaseEditor.MoveComponentController">
    <children>
       <VBox prefHeight="900.0" prefWidth="1600.0">
          <children>
-            <HBox prefHeight="75.0" prefWidth="1600.0" />
             <HBox prefHeight="800.0" prefWidth="1600.0" spacing="20.0">
                <children>
                   <VBox prefHeight="800.0" prefWidth="675.0" spacing="10.0">
@@ -73,7 +73,7 @@
                                                                   <Font size="24.0" />
                                                                </font>
                                                             </Text>
-                                                            <ComboBox fx:id="departmentMoveSelector" prefWidth="150.0" />
+                                                            <SearchableComboBox fx:id="departmentMoveSelector" maxWidth="150.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                                                          </children>
                                                       </VBox>
                                                       <Line endY="100.0" />
@@ -84,7 +84,7 @@
                                                                   <Font size="24.0" />
                                                                </font>
                                                             </Text>
-                                                            <ComboBox fx:id="newNodeSelector" prefWidth="150.0" />
+                                                            <SearchableComboBox fx:id="newNodeSelector" maxWidth="150.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -102,6 +102,7 @@
                                           <VBox>
                                              <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Swap Departments">
+                                                   <Tooltip text="Swap the location names of two nodes for a given date" />
                                                    <font>
                                                       <Font size="32.0" />
                                                    </font>
@@ -110,23 +111,23 @@
                                                    <children>
                                                       <VBox>
                                                          <children>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Department 1:">
+                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location 1:">
                                                                <font>
                                                                   <Font size="24.0" />
                                                                </font>
                                                             </Text>
-                                                            <ComboBox fx:id="departmentOneSelector" prefWidth="150.0" />
+                                                            <SearchableComboBox fx:id="departmentOneSelector" maxWidth="150.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                                                          </children>
                                                       </VBox>
                                                       <Line endY="100.0" />
                                                       <VBox>
                                                          <children>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Department 2:">
+                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location 2:">
                                                                <font>
                                                                   <Font size="24.0" />
                                                                </font>
                                                             </Text>
-                                                            <ComboBox fx:id="departmentTwoSelector" prefWidth="150.0" />
+                                                            <SearchableComboBox fx:id="departmentTwoSelector" maxWidth="150.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -147,11 +148,17 @@
                                           <Font size="24.0" />
                                        </font>
                                     </Text>
-                                    <DatePicker fx:id="moveDateSelector" />
+                                    <DatePicker fx:id="moveDateSelector" styleClass="MFXTextField" stylesheets="@../styles/eStyleSheet.css" />
                                  </children>
                               </VBox>
-                              <MFXButton fx:id="confirmButton" text="Confirm" />
-                              <MFXButton fx:id="resetButton" style="-fx-background-color: #ff0000;" text="Reset" />
+                              <MFXButton fx:id="confirmButton" text="Confirm">
+                                 <HBox.margin>
+                                    <Insets top="35.0" />
+                                 </HBox.margin></MFXButton>
+                              <MFXButton fx:id="resetButton" style="-fx-background-color: #ff0000;" text="Reset">
+                                 <HBox.margin>
+                                    <Insets top="35.0" />
+                                 </HBox.margin></MFXButton>
                            </children>
                         </HBox>
                      </children>

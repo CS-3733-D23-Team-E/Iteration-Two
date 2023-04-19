@@ -1,7 +1,7 @@
 package edu.wpi.teame.controllers;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.entities.ServiceRequestData;
+import edu.wpi.teame.entities.ConferenceRequestData;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.controlsfx.control.SearchableComboBox;
-import org.json.JSONObject;
 
 public class RoomRequestController {
   ObservableList<String> times =
@@ -29,6 +28,16 @@ public class RoomRequestController {
           "Add a fan",
           "Add a whiteboard",
           "Add a projector and screen");
+
+  ObservableList<String> staffMembers =
+      FXCollections.observableArrayList(
+          "Mary Gardner",
+          "Robert Nash",
+          "Edward Diaz",
+          "Evan Buckley",
+          "Christopher Reyes",
+          "Madelyn Johnson",
+          "Ian Adams");
 
   @FXML TextField recipientName;
   @FXML SearchableComboBox<String> roomName;
@@ -59,6 +68,16 @@ public class RoomRequestController {
                     })
                 .sorted()
                 .toList());
+
+    /*assignedStaff.setItems(
+            FXCollections.observableList(
+                SQLRepo.INSTANCE.getEmployeeList().stream()
+                    .filter(employee -> employee.getPermission().equals("STAFF"))
+                    .map(employee -> employee.getFullName())
+                    .toList()));
+    */
+
+    assignedStaff.setItems(FXCollections.observableArrayList(staffMembers));
     roomName.setItems(names);
     bookingTime.setItems(times);
     roomChanges.setItems(changes);
@@ -69,32 +88,26 @@ public class RoomRequestController {
     resetButton.setOnMouseClicked(event -> clearForm());
   }
 
-  public ServiceRequestData sendRequest() {
-
-    // Create the json to store the values
-    JSONObject requestData = new JSONObject();
-    requestData.put("deliveryTime", bookingTime.getValue());
-    requestData.put("bookingDate", bookingDate.getValue());
-    requestData.put("roomChanges", roomChanges.getValue());
-    requestData.put("numberOfHours", numberOfHours.getText());
-    requestData.put("recipientName", recipientName.getText());
-    requestData.put("roomNumber", roomName.getValue());
-    requestData.put("notes", notes.getText());
+  public ConferenceRequestData sendRequest() {
 
     // Create the service request data
-    ServiceRequestData flowerRequestData =
-        new ServiceRequestData(
-            ServiceRequestData.RequestType.CONFERENCEROOM,
-            requestData,
-            ServiceRequestData.Status.PENDING,
-            assignedStaff.getValue());
+    ConferenceRequestData requestData =
+        new ConferenceRequestData(
+            0,
+            recipientName.getText(),
+            roomName.getValue(),
+            bookingDate.getValue().toString(),
+            bookingTime.getValue(),
+            assignedStaff.getValue(),
+            roomChanges.getValue(),
+            notes.getText(),
+            ConferenceRequestData.Status.PENDING);
+    SQLRepo.INSTANCE.addConfRoomRequest(requestData);
 
     // Return to the home screen
     Navigation.navigate(Screen.HOME);
 
-    SQLRepo.INSTANCE.addServiceRequest(flowerRequestData);
-
-    return flowerRequestData;
+    return requestData;
   }
 
   // Cancels the current service request
