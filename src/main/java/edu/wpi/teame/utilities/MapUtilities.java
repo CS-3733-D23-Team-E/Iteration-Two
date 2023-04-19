@@ -268,8 +268,8 @@ public class MapUtilities {
 
   /** removes all nodes drawn by the mapUtility on the pane */
   public void removeAll() {
-    this.getCurrentNodes().clear();
     this.pane.getChildren().removeAll(currentNodes);
+    this.currentNodes.clear();
   }
 
   /**
