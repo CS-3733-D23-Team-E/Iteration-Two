@@ -25,7 +25,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
    *
    * @return list of move attribute objects
    */
-  List<MoveAttribute> get() {
+  public List<MoveAttribute> get() {
     moveAttributes = new ArrayList<>();
     String query = "SELECT * FROM teame.\"Move\" ORDER BY \"nodeID\" ASC;";
 
@@ -42,7 +42,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
     return moveAttributes;
   }
 
-  void update(MoveAttribute moveAttribute, String attribute, String value) {
+  public void update(MoveAttribute moveAttribute, String attribute, String value) {
     int nodeID = moveAttribute.getNodeID();
     String longName = moveAttribute.getLongName();
     String sqlUpdate =
@@ -99,11 +99,11 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
+      System.out.println(e);
     }
   }
 
-  void importFromCSV(String filePath, String tableName) {
+  public void importFromCSV(String filePath, String tableName) {
     try {
       BufferedReader mreader = new BufferedReader(new FileReader(filePath));
       String line;
@@ -129,9 +129,10 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
                 + parseInt(splitL1[0])
                 + ",'"
                 + splitL1[1]
-                + "', '"
+                + "','"
                 + splitL1[2]
-                + "'); ";
+                + "', 'MM/DD/YYYY'));";
+
         stmt.execute(sql);
       }
 

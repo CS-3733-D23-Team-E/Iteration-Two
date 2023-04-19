@@ -15,7 +15,6 @@ import javax.swing.*;
 public class MapUtilities {
   private final int MAP_X = 5000;
   private final int MAP_Y = 3400;
-
   private final Pane pane;
 
   private String lineStyle = "";
@@ -270,6 +269,7 @@ public class MapUtilities {
   /** removes all nodes drawn by the mapUtility on the pane */
   public void removeAll() {
     this.pane.getChildren().removeAll(currentNodes);
+    this.currentNodes.clear();
   }
 
   /**
@@ -298,5 +298,9 @@ public class MapUtilities {
 
   public ObservableList<Node> getCurrentNodes() {
     return currentNodes;
+  }
+
+  public Pane getPane() {
+    return pane;
   }
 }

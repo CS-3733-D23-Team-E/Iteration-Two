@@ -2,6 +2,7 @@ package edu.wpi.teame.controllers;
 
 import static javafx.scene.paint.Color.WHITE;
 
+import edu.wpi.teame.utilities.ButtonUtilities;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -65,13 +66,14 @@ public class ServiceRequestPageController {
     menuBarExit.setOnMouseClicked((event -> Platform.exit()));
     logoutButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
 
-    // makes the buttons get highlighted when the mouse hovers over them
-    mouseSetup(menuBarHome);
-    mouseSetup(menuBarServices);
-    mouseSetup(menuBarSignage);
-    mouseSetup(menuBarMaps);
-    mouseSetup(menuBarDatabase);
-    mouseSetup(menuBarExit);
+    // makes the menu bar buttons get highlighted when the mouse hovers over them
+    ButtonUtilities.mouseSetupMenuBar(menuBarHome, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarServices, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarSignage, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarMaps, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarDatabase, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarExit, "baseline-center");
+
     mouseSetup(logoutButton);
   }
 
@@ -94,12 +96,12 @@ public class ServiceRequestPageController {
     btn.setOnMouseEntered(
         event -> {
           btn.setStyle(
-              "-fx-background-color: #ffffff; -fx-alignment: center; -fx-border-color: #192d5a; -fx-border-width: 2;");
+              "-fx-background-color: #f1f1f1; -fx-alignment: center; -fx-border-color: #001A3C; -fx-border-width: 2;");
           btn.setTextFill(Color.web("#192d5aff", 1.0));
         });
     btn.setOnMouseExited(
         event -> {
-          btn.setStyle("-fx-background-color: #192d5aff; -fx-alignment: center;");
+          btn.setStyle("-fx-background-color: #001A3C; -fx-alignment: center;");
           btn.setTextFill(WHITE);
         });
   }

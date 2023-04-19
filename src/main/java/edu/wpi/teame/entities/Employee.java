@@ -41,8 +41,6 @@ public class Employee {
   @Getter @Setter private String password;
   @Getter @Setter private String permission;
 
-  @Getter @Setter private static Employee currentEmployee;
-
   public Employee(String fullName, String username, String password, String permission) {
     this.fullName = fullName;
     this.username = username;
