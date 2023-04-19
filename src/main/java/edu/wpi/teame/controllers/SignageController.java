@@ -2,6 +2,8 @@ package edu.wpi.teame.controllers;
 
 import static javafx.scene.paint.Color.WHITE;
 
+import edu.wpi.teame.Database.SQLRepo;
+import edu.wpi.teame.entities.Employee;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -43,15 +45,20 @@ public class SignageController {
   }
 
   private void attemptLogin() {
-     Employee staffMember =
-     SQLRepo.INSTANCE.connectToDatabase(usernameField.getText(),passwordField.getText());
-          if(staffMember == null){
-              loginFailBox.setVisible(true);
-              closeButton.setOnMouseClicked(event -> loginFailBox.setVisible(false));// popup to
-     display incorrect login message
-              return;
-          }
-     Successful login
+    Employee staffMember =
+        SQLRepo.INSTANCE.connectToDatabase(usernameField.getText(), passwordField.getText());
+    if (staffMember == null) {
+      loginFailBox.setVisible(true);
+      closeButton.setOnMouseClicked(
+          event -> {
+            loginFailBox.setVisible(false);
+          }); // popup to
+      // display incorrect login message
+      return;
+    }
+    //     Employee.currentEmployee = staffMember;
+
+    // Successful login
     Navigation.navigate(Screen.HOME);
   }
 
