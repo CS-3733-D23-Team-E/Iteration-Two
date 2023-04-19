@@ -37,6 +37,15 @@
                     </AnchorPane>
                 </content>
             </Tab>
+            <Tab fx:id="moveTab" text="Move Departments">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                        <children>
+                            <fx:include fx:id="moveComponentView" source="../MoveComponent.fxml" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>
