@@ -111,7 +111,7 @@ public class DatabaseServiceRequestViewController {
 
   @FXML
   public void initialize() {
-
+    System.out.println("Initializing Service View");
     SQLRepo dC = SQLRepo.INSTANCE;
 
     statusComboBox.setVisible(false);
@@ -245,8 +245,8 @@ public class DatabaseServiceRequestViewController {
         new PropertyValueFactory<ConferenceRequestData, String>("assignedStaff"));
     conferenceRoomChangesCol.setCellValueFactory(
         new PropertyValueFactory<ConferenceRequestData, String>("roomRequest"));
-    conferenceNumOfHoursCol.setCellValueFactory(
-        new PropertyValueFactory<ConferenceRequestData, String>("numberOfHours"));
+    //    conferenceNumOfHoursCol.setCellValueFactory(
+    //        new PropertyValueFactory<ConferenceRequestData, String>("numberOfHours"));
     conferenceNotesCol.setCellValueFactory(
         new PropertyValueFactory<ConferenceRequestData, String>("notes"));
     conferenceRoomStatusCol.setCellValueFactory(

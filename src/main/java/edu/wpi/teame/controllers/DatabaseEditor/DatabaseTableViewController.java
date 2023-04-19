@@ -138,6 +138,7 @@ public class DatabaseTableViewController {
 
   @FXML
   public void initialize() {
+    System.out.println("Initializing Table View");
     Popup windowPop = new Popup();
     Label popupLabel = new Label("Error: improper formatting");
     popupLabel.setStyle("-fx-background-color: red;");

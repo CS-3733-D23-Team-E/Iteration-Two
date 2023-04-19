@@ -90,6 +90,7 @@ public class DatabaseMapViewController {
 
   @FXML
   public void initialize() {
+    System.out.println("Initializing Map View");
     initializeMapUtilities();
     currentFloor = Floor.LOWER_TWO;
 

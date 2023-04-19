@@ -42,6 +42,7 @@ public class MoveComponentController {
 
   @FXML
   public void initialize() {
+    System.out.println("Initializing Move Component");
     today = new Date(); // sets today var to be the current date
     formatter = new SimpleDateFormat("yyyy-MM-dd");
     refreshFields();
