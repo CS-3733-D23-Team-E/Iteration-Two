@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.SearchableComboBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1375.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.DatabaseEditor.DatabaseServiceRequestViewController">
    <children>
@@ -44,6 +46,7 @@
                                           <TableColumn fx:id="mealDrinkCol" prefWidth="75.0" text="Drink" />
                                           <TableColumn fx:id="mealAllergiesCol" prefWidth="75.0" text="Allergies" />
                                           <TableColumn fx:id="mealNotesCol" prefWidth="75.0" text="Notes" />
+                                          <TableColumn fx:id="mealStatusCol" prefWidth="75.0" text="Status" />
                                       </columns>
                                     </TableView>
                                     <HBox fx:id="mealAddZone" prefHeight="117.0" prefWidth="1167.0" />
@@ -71,6 +74,7 @@
                                           <TableColumn fx:id="flowerIncludeACardCol" prefWidth="75.0" text="Card?" />
                                           <TableColumn fx:id="flowerCardMessageCol" prefWidth="75.0" text="Card Message" />
                                           <TableColumn fx:id="flowerNotesCol" prefWidth="75.0" text="Notes" />
+                                          <TableColumn fx:id="flowerStatusCol" prefWidth="75.0" text="Status" />
                                       </columns>
                                     </TableView>
                                  </children>
@@ -94,6 +98,7 @@
                                           <TableColumn fx:id="officeSupplyTypeCol" prefWidth="75.0" text="Office Supply Type" />
                                           <TableColumn fx:id="officeNumberOfSuppliesCol" prefWidth="75.0" text="# of Supplies" />
                                           <TableColumn fx:id="officeNotesCol" prefWidth="75.0" text="Notes" />
+                                          <TableColumn fx:id="officeStatusCol" prefWidth="75.0" text="Status" />
                                       </columns>
                                     </TableView>
                                  </children>
@@ -117,6 +122,7 @@
                                           <TableColumn fx:id="conferenceRoomChangesCol" prefWidth="75.0" text="Room Changes" />
                                           <TableColumn fx:id="conferenceNumOfHoursCol" prefWidth="75.0" text="# of Hours" />
                                           <TableColumn fx:id="conferenceNotesCol" prefWidth="75.0" text="Notes" />
+                                          <TableColumn fx:id="conferenceRoomStatusCol" prefWidth="75.0" text="Status" />
                                       </columns>
                                     </TableView>
                                  </children>
@@ -139,6 +145,7 @@
                                           <TableColumn fx:id="furnitureStaffCol" prefWidth="75.0" text="Staff" />
                                           <TableColumn fx:id="furnitureTypeCol" prefWidth="75.0" text="Furniture Type" />
                                           <TableColumn fx:id="furnitureNotesCol" prefWidth="75.0" text="Notes" />
+                                          <TableColumn fx:id="furnitureStatusCol" prefWidth="75.0" text="Status" />
                                       </columns>
                                     </TableView>
                                  </children>
@@ -148,11 +155,16 @@
                   </Tab>
               </tabs>
             </TabPane>
-            <VBox prefHeight="800.0" prefWidth="465.0">
+            <VBox prefHeight="763.0" prefWidth="332.0">
                <children>
-                  <StackPane prefHeight="436.0" prefWidth="450.0">
+                  <StackPane prefHeight="408.0" prefWidth="450.0">
                      <children>
-                        <VBox fx:id="editMealZone" prefHeight="209.0" prefWidth="465.0" />
+                        <VBox fx:id="editMealZone" prefHeight="209.0" prefWidth="465.0">
+                           <children>
+                              <SearchableComboBox fx:id="statusComboBox" />
+                              <MFXButton fx:id="confirmButton" text="Confirm Change" />
+                           </children>
+                        </VBox>
                      </children>
                   </StackPane>
                </children>
