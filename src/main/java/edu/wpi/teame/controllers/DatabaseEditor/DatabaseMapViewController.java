@@ -114,6 +114,7 @@ public class DatabaseMapViewController {
               refreshMap();
             });
 
+    // TODO do this better
     mapPaneLowerTwo
         .widthProperty()
         .addListener(
@@ -126,7 +127,6 @@ public class DatabaseMapViewController {
                 loadFloorNodes();
               }
             });
-
     mapPaneLowerTwo
         .heightProperty()
         .addListener(
