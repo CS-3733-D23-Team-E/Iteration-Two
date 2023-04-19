@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 public class NodeDAOTest {
 
-  /*@Test
+  /*  @Test
   public void testResetDatabase() {
     SQLRepo.INSTANCE.connectToDatabase("admin", "admin");
     SQLRepo.INSTANCE.resetDatabase();

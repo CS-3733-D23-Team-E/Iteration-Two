@@ -42,8 +42,8 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
                 rs.getString("deliveryTime"),
                 rs.getString("staff"),
                 rs.getString("flowerType"),
-                rs.getInt("quantity"),
-                rs.getBoolean("card"),
+                rs.getString("quantity"),
+                rs.getString("card"),
                 rs.getString("cardMessage"),
                 rs.getString("notes"),
                 FlowerRequestData.Status.stringToStatus(rs.getString("status"))));
@@ -96,16 +96,17 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
 
   @Override
   void add(FlowerRequestData obj) {
-    int requestID = generateUniqueRequestID();
+    obj.setRequestID(generateUniqueRequestID());
+    int requestID = obj.getRequestID();
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
     FlowerRequestData.Status requestStatus = obj.getRequestStatus();
     String deliveryTime = obj.getDeliveryTime();
     String flowerType = obj.getFlowerType();
-    boolean card = obj.getCard();
+    String card = obj.getCard();
     String cardMessage = obj.getCardMessage();
-    int quantity = obj.getQuantity();
+    String quantity = obj.getQuantity();
     String notes = obj.getNotes();
     String staff = obj.getAssignedStaff();
 
@@ -124,9 +125,9 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
             + staff
             + "','"
             + flowerType
-            + "',"
+            + "','"
             + quantity
-            + ",'"
+            + "','"
             + card
             + "','"
             + cardMessage
@@ -141,7 +142,7 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
     } catch (SQLException e) {
-      System.out.println("error adding");
+      System.out.println(e.getMessage());
     }
   }
 
@@ -149,7 +150,7 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
     int requestID = 0;
     try {
       Statement stmt = activeConnection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT MAX(" + requestID + ") FROM \"FlowerService\"");
+      ResultSet rs = stmt.executeQuery("SELECT MAX(\"requestID\") FROM \"FlowerService\"");
       if (rs.next()) {
         requestID = rs.getInt(1);
       }

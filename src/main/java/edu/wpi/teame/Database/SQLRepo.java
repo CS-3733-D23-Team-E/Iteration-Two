@@ -122,8 +122,8 @@ public enum SQLRepo {
         Main.class.getResource("Data/NewData/LocationName.csv").getFile().replaceAll("%20", " ");
     this.importFromCSV(Table.NODE, node);
     this.importFromCSV(Table.EDGE, edge);
-    this.importFromCSV(Table.MOVE, move);
     this.importFromCSV(Table.LOCATION_NAME, location);
+    this.importFromCSV(Table.MOVE, move);
   }
 
   // ALL DATABASE UTILITY
