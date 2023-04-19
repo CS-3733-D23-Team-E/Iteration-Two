@@ -130,6 +130,7 @@ public class DatabaseMapViewController {
 
   private void deleteNode() {
     SQLRepo.INSTANCE.deletenode(curNode);
+    allNodes.remove(curNode.getNodeID());
     displayAddMenu();
     refreshMap();
   }
