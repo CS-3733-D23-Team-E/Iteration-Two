@@ -1,7 +1,7 @@
 package edu.wpi.teame.controllers;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.entities.ServiceRequestData;
+import edu.wpi.teame.entities.OfficeSuppliesData;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
@@ -10,11 +10,11 @@ import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.controlsfx.control.SearchableComboBox;
-import org.json.JSONObject;
 
-public class OfficeSuppliesController implements IRequestController {
+public class OfficeSuppliesController {
 
   @FXML MFXButton returnButtonOfficeSuppliesRequest;
   @FXML MFXButton submitButton;
@@ -24,8 +24,10 @@ public class OfficeSuppliesController implements IRequestController {
   @FXML SearchableComboBox<String> roomName;
   @FXML TextField notes;
   @FXML SearchableComboBox<String> deliveryTime;
+
+  @FXML DatePicker deliveryDate;
   @FXML SearchableComboBox<String> supplyType;
-  @FXML TextField quantityOfSupplies;
+  @FXML TextField numberOfSupplies;
   @FXML SearchableComboBox<String> assignedStaff;
 
   ObservableList<String> deliveryTimes =
@@ -54,6 +56,14 @@ public class OfficeSuppliesController implements IRequestController {
                     })
                 .sorted()
                 .toList());
+
+    assignedStaff.setItems(
+        FXCollections.observableList(
+            SQLRepo.INSTANCE.getEmployeeList().stream()
+                .filter(employee -> employee.getPermission().equals("STAFF"))
+                .map(employee -> employee.getFullName())
+                .toList()));
+
     roomName.setItems(names);
     deliveryTime.setItems(deliveryTimes);
     supplyType.setItems(officeSupplies);
@@ -68,34 +78,28 @@ public class OfficeSuppliesController implements IRequestController {
     notes.clear();
     deliveryTime.setValue(null);
     supplyType.setValue(null);
-    quantityOfSupplies.clear();
+    numberOfSupplies.clear();
     assignedStaff.setValue(null);
   }
 
-  @Override
-  public ServiceRequestData sendRequest() {
-    JSONObject requestData = new JSONObject();
-    requestData.put("staffName", recipientName.getText());
-    requestData.put("officeName", roomName.getValue());
-    requestData.put("deliveryTime", deliveryTime.getValue());
-    requestData.put("supplyType", supplyType.getValue());
-    requestData.put("numOfSupplies", quantityOfSupplies.getText());
-    requestData.put("notes", notes.getText());
-
-    ServiceRequestData officeSuppliesRequestData =
-        new ServiceRequestData(
-            ServiceRequestData.RequestType.OFFICESUPPLIESDELIVERY,
-            requestData,
-            ServiceRequestData.Status.PENDING,
-            assignedStaff.getValue());
-
+  public OfficeSuppliesData sendRequest() {
+    OfficeSuppliesData requestData =
+        new OfficeSuppliesData(
+            0,
+            recipientName.getText(),
+            roomName.getValue(),
+            deliveryDate.getValue().toString(),
+            deliveryTime.getValue(),
+            assignedStaff.getValue(),
+            supplyType.getValue(),
+            Integer.parseInt(numberOfSupplies.getText()),
+            notes.getText(),
+            OfficeSuppliesData.Status.PENDING);
     Navigation.navigate(Screen.HOME);
-
-    SQLRepo.INSTANCE.addServiceRequest(officeSuppliesRequestData);
-    return officeSuppliesRequestData;
+    SQLRepo.INSTANCE.addOfficeSupplyRequest(requestData);
+    return requestData;
   }
 
-  @Override
   public void cancelRequest() {
     Navigation.navigate(Screen.HOME);
   }
