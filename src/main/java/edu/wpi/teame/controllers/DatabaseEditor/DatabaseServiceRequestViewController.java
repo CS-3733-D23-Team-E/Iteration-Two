@@ -1,8 +1,7 @@
 package edu.wpi.teame.controllers.DatabaseEditor;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.entities.FlowerRequestData;
-import edu.wpi.teame.entities.MealRequestData;
+import edu.wpi.teame.entities.*;
 import edu.wpi.teame.map.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.collections.FXCollections;
@@ -82,7 +81,6 @@ public class DatabaseServiceRequestViewController {
   @FXML TableColumn<FurnitureRequestData, String> furnitureNotesCol;
 
   //////////////////////////////////////////
-  @FXML VBox editMealZone;
 
   @FXML
   public void initialize() {

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -11,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1375.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.DatabaseEditor.DatabaseServiceRequestViewController">
    <children>
@@ -50,21 +46,7 @@
                                           <TableColumn fx:id="mealNotesCol" prefWidth="75.0" text="Notes" />
                                       </columns>
                                     </TableView>
-                                    <HBox fx:id="mealAddZone" prefHeight="117.0" prefWidth="1167.0">
-                                       <children>
-                                          <MFXTextField fx:id="mealRecipientNameField" prefHeight="30.0" prefWidth="90.0" promptText="Recipient Name" />
-                                          <MFXTextField fx:id="mealRoomField" promptText="Room" />
-                                          <MFXTextField fx:id="mealDateField" promptText="Date" />
-                                          <MFXTextField fx:id="mealTimeField" promptText="Time" />
-                                          <MFXTextField fx:id="mealStaffField" promptText="Staff" />
-                                          <MFXTextField fx:id="mealMainCourseField" promptText="Main Course" />
-                                          <MFXTextField fx:id="mealSideCourseField" promptText="Side Course" />
-                                          <MFXTextField fx:id="mealDrinkField" promptText="Drink" />
-                                          <MFXTextField fx:id="mealAllergiesField" promptText="Allergies" />
-                                          <MFXTextField fx:id="mealNotesField" promptText="Notes" />
-                                          <MFXButton fx:id="addMealButton" text="Add Meal" />
-                                       </children>
-                                    </HBox>
+                                    <HBox fx:id="mealAddZone" prefHeight="117.0" prefWidth="1167.0" />
                                  </children>
                               </VBox>
                            </children>
@@ -73,58 +55,106 @@
                 </Tab>
                 <Tab fx:id="flowerTab" text="Flower">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="762.5" prefWidth="800.0">
+                                 <children>
+                                    <TableView fx:id="flowerTable" prefHeight="700.0" prefWidth="1000.0">
+                                      <columns>
+                                          <TableColumn fx:id="flowerRecipientNameCol" prefWidth="75.0" text="Recipient Name" />
+                                        <TableColumn fx:id="flowerRoomCol" prefWidth="75.0" text="Room" />
+                                        <TableColumn fx:id="flowerDateCol" prefWidth="75.0" text="Date" />
+                                          <TableColumn fx:id="flowerTimeCol" prefWidth="75.0" text="Time" />
+                                          <TableColumn fx:id="flowerStaffCol" prefWidth="75.0" text="Staff" />
+                                          <TableColumn fx:id="flowerFlowerChoiceCol" prefWidth="75.0" text="Flower Type" />
+                                          <TableColumn fx:id="flowerNumberOfFlowersCol" prefWidth="75.0" text="# Flowers" />
+                                          <TableColumn fx:id="flowerIncludeACardCol" prefWidth="75.0" text="Card?" />
+                                          <TableColumn fx:id="flowerCardMessageCol" prefWidth="75.0" text="Card Message" />
+                                          <TableColumn fx:id="flowerNotesCol" prefWidth="75.0" text="Notes" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
                   </content>
                 </Tab>
                   <Tab fx:id="officeSuppliesTab" text="Office Supplies">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="762.5" prefWidth="800.0">
+                                 <children>
+                                    <TableView fx:id="officeSuppliesTable" prefHeight="700.0" prefWidth="1000.0">
+                                      <columns>
+                                        <TableColumn fx:id="officeRecipientNameCol" prefWidth="75.0" text="Recipient  Name" />
+                                        <TableColumn fx:id="officeRoomCol" prefWidth="75.0" text="Room" />
+                                          <TableColumn fx:id="officeDateCol" prefWidth="75.0" text="Date" />
+                                          <TableColumn fx:id="officeTimeCol" prefWidth="75.0" text="Time" />
+                                          <TableColumn fx:id="officeStaffCol" prefWidth="75.0" text="Staff" />
+                                          <TableColumn fx:id="officeSupplyTypeCol" prefWidth="75.0" text="Office Supply Type" />
+                                          <TableColumn fx:id="officeNumberOfSuppliesCol" prefWidth="75.0" text="# of Supplies" />
+                                          <TableColumn fx:id="officeNotesCol" prefWidth="75.0" text="Notes" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
                     </content>
                   </Tab>
                   <Tab fx:id="conferenceRoomTab" text="Conference Room">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="762.5" prefWidth="800.0">
+                                 <children>
+                                    <TableView fx:id="conferenceRoomTable" prefHeight="700.0" prefWidth="1000.0">
+                                      <columns>
+                                        <TableColumn fx:id="conferenceNameCol" prefWidth="75.0" text="Name" />
+                                        <TableColumn fx:id="conferenceRoomCol" prefWidth="75.0" text="Room" />
+                                          <TableColumn fx:id="conferenceDateCol" prefWidth="75.0" text="Booking Date" />
+                                          <TableColumn fx:id="conferenceTimeCol" prefWidth="75.0" text="Booking Time" />
+                                          <TableColumn fx:id="conferenceStaffCol" prefWidth="75.0" text="Staff" />
+                                          <TableColumn fx:id="conferenceRoomChangesCol" prefWidth="75.0" text="Room Changes" />
+                                          <TableColumn fx:id="conferenceNumOfHoursCol" prefWidth="75.0" text="# of Hours" />
+                                          <TableColumn fx:id="conferenceNotesCol" prefWidth="75.0" text="Notes" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
                     </content>
                   </Tab>
                   <Tab fx:id="furnitureTab" text="Furniture">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="762.5" prefWidth="800.0">
+                                 <children>
+                                    <TableView fx:id="furnitureTable" prefHeight="700.0" prefWidth="1000.0">
+                                      <columns>
+                                          <TableColumn fx:id="furnitureNameCol" prefWidth="75.0" text="Recipient Name" />
+                                        <TableColumn fx:id="furnitureRoomCol" prefWidth="75.0" text="Room" />
+                                        <TableColumn fx:id="furnitureDateCol" prefWidth="75.0" text="Date" />
+                                          <TableColumn fx:id="furnitureTimeCol" prefWidth="75.0" text="Time" />
+                                          <TableColumn fx:id="furnitureStaffCol" prefWidth="75.0" text="Staff" />
+                                          <TableColumn fx:id="furnitureTypeCol" prefWidth="75.0" text="Furniture Type" />
+                                          <TableColumn fx:id="furnitureNotesCol" prefWidth="75.0" text="Notes" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
                     </content>
                   </Tab>
               </tabs>
             </TabPane>
             <VBox prefHeight="800.0" prefWidth="465.0">
                <children>
-                  <MFXButton fx:id="mealDeleteSelectedRow" text="Delete Selected Row" />
                   <StackPane prefHeight="436.0" prefWidth="450.0">
                      <children>
-                        <VBox fx:id="editMealZone" prefHeight="209.0" prefWidth="465.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recipient Name" />
-                              <MFXTextField fx:id="editMealRecipientNameField" minHeight="25.0" prefHeight="25.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number" />
-                              <ComboBox fx:id="editMealRoomNum" prefWidth="150.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
-                              <MFXTextField fx:id="editMealDateField" minHeight="25.0" prefHeight="25.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time" />
-                              <MFXTextField fx:id="editMealTimeField" minHeight="25.0" prefHeight="25.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Staff" />
-                              <ComboBox fx:id="editMealStaffField" prefWidth="150.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Main Course" />
-                              <ComboBox fx:id="editMealMainCourseField" prefWidth="150.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Side Course" />
-                              <ComboBox fx:id="editMealSideCourseField" prefWidth="150.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Drink" />
-                              <ComboBox fx:id="editMealDrinkField" prefWidth="150.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Allergies" />
-                              <MFXTextField fx:id="editMealAllergiesField" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Notes" />
-                              <MFXTextField fx:id="editMealNotesField" />
-                           </children>
-                        </VBox>
+                        <VBox fx:id="editMealZone" prefHeight="209.0" prefWidth="465.0" />
                      </children>
                   </StackPane>
-                  <MFXButton fx:id="confirmEditButton" text="Confirm Changes" />
                </children>
             </VBox>
          </children>
