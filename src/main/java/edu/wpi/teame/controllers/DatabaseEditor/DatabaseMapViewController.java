@@ -90,11 +90,13 @@ public class DatabaseMapViewController {
 
   HospitalNode curNode;
 
+  boolean widthLoaded = false;
+  boolean heightLoaded = false;
+
   @FXML
   public void initialize() {
     initializeMapUtilities();
     currentFloor = Floor.LOWER_TWO;
-    initialLoadFloor(currentFloor);
 
     sidebar.setVisible(true);
     // Sidebar functions
@@ -110,6 +112,32 @@ public class DatabaseMapViewController {
             (observable, oldValue, newValue) -> {
               currentFloor = tabToFloor(newValue);
               refreshMap();
+            });
+
+    mapPaneLowerTwo
+        .widthProperty()
+        .addListener(
+            (observable, oldWidth, newWidth) -> {
+              if (newWidth.doubleValue() > 0) {
+                widthLoaded = true;
+              }
+              if (widthLoaded && heightLoaded) {
+                currentFloor = Floor.LOWER_TWO;
+                loadFloorNodes();
+              }
+            });
+
+    mapPaneLowerTwo
+        .heightProperty()
+        .addListener(
+            (observable, oldHeight, newHeight) -> {
+              if (newHeight.doubleValue() > 0) {
+                heightLoaded = true;
+              }
+              if (widthLoaded && heightLoaded) {
+                currentFloor = Floor.LOWER_TWO;
+                loadFloorNodes();
+              }
             });
 
     tableEditorSwapButton.setOnMouseClicked(
@@ -168,8 +196,10 @@ public class DatabaseMapViewController {
   }
 
   private void setupNode(HospitalNode node) {
+
     String nodeID = node.getNodeID();
     MapUtilities currentMapUtility = whichMapUtility(currentFloor);
+
     Circle nodeCircle = currentMapUtility.drawHospitalNode(node);
     Label nodeLabel = currentMapUtility.drawHospitalNodeLabel(node);
     nodeLabel.setVisible(false);
