@@ -28,16 +28,22 @@ public class PathfindingTests {
   @Test
   public void testNodeIDNotFound() {
     createTestGraph();
-    AbstractPathfinder pathfinder = new BFSPathfinder();
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("BFS");
     List<HospitalNode> path = pathfinder.findPath("0", "4");
     assertNull(path);
   }
 
-  /** Tests Below this point are for BFS */
+  @Test
+  public void testGetInstanceFail() {
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("Not a real algorithm");
+    assertNull(pathfinder);
+  }
+
+  /** Tests Below this point are for Breadth-First Search */
   @Test
   public void testBFSMiddleCase1() {
     createTestGraph();
-    AbstractPathfinder pathfinder = new BFSPathfinder();
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("BFS");
     List<HospitalNode> path =
         pathfinder.findPath(HospitalNode.allNodes.get("1"), HospitalNode.allNodes.get("4"));
     assertEquals(path.get(0), HospitalNode.allNodes.get("1"));
@@ -48,7 +54,7 @@ public class PathfindingTests {
   @Test
   public void testBFSMiddleCase2() {
     createTestGraph();
-    AbstractPathfinder pathfinder = new BFSPathfinder();
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("BFS");
     List<HospitalNode> path =
         pathfinder.findPath(HospitalNode.allNodes.get("2"), HospitalNode.allNodes.get("3"));
     assertEquals(path.get(0), HospitalNode.allNodes.get("2"));
@@ -59,7 +65,7 @@ public class PathfindingTests {
   @Test
   public void testBFSFailCase() {
     createTestGraph();
-    AbstractPathfinder pathfinder = new BFSPathfinder();
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("BFS");
     List<HospitalNode> path =
         pathfinder.findPath(HospitalNode.allNodes.get("1"), HospitalNode.allNodes.get("6"));
     assertNull(path);
@@ -81,7 +87,7 @@ public class PathfindingTests {
   public void testAStarMiddleCase1() {
     // Travels the path with more segments bc it is lighter weight
     createTestGraph();
-    AbstractPathfinder pathfinder = new AStarPathfinder();
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("A*");
     List<HospitalNode> path =
         pathfinder.findPath(HospitalNode.allNodes.get("1"), HospitalNode.allNodes.get("5"));
     assertEquals(HospitalNode.allNodes.get("1"), path.get(0));
@@ -94,7 +100,7 @@ public class PathfindingTests {
   public void testAStarMiddleCase2() {
     // Travels shorter path bc lighter weights
     createTestGraph();
-    AbstractPathfinder pathfinder = new AStarPathfinder();
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("A*");
     List<HospitalNode> path =
         pathfinder.findPath(HospitalNode.allNodes.get("4"), HospitalNode.allNodes.get("3"));
     assertEquals(path.get(0), HospitalNode.allNodes.get("4"));
@@ -107,7 +113,7 @@ public class PathfindingTests {
     // This is an edge case because both directions have an equal path weighting
     // Goes the path that is shorter via heuristic distance
     createTestGraph();
-    AbstractPathfinder pathfinder = new AStarPathfinder();
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("A*");
     List<HospitalNode> path =
         pathfinder.findPath(HospitalNode.allNodes.get("2"), HospitalNode.allNodes.get("3"));
     assertEquals(path.get(0), HospitalNode.allNodes.get("2"));
@@ -118,7 +124,40 @@ public class PathfindingTests {
   @Test
   public void testAStarFailCase() {
     createTestGraph();
-    AbstractPathfinder pathfinder = new AStarPathfinder();
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("A*");
+    List<HospitalNode> path =
+        pathfinder.findPath(HospitalNode.allNodes.get("1"), HospitalNode.allNodes.get("6"));
+    assertNull(path);
+  }
+
+  /** Tests below this point are for Depth-first Search */
+  @Test
+  public void testDFSMiddleCase1() {
+    // Despite having a path of length 2, takes the longer path
+    createTestGraph();
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("DFS");
+    List<HospitalNode> path = pathfinder.findPath("1", "4");
+    assertEquals(HospitalNode.allNodes.get("1"), path.get(0));
+    assertEquals(HospitalNode.allNodes.get("3"), path.get(1));
+    assertEquals(HospitalNode.allNodes.get("5"), path.get(2));
+    assertEquals(HospitalNode.allNodes.get("4"), path.get(3));
+  }
+
+  @Test
+  public void testDFSMiddleCase2() {
+    // Prioritizes edges instantiated last due to the stack implementation
+    createTestGraph();
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("DFS");
+    List<HospitalNode> path = pathfinder.findPath("2", "5");
+    assertEquals(HospitalNode.allNodes.get("2"), path.get(0));
+    assertEquals(HospitalNode.allNodes.get("4"), path.get(1));
+    assertEquals(HospitalNode.allNodes.get("5"), path.get(2));
+  }
+
+  @Test
+  public void testDFSFailCase() {
+    createTestGraph();
+    AbstractPathfinder pathfinder = AbstractPathfinder.getInstance("DFS");
     List<HospitalNode> path =
         pathfinder.findPath(HospitalNode.allNodes.get("1"), HospitalNode.allNodes.get("6"));
     assertNull(path);
