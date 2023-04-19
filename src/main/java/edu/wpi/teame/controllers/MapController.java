@@ -68,6 +68,8 @@ public class MapController {
   @FXML ImageView mapImageOne; // Floor 1
   @FXML ImageView mapImageTwo; // Floor 2
   @FXML ImageView mapImageThree; // Floor 3
+
+  @FXML ToggleGroup pathGroup;
   @FXML RadioButton aStarButton;
   @FXML RadioButton dfsButton;
   @FXML RadioButton bfsButton;
@@ -202,14 +204,7 @@ public class MapController {
     destinationList.setValue("");
   }
 
-  @FXML
-  public void displayPath(String from, String to) {
-    if (from == null || from.equals("") || to == null || to.equals("")) {
-      return;
-    }
-    refreshPath();
-
-    // Choose the pathfinding method based on the selected radio button
+  private void choosePathfindingAlgorithm() {
     if (aStarButton.isSelected()) {
       pf = AbstractPathfinder.getInstance("A*");
     }
@@ -219,6 +214,17 @@ public class MapController {
     if (bfsButton.isSelected()) {
       pf = AbstractPathfinder.getInstance("BFS");
     }
+  }
+
+  @FXML
+  public void displayPath(String from, String to) {
+    if (from == null || from.equals("") || to == null || to.equals("")) {
+      return;
+    }
+    refreshPath();
+    choosePathfindingAlgorithm();
+
+    // Choose the pathfinding method based on the selected radio button
 
     String toNodeID = SQLRepo.INSTANCE.getNodeIDFromName(to) + "";
     String fromNodeID = SQLRepo.INSTANCE.getNodeIDFromName(from) + "";
