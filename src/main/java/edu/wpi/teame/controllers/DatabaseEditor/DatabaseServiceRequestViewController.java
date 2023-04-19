@@ -72,7 +72,7 @@ public class DatabaseServiceRequestViewController {
   @FXML TableColumn<ConferenceRequestData, String> conferenceRoomChangesCol;
   @FXML TableColumn<ConferenceRequestData, String> conferenceNumOfHoursCol;
   @FXML TableColumn<ConferenceRequestData, String> conferenceNotesCol;
-  @FXML TableColumn<ConferenceRequestData, String> conferenceStatusCol;
+  @FXML TableColumn<ConferenceRequestData, String> conferenceRoomStatusCol;
 
   // table data for Furniture
   @FXML TableView<FurnitureRequestData> furnitureTable;
@@ -111,7 +111,8 @@ public class DatabaseServiceRequestViewController {
     mealAllergiesCol.setCellValueFactory(
         new PropertyValueFactory<MealRequestData, String>("allergies"));
     mealNotesCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("notes"));
-    mealStatusCol.setCellValueFactory((new PropertyValueFactory<MealRequestData, String>("status")));
+    mealStatusCol.setCellValueFactory(
+        (new PropertyValueFactory<MealRequestData, String>("status")));
 
     mealTable.setItems(FXCollections.observableArrayList(dC.getMealRequestsList()));
     mealTable
@@ -143,7 +144,8 @@ public class DatabaseServiceRequestViewController {
         new PropertyValueFactory<FlowerRequestData, String>("cardMessage"));
     flowerNotesCol.setCellValueFactory(
         new PropertyValueFactory<FlowerRequestData, String>("notes"));
-    flowerStatusCol.setCellValueFactory(new PropertyValueFactory<FlowerRequestData, String>("status"));
+    flowerStatusCol.setCellValueFactory(
+        new PropertyValueFactory<FlowerRequestData, String>("status"));
 
     flowerTable.setItems(FXCollections.observableArrayList(dC.getFlowerRequestsList()));
     flowerTable
@@ -171,7 +173,8 @@ public class DatabaseServiceRequestViewController {
         new PropertyValueFactory<OfficeSuppliesData, String>("numberOfSupplies"));
     officeNotesCol.setCellValueFactory(
         new PropertyValueFactory<OfficeSuppliesData, String>("notes"));
-    officeStatusCol.setCellValueFactory(new PropertyValueFactory<OfficeSuppliesData, String>("status"));
+    officeStatusCol.setCellValueFactory(
+        new PropertyValueFactory<OfficeSuppliesData, String>("status"));
 
     officeSuppliesTable.setItems(FXCollections.observableArrayList(dC.getOfficeSupplyList()));
     officeSuppliesTable
@@ -202,7 +205,8 @@ public class DatabaseServiceRequestViewController {
         new PropertyValueFactory<ConferenceRequestData, String>("numberOfHours"));
     conferenceNotesCol.setCellValueFactory(
         new PropertyValueFactory<ConferenceRequestData, String>("notes"));
-    conferenceStatusCol.setCellValueFactory(new PropertyValueFactory<ConferenceRequestData, String>("status"));
+    conferenceRoomStatusCol.setCellValueFactory(
+        new PropertyValueFactory<ConferenceRequestData, String>("status"));
 
     conferenceRoomTable.setItems(FXCollections.observableArrayList(dC.getConfList()));
     conferenceRoomTable
@@ -231,7 +235,8 @@ public class DatabaseServiceRequestViewController {
         new PropertyValueFactory<FurnitureRequestData, String>("furnitureType"));
     furnitureNotesCol.setCellValueFactory(
         new PropertyValueFactory<FurnitureRequestData, String>("notes"));
-    furnitureStatusCol.setCellValueFactory(new PropertyValueFactory<FurnitureRequestData, String>("status"));
+    furnitureStatusCol.setCellValueFactory(
+        new PropertyValueFactory<FurnitureRequestData, String>("status"));
 
     furnitureTable.setItems(FXCollections.observableArrayList(dC.getFurnitureRequestsList()));
     furnitureTable
