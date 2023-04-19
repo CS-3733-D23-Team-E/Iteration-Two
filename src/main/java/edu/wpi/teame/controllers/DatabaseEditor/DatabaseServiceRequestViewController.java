@@ -3,6 +3,8 @@ package edu.wpi.teame.controllers.DatabaseEditor;
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.entities.*;
 import edu.wpi.teame.map.*;
+import edu.wpi.teame.utilities.Navigation;
+import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -94,6 +96,8 @@ public class DatabaseServiceRequestViewController {
   // button & combobox for changing status
   @FXML MFXButton confirmButton;
   @FXML SearchableComboBox<String> statusComboBox;
+
+  @FXML MFXButton tableEditorSwapButton;
 
   //////////////////////////////////////////
 
@@ -295,6 +299,11 @@ public class DatabaseServiceRequestViewController {
               }
             });
     furnitureTable.setEditable(true);
+
+    tableEditorSwapButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.DATABASE_TABLEVIEW);
+        });
   }
 
   private void updateDatabaseStatus() {

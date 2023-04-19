@@ -133,6 +133,10 @@ public class DatabaseTableViewController {
   @FXML MFXButton confirmEditButton;
   @FXML MFXButton mapEditorSwapButton;
 
+  @FXML MFXButton moveEditorSwapButton;
+
+  @FXML MFXButton requestsButton;
+
   FileChooser saveChooser = new FileChooser();
   FileChooser selectChooser = new FileChooser();
 
@@ -266,6 +270,11 @@ public class DatabaseTableViewController {
         event -> {
           Navigation.navigate(Screen.DATABASE_MAPVIEW);
         });
+    requestsButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.DATABASE_SERVICEVIEW);
+        });
+    moveEditorSwapButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MOVE_COMPONENT));
 
     App.getPrimaryStage()
         .addEventHandler(
