@@ -207,8 +207,7 @@ public class DatabaseTableViewController {
     buildingCol.setCellValueFactory(new PropertyValueFactory<HospitalNode, String>("building"));
 
     editNodeFloorChoice.setItems(FXCollections.observableArrayList(Floor.allFloors()));
-    editNodeBuildingChoice.setItems(
-        FXCollections.observableArrayList(HospitalNode.allBuildings())); // TODO: DO
+    editNodeBuildingChoice.setItems(FXCollections.observableArrayList(HospitalNode.allBuildings()));
 
     nodeTable.setItems(FXCollections.observableArrayList(dC.getNodeList()));
     nodeTable
