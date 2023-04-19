@@ -1,7 +1,7 @@
 package edu.wpi.teame.controllers;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.entities.ServiceRequestData;
+import edu.wpi.teame.entities.FurnitureRequestData;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
@@ -13,9 +13,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.controlsfx.control.SearchableComboBox;
-import org.json.JSONObject;
 
-public class FurnitureController implements IRequestController {
+public class FurnitureController {
   ObservableList<String> typeOfFurniture =
       FXCollections.observableArrayList(
           "cot", "desk chair", "stool", "futon", "filing cabinet", "shelves");
@@ -26,7 +25,7 @@ public class FurnitureController implements IRequestController {
 
   @FXML MFXButton submitButton;
   @FXML TextField recipientName;
-  @FXML SearchableComboBox roomName;
+  @FXML SearchableComboBox<String> roomName;
   @FXML DatePicker deliveryDate;
   @FXML SearchableComboBox<String> deliveryTime;
   @FXML SearchableComboBox<String> furnitureType;
@@ -53,6 +52,14 @@ public class FurnitureController implements IRequestController {
                     })
                 .sorted()
                 .toList());
+
+    assignedStaff.setItems(
+        FXCollections.observableList(
+            SQLRepo.INSTANCE.getEmployeeList().stream()
+                .filter(employee -> employee.getPermission().equals("STAFF"))
+                .map(employee -> employee.getFullName())
+                .toList()));
+
     roomName.setItems(names);
     // Add the items to the combo boxes
     furnitureType.setItems(typeOfFurniture);
@@ -63,30 +70,26 @@ public class FurnitureController implements IRequestController {
     resetButton.setOnMouseClicked(event -> clearForm());
   }
 
-  public ServiceRequestData sendRequest() {
-
-    // Create the json to store the values
-    JSONObject requestData = new JSONObject();
-    requestData.put("furnitureType", furnitureType.getValue());
-    requestData.put("deliveryTime", deliveryTime.getValue());
-    requestData.put("deliveryDate", deliveryDate.getValue());
-    requestData.put("recipientName", recipientName.getText());
-    requestData.put("roomName", roomName.getValue());
-    requestData.put("notes", notes.getText());
+  public FurnitureRequestData sendRequest() {
 
     // Create the service request data
-    ServiceRequestData flowerRequestData =
-        new ServiceRequestData(
-            ServiceRequestData.RequestType.FURNITUREDELIVERY,
-            requestData,
-            ServiceRequestData.Status.PENDING,
-            assignedStaff.getValue());
+    FurnitureRequestData requestData =
+        new FurnitureRequestData(
+            0,
+            recipientName.getText(),
+            roomName.getValue(),
+            deliveryDate.getValue().toString(),
+            deliveryTime.getValue(),
+            assignedStaff.getValue(),
+            furnitureType.getValue(),
+            notes.getText(),
+            FurnitureRequestData.Status.PENDING);
+    SQLRepo.INSTANCE.addFurnitureRequest(requestData);
+    System.out.println("furniture request submitted");
 
     // Return to the home screen
     Navigation.navigate(Screen.HOME);
-
-    SQLRepo.INSTANCE.addServiceRequest(flowerRequestData);
-    return flowerRequestData;
+    return requestData;
   }
 
   // Cancels the current service request

@@ -1,7 +1,7 @@
 package edu.wpi.teame.controllers;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.entities.ServiceRequestData;
+import edu.wpi.teame.entities.MealRequestData;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
@@ -13,9 +13,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.controlsfx.control.SearchableComboBox;
-import org.json.JSONObject;
 
-public class MealRequestController implements IRequestController {
+public class MealRequestController {
   @FXML MFXButton returnButtonMealRequest;
   @FXML MFXButton cancelButton;
   @FXML MFXButton submitButton;
@@ -28,7 +27,7 @@ public class MealRequestController implements IRequestController {
   @FXML SearchableComboBox<String> sideCourse;
   @FXML SearchableComboBox<String> drinkChoice;
 
-  @FXML TextField allergies;
+  @FXML TextField allergiesBox;
   @FXML SearchableComboBox<String> assignedStaff;
   @FXML MFXButton resetButton;
 
@@ -64,6 +63,14 @@ public class MealRequestController implements IRequestController {
                     })
                 .sorted()
                 .toList());
+
+    assignedStaff.setItems(
+        FXCollections.observableList(
+            SQLRepo.INSTANCE.getEmployeeList().stream()
+                .filter(employee -> employee.getPermission().equals("STAFF"))
+                .map(employee -> employee.getFullName())
+                .toList()));
+
     roomName.setItems(names);
     mainCourse.setItems(mainCourses);
     sideCourse.setItems(sideCourses);
@@ -74,33 +81,31 @@ public class MealRequestController implements IRequestController {
     resetButton.setOnMouseClicked(event -> clearForm());
   }
 
-  public ServiceRequestData sendRequest() {
-
-    // Create the json to store the values
-    JSONObject requestData = new JSONObject();
-    requestData.put("recipientName", recipientName.getText());
-    requestData.put("roomName", roomName.getValue());
-    requestData.put("deliveryTime", deliveryTime.getValue());
-    requestData.put("mainCourse", mainCourse.getValue());
-    requestData.put("sideCourse", sideCourse.getValue());
-    requestData.put("drinkChoice", drinkChoice.getValue());
-    requestData.put("deliveryDate", deliveryDate.getValue());
-    requestData.put("notes", notes.getText());
+  public MealRequestData sendRequest() {
 
     // Create the service request data
-    ServiceRequestData mealRequestData =
-        new ServiceRequestData(
-            ServiceRequestData.RequestType.MEALDELIVERY,
-            requestData,
-            ServiceRequestData.Status.PENDING,
-            assignedStaff.getValue());
+    MealRequestData requestData =
+        new MealRequestData(
+            0,
+            recipientName.getText(),
+            roomName.getValue(),
+            deliveryDate.getValue().toString(),
+            deliveryTime.getValue(),
+            assignedStaff.getValue(),
+            mainCourse.getValue(),
+            sideCourse.getValue(),
+            drinkChoice.getValue(),
+            allergiesBox.getText(),
+            notes.getText(),
+            MealRequestData.Status.PENDING);
 
-    // Return to home screen
+    SQLRepo.INSTANCE.addMealRequest(requestData);
+    System.out.println("Meal Request Added");
+
+    // Return to the home screen
     Navigation.navigate(Screen.HOME);
 
-    SQLRepo.INSTANCE.addServiceRequest(mealRequestData);
-
-    return mealRequestData;
+    return requestData;
   }
 
   public void cancelRequest() {
