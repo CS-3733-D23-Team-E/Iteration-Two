@@ -104,14 +104,4 @@ public class HospitalNode {
       addEdge(allNodes.get(edge.nodeOneID), allNodes.get(edge.nodeTwoID), edge.edgeWeight);
     }
   }
-
-  public static ArrayList<String> allBuildings() {
-    ArrayList<String> buildings = new ArrayList<>();
-    buildings.add("45 Francis");
-    buildings.add("Tower");
-    buildings.add("15 Francis");
-    buildings.add("BTM");
-    buildings.add("Shapiro");
-    return buildings;
-  }
 }

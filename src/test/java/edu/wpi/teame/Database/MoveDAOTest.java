@@ -21,11 +21,11 @@ public class MoveDAOTest {
 
     // add update
     SQLRepo.INSTANCE.updateMove(
-        new MoveAttribute(1200, "Hall 3 Level 1", "2023-01-01"), "date", "2023-01-02");
+        new MoveAttribute("1200", "Hall 3 Level 1", "1/1/2023"), "date", "Test");
 
     // reset update
     SQLRepo.INSTANCE.updateMove(
-        new MoveAttribute(1200, "Hall 3 Level 1", "2023-01-02"), "date", "2023-01-01");
+        new MoveAttribute("1200", "Hall 3 Level 1", "Test"), "date", "1/1/2023");
   }
 
   @Test
@@ -35,16 +35,15 @@ public class MoveDAOTest {
 
     int lengthList = moveAttributes.size();
 
-    SQLRepo.INSTANCE.addMove(new MoveAttribute(2535, "HallNode", "2023-01-01"));
+    SQLRepo.INSTANCE.addMove(new MoveAttribute("2535", "HallNode", "Test"));
 
     moveAttributes = SQLRepo.INSTANCE.getMoveList();
 
     assertTrue(moveAttributes.size() == lengthList + 1);
 
-    SQLRepo.INSTANCE.deleteMove(new MoveAttribute(2535, "HallNode", "2023-01-01"));
+    SQLRepo.INSTANCE.deleteMove(new MoveAttribute("2535", "HallNode", "Test"));
 
     moveAttributes = SQLRepo.INSTANCE.getMoveList();
-    System.out.println(moveAttributes.size() + " " + lengthList);
 
     assertTrue(moveAttributes.size() == lengthList);
   }

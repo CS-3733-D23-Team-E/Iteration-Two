@@ -1,34 +1,32 @@
 package edu.wpi.teame.controllers;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.entities.OfficeSuppliesData;
+import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import org.controlsfx.control.SearchableComboBox;
+import org.json.JSONObject;
 
-public class OfficeSuppliesController {
+public class OfficeSuppliesController implements IRequestController {
 
   @FXML MFXButton returnButtonOfficeSuppliesRequest;
   @FXML MFXButton submitButton;
   @FXML MFXButton cancelButton;
-  @FXML MFXButton resetButton;
-  @FXML TextField recipientName;
+  @FXML MFXButton clearForm;
+  @FXML MFXTextField recipientName;
   @FXML SearchableComboBox<String> roomName;
-  @FXML TextField notes;
+  @FXML MFXTextField notes;
   @FXML SearchableComboBox<String> deliveryTime;
-
-  @FXML DatePicker deliveryDate;
-  @FXML SearchableComboBox<String> supplyType;
-  @FXML TextField numberOfSupplies;
-  @FXML SearchableComboBox<String> assignedStaff;
+  @FXML SearchableComboBox<String> officeSupplyType;
+  @FXML MFXTextField quantityOfSupplies;
+  @FXML MFXTextField assignedStaff;
 
   ObservableList<String> deliveryTimes =
       FXCollections.observableArrayList(
@@ -39,37 +37,21 @@ public class OfficeSuppliesController {
 
   @FXML
   public void initialize() {
-    Stream<LocationName> locationStream = LocationName.allLocations.values().stream();
+    Stream<LocationName> locationStream = SQLRepo.INSTANCE.getLocationList().stream();
     ObservableList<String> names =
         FXCollections.observableArrayList(
             locationStream
-                .filter(
-                    (locationName) -> {
-                      return locationName.getNodeType() != LocationName.NodeType.HALL
-                          && locationName.getNodeType() != LocationName.NodeType.STAI
-                          && locationName.getNodeType() != LocationName.NodeType.REST
-                          && locationName.getNodeType() != LocationName.NodeType.ELEV;
-                    })
                 .map(
                     (locationName) -> {
                       return locationName.getLongName();
                     })
-                .sorted()
                 .toList());
-
-    assignedStaff.setItems(
-        FXCollections.observableList(
-            SQLRepo.INSTANCE.getEmployeeList().stream()
-                .filter(employee -> employee.getPermission().equals("STAFF"))
-                .map(employee -> employee.getFullName())
-                .toList()));
-
     roomName.setItems(names);
     deliveryTime.setItems(deliveryTimes);
-    supplyType.setItems(officeSupplies);
+    officeSupplyType.setItems(officeSupplies);
     submitButton.setOnMouseClicked(event -> sendRequest());
     cancelButton.setOnMouseClicked(event -> cancelRequest());
-    resetButton.setOnMouseClicked(event -> clearForm());
+    clearForm.setOnMouseClicked(event -> clearForm());
   }
 
   private void clearForm() {
@@ -77,29 +59,35 @@ public class OfficeSuppliesController {
     roomName.setValue(null);
     notes.clear();
     deliveryTime.setValue(null);
-    supplyType.setValue(null);
-    numberOfSupplies.clear();
-    assignedStaff.setValue(null);
+    officeSupplyType.setValue(null);
+    quantityOfSupplies.clear();
+    assignedStaff.clear();
   }
 
-  public OfficeSuppliesData sendRequest() {
-    OfficeSuppliesData requestData =
-        new OfficeSuppliesData(
-            0,
-            recipientName.getText(),
-            roomName.getValue(),
-            deliveryDate.getValue().toString(),
-            deliveryTime.getValue(),
-            assignedStaff.getValue(),
-            supplyType.getValue(),
-            Integer.parseInt(numberOfSupplies.getText()),
-            notes.getText(),
-            OfficeSuppliesData.Status.PENDING);
+  @Override
+  public ServiceRequestData sendRequest() {
+    JSONObject requestData = new JSONObject();
+    requestData.put("staffName", recipientName.getText());
+    requestData.put("officeName", roomName.getValue());
+    requestData.put("deliveryTime", deliveryTime.getValue());
+    requestData.put("supplyType", officeSupplyType.getValue());
+    requestData.put("numOfSupplies", quantityOfSupplies.getText());
+    requestData.put("notes", notes.getText());
+
+    ServiceRequestData officeSuppliesRequestData =
+        new ServiceRequestData(
+            ServiceRequestData.RequestType.OFFICESUPPLIESDELIVERY,
+            requestData,
+            ServiceRequestData.Status.PENDING,
+            assignedStaff.getText());
+
     Navigation.navigate(Screen.HOME);
-    SQLRepo.INSTANCE.addOfficeSupplyRequest(requestData);
-    return requestData;
+
+    SQLRepo.INSTANCE.addServiceRequest(officeSuppliesRequestData);
+    return officeSuppliesRequestData;
   }
 
+  @Override
   public void cancelRequest() {
     Navigation.navigate(Screen.HOME);
   }

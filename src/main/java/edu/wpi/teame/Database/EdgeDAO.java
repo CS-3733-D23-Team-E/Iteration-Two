@@ -63,7 +63,6 @@ public class EdgeDAO<E> extends DAO<HospitalEdge> {
       System.out.println(
           "Exception: Cannot duplicate two set of the same edges, start and end nodes have to exist (cannot create more ids)");
     }
-    get();
   }
 
   @Override
@@ -84,7 +83,6 @@ public class EdgeDAO<E> extends DAO<HospitalEdge> {
     } catch (SQLException e) {
       System.out.println("error deleting");
     }
-    get();
   }
 
   @Override
@@ -99,7 +97,6 @@ public class EdgeDAO<E> extends DAO<HospitalEdge> {
     } catch (SQLException e) {
       System.out.println("error adding");
     }
-    get();
   }
 
   @Override
@@ -139,6 +136,5 @@ public class EdgeDAO<E> extends DAO<HospitalEdge> {
       System.err.println("Error importing from " + filePath + " to " + tableName);
       e.printStackTrace();
     }
-    get();
   }
 }
