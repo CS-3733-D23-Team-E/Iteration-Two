@@ -1,6 +1,5 @@
 package edu.wpi.teame.controllers;
 
-import static javafx.scene.paint.Color.BLACK;
 import static javafx.scene.paint.Color.WHITE;
 
 import edu.wpi.teame.Database.SQLRepo;
@@ -268,7 +267,7 @@ public class MapController {
     int y1 = path.get(0).getYCoord();
     startX = x1;
     startY = y1;
-    Circle currentLocationCircle = currentMapUtility.drawRing(x1, y1, 8, 2, WHITE, BLACK);
+    Circle currentLocationCircle = currentMapUtility.drawStyledCircle(x1, y1, 4);
     currentLocationCircle.setId(path.get(0).getNodeID());
     currentMapUtility.createLabel(x1, y1, 5, 5, "Current Location");
 
@@ -289,7 +288,7 @@ public class MapController {
       }
 
       Line pathLine = currentMapUtility.drawStyledLine(x1, y1, x2, y2);
-      Circle intermediateCircle = currentMapUtility.drawStyledCircle(x2, y2, 3);
+      Circle intermediateCircle = currentMapUtility.drawStyledCircle(x2, y2, 4);
       intermediateCircle.setViewOrder(-1);
       intermediateCircle.setId(node.getNodeID());
       x1 = x2;
@@ -297,7 +296,7 @@ public class MapController {
     }
 
     // create circle to symbolize end
-    Circle endingCircle = currentMapUtility.drawCircle(x1, y1, 8, BLACK);
+    Circle endingCircle = currentMapUtility.drawStyledCircle(x1, y1, 4);
     endingCircle.setId(path.get(path.size() - 1).getNodeID());
     endingCircle.toFront();
     currentMapUtility.createLabel(x1, y1, 5, 5, "Destination");
@@ -318,7 +317,7 @@ public class MapController {
 
   /** removes all the lines in the currentLines list */
   public void refreshPath() {
-
+    currentCircle.setRadius(4);
     mapUtilityLowerTwo.removeAll();
     mapUtilityLowerOne.removeAll();
     mapUtilityOne.removeAll();
@@ -467,7 +466,8 @@ public class MapController {
 
             // reset highlighted node
             currentCircle.setRadius(4);
-            currentCircle.setViewOrder(0);
+            currentCircle.setViewOrder(-1);
+            System.out.println("oldcircle: " + currentCircle.getId());
 
             tabPane.getSelectionModel().select(floorToTab(nodeFloor));
             MapUtilities currentMapUtility = whichMapUtility(nodeFloor);
@@ -509,8 +509,11 @@ public class MapController {
                         })
                     .toList();
             currentCircle = (Circle) nodeList.get(0);
+            System.out.println("Newcircle: " + currentCircle.getId());
             currentCircle.setRadius(9);
-            currentCircle.setViewOrder(-2);
+            currentCircle.setViewOrder(-5);
+            System.out.println("currentCircle: " + currentCircle);
+            System.out.println("Node List: " + nodeList);
 
             // Set the current label as the previous
             previousLabel = hBox;
