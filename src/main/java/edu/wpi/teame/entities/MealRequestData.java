@@ -41,7 +41,7 @@ public class MealRequestData {
     }
   }
 
-  @Getter @Setter private int requestId;
+  @Getter @Setter private int requestID;
   @Getter @Setter private String name;
   @Getter @Setter private String room;
   @Getter @Setter private String deliveryTime;
@@ -69,7 +69,7 @@ public class MealRequestData {
       String allergies,
       String notes,
       Status requestStatus) {
-    this.requestId = requestID; // Always initializes a bad value
+    this.requestID = requestID; // Always initializes a bad value
     this.name = name;
     this.room = room;
     this.deliveryDate = deliveryDate;

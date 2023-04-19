@@ -58,7 +58,7 @@ public class MealDAO<E> extends DAO<MealRequestData> {
 
   @Override
   void update(MealRequestData obj, String attribute, String value) {
-    int requestID = obj.getRequestId();
+    int requestID = obj.getRequestID();
 
     String sqlUpdate =
         "UPDATE \"MealService\" "
@@ -82,7 +82,7 @@ public class MealDAO<E> extends DAO<MealRequestData> {
 
   @Override
   void delete(MealRequestData obj) {
-    int requestID = obj.getRequestId();
+    int requestID = obj.getRequestID();
     String sqlDelete =
         "DELETE FROM \"MealService\" WHERE \"MealService\".\"requestID\" = " + requestID + ";";
 
@@ -98,8 +98,8 @@ public class MealDAO<E> extends DAO<MealRequestData> {
 
   @Override
   void add(MealRequestData obj) {
-    obj.setRequestId(generateUniqueRequestID());
-    int requestID = obj.getRequestId();
+    obj.setRequestID(generateUniqueRequestID());
+    int requestID = obj.getRequestID();
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();

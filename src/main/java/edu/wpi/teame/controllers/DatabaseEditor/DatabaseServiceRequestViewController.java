@@ -111,7 +111,8 @@ public class DatabaseServiceRequestViewController {
         new PropertyValueFactory<MealRequestData, String>("deliveryDate"));
     mealTimeCol.setCellValueFactory(
         new PropertyValueFactory<MealRequestData, String>("deliveryTime"));
-    mealStaffCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("staff"));
+    mealStaffCol.setCellValueFactory(
+        new PropertyValueFactory<MealRequestData, String>("assignedStaff"));
     mealMainCourseCol.setCellValueFactory(
         new PropertyValueFactory<MealRequestData, String>("mainCourse"));
     mealSideCourseCol.setCellValueFactory(
