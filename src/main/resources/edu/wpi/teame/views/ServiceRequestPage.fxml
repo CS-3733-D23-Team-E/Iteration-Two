@@ -202,7 +202,7 @@
                   <Insets left="25.0" />
                </VBox.margin>
             </Line>
-            <MFXButton fx:id="menuBarSignage" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Edit Signage" textFill="#f1f1f1">
+            <MFXButton fx:id="menuBarSignage" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Signage" textFill="#f1f1f1">
                <graphic>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
                      <image>
