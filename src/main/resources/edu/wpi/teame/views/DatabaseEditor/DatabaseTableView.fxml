@@ -17,17 +17,6 @@
    <children>
       <HBox prefHeight="763.0" prefWidth="1375.0">
          <children>
-            <HBox />
-            <VBox>
-               <children>
-                  <VBox>
-                     <children>
-                        <HBox />
-                        <HBox spacing="10.0" />
-                     </children>
-                  </VBox>
-               </children>
-            </VBox>
             <TabPane fx:id="tableTabs" prefHeight="800.0" prefWidth="850.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab fx:id="nodeTab" closable="false" text="Node">
@@ -36,7 +25,7 @@
                            <children>
                               <VBox>
                                  <children>
-                                    <TableView fx:id="nodeTable" prefHeight="712.0" prefWidth="850.0">
+                                    <TableView fx:id="nodeTable" prefHeight="700.0" prefWidth="850.0">
                                        <columns>
                                           <TableColumn fx:id="nodeIDCoordCol" minWidth="150.0" prefWidth="150.0" text="NodeID" />
                                           <TableColumn fx:id="nodeXCol" minWidth="150.0" prefWidth="150.0" text="X" />

@@ -43,14 +43,15 @@ public class DatabaseEditorController {
               } else if (newTab == editDatabaseTab) {
                 // tableViewController.initialize();
                 // System.out.println(tableViewController);
-                tableViewController.initialize();
+                // tableViewController.initialize();
+                Navigation.navigate(Screen.DATABASE_EDITOR);
               } else if (newTab == editServiceRequestTab) {
                 // System.out.println(serviceRequestViewController);
                 serviceRequestViewController.initialize();
               } else {
                 // move tab
                 // System.out.println(moveComponentController);
-                moveComponentController.initialize();
+                // moveComponentController.initialize();
               }
             });
   }
