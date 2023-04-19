@@ -208,7 +208,7 @@
                         <Rectangle arcHeight="30.0" arcWidth="30.0" fill="#f1f1f1" height="550.0" stroke="#001a3c" strokeType="INSIDE" strokeWidth="5.0" width="500.0" />
                         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0">
                            <children>
-                              <MFXButton fx:id="editSignageButton" alignment="TOP_LEFT" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxHeight="100.0" maxWidth="450.0" prefHeight="100.0" prefWidth="450.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Edit Signage" VBox.vgrow="ALWAYS">
+                              <MFXButton fx:id="editSignageButton" alignment="TOP_LEFT" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxHeight="100.0" maxWidth="450.0" prefHeight="100.0" prefWidth="450.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Signage" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font name="Roboto" size="24.0" />
                                  </font>

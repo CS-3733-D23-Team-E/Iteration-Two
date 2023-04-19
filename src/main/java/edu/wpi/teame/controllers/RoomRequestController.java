@@ -29,6 +29,16 @@ public class RoomRequestController {
           "Add a whiteboard",
           "Add a projector and screen");
 
+  ObservableList<String> staffMembers =
+      FXCollections.observableArrayList(
+          "Mary Gardner",
+          "Robert Nash",
+          "Edward Diaz",
+          "Evan Buckley",
+          "Christopher Reyes",
+          "Madelyn Johnson",
+          "Ian Adams");
+
   @FXML TextField recipientName;
   @FXML SearchableComboBox<String> roomName;
   @FXML SearchableComboBox<String> bookingTime;
@@ -59,13 +69,15 @@ public class RoomRequestController {
                 .sorted()
                 .toList());
 
-    assignedStaff.setItems(
-        FXCollections.observableList(
-            SQLRepo.INSTANCE.getEmployeeList().stream()
-                .filter(employee -> employee.getPermission().equals("STAFF"))
-                .map(employee -> employee.getFullName())
-                .toList()));
+    /*assignedStaff.setItems(
+            FXCollections.observableList(
+                SQLRepo.INSTANCE.getEmployeeList().stream()
+                    .filter(employee -> employee.getPermission().equals("STAFF"))
+                    .map(employee -> employee.getFullName())
+                    .toList()));
+    */
 
+    assignedStaff.setItems(FXCollections.observableArrayList(staffMembers));
     roomName.setItems(names);
     bookingTime.setItems(times);
     roomChanges.setItems(changes);

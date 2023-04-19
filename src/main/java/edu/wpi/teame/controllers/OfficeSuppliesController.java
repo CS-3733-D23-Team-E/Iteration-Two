@@ -37,6 +37,16 @@ public class OfficeSuppliesController {
       FXCollections.observableArrayList(
           "pencils", "pens", "white-out", "tape", "ruler", "hole puncher", "sharpener", "charger");
 
+  ObservableList<String> staffMembers =
+      FXCollections.observableArrayList(
+          "Mary Gardner",
+          "Robert Nash",
+          "Edward Diaz",
+          "Evan Buckley",
+          "Christopher Reyes",
+          "Madelyn Johnson",
+          "Ian Adams");
+
   @FXML
   public void initialize() {
     Stream<LocationName> locationStream = LocationName.allLocations.values().stream();
@@ -57,12 +67,14 @@ public class OfficeSuppliesController {
                 .sorted()
                 .toList());
 
-    assignedStaff.setItems(
-        FXCollections.observableList(
-            SQLRepo.INSTANCE.getEmployeeList().stream()
-                .filter(employee -> employee.getPermission().equals("STAFF"))
-                .map(employee -> employee.getFullName())
-                .toList()));
+    /*assignedStaff.setItems(
+    FXCollections.observableList(
+        SQLRepo.INSTANCE.getEmployeeList().stream()
+            .filter(employee -> employee.getPermission().equals("STAFF"))
+            .map(employee -> employee.getFullName())
+            .toList()));*/
+
+    assignedStaff.setItems(FXCollections.observableArrayList(staffMembers));
 
     roomName.setItems(names);
     deliveryTime.setItems(deliveryTimes);

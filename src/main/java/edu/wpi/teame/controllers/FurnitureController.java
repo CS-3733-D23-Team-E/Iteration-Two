@@ -23,6 +23,16 @@ public class FurnitureController {
       FXCollections.observableArrayList(
           "10am - 11am", "11am - 12pm", "12pm - 1pm", "1pm - 2pm", "2pm - 3pm", "3pm - 4pm");
 
+  ObservableList<String> staffMembers =
+      FXCollections.observableArrayList(
+          "Mary Gardner",
+          "Robert Nash",
+          "Edward Diaz",
+          "Evan Buckley",
+          "Christopher Reyes",
+          "Madelyn Johnson",
+          "Ian Adams");
+
   @FXML MFXButton submitButton;
   @FXML TextField recipientName;
   @FXML SearchableComboBox<String> roomName;
@@ -53,12 +63,13 @@ public class FurnitureController {
                 .sorted()
                 .toList());
 
-    assignedStaff.setItems(
-        FXCollections.observableList(
-            SQLRepo.INSTANCE.getEmployeeList().stream()
-                .filter(employee -> employee.getPermission().equals("STAFF"))
-                .map(employee -> employee.getFullName())
-                .toList()));
+    assignedStaff.setItems(FXCollections.observableArrayList(staffMembers));
+    /*assignedStaff.setItems(
+    FXCollections.observableList(
+        SQLRepo.INSTANCE.getEmployeeList().stream()
+            .filter(employee -> employee.getPermission().equals("STAFF"))
+            .map(employee -> employee.getFullName())
+            .toList()));*/
 
     roomName.setItems(names);
     // Add the items to the combo boxes
