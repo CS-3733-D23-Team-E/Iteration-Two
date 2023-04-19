@@ -18,6 +18,7 @@
 <?import javafx.scene.text.Text?>
 <?import net.kurobako.gesturefx.GesturePane?>
 
+<?import org.controlsfx.control.SearchableComboBox?>
 <AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.DatabaseEditor.DatabaseMapViewController">
    <children>
       <HBox prefHeight="100.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -184,7 +185,7 @@
                         <HBox spacing="10.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name:" />
-                              <ComboBox fx:id="longNameSelector" prefWidth="150.0" />
+                              <SearchableComboBox fx:id="longNameSelector" maxWidth="150.0" />
                            </children>
                         </HBox>
                         <VBox alignment="TOP_RIGHT" spacing="10.0">
@@ -206,7 +207,7 @@
                                     <VBox>
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Type:" />
-                                          <ComboBox fx:id="nodeTypeChoice" minWidth="75.0" prefWidth="75.0" />
+                                          <SearchableComboBox fx:id="nodeTypeChoice" minWidth="75.0" maxWidth="75.0" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -231,7 +232,7 @@
                                     <HBox spacing="5.0">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Edge:" />
-                                          <ComboBox fx:id="addEdgeField" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" />
+                                          <SearchableComboBox fx:id="addEdgeField" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" />
                                           <MFXButton fx:id="addEdgeButton" text="Add" />
                                           <MFXButton fx:id="removeEdgeButton" text="Remove" />
                                        </children>
@@ -243,7 +244,7 @@
                         <HBox spacing="10.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Building:" />
-                              <ComboBox fx:id="buildingSelector" prefWidth="100.0" />
+                              <SearchableComboBox fx:id="buildingSelector" maxWidth="100.0" />
                            </children>
                         </HBox>
                         <HBox spacing="10.0">
