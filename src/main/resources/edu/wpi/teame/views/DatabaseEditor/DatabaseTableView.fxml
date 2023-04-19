@@ -61,6 +61,12 @@
                         <Font name="Roboto" size="16.0" />
                      </font>
                   </MFXButton>
+                  <Line endX="125.0" />
+                  <MFXButton fx:id="backButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-background-color: #001A3C;" text="Back to Home" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto" size="16.0" />
+                     </font>
+                  </MFXButton>
                </children>
                <HBox.margin>
                   <Insets top="25.0" />

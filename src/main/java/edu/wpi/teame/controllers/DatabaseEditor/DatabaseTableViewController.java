@@ -137,6 +137,8 @@ public class DatabaseTableViewController {
 
   @FXML MFXButton requestsButton;
 
+  @FXML MFXButton backButton;
+
   FileChooser saveChooser = new FileChooser();
   FileChooser selectChooser = new FileChooser();
 
@@ -275,6 +277,7 @@ public class DatabaseTableViewController {
           Navigation.navigate(Screen.DATABASE_SERVICEVIEW);
         });
     moveEditorSwapButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MOVE_COMPONENT));
+    backButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
 
     App.getPrimaryStage()
         .addEventHandler(
