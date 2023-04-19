@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
 import org.controlsfx.control.SearchableComboBox;
 import org.json.JSONObject;
 
-public class FurnitureController {
+public class FurnitureController implements IRequestController {
   ObservableList<String> typeOfFurniture =
       FXCollections.observableArrayList(
           "cot", "desk chair", "stool", "futon", "filing cabinet", "shelves");
@@ -27,7 +27,6 @@ public class FurnitureController {
   @FXML MFXButton submitButton;
   @FXML TextField recipientName;
   @FXML SearchableComboBox roomName;
-
   @FXML DatePicker deliveryDate;
   @FXML SearchableComboBox<String> deliveryTime;
   @FXML SearchableComboBox<String> furnitureType;
@@ -36,75 +35,73 @@ public class FurnitureController {
   @FXML MFXButton cancelButton;
   @FXML MFXButton resetButton;
 
-  public class FlowerRequestController implements IRequestController {
-    public void initialize() {
-      Stream<LocationName> locationStream = LocationName.allLocations.values().stream();
-      ObservableList<String> names =
-          FXCollections.observableArrayList(
-              locationStream
-                  .filter(
-                      (locationName) -> {
-                        return locationName.getNodeType() != LocationName.NodeType.HALL
-                            && locationName.getNodeType() != LocationName.NodeType.STAI
-                            && locationName.getNodeType() != LocationName.NodeType.REST
-                            && locationName.getNodeType() != LocationName.NodeType.ELEV;
-                      })
-                  .map(
-                      (locationName) -> {
-                        return locationName.getLongName();
-                      })
-                  .sorted()
-                  .toList());
-      roomName.setItems(names);
-      // Add the items to the combo boxes
-      furnitureType.setItems(typeOfFurniture);
-      deliveryTime.setItems(deliveryTimes);
-      // Initialize the buttons
-      submitButton.setOnMouseClicked(event -> sendRequest());
-      cancelButton.setOnMouseClicked(event -> cancelRequest());
-      resetButton.setOnMouseClicked(event -> clearForm());
-    }
+  public void initialize() {
+    Stream<LocationName> locationStream = LocationName.allLocations.values().stream();
+    ObservableList<String> names =
+        FXCollections.observableArrayList(
+            locationStream
+                .filter(
+                    (locationName) -> {
+                      return locationName.getNodeType() != LocationName.NodeType.HALL
+                          && locationName.getNodeType() != LocationName.NodeType.STAI
+                          && locationName.getNodeType() != LocationName.NodeType.REST
+                          && locationName.getNodeType() != LocationName.NodeType.ELEV;
+                    })
+                .map(
+                    (locationName) -> {
+                      return locationName.getLongName();
+                    })
+                .sorted()
+                .toList());
+    roomName.setItems(names);
+    // Add the items to the combo boxes
+    furnitureType.setItems(typeOfFurniture);
+    deliveryTime.setItems(deliveryTimes);
+    // Initialize the buttons
+    submitButton.setOnMouseClicked(event -> sendRequest());
+    cancelButton.setOnMouseClicked(event -> cancelRequest());
+    resetButton.setOnMouseClicked(event -> clearForm());
+  }
 
-    public ServiceRequestData sendRequest() {
+  public ServiceRequestData sendRequest() {
 
-      // Create the json to store the values
-      JSONObject requestData = new JSONObject();
-      requestData.put("furnitureType", furnitureType.getValue());
-      requestData.put("deliveryTime", deliveryTime.getValue());
-      requestData.put("deliveryDate", deliveryDate.getValue());
-      requestData.put("recipientName", recipientName.getText());
-      requestData.put("roomName", roomName.getValue());
-      requestData.put("notes", notes.getText());
+    // Create the json to store the values
+    JSONObject requestData = new JSONObject();
+    requestData.put("furnitureType", furnitureType.getValue());
+    requestData.put("deliveryTime", deliveryTime.getValue());
+    requestData.put("deliveryDate", deliveryDate.getValue());
+    requestData.put("recipientName", recipientName.getText());
+    requestData.put("roomName", roomName.getValue());
+    requestData.put("notes", notes.getText());
 
-      // Create the service request data
-      ServiceRequestData flowerRequestData =
-          new ServiceRequestData(
-              ServiceRequestData.RequestType.FURNITUREDELIVERY,
-              requestData,
-              ServiceRequestData.Status.PENDING,
-              assignedStaff.getValue());
+    // Create the service request data
+    ServiceRequestData flowerRequestData =
+        new ServiceRequestData(
+            ServiceRequestData.RequestType.FURNITUREDELIVERY,
+            requestData,
+            ServiceRequestData.Status.PENDING,
+            assignedStaff.getValue());
 
-      // Return to the home screen
-      Navigation.navigate(Screen.HOME);
+    // Return to the home screen
+    Navigation.navigate(Screen.HOME);
 
-      SQLRepo.INSTANCE.addServiceRequest(flowerRequestData);
-      return flowerRequestData;
-    }
+    SQLRepo.INSTANCE.addServiceRequest(flowerRequestData);
+    return flowerRequestData;
+  }
 
-    // Cancels the current service request
-    public void cancelRequest() {
-      Navigation.navigate(Screen.HOME);
-    }
+  // Cancels the current service request
+  public void cancelRequest() {
+    Navigation.navigate(Screen.HOME);
+  }
 
-    // Clears the current service request fields
-    public void clearForm() {
-      furnitureType.setValue(null);
-      deliveryTime.setValue(null);
-      deliveryDate.setValue(null);
-      roomName.setValue(null);
-      recipientName.clear();
-      notes.clear();
-      assignedStaff.setValue(null);
-    }
+  // Clears the current service request fields
+  public void clearForm() {
+    furnitureType.setValue(null);
+    deliveryTime.setValue(null);
+    deliveryDate.setValue(null);
+    roomName.setValue(null);
+    recipientName.clear();
+    notes.clear();
+    assignedStaff.setValue(null);
   }
 }
