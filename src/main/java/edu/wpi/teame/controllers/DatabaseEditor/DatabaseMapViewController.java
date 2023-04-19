@@ -5,6 +5,8 @@ import static edu.wpi.teame.map.HospitalNode.allNodes;
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.*;
 import edu.wpi.teame.utilities.MapUtilities;
+import edu.wpi.teame.utilities.Navigation;
+import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,7 +19,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import org.controlsfx.control.SearchableComboBox;
@@ -39,7 +40,7 @@ public class DatabaseMapViewController {
   @FXML TabPane tabPane;
 
   // Sidebar Elements
-  @FXML VBox sidebar;
+  @FXML AnchorPane sidebar;
 
   @FXML Text editPageText;
 
@@ -70,6 +71,7 @@ public class DatabaseMapViewController {
   @FXML ImageView mapImageOne; // Floor 1
   @FXML ImageView mapImageTwo; // Floor 2
   @FXML ImageView mapImageThree; // Floor 3
+  @FXML MFXButton tableEditorSwapButton;
 
   Floor currentFloor;
   MapUtilities mapUtilityLowerTwo = new MapUtilities(mapPaneLowerTwo);
@@ -88,6 +90,9 @@ public class DatabaseMapViewController {
   List<HospitalEdge> workingList = new LinkedList<>();
 
   HospitalNode curNode;
+
+  boolean widthLoaded = false;
+  boolean heightLoaded = false;
 
   @FXML
   public void initialize() {
@@ -110,6 +115,37 @@ public class DatabaseMapViewController {
               refreshMap();
             });
 
+    // TODO do this better
+    mapPaneLowerTwo
+        .widthProperty()
+        .addListener(
+            (observable, oldWidth, newWidth) -> {
+              if (newWidth.doubleValue() > 0) {
+                widthLoaded = true;
+              }
+              if (widthLoaded && heightLoaded) {
+                currentFloor = Floor.LOWER_TWO;
+                loadFloorNodes();
+              }
+            });
+    mapPaneLowerTwo
+        .heightProperty()
+        .addListener(
+            (observable, oldHeight, newHeight) -> {
+              if (newHeight.doubleValue() > 0) {
+                heightLoaded = true;
+              }
+              if (widthLoaded && heightLoaded) {
+                currentFloor = Floor.LOWER_TWO;
+                loadFloorNodes();
+              }
+            });
+
+    tableEditorSwapButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.DATABASE_TABLEVIEW);
+        });
+
     edgeColumn.setCellValueFactory(new PropertyValueFactory<HospitalEdge, String>("nodeTwoID"));
 
     displayAddMenu();
@@ -131,7 +167,6 @@ public class DatabaseMapViewController {
 
   private void deleteNode() {
     SQLRepo.INSTANCE.deletenode(curNode);
-    allNodes.remove(curNode.getNodeID());
     displayAddMenu();
     refreshMap();
   }
@@ -162,8 +197,10 @@ public class DatabaseMapViewController {
   }
 
   private void setupNode(HospitalNode node) {
+
     String nodeID = node.getNodeID();
     MapUtilities currentMapUtility = whichMapUtility(currentFloor);
+
     Circle nodeCircle = currentMapUtility.drawHospitalNode(node);
     Label nodeLabel = currentMapUtility.drawHospitalNodeLabel(node);
     nodeLabel.setVisible(false);

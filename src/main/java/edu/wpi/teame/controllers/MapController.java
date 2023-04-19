@@ -223,6 +223,9 @@ public class MapController {
     String toNodeID = SQLRepo.INSTANCE.getNodeIDFromName(to) + "";
     String fromNodeID = SQLRepo.INSTANCE.getNodeIDFromName(from) + "";
 
+    System.out.println(HospitalNode.allNodes.get(fromNodeID));
+    System.out.println(HospitalNode.allNodes.get(toNodeID));
+
     List<HospitalNode> path =
         pf.findPath(HospitalNode.allNodes.get(fromNodeID), HospitalNode.allNodes.get(toNodeID));
     if (path == null) {
@@ -428,7 +431,7 @@ public class MapController {
 
       // Destination Label
       Label destinationLabel = new Label(destination);
-      destinationLabel.setFont(Font.font("SansSerif", 16));
+      destinationLabel.setFont(Font.font("Roboto", 16));
       destinationLabel.setTextAlignment(TextAlignment.CENTER);
       destinationLabel.setWrapText(true);
 

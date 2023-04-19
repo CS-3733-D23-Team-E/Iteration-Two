@@ -6,6 +6,8 @@ import edu.wpi.teame.App;
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.map.*;
+import edu.wpi.teame.utilities.Navigation;
+import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.File;
@@ -130,6 +132,13 @@ public class DatabaseTableViewController {
   @FXML TextField editEdgeEndField;
   ///////////////////////////
   @FXML MFXButton confirmEditButton;
+  @FXML MFXButton mapEditorSwapButton;
+
+  @FXML MFXButton moveEditorSwapButton;
+
+  @FXML MFXButton requestsButton;
+
+  @FXML MFXButton backButton;
 
   FileChooser saveChooser = new FileChooser();
   FileChooser selectChooser = new FileChooser();
@@ -259,6 +268,17 @@ public class DatabaseTableViewController {
         event -> {
           removeItem();
         });
+
+    mapEditorSwapButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.DATABASE_MAPVIEW);
+        });
+    requestsButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.DATABASE_SERVICEVIEW);
+        });
+    moveEditorSwapButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MOVE_COMPONENT));
+    backButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
 
     App.getPrimaryStage()
         .addEventHandler(
