@@ -103,10 +103,6 @@ public class MapController {
         .selectedItemProperty()
         .addListener(
             (observable, oldTab, newTab) -> {
-              //              if (!isPathDisplayed) {
-              //                currentFloor = tabToFloor(newTab);
-              //                resetComboboxes();
-              //              }
               // Set the zoom and position of the new pane to the old one
               AnchorPane oldPane = (AnchorPane) oldTab.getContent();
               GesturePane oldGesture = (GesturePane) oldPane.getChildren().get(0);
