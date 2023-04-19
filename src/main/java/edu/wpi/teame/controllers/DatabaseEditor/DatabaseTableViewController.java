@@ -23,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
+import org.controlsfx.control.SearchableComboBox;
 
 public class DatabaseTableViewController {
 
@@ -109,19 +110,19 @@ public class DatabaseTableViewController {
   @FXML MFXTextField editNodeIDField;
   @FXML MFXTextField editNodeXField;
   @FXML MFXTextField editNodeYField;
-  @FXML ComboBox<Floor> editNodeFloorChoice;
-  @FXML ComboBox<String> editNodeBuildingChoice;
+  @FXML SearchableComboBox<Floor> editNodeFloorChoice;
+  @FXML SearchableComboBox<String> editNodeBuildingChoice;
   //////////////////////////
   @FXML VBox editMoveZone;
   @FXML MFXTextField editMoveIDField;
-  @FXML ComboBox<String> editMoveNameChoice;
+  @FXML SearchableComboBox<String> editMoveNameChoice;
   @FXML MFXTextField editMoveDateField; // TODO: MAKE THIS A DATE PICKER
 
   ///////////////////////////
   @FXML VBox editNameZone;
   @FXML MFXTextField editNameLongField;
   @FXML MFXTextField editNameShortField;
-  @FXML ComboBox<LocationName.NodeType> editNameTypeChoice;
+  @FXML SearchableComboBox<LocationName.NodeType> editNameTypeChoice;
 
   ///////////////////////////
   @FXML VBox editEdgeZone;

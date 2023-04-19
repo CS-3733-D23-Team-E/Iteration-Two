@@ -15,12 +15,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.controlsfx.control.SearchableComboBox;
 
 public class MoveComponentController {
-  @FXML ComboBox<String> departmentMoveSelector;
-  @FXML ComboBox<Integer> newNodeSelector;
-  @FXML ComboBox<String> departmentOneSelector;
-  @FXML ComboBox<String> departmentTwoSelector;
+  @FXML SearchableComboBox<String> departmentMoveSelector;
+  @FXML SearchableComboBox<Integer> newNodeSelector;
+  @FXML SearchableComboBox<String> departmentOneSelector;
+  @FXML SearchableComboBox<String> departmentTwoSelector;
   @FXML DatePicker moveDateSelector;
   @FXML Tab moveTab;
   @FXML Tab swapTab;
