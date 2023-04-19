@@ -35,6 +35,7 @@ public class MealDAO<E> extends DAO<MealRequestData> {
       while (rs.next()) {
         MealRequestData data =
             new MealRequestData(
+                rs.getInt("requestID"),
                 rs.getString("name"),
                 rs.getString("room"),
                 rs.getString("deliveryDate"),
@@ -65,7 +66,7 @@ public class MealDAO<E> extends DAO<MealRequestData> {
             + attribute
             + "\" = '"
             + value
-            + "' WHERE \"MealService.requestID\" = '"
+            + "' WHERE \"MealService\".\"requestID\" = '"
             + requestID
             + "';";
 

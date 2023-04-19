@@ -15,6 +15,7 @@ public class MealDAOTest {
 
     SQLRepo.INSTANCE.addMealRequest(
         new MealRequestData(
+            0,
             "joseph",
             "Cafe",
             "2023-04-07",
@@ -32,6 +33,7 @@ public class MealDAOTest {
 
     SQLRepo.INSTANCE.deleteMealRequest(
         new MealRequestData(
+            0,
             "joseph",
             "Cafe",
             "2023-04-07",
@@ -56,6 +58,7 @@ public class MealDAOTest {
 
     MealRequestData mealRequest =
         new MealRequestData(
+            0,
             "joseph",
             "Cafe",
             "2023-04-07",
