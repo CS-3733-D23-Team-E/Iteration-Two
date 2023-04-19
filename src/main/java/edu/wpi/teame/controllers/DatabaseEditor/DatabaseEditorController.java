@@ -19,15 +19,13 @@ public class DatabaseEditorController {
 
   @FXML DatabaseMapViewController mapViewController;
 
-  @FXML
-  DatabaseTableViewController tableViewController =
-      new DatabaseTableViewController(); // I dont know why I have to do this but I do - Mich
+  @FXML DatabaseTableViewController tableViewController;
+  // =new DatabaseTableViewController(); // I dont know why I have to do this but I do - Mich
 
   @FXML DatabaseServiceRequestViewController serviceRequestViewController;
 
-  @FXML
-  MoveComponentController moveComponentController =
-      new MoveComponentController(); // I dont know why I have to do this but I do - Mich
+  @FXML MoveComponentController moveComponentController;
+  //  = new MoveComponentController(); // I dont know why I have to do this but I do - Mich
 
   @FXML
   public void initialize() {
