@@ -2,6 +2,7 @@ package edu.wpi.teame.controllers;
 
 import static javafx.scene.paint.Color.WHITE;
 
+import edu.wpi.teame.utilities.ButtonUtilities;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -41,39 +42,24 @@ public class NewScreenTemplateController {
     menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
     menuBarExit.setOnMouseClicked((event -> Platform.exit()));
 
-    mouseSetupMenuBar(menuBarHome);
-    mouseSetupMenuBar(menuBarServices);
-    mouseSetupMenuBar(menuBarSignage);
-    mouseSetupMenuBar(menuBarMaps);
-    mouseSetupMenuBar(menuBarDatabase);
-    mouseSetupMenuBar(menuBarExit);
+    ButtonUtilities.mouseSetupMenuBar(menuBarHome, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarServices, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarSignage, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarMaps, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarDatabase, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarExit, "baseline-center");
   }
 
   private void mouseSetup(MFXButton btn) {
     btn.setOnMouseEntered(
         event -> {
           btn.setStyle(
-              "-fx-background-color: #ffffff; -fx-alignment: center; -fx-border-color: #192d5a; -fx-border-width: 2;");
+              "-fx-background-color: #f1f1f1; -fx-alignment: center; -fx-border-color: #001A3C; -fx-border-width: 2;");
           btn.setTextFill(Color.web("#192d5aff", 1.0));
         });
     btn.setOnMouseExited(
         event -> {
-          btn.setStyle("-fx-background-color: #192d5aff; -fx-alignment: center;");
-          btn.setTextFill(WHITE);
-        });
-  }
-
-  private void mouseSetupMenuBar(MFXButton btn) {
-    btn.setOnMouseEntered(
-        event -> {
-          btn.setStyle(
-              "-fx-background-color: #ffffff; -fx-alignment: baseline-left; -fx-border-color: #192d5a; -fx-border-width: 0; -fx-font-size: 18;");
-          btn.setTextFill(Color.web("#192d5aff", 1.0));
-        });
-    btn.setOnMouseExited(
-        event -> {
-          btn.setStyle(
-              "-fx-background-color: #192d5aff; -fx-alignment: baseline-left;-fx-font-size: 18;");
+          btn.setStyle("-fx-background-color: #001A3C; -fx-alignment: center;");
           btn.setTextFill(WHITE);
         });
   }
