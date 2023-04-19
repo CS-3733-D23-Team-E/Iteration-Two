@@ -4,6 +4,8 @@ import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.map.HospitalNode;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.map.MoveAttribute;
+import edu.wpi.teame.utilities.Navigation;
+import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +29,8 @@ public class MoveComponentController {
   @FXML Tab swapTab;
   @FXML MFXButton confirmButton;
   @FXML MFXButton resetButton;
+
+  @FXML MFXButton tableEditorSwapButton;
   @FXML Label moveCountText;
   @FXML ListView<String> currentMoveList;
   @FXML TableView<MoveAttribute> futureMoveTable;
@@ -49,6 +53,10 @@ public class MoveComponentController {
     initTableAndList();
     initButtons();
     confirmButton.setOnAction(e -> moveToNewNode());
+    tableEditorSwapButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.DATABASE_TABLEVIEW);
+        });
   }
 
   private void initButtons() {

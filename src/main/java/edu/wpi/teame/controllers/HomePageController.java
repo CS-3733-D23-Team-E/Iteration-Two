@@ -65,14 +65,14 @@ public class HomePageController {
     serviceRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
 
     editSignageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
-    databaseButton.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
+    databaseButton.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_TABLEVIEW));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
 
     menuBarSignage.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
     menuBarServices.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
     menuBarHome.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
     menuBarMaps.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
-    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate((Screen.DATABASE_EDITOR)));
+    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate((Screen.DATABASE_TABLEVIEW)));
     menuBarExit.setOnMouseClicked(event -> Platform.exit());
 
     loggedIn = false;
@@ -115,7 +115,7 @@ public class HomePageController {
     menuBarServices.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
     menuBarSignage.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
     menuBarMaps.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
-    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
+    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_TABLEVIEW));
     menuBarExit.setOnMouseClicked((event -> Platform.exit()));
 
     // makes the menu bar buttons get highlighted when the mouse hovers over them

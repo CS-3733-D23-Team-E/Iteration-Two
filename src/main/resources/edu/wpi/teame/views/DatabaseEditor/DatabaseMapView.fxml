@@ -1,29 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import net.kurobako.gesturefx.GesturePane?>
-
 <?import org.controlsfx.control.SearchableComboBox?>
+
 <AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.DatabaseEditor.DatabaseMapViewController">
    <children>
-      <HBox prefHeight="100.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox layoutX="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="30.0" tabMaxWidth="180.0" tabMinHeight="30.0" tabMinWidth="130.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="TOP_CENTER" minWidth="-Infinity" prefWidth="225.0" spacing="20.0" style="-fx-background-color: #f1f1f1;">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Map View">
+                     <font>
+                        <Font name="Roboto" size="38.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Line endX="125.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Line>
+                  <MFXButton fx:id="tableEditorSwapButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-background-color: #001A3C;" text="Table Editor" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto" size="16.0" />
+                     </font>
+                  </MFXButton>
+                  <Line endX="125.0" layoutX="37.0" layoutY="86.0" />
+               </children>
+               <HBox.margin>
+                  <Insets top="25.0" />
+               </HBox.margin>
+            </VBox>
+            <TabPane fx:id="tabPane" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="30.0" tabMaxWidth="180.0" tabMinHeight="30.0" tabMinWidth="130.0">
                <tabs>
                   <Tab fx:id="lowerLevelTwoTab" text="Lower Level 2">
                      <content>
@@ -31,10 +63,8 @@
                            <children>
                               <GesturePane maxScale="6.0" minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <AnchorPane fx:id="mapPaneLowerTwo">
+                                    <AnchorPane fx:id="mapPaneLowerTwo" minWidth="1500.0">
                                        <children>
-                                          <StackPane fx:id="imagePane1111">
-                                             <children>
                                                 <ImageView fx:id="mapImageLowerTwo" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
                                                       <Image url="@../../maps/00_thelowerlevel2.png" />
@@ -43,8 +73,6 @@
                                                       <Rectangle2D />
                                                    </viewport>
                                                 </ImageView>
-                                             </children>
-                                          </StackPane>
                                        </children>
                                     </AnchorPane>
                                  </content>
@@ -59,10 +87,8 @@
                            <children>
                               <GesturePane maxScale="6.0" minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <AnchorPane fx:id="mapPaneLowerOne">
+                                    <AnchorPane fx:id="mapPaneLowerOne" minWidth="1500.0">
                                        <children>
-                                          <StackPane fx:id="imagePane111" minHeight="0.0" minWidth="0.0">
-                                             <children>
                                                 <ImageView fx:id="mapImageLowerOne" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
                                                       <Image url="@../../maps/00_thelowerlevel1.png" />
@@ -71,8 +97,6 @@
                                                       <Rectangle2D />
                                                    </viewport>
                                                 </ImageView>
-                                             </children>
-                                          </StackPane>
                                        </children>
                                     </AnchorPane>
                                  </content>
@@ -87,10 +111,8 @@
                            <children>
                               <GesturePane maxScale="6.0" minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <AnchorPane fx:id="mapPaneOne" minWidth="-Infinity">
+                                    <AnchorPane fx:id="mapPaneOne" minWidth="1500.0">
                                        <children>
-                                          <StackPane fx:id="imagePane" minHeight="-Infinity" minWidth="-Infinity">
-                                             <children>
                                                 <ImageView fx:id="mapImageOne" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@../../maps/01_thefirstfloor.png" />
@@ -99,8 +121,6 @@
                                                       <Rectangle2D />
                                                    </viewport>
                                                 </ImageView>
-                                             </children>
-                                          </StackPane>
                                        </children>
                                     </AnchorPane>
                                  </content>
@@ -115,17 +135,13 @@
                            <children>
                               <GesturePane maxScale="6.0" minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <AnchorPane fx:id="mapPaneTwo">
+                                    <AnchorPane fx:id="mapPaneTwo" minWidth="1500.0">
                                        <children>
-                                          <StackPane fx:id="imagePane1" minHeight="0.0" minWidth="0.0">
-                                             <children>
                                                 <ImageView fx:id="mapImageTwo" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
                                                       <Image url="@../../maps/02_thesecondfloor.png" />
                                                    </image>
                                                 </ImageView>
-                                             </children>
-                                          </StackPane>
                                        </children>
                                     </AnchorPane>
                                  </content>
@@ -140,17 +156,13 @@
                            <children>
                               <GesturePane maxScale="6.0" minScale="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <AnchorPane fx:id="mapPaneThree">
+                                    <AnchorPane fx:id="mapPaneThree" minWidth="1500.0">
                                        <children>
-                                          <StackPane fx:id="imagePane11" minHeight="0.0" minWidth="0.0">
-                                             <children>
                                                 <ImageView fx:id="mapImageThree" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                                                    <image>
                                                       <Image url="@../../maps/03_thethirdfloor.png" />
                                                    </image>
                                                 </ImageView>
-                                             </children>
-                                          </StackPane>
                                        </children>
                                     </AnchorPane>
                                  </content>
@@ -161,11 +173,11 @@
                   </Tab>
                </tabs>
             </TabPane>
-            <VBox fx:id="sidebar" minWidth="-Infinity" prefWidth="300.0">
+            <AnchorPane fx:id="sidebar" prefWidth="460.0">
                <children>
-                  <VBox fx:id="editNodeView" spacing="20.0">
+                  <VBox fx:id="editNodeView" alignment="TOP_CENTER" layoutX="193.0" layoutY="5.0" spacing="20.0" style="-fx-background-color: #F1F1F1;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                      <children>
-                        <Text fx:id="editPageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit node">
+                        <Text fx:id="editPageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Node">
                            <font>
                               <Font size="32.0" />
                            </font>
@@ -174,90 +186,146 @@
                            <children>
                               <HBox spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="x:" />
-                                    <TextField fx:id="xField" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="y:" />
-                                    <TextField fx:id="yField" />
+                                    <VBox>
+                                       <children>
+                                          <Label text="X Coordinate:">
+                                             <font>
+                                                <Font name="Roboto" size="13.0" />
+                                             </font></Label>
+                                          <TextField promptText="X Coordinate:" fx:id="xField" />
+                                       </children>
+                                    </VBox>
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <VBox>
+                                       <children>
+                                          <Label text="Y Coordinate:">
+                                             <font>
+                                                <Font name="Roboto" size="13.0" />
+                                             </font></Label>
+                                          <TextField fx:id="yField" promptText="Y Coordinate:" />
+                                       </children>
+                                    </VBox>
                                  </children>
                               </HBox>
                            </children>
                         </HBox>
                         <HBox spacing="10.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name:" />
-                              <SearchableComboBox fx:id="longNameSelector" maxWidth="150.0" />
-                           </children>
-                        </HBox>
-                        <VBox alignment="TOP_RIGHT" spacing="10.0">
-                           <children>
-                              <HBox>
+                              <VBox HBox.hgrow="ALWAYS">
                                  <children>
-                                    <VBox>
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long Name:" />
-                                          <TextField fx:id="newLongNameField" minWidth="100.0" prefWidth="100.0" />
-                                       </children>
-                                    </VBox>
-                                    <VBox>
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Short Name:" />
-                                          <TextField fx:id="newShortNameField" minWidth="100.0" prefWidth="100.0" />
-                                       </children>
-                                    </VBox>
-                                    <VBox>
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Type:" />
-                                          <SearchableComboBox fx:id="nodeTypeChoice" minWidth="75.0" maxWidth="75.0" />
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <MFXButton fx:id="removeLocationButton" text="Remove Location" />
-                                    <MFXButton fx:id="addLocationButton" text="Create Location" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox>
-                           <children>
-                              <TableView fx:id="edgeView" prefHeight="200.0" prefWidth="150.0">
-                                <columns>
-                                  <TableColumn fx:id="edgeColumn" prefWidth="300.0" resizable="false" text="Connects to:" />
-                                </columns>
-                              </TableView>
-                              <VBox>
-                                 <children>
-                                    <HBox spacing="5.0">
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Edge:" />
-                                          <SearchableComboBox fx:id="addEdgeField" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" />
-                                          <MFXButton fx:id="addEdgeButton" text="Add" />
-                                          <MFXButton fx:id="removeEdgeButton" text="Remove" />
-                                       </children>
-                                    </HBox>
+                                    <Label text="Location Name:">
+                                       <font>
+                                          <Font name="Roboto" size="13.0" />
+                                       </font></Label>
+                                    <SearchableComboBox fx:id="longNameSelector" maxWidth="1.7976931348623157E308" prefHeight="26.0" promptText="Location Name:" />
+
                                  </children>
                               </VBox>
                            </children>
-                        </VBox>
-                        <HBox spacing="10.0">
+                        </HBox>
+                        <HBox alignment="CENTER">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Building:" />
-                              <SearchableComboBox fx:id="buildingSelector" maxWidth="100.0" />
+                              <VBox>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long Name:" />
+                                    <TextField fx:id="newLongNameField" minWidth="100.0" prefWidth="100.0" promptText="Long Name" />
+                                 </children>
+                              </VBox>
+                              <Region minWidth="10.0" HBox.hgrow="ALWAYS" />
+                              <VBox>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long Name:" />
+                                    <TextField fx:id="newLongNameField1" minWidth="100.0" prefWidth="100.0" promptText="Long Name" />
+                                 </children>
+                              </VBox>
+                              <Region minWidth="10.0" HBox.hgrow="ALWAYS" />
+                              <VBox>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Type:" />
+                                    <SearchableComboBox fx:id="nodeTypeChoice" minWidth="75.0" prefWidth="0.0" promptText="Type" />
+                                 </children>
+                              </VBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0">
+                           <children>
+                              <MFXButton fx:id="addLocationButton" prefWidth="125.0" text="Add Location">
+                                 <font>
+                                    <Font name="Roboto" size="13.0" />
+                                 </font>
+                              </MFXButton>
+                              <Region prefWidth="25.0" />
+                              <MFXButton fx:id="removeLocationButton" layoutX="10.0" layoutY="10.0" prefWidth="125.0" text="Remove Location">
+                                 <font>
+                                    <Font name="Roboto" size="13.0" />
+                                 </font>
+                              </MFXButton>
                            </children>
                         </HBox>
-                        <HBox spacing="10.0">
+                        <TableView fx:id="edgeView" VBox.vgrow="ALWAYS">
+                           <columns>
+                              <TableColumn fx:id="edgeColumn" prefWidth="300.0" resizable="false" style="radius: 10;" text="Node ID" />
+                           </columns>
+                        </TableView>
+                        <VBox>
                            <children>
-                              <MFXButton fx:id="confirmButton" text="Confirm" />
-                              <MFXButton fx:id="cancelButton" text="Cancel" />
-                              <MFXButton fx:id="deleteNodeButton" style="-fx-background-color: RED;" text="Delete Node" />
+                              <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Edge:">
+                                       <font>
+                                          <Font name="Roboto" size="13.0" />
+                                       </font></Text>
+                                    <SearchableComboBox fx:id="addEdgeField" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" HBox.hgrow="ALWAYS" />
+                                    <MFXButton fx:id="addEdgeButton" text="Add" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="Roboto" size="13.0" />
+                                       </font></MFXButton>
+                                    <MFXButton fx:id="removeEdgeButton" text="Remove" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Building:" />
+                              <SearchableComboBox fx:id="buildingSelector" maxHeight="26.0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="TOP_CENTER" spacing="10.0">
+                           <children>
+                              <MFXButton fx:id="cancelButton" prefWidth="67.0" style="-fx-background-color: transparent; -fx-border-color: #000000; -fx-border-radius: 10;" text="Cancel" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <MFXButton fx:id="deleteNodeButton" prefWidth="67.0" style="-fx-background-color: transparent; -fx-border-color: #FB0000; -fx-border-radius: 10;" text="Delete" textFill="#fb0000" HBox.hgrow="ALWAYS" />
+                              <MFXButton fx:id="confirmButton" prefWidth="67.0" style="-fx-background-color: #3B63A5; -fx-background-radius: 10;" text="Confirm" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font name="Roboto" size="13.0" />
+                                 </font></MFXButton>
                            </children>
                         </HBox>
                      </children>
+                     <padding>
+                        <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" />
+                     </padding>
+                     <effect>
+                        <DropShadow offsetX="4.0" offsetY="4.0">
+                           <color>
+                              <Color opacity="0.25" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
                   </VBox>
                </children>
-            </VBox>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </AnchorPane>
          </children>
       </HBox>
    </children>
