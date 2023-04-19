@@ -43,7 +43,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
   }
 
   void update(MoveAttribute moveAttribute, String attribute, String value) {
-    String nodeID = moveAttribute.getNodeID();
+    int nodeID = moveAttribute.getNodeID();
     String longName = moveAttribute.getLongName();
     String sqlUpdate =
         "UPDATE \"Move\" "
@@ -129,9 +129,9 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
                 + parseInt(splitL1[0])
                 + ",'"
                 + splitL1[1]
-                + "', TO_DATE('"
+                + "', '"
                 + splitL1[2]
-                + "', 'MM/DD/YYYY'));";
+                + "');";
         // System.out.println(sql);
         stmt.execute(sql);
       }
