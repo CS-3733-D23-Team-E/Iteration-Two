@@ -173,6 +173,8 @@ public class MoveComponentController {
             .toList();
 
     currentMoveList.setItems(FXCollections.observableList(currentMoveDescriptions));
+
+    moveCountText.setText(currentMoveDescriptions.size() + " Moves Today: ");
   }
 
   /**
