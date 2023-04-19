@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.Label?>
 <AnchorPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.DatabaseEditor.MoveComponentController">
    <children>
       <VBox prefHeight="900.0" prefWidth="1600.0">
@@ -15,47 +24,145 @@
             <HBox prefHeight="75.0" prefWidth="1600.0" />
             <HBox prefHeight="800.0" prefWidth="1600.0" spacing="20.0">
                <children>
-                  <VBox prefHeight="800.0" prefWidth="675.0" />
-                  <VBox prefHeight="800.0" prefWidth="675.0">
+                  <VBox prefHeight="800.0" prefWidth="675.0" spacing="10.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                        <Label fx:id="moveCountText" text="# Moves Today:">
+                           <font>
+                              <Font size="32.0" />
+                           </font>
+                        </Label>
+                        <ListView fx:id="currentMoveList" prefHeight="200.0" prefWidth="200.0" />
+                        <Line endX="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Future Moves">
                            <font>
                               <Font size="32.0" />
                            </font>
                         </Text>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <TableView fx:id="futureMoveTable" prefHeight="500.0" prefWidth="850.0">
+                           <columns>
+                              <TableColumn fx:id="nodeIDCol" minWidth="200.0" prefWidth="200.0" text="NodeID" />
+                              <TableColumn fx:id="nameCol" minWidth="300.0" prefWidth="300.0" text="Name" />
+                              <TableColumn fx:id="dateCol" minWidth="200.0" prefWidth="200.0" text="Date" />
+                           </columns>
+                        </TableView>
+                     </children>
+                     <opaqueInsets>
+                        <Insets left="10.0" />
+                     </opaqueInsets></VBox>
+                  <VBox prefHeight="800.0" prefWidth="675.0" spacing="5.0">
+                     <children>
+                        <TabPane tabClosingPolicy="UNAVAILABLE">
+                           <tabs>
+                              <Tab fx:id="moveTab" text="Move Department">
+                                 <content>
+                                    <AnchorPane>
+                                       <children>
+                                          <VBox prefHeight="238.0" prefWidth="272.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Move Department">
+                                                   <font>
+                                                      <Font size="32.0" />
+                                                   </font>
+                                                </Text>
+                                                <HBox alignment="TOP_CENTER" spacing="10.0">
+                                                   <children>
+                                                      <VBox>
+                                                         <children>
+                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Department:">
+                                                               <font>
+                                                                  <Font size="24.0" />
+                                                               </font>
+                                                            </Text>
+                                                            <ComboBox fx:id="departmentMoveSelector" prefWidth="150.0" />
+                                                         </children>
+                                                      </VBox>
+                                                      <Line endY="100.0" />
+                                                      <VBox>
+                                                         <children>
+                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Node:">
+                                                               <font>
+                                                                  <Font size="24.0" />
+                                                               </font>
+                                                            </Text>
+                                                            <ComboBox fx:id="newNodeSelector" prefWidth="150.0" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                              <Tab fx:id="swapTab" text="Swap Departments">
+                                 <content>
+                                    <AnchorPane>
+                                       <children>
+                                          <VBox>
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Swap Departments">
+                                                   <font>
+                                                      <Font size="32.0" />
+                                                   </font>
+                                                </Text>
+                                                <HBox alignment="TOP_CENTER" spacing="10.0">
+                                                   <children>
+                                                      <VBox>
+                                                         <children>
+                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Department 1:">
+                                                               <font>
+                                                                  <Font size="24.0" />
+                                                               </font>
+                                                            </Text>
+                                                            <ComboBox fx:id="departmentOneSelector" prefWidth="150.0" />
+                                                         </children>
+                                                      </VBox>
+                                                      <Line endY="100.0" />
+                                                      <VBox>
+                                                         <children>
+                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Department 2:">
+                                                               <font>
+                                                                  <Font size="24.0" />
+                                                               </font>
+                                                            </Text>
+                                                            <ComboBox fx:id="departmentTwoSelector" prefWidth="150.0" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </children></AnchorPane>
+                                 </content>
+                              </Tab>
+                           </tabs>
+                        </TabPane>
+                        <HBox spacing="10.0">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
                                     </Text>
-                                    <ComboBox prefWidth="150.0" />
+                                    <DatePicker fx:id="moveDateSelector" />
                                  </children>
                               </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </Text>
-                                    <ComboBox prefWidth="150.0" />
-                                 </children>
-                              </VBox>
+                              <MFXButton fx:id="confirmButton" text="Confirm" />
+                              <MFXButton fx:id="resetButton" style="-fx-background-color: #ff0000;" text="Reset" />
                            </children>
                         </HBox>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <DatePicker />
                      </children>
                   </VBox>
                </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
             </HBox>
          </children>
       </VBox>

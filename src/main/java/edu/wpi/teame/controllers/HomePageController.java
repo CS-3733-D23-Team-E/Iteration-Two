@@ -1,6 +1,5 @@
 package edu.wpi.teame.controllers;
 
-import edu.wpi.teame.entities.LoginData;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -64,7 +63,9 @@ public class HomePageController {
     serviceRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
 
     editSignageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
-    // databaseButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_DATA_EDITOR));
+    databaseButton.setOnMouseClicked(
+        event ->
+            Navigation.navigate(Screen.DATABASE_EDITOR));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
 
     menuBarSignage.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
@@ -75,7 +76,6 @@ public class HomePageController {
     menuBarExit.setOnMouseClicked(event -> Platform.exit());
 
     loggedIn = false;
-    logoutButton.setOnMouseClicked(event -> attemptLogin());
 
     announcementButton.setOnMouseClicked(
         event -> {
@@ -112,10 +112,6 @@ public class HomePageController {
 
     logoutButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
     menuBarServices.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
-    menuBarSignage.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
-    menuBarMaps.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
-    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
-    menuBarExit.setOnMouseClicked((event -> Platform.exit()));
 
     // makes the buttons get highlighted when the mouse hovers over them
     mouseSetup(menuBarHome);
@@ -129,26 +125,6 @@ public class HomePageController {
     mouseSetup(pathfindingButton);
     mouseSetup(databaseButton);
     mouseSetup(logoutButton);
-  }
-
-  public void attemptLogin() {
-    // Get the input login info
-    LoginData login = new LoginData(username.getText(), password.getText());
-
-    // If the login was successful
-    if (login.attemptLogin()) {
-      // Hide text fields and button
-      password.setVisible(false);
-      username.setVisible(false);
-      loginButton.setVisible(false);
-      // Set loggedIn as true
-      loggedIn = true;
-
-    } else {
-      // Clear the fields
-      password.clear();
-      username.clear();
-    }
   }
 
   private void mouseSetup(MFXButton btn) {
