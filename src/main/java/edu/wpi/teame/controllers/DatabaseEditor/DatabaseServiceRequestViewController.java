@@ -81,7 +81,6 @@ public class DatabaseServiceRequestViewController {
   @FXML TableColumn<FurnitureRequestData, String> furnitureNotesCol;
 
   //////////////////////////////////////////
-  @FXML VBox editMealZone;
 
   @FXML
   public void initialize() {

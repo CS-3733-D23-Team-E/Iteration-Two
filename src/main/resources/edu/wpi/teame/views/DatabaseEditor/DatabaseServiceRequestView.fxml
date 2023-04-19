@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -11,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1375.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.DatabaseEditor.DatabaseServiceRequestViewController">
    <children>
@@ -50,21 +46,7 @@
                                           <TableColumn fx:id="mealNotesCol" prefWidth="75.0" text="Notes" />
                                       </columns>
                                     </TableView>
-                                    <HBox fx:id="mealAddZone" prefHeight="117.0" prefWidth="1167.0">
-                                       <children>
-                                          <MFXTextField fx:id="mealRecipientNameField" prefHeight="30.0" prefWidth="90.0" promptText="Recipient Name" />
-                                          <MFXTextField fx:id="mealRoomField" promptText="Room" />
-                                          <MFXTextField fx:id="mealDateField" promptText="Date" />
-                                          <MFXTextField fx:id="mealTimeField" promptText="Time" />
-                                          <MFXTextField fx:id="mealStaffField" promptText="Staff" />
-                                          <MFXTextField fx:id="mealMainCourseField" promptText="Main Course" />
-                                          <MFXTextField fx:id="mealSideCourseField" promptText="Side Course" />
-                                          <MFXTextField fx:id="mealDrinkField" promptText="Drink" />
-                                          <MFXTextField fx:id="mealAllergiesField" promptText="Allergies" />
-                                          <MFXTextField fx:id="mealNotesField" promptText="Notes" />
-                                          <MFXButton fx:id="addMealButton" text="Add Meal" />
-                                       </children>
-                                    </HBox>
+                                    <HBox fx:id="mealAddZone" prefHeight="117.0" prefWidth="1167.0" />
                                  </children>
                               </VBox>
                            </children>
@@ -168,18 +150,11 @@
             </TabPane>
             <VBox prefHeight="800.0" prefWidth="465.0">
                <children>
-                  <MFXButton fx:id="mealDeleteSelectedRow" text="Delete Selected Row" />
                   <StackPane prefHeight="436.0" prefWidth="450.0">
                      <children>
-                        <VBox fx:id="editMealZone" prefHeight="209.0" prefWidth="465.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Staff" />
-                              <ComboBox fx:id="editMealStaffField" prefWidth="150.0" />
-                           </children>
-                        </VBox>
+                        <VBox fx:id="editMealZone" prefHeight="209.0" prefWidth="465.0" />
                      </children>
                   </StackPane>
-                  <MFXButton fx:id="confirmEditButton" text="Confirm Changes" />
                </children>
             </VBox>
          </children>
