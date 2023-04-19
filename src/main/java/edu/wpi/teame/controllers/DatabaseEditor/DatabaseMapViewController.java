@@ -94,6 +94,7 @@ public class DatabaseMapViewController {
   public void initialize() {
     initializeMapUtilities();
     currentFloor = Floor.LOWER_TWO;
+    initialLoadFloor(currentFloor);
 
     sidebar.setVisible(true);
     // Sidebar functions
@@ -120,7 +121,6 @@ public class DatabaseMapViewController {
 
     displayAddMenu();
     initializeButtons();
-    initialLoadFloor(Floor.LOWER_TWO);
   }
 
   private void cancel() {
