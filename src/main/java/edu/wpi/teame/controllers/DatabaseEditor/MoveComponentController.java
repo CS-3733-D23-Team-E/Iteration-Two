@@ -112,10 +112,6 @@ public class MoveComponentController {
 
       initTableAndList();
       reset();
-      System.out.println("old MA 1    " + moveOne);
-      System.out.println("old MA 2   " + moveTwo);
-      System.out.println("new MA 1    " + swaping1With2);
-      System.out.println("new MA 2    " + swaping2With1);
     }
   }
 
@@ -188,7 +184,6 @@ public class MoveComponentController {
     Date moveDate;
     try {
       moveDate = formatter.parse(move.getDate());
-      // System.out.println("made the date well!");
     } catch (ParseException e) {
       moveDate = new Date();
       System.out.println(e);
