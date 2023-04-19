@@ -36,6 +36,7 @@
                                  <children>
                                     <TableView fx:id="mealTable" prefHeight="712.0" prefWidth="1014.0">
                                       <columns>
+                                          <TableColumn fx:id="mealRequestIDCol" prefWidth="75.0" text="Request ID" />
                                           <TableColumn fx:id="mealRecipientNameCol" prefWidth="75.0" text="Recipient Name" />
                                         <TableColumn fx:id="mealRoomCol" prefWidth="75.0" text="Room" />
                                         <TableColumn fx:id="mealDateCol" prefWidth="75.0" text="Date" />
@@ -64,6 +65,7 @@
                                  <children>
                                     <TableView fx:id="flowerTable" prefHeight="700.0" prefWidth="1000.0">
                                       <columns>
+                                          <TableColumn fx:id="flowerRequestIDCol" prefWidth="75.0" text="Request ID" />
                                           <TableColumn fx:id="flowerRecipientNameCol" prefWidth="75.0" text="Recipient Name" />
                                         <TableColumn fx:id="flowerRoomCol" prefWidth="75.0" text="Room" />
                                         <TableColumn fx:id="flowerDateCol" prefWidth="75.0" text="Date" />
@@ -90,6 +92,7 @@
                                  <children>
                                     <TableView fx:id="officeSuppliesTable" prefHeight="700.0" prefWidth="1000.0">
                                       <columns>
+                                          <TableColumn fx:id="officeRequestIDCol" prefWidth="75.0" text="Request ID" />
                                         <TableColumn fx:id="officeRecipientNameCol" prefWidth="75.0" text="Recipient  Name" />
                                         <TableColumn fx:id="officeRoomCol" prefWidth="75.0" text="Room" />
                                           <TableColumn fx:id="officeDateCol" prefWidth="75.0" text="Date" />
@@ -114,6 +117,7 @@
                                  <children>
                                     <TableView fx:id="conferenceRoomTable" prefHeight="700.0" prefWidth="1000.0">
                                       <columns>
+                                          <TableColumn fx:id="conferenceRequestIDCol" prefWidth="75.0" text="Request ID" />
                                         <TableColumn fx:id="conferenceNameCol" prefWidth="75.0" text="Name" />
                                         <TableColumn fx:id="conferenceRoomCol" prefWidth="75.0" text="Room" />
                                           <TableColumn fx:id="conferenceDateCol" prefWidth="75.0" text="Booking Date" />
@@ -138,6 +142,7 @@
                                  <children>
                                     <TableView fx:id="furnitureTable" prefHeight="700.0" prefWidth="1000.0">
                                       <columns>
+                                          <TableColumn fx:id="furnitureRequestIDCol" prefWidth="75.0" text="RequestID" />
                                           <TableColumn fx:id="furnitureNameCol" prefWidth="75.0" text="Recipient Name" />
                                         <TableColumn fx:id="furnitureRoomCol" prefWidth="75.0" text="Room" />
                                         <TableColumn fx:id="furnitureDateCol" prefWidth="75.0" text="Date" />

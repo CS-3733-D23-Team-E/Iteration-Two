@@ -24,6 +24,7 @@ public class DatabaseServiceRequestViewController {
 
   // table data for Meals
   @FXML TableView<MealRequestData> mealTable;
+  @FXML TableColumn<MealRequestData, String> mealRequestIDCol;
   @FXML TableColumn<MealRequestData, String> mealRecipientNameCol;
   @FXML TableColumn<MealRequestData, String> mealRoomCol;
   @FXML TableColumn<MealRequestData, String> mealDateCol;
@@ -38,6 +39,7 @@ public class DatabaseServiceRequestViewController {
 
   // table data for Flowers
   @FXML TableView<FlowerRequestData> flowerTable;
+  @FXML TableColumn<FlowerRequestData, String> flowerRequestIDCol;
   @FXML TableColumn<FlowerRequestData, String> flowerRecipientNameCol;
   @FXML TableColumn<FlowerRequestData, String> flowerRoomCol;
   @FXML TableColumn<FlowerRequestData, String> flowerDateCol;
@@ -52,6 +54,7 @@ public class DatabaseServiceRequestViewController {
 
   // table data for Office Supplies
   @FXML TableView<OfficeSuppliesData> officeSuppliesTable;
+  @FXML TableColumn<OfficeSuppliesData, String> officeRequestIDCol;
   @FXML TableColumn<OfficeSuppliesData, String> officeRecipientNameCol;
   @FXML TableColumn<OfficeSuppliesData, String> officeRoomCol;
   @FXML TableColumn<OfficeSuppliesData, String> officeDateCol;
@@ -64,6 +67,7 @@ public class DatabaseServiceRequestViewController {
 
   // table data for Conference Rooms
   @FXML TableView<ConferenceRequestData> conferenceRoomTable;
+  @FXML TableColumn<ConferenceRequestData, String> conferenceRequestIDCol;
   @FXML TableColumn<ConferenceRequestData, String> conferenceNameCol;
   @FXML TableColumn<ConferenceRequestData, String> conferenceRoomCol;
   @FXML TableColumn<ConferenceRequestData, String> conferenceDateCol;
@@ -76,6 +80,7 @@ public class DatabaseServiceRequestViewController {
 
   // table data for Furniture
   @FXML TableView<FurnitureRequestData> furnitureTable;
+  @FXML TableColumn<FurnitureRequestData, String> furnitureRequestIDCol;
   @FXML TableColumn<FurnitureRequestData, String> furnitureNameCol;
   @FXML TableColumn<FurnitureRequestData, String> furnitureRoomCol;
   @FXML TableColumn<FurnitureRequestData, String> furnitureDateCol;
@@ -98,14 +103,15 @@ public class DatabaseServiceRequestViewController {
 
     // fill table for meal requests
     mealRecipientNameCol.setCellValueFactory(
+        new PropertyValueFactory<MealRequestData, String>("requestID"));
+    mealRecipientNameCol.setCellValueFactory(
         new PropertyValueFactory<MealRequestData, String>("name"));
     mealRoomCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("room"));
     mealDateCol.setCellValueFactory(
         new PropertyValueFactory<MealRequestData, String>("deliveryDate"));
     mealTimeCol.setCellValueFactory(
         new PropertyValueFactory<MealRequestData, String>("deliveryTime"));
-    mealStaffCol.setCellValueFactory(
-        new PropertyValueFactory<MealRequestData, String>("assignedStaff"));
+    mealStaffCol.setCellValueFactory(new PropertyValueFactory<MealRequestData, String>("staff"));
     mealMainCourseCol.setCellValueFactory(
         new PropertyValueFactory<MealRequestData, String>("mainCourse"));
     mealSideCourseCol.setCellValueFactory(
@@ -130,6 +136,8 @@ public class DatabaseServiceRequestViewController {
     mealTable.setEditable(true);
 
     // fill table for flower requests
+    flowerRequestIDCol.setCellValueFactory(
+        new PropertyValueFactory<FlowerRequestData, String>("requestID"));
     flowerRecipientNameCol.setCellValueFactory(
         new PropertyValueFactory<FlowerRequestData, String>("name"));
     flowerRoomCol.setCellValueFactory(new PropertyValueFactory<FlowerRequestData, String>("room"));
@@ -140,11 +148,11 @@ public class DatabaseServiceRequestViewController {
     flowerStaffCol.setCellValueFactory(
         new PropertyValueFactory<FlowerRequestData, String>("assignedStaff"));
     flowerFlowerChoiceCol.setCellValueFactory(
-        new PropertyValueFactory<FlowerRequestData, String>("flowerChoice"));
+        new PropertyValueFactory<FlowerRequestData, String>("flowerType"));
     flowerNumberOfFlowersCol.setCellValueFactory(
-        new PropertyValueFactory<FlowerRequestData, String>("numberOfFlowers"));
+        new PropertyValueFactory<FlowerRequestData, String>("quantity"));
     flowerIncludeACardCol.setCellValueFactory(
-        new PropertyValueFactory<FlowerRequestData, String>("includeACard"));
+        new PropertyValueFactory<FlowerRequestData, String>("card"));
     flowerCardMessageCol.setCellValueFactory(
         new PropertyValueFactory<FlowerRequestData, String>("cardMessage"));
     flowerNotesCol.setCellValueFactory(
@@ -165,6 +173,8 @@ public class DatabaseServiceRequestViewController {
     flowerTable.setEditable(true);
 
     // fill table for office supplies requests
+    officeRequestIDCol.setCellValueFactory(
+        new PropertyValueFactory<OfficeSuppliesData, String>("requestID"));
     officeRecipientNameCol.setCellValueFactory(
         new PropertyValueFactory<OfficeSuppliesData, String>("name"));
     officeRoomCol.setCellValueFactory(new PropertyValueFactory<OfficeSuppliesData, String>("room"));
@@ -175,9 +185,9 @@ public class DatabaseServiceRequestViewController {
     officeStaffCol.setCellValueFactory(
         new PropertyValueFactory<OfficeSuppliesData, String>("assignedStaff"));
     officeSupplyTypeCol.setCellValueFactory(
-        new PropertyValueFactory<OfficeSuppliesData, String>("supplyType"));
+        new PropertyValueFactory<OfficeSuppliesData, String>("officeSupply"));
     officeNumberOfSuppliesCol.setCellValueFactory(
-        new PropertyValueFactory<OfficeSuppliesData, String>("numberOfSupplies"));
+        new PropertyValueFactory<OfficeSuppliesData, String>("quantity"));
     officeNotesCol.setCellValueFactory(
         new PropertyValueFactory<OfficeSuppliesData, String>("notes"));
     officeStatusCol.setCellValueFactory(
@@ -196,6 +206,8 @@ public class DatabaseServiceRequestViewController {
     officeSuppliesTable.setEditable(true);
 
     // fill table for conference room requests
+    conferenceRequestIDCol.setCellValueFactory(
+        new PropertyValueFactory<ConferenceRequestData, String>("requestID"));
     conferenceNameCol.setCellValueFactory(
         new PropertyValueFactory<ConferenceRequestData, String>("name"));
     conferenceRoomCol.setCellValueFactory(
@@ -207,7 +219,7 @@ public class DatabaseServiceRequestViewController {
     conferenceStaffCol.setCellValueFactory(
         new PropertyValueFactory<ConferenceRequestData, String>("assignedStaff"));
     conferenceRoomChangesCol.setCellValueFactory(
-        new PropertyValueFactory<ConferenceRequestData, String>("roomChanges"));
+        new PropertyValueFactory<ConferenceRequestData, String>("roomRequest"));
     conferenceNumOfHoursCol.setCellValueFactory(
         new PropertyValueFactory<ConferenceRequestData, String>("numberOfHours"));
     conferenceNotesCol.setCellValueFactory(
@@ -228,6 +240,8 @@ public class DatabaseServiceRequestViewController {
     conferenceRoomTable.setEditable(true);
 
     // fill table for furniture requests
+    furnitureRequestIDCol.setCellValueFactory(
+        new PropertyValueFactory<FurnitureRequestData, String>("requestID"));
     furnitureNameCol.setCellValueFactory(
         new PropertyValueFactory<FurnitureRequestData, String>("name"));
     furnitureRoomCol.setCellValueFactory(
