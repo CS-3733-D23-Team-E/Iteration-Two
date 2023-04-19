@@ -87,13 +87,15 @@ public class ButtonUtilities {
     btn.setOnMouseEntered(
         event -> {
           btn.setStyle(
-              "-fx-background-color: #f1f1f1; -fx-alignment: alignment; -fx-border-color: #001A3C; -fx-border-width: 0; -fx-font-size: 18;");
+              "-fx-background-color: #f1f1f1; -fx-alignment: "
+                  + alignment
+                  + "; -fx-border-color: #001A3C; -fx-border-width: 0; -fx-font-size: 18;");
           btn.setTextFill(Color.web("#192d5aff", 1.0));
         });
     btn.setOnMouseExited(
         event -> {
           btn.setStyle(
-              "-fx-background-color: #001A3C; -fx-alignment: alignment;-fx-font-size: 18;");
+              "-fx-background-color: #001A3C; -fx-alignment: " + alignment + ";-fx-font-size: 18;");
           btn.setTextFill(WHITE);
         });
   }
