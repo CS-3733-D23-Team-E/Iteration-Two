@@ -7,6 +7,12 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 public class MoveDAOTest {
+  @Test
+  public void getMove() {
+    SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
+    List<MoveAttribute> moveAttributeList = SQLRepo.INSTANCE.getMoveList();
+    assertFalse(moveAttributeList.isEmpty());
+  }
 
   @Test
   public void testUpdateList() {
@@ -44,15 +50,17 @@ public class MoveDAOTest {
   }
 
   @Test
-  public void exportImportMove() {
+  public void importMove() {
+    SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
+    SQLRepo.INSTANCE.importFromCSV(
+        SQLRepo.Table.MOVE,
+        "C:\\Users\\thesm\\OneDrive\\Documents\\GitHub\\Iteration-One\\Data\\NewData\\Move.csv");
+  }
+
+  @Test
+  public void exportMove() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     SQLRepo.INSTANCE.exportToCSV(
         SQLRepo.Table.MOVE, "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733", "MoveExport");
-
-    SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
-    SQLRepo.INSTANCE.importFromCSV(
-        SQLRepo.Table.MOVE, "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733\\MoveExport");
-
-    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 }

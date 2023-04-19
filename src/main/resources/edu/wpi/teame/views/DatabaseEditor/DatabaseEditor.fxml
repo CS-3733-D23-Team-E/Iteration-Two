@@ -28,6 +28,15 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab fx:id="editServiceRequestTab" text="Edit Service Requests">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                        <children>
+                            <fx:include fx:id="serviceRequestView" source="DatabaseServiceRequestView.fxml" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>
