@@ -33,9 +33,8 @@ public class MealDAO<E> extends DAO<MealRequestData> {
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        mealRequestDataList.add(
+        MealRequestData data =
             new MealRequestData(
-                rs.getInt("requestID"),
                 rs.getString("name"),
                 rs.getString("room"),
                 rs.getString("deliveryDate"),
@@ -46,7 +45,8 @@ public class MealDAO<E> extends DAO<MealRequestData> {
                 rs.getString("drink"),
                 rs.getString("allergies"),
                 rs.getString("notes"),
-                MealRequestData.Status.stringToStatus(rs.getString("status"))));
+                MealRequestData.Status.stringToStatus(rs.getString("status")));
+        mealRequestDataList.add(data);
       }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
@@ -57,7 +57,7 @@ public class MealDAO<E> extends DAO<MealRequestData> {
 
   @Override
   void update(MealRequestData obj, String attribute, String value) {
-    int requestID = obj.getRequestID();
+    int requestID = obj.getRequestId();
 
     String sqlUpdate =
         "UPDATE \"MealService\" "
@@ -65,7 +65,7 @@ public class MealDAO<E> extends DAO<MealRequestData> {
             + attribute
             + "\" = '"
             + value
-            + "' WHERE \"requestID\" = '"
+            + "' WHERE \"MealService.requestID\" = '"
             + requestID
             + "';";
 
@@ -81,8 +81,9 @@ public class MealDAO<E> extends DAO<MealRequestData> {
 
   @Override
   void delete(MealRequestData obj) {
-    int requestID = obj.getRequestID();
-    String sqlDelete = "DELETE FROM \"MealService\" WHERE \"requestID\" = '" + requestID + "';";
+    int requestID = obj.getRequestId();
+    String sqlDelete =
+        "DELETE FROM \"MealService\" WHERE \"MealService.requestID\" = '" + requestID + "';";
 
     Statement stmt;
     try {
@@ -96,7 +97,8 @@ public class MealDAO<E> extends DAO<MealRequestData> {
 
   @Override
   void add(MealRequestData obj) {
-    int requestID = generateUniqueRequestID();
+    obj.setRequestId(generateUniqueRequestID());
+    int requestID = obj.getRequestId();
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
@@ -149,11 +151,12 @@ public class MealDAO<E> extends DAO<MealRequestData> {
     int requestID = 0;
     try {
       Statement stmt = activeConnection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT MAX(" + requestID + ") FROM \"MealService\"");
-      if (rs.next()) {
+      ResultSet rs = stmt.executeQuery("SELECT MAX(\"requestID\") FROM \"MealService\"");
+      if (rs.next() && rs.getInt(1) > 0) {
         requestID = rs.getInt(1);
       }
       stmt.close();
+      rs.close();
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
