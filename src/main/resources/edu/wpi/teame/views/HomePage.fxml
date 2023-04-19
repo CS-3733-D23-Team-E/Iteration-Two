@@ -279,7 +279,10 @@
                               </Text>
                               <HBox maxHeight="30.0" maxWidth="450.0" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                                  <children>
-                                    <MFXTextField fx:id="announcementTextBox" maxHeight="30.0" maxWidth="300.0" prefColumnCount="0" prefHeight="30.0" prefWidth="300.0" promptText="Announcement Text Here" />
+                                    <MFXTextField fx:id="announcementTextBox" maxHeight="30.0" maxWidth="300.0" prefColumnCount="0" prefHeight="30.0" prefWidth="300.0" promptText="Announcement Text Here" styleClass="MFXTextField" stylesheets="@../styles/eStyleSheet.css">
+                                       <font>
+                                          <Font name="Roboto" size="18.0" />
+                                       </font></MFXTextField>
                                     <MFXButton fx:id="announcementButton" style="-fx-background-color: #3B63A5; -fx-text-fill: #f1f1f1;" text="Submit">
                                        <HBox.margin>
                                           <Insets top="10.0" />
