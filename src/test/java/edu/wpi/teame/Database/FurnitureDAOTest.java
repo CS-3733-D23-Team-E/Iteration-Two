@@ -64,7 +64,7 @@ public class FurnitureDAOTest {
 
     SQLRepo.INSTANCE.addFurnitureRequest(furnitureRequest);
     SQLRepo.INSTANCE.updateFurnitureRequest(furnitureRequest, "status", "PENDING");
-    // SQLRepo.INSTANCE.deleteFurnitureRequest(furnitureRequest);
+    SQLRepo.INSTANCE.deleteFurnitureRequest(furnitureRequest);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

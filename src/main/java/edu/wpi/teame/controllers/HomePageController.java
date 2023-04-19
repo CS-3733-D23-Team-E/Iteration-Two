@@ -1,6 +1,7 @@
 package edu.wpi.teame.controllers;
 
 import edu.wpi.teame.entities.LoginData;
+import edu.wpi.teame.utilities.ButtonUtilities;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -71,7 +72,7 @@ public class HomePageController {
     menuBarServices.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
     menuBarHome.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
     menuBarMaps.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
-    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate((Screen.DATABASE_TABLEVIEW)));
+    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate((Screen.DATABASE_EDITOR)));
     menuBarExit.setOnMouseClicked(event -> Platform.exit());
 
     loggedIn = false;
@@ -114,17 +115,19 @@ public class HomePageController {
     menuBarServices.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
     menuBarSignage.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
     menuBarMaps.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
-    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
+    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_TABLEVIEW));
     menuBarExit.setOnMouseClicked((event -> Platform.exit()));
 
-    // makes the buttons get highlighted when the mouse hovers over them
-    mouseSetup(menuBarHome);
-    mouseSetup(menuBarServices);
-    mouseSetup(menuBarMaps);
-    mouseSetup(menuBarDatabase);
-    mouseSetup(menuBarExit);
+    // makes the menu bar buttons get highlighted when the mouse hovers over them
+    ButtonUtilities.mouseSetupMenuBar(menuBarHome, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarServices, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarSignage, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarMaps, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarDatabase, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarExit, "baseline-center");
+
+    // makes the buttons highlight when they are hovered over
     mouseSetup(serviceRequestButton);
-    mouseSetup(menuBarSignage);
     mouseSetup(editSignageButton);
     mouseSetup(pathfindingButton);
     mouseSetup(databaseButton);
@@ -155,12 +158,12 @@ public class HomePageController {
     btn.setOnMouseEntered(
         event -> {
           btn.setStyle(
-              "-fx-background-color: #f1f1f1; -fx-alignment: center-left; -fx-border-color:  #001A3C; -fx-border-width: 3;");
+              "-fx-background-color: #f1f1f1; -fx-alignment: top-left; -fx-border-color:  #001A3C; -fx-border-width: 3;");
           btn.setTextFill(Color.web("#192d5aff", 1.0));
         });
     btn.setOnMouseExited(
         event -> {
-          btn.setStyle("-fx-background-color:#001A3C; -fx-alignment: center-left;");
+          btn.setStyle("-fx-background-color:#001A3C; -fx-alignment: top-left;");
           btn.setTextFill(Color.web("#f1f1f1", 1.0));
         });
   }

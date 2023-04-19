@@ -16,7 +16,6 @@ import javax.swing.*;
 public class MapUtilities {
   private final int MAP_X = 5000;
   private final int MAP_Y = 3400;
-
   private final Pane pane;
 
   private String lineStyle = "";
@@ -42,6 +41,7 @@ public class MapUtilities {
     int y = hospitalNode.getYCoord();
     String nodeID = hospitalNode.getNodeID();
 
+    //    System.out.println("nodetype: " + SQLRepo.INSTANCE.getNodeTypeFromNodeID(105));
     LocationName.NodeType nodeType =
         LocationName.NodeType.stringToNodeType(
             SQLRepo.INSTANCE.getNodeTypeFromNodeID(Integer.parseInt(nodeID)));
@@ -62,7 +62,7 @@ public class MapUtilities {
         circle.setFill(Color.GRAY);
         break;
       case DEPT:
-        circle.setFill(Color.PAPAYAWHIP);
+        circle.setFill(Color.WHITE);
         break;
       case INFO:
         circle.setFill(Color.VIOLET);
@@ -298,12 +298,10 @@ public class MapUtilities {
   }
 
   public double convertY(int yCoord) {
-
     return ImageCoordToPane(yCoord, MAP_Y, pane.getHeight());
   }
 
   public double convertX(int xCoord) {
-
     return ImageCoordToPane(xCoord, MAP_X, pane.getWidth());
   }
 
@@ -360,7 +358,7 @@ public class MapUtilities {
   /** removes all nodes drawn by the mapUtility on the pane */
   public void removeAll() {
     this.pane.getChildren().removeAll(currentNodes);
-    currentNodes.clear();
+    this.currentNodes.clear();
   }
 
   /**
@@ -392,6 +390,6 @@ public class MapUtilities {
   }
 
   public Pane getPane() {
-    return this.pane;
+    return pane;
   }
 }
