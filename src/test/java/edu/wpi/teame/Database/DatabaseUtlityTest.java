@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import edu.wpi.teame.map.Floor;
 import edu.wpi.teame.map.HospitalNode;
-import java.sql.SQLException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -36,13 +35,5 @@ public class DatabaseUtlityTest {
 
     List<HospitalNode> nodeList3 = SQLRepo.INSTANCE.getNodesFromFloor(Floor.THREE);
     assertEquals(91, nodeList3.size());
-  }
-
-  @Test
-  public void getShortName() throws SQLException {
-    SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
-    String shortNameFromNodeID = SQLRepo.INSTANCE.getShortNameFromNodeID("1335");
-
-    assertTrue(shortNameFromNodeID.equals("Conf B0102"));
   }
 }

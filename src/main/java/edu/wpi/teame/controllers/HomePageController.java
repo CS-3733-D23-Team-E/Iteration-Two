@@ -1,26 +1,22 @@
 package edu.wpi.teame.controllers;
 
+import static javafx.scene.paint.Color.WHITE;
+
+import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.entities.LoginData;
-import edu.wpi.teame.utilities.ButtonUtilities;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTextField;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 public class HomePageController {
   @FXML MFXButton serviceRequestButton;
-  @FXML MFXButton editSignageButton;
-  @FXML MFXButton databaseButton;
-  @FXML MFXButton pathfindingButton;
+  @FXML MFXButton signageButton;
+  @FXML MFXButton databaseViewButton;
+  @FXML MFXButton mapsButton;
   @FXML MFXButton loginButton;
   @FXML TextField username;
   @FXML TextField password;
@@ -32,61 +28,32 @@ public class HomePageController {
   @FXML MFXButton menuBarSignage;
   @FXML MFXButton menuBarBlank;
   @FXML MFXButton menuBarExit;
-  @FXML Text dateText;
-  @FXML Text timeText;
-  @FXML VBox menuBar;
-  @FXML MFXButton announcementButton;
-  @FXML Text announcementText;
-  @FXML MFXTextField announcementTextBox;
-  @FXML VBox logoutBox;
-  @FXML MFXButton logoutButton;
-  @FXML MFXButton userButton;
 
   Boolean loggedIn;
 
   boolean menuVisibilty = false;
-  boolean logoutVisible = false;
 
   public void initialize() {
-    LocalTime currentTime = LocalTime.now();
-    LocalDate currentDate = LocalDate.now();
-
-    // Format current date as a string
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    String currentDateString = currentDate.format(format);
-    // Format the current time as a string
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-    String currentTimeString = currentTime.format(formatter);
-
-    // Print the current time as a string
-    timeText.setText(currentTimeString);
-    dateText.setText(currentDateString);
+    SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
 
     serviceRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
-
-    editSignageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
-    databaseButton.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
-    pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
+    signageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
+    databaseViewButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_DATA_EDITOR));
+    mapsButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
 
     menuBarSignage.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
     menuBarServices.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
     menuBarHome.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
     menuBarMaps.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
-    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate((Screen.DATABASE_EDITOR)));
-    menuBarExit.setOnMouseClicked(event -> Platform.exit());
+    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate((Screen.MAP_DATA_EDITOR)));
+    menuBarExit.setOnMouseClicked(event -> Platform.exit()); // Uncomment when we
+    // know where exit goes
 
     loggedIn = false;
-    logoutButton.setOnMouseClicked(event -> attemptLogin());
-
-    announcementButton.setOnMouseClicked(
-        event -> {
-          String announcement = announcementTextBox.getText();
-          announcementText.setText(announcement);
-        });
+    loginButton.setOnMouseClicked(event -> attemptLogin());
 
     // Initially set the menu bar to invisible
     menuBarVisible(false);
-    logoutPopup(false);
 
     // When the menu button is clicked, invert the value of menuVisibility and set the menu bar to
     // that value
@@ -104,34 +71,23 @@ public class HomePageController {
           Navigation.navigate(Screen.HOME);
           menuVisibilty = !menuVisibilty;
         });
-
-    userButton.setOnMouseClicked(
-        event -> {
-          logoutVisible = !logoutVisible;
-          logoutPopup(logoutVisible);
-        });
-
-    logoutButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
     menuBarServices.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
     menuBarSignage.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
     menuBarMaps.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
-    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
+    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_VIEW));
     menuBarExit.setOnMouseClicked((event -> Platform.exit()));
 
-    // makes the menu bar buttons get highlighted when the mouse hovers over them
-    ButtonUtilities.mouseSetupMenuBar(menuBarHome, "baseline-left");
-    ButtonUtilities.mouseSetupMenuBar(menuBarServices, "baseline-left");
-    ButtonUtilities.mouseSetupMenuBar(menuBarSignage, "baseline-left");
-    ButtonUtilities.mouseSetupMenuBar(menuBarMaps, "baseline-left");
-    ButtonUtilities.mouseSetupMenuBar(menuBarDatabase, "baseline-left");
-    ButtonUtilities.mouseSetupMenuBar(menuBarExit, "baseline-center");
-
-    // makes the buttons highlight when they are hovered over
+    // makes the buttons get highlighted when the mouse hovers over them
+    mouseSetup(menuBarHome);
+    mouseSetup(menuBarServices);
+    mouseSetup(menuBarMaps);
+    mouseSetup(menuBarDatabase);
+    mouseSetup(menuBarExit);
     mouseSetup(serviceRequestButton);
-    mouseSetup(editSignageButton);
-    mouseSetup(pathfindingButton);
-    mouseSetup(databaseButton);
-    mouseSetup(logoutButton);
+    mouseSetup(menuBarSignage);
+    mouseSetup(signageButton);
+    mouseSetup(mapsButton);
+    mouseSetup(databaseViewButton);
   }
 
   public void attemptLogin() {
@@ -158,18 +114,14 @@ public class HomePageController {
     btn.setOnMouseEntered(
         event -> {
           btn.setStyle(
-              "-fx-background-color: #f1f1f1; -fx-alignment: top-left; -fx-border-color:  #001A3C; -fx-border-width: 3;");
+              "-fx-background-color: #ffffff; -fx-alignment: center; -fx-border-color: #192d5a; -fx-border-width: 2;");
           btn.setTextFill(Color.web("#192d5aff", 1.0));
         });
     btn.setOnMouseExited(
         event -> {
-          btn.setStyle("-fx-background-color:#001A3C; -fx-alignment: top-left;");
-          btn.setTextFill(Color.web("#f1f1f1", 1.0));
+          btn.setStyle("-fx-background-color: #192d5aff; -fx-alignment: center;");
+          btn.setTextFill(WHITE);
         });
-  }
-
-  public void logoutPopup(boolean bool) {
-    logoutBox.setVisible(bool);
   }
 
   public void menuBarVisible(boolean bool) {
@@ -180,6 +132,5 @@ public class HomePageController {
     menuBarDatabase.setVisible(bool);
     menuBarExit.setVisible(bool);
     menuBarBlank.setVisible(bool);
-    menuBar.setVisible(bool);
   }
 }

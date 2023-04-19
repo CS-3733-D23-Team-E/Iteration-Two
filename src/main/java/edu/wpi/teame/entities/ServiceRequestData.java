@@ -1,8 +1,5 @@
 package edu.wpi.teame.entities;
 
-import static edu.wpi.teame.entities.OfficeSuppliesData.Status.getString;
-import static javax.swing.UIManager.getString;
-
 import java.util.NoSuchElementException;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +12,16 @@ public class ServiceRequestData {
     DONE;
 
     public static String statusToString(Status st) {
-      return getString(st);
+      switch (st) {
+        case PENDING:
+          return "PENDING";
+        case IN_PROGRESS:
+          return "IN_PROGRESS";
+        case DONE:
+          return "DONE";
+        default:
+          throw new NoSuchElementException("No such status found");
+      }
     }
 
     public static Status stringToStatus(String st) {
@@ -36,7 +42,6 @@ public class ServiceRequestData {
     MEALDELIVERY,
     FLOWERDELIVERY,
     OFFICESUPPLIESDELIVERY,
-    FURNITUREDELIVERY,
     CONFERENCEROOM;
 
     public static RequestType stringToRequestType(String rt) {

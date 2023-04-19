@@ -28,7 +28,7 @@ public class DatabaseEditorController {
         .addListener(
             (observable, oldTab, newTab) -> {
               if (newTab == editMapTab) {
-                mapViewController.initialLoadFloor(Floor.LOWER_TWO);
+                mapViewController.loadFloorNodes(Floor.LOWER_TWO);
               }
             });
   }
