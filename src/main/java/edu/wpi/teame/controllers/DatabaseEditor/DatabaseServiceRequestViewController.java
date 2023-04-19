@@ -95,11 +95,12 @@ public class DatabaseServiceRequestViewController {
 
   // button & combobox for changing status
   @FXML MFXButton confirmButton;
+
   @FXML SearchableComboBox<String> statusComboBox;
 
-  @FXML MFXButton tableEditorSwapButton;
-
   //////////////////////////////////////////
+
+  @FXML MFXButton tableEditorSwapButton;
 
   MealRequestData currentMealRequest;
   FlowerRequestData currentFlowerRequest;
@@ -128,6 +129,8 @@ public class DatabaseServiceRequestViewController {
     statusComboBox.setItems(FXCollections.observableArrayList(statuses));
 
     confirmButton.setOnMouseClicked(event -> updateDatabaseStatus());
+    tableEditorSwapButton.setOnMouseClicked(
+        event -> Navigation.navigate(Screen.DATABASE_TABLEVIEW));
 
     // fill table for meal requests
     mealRecipientNameCol.setCellValueFactory(
@@ -299,11 +302,6 @@ public class DatabaseServiceRequestViewController {
               }
             });
     furnitureTable.setEditable(true);
-
-    tableEditorSwapButton.setOnMouseClicked(
-        event -> {
-          Navigation.navigate(Screen.DATABASE_TABLEVIEW);
-        });
   }
 
   private void updateDatabaseStatus() {

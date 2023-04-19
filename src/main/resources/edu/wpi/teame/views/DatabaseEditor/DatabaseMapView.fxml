@@ -23,8 +23,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import net.kurobako.gesturefx.GesturePane?>
+<?import org.controlsfx.control.SearchableComboBox?>
 
-<AnchorPane prefHeight="825.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.DatabaseEditor.DatabaseMapViewController">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.DatabaseEditor.DatabaseMapViewController">
    <children>
       <HBox layoutX="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -216,7 +217,8 @@
                                        <font>
                                           <Font name="Roboto" size="13.0" />
                                        </font></Label>
-                                    <ComboBox fx:id="longNameSelector" maxWidth="1.7976931348623157E308" prefHeight="26.0" promptText="Location Name:" />
+                                    <SearchableComboBox fx:id="longNameSelector" maxWidth="1.7976931348623157E308" prefHeight="26.0" promptText="Location Name:" />
+
                                  </children>
                               </VBox>
                            </children>
@@ -240,7 +242,7 @@
                               <VBox>
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Type:" />
-                                    <ComboBox fx:id="nodeTypeChoice" minWidth="75.0" prefWidth="0.0" promptText="Type" />
+                                    <SearchableComboBox fx:id="nodeTypeChoice" minWidth="75.0" prefWidth="0.0" promptText="Type" />
                                  </children>
                               </VBox>
                            </children>
@@ -276,7 +278,7 @@
                                        <font>
                                           <Font name="Roboto" size="13.0" />
                                        </font></Text>
-                                    <ComboBox fx:id="addEdgeField" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" HBox.hgrow="ALWAYS" />
+                                    <SearchableComboBox fx:id="addEdgeField" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" HBox.hgrow="ALWAYS" />
                                     <MFXButton fx:id="addEdgeButton" text="Add" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="Roboto" size="13.0" />
@@ -289,7 +291,7 @@
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Building:" />
-                              <ComboBox fx:id="buildingSelector" maxHeight="26.0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <SearchableComboBox fx:id="buildingSelector" maxHeight="26.0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <Region VBox.vgrow="ALWAYS" />

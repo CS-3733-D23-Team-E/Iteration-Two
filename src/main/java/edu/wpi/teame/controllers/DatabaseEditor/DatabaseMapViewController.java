@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import org.controlsfx.control.SearchableComboBox;
 
 public class DatabaseMapViewController {
 
@@ -45,7 +46,7 @@ public class DatabaseMapViewController {
 
   @FXML TextField xField;
   @FXML TextField yField;
-  @FXML ComboBox<String> buildingSelector;
+  @FXML SearchableComboBox<String> buildingSelector;
   @FXML MFXButton confirmButton;
   @FXML MFXButton deleteNodeButton;
   @FXML MFXButton cancelButton;
@@ -54,16 +55,16 @@ public class DatabaseMapViewController {
   @FXML MFXButton removeEdgeButton;
   @FXML TableView<HospitalEdge> edgeView;
   @FXML TableColumn<HospitalEdge, String> edgeColumn;
-  @FXML ComboBox<String> addEdgeField;
+  @FXML SearchableComboBox<String> addEdgeField;
 
   @FXML TextField newLongNameField;
   @FXML TextField newShortNameField;
   @FXML MFXButton addLocationButton;
   @FXML MFXButton removeLocationButton;
 
-  @FXML ComboBox<LocationName.NodeType> nodeTypeChoice;
+  @FXML SearchableComboBox<LocationName.NodeType> nodeTypeChoice;
 
-  @FXML ComboBox<String> longNameSelector;
+  @FXML SearchableComboBox<String> longNameSelector;
 
   @FXML ImageView mapImageLowerTwo; // Floor L2
   @FXML ImageView mapImageLowerOne; // Floor L1

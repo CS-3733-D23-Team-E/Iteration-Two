@@ -16,7 +16,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="825.0" prefWidth="1600.0" style="-fx-background-color: f1f1f1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.DatabaseEditor.DatabaseTableViewController">
+<?import org.controlsfx.control.SearchableComboBox?>
+<AnchorPane prefHeight="800.0" prefWidth="1375.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teame.controllers.DatabaseEditor.DatabaseTableViewController">
    <children>
       <HBox prefHeight="800.0" prefWidth="1375.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -200,9 +201,9 @@
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Y:" />
                               <MFXTextField fx:id="editNodeYField" minHeight="25.0" prefHeight="25.0" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Floor:" />
-                              <ComboBox fx:id="editNodeFloorChoice" prefWidth="150.0" />
+                              <SearchableComboBox fx:id="editNodeFloorChoice" maxWidth="150.0" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Building:" />
-                              <ComboBox fx:id="editNodeBuildingChoice" prefWidth="150.0" />
+                              <SearchableComboBox fx:id="editNodeBuildingChoice" maxWidth="150.0" />
                            </children>
                         </VBox>
                         <VBox fx:id="editMoveZone" visible="false">
@@ -210,7 +211,7 @@
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node ID:" />
                               <MFXTextField fx:id="editMoveIDField" minHeight="25.0" prefHeight="25.0" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long Name:" />
-                              <ComboBox fx:id="editMoveNameChoice" prefWidth="150.0" />
+                              <SearchableComboBox fx:id="editMoveNameChoice" maxWidth="150.0" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of move:" />
                               <MFXTextField fx:id="editMoveDateField" minHeight="25.0" prefHeight="25.0" />
                            </children>
@@ -222,7 +223,7 @@
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Short Name:" />
                               <MFXTextField fx:id="editNameShortField" minHeight="25.0" prefHeight="25.0" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Type:" />
-                              <ComboBox fx:id="editNameTypeChoice" prefWidth="150.0" />
+                              <SearchableComboBox fx:id="editNameTypeChoice" maxWidth="150.0" />
                            </children>
                         </VBox>
                         <VBox fx:id="editEdgeZone" visible="false">

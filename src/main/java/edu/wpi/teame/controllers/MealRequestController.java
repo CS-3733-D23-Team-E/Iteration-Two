@@ -44,6 +44,16 @@ public class MealRequestController {
   ObservableList<String> drinks =
       FXCollections.observableArrayList("Water", "Apple Juice", "Orange Juice", "Coffee", "Tea");
 
+  ObservableList<String> staffMembers =
+      FXCollections.observableArrayList(
+          "Mary Gardner",
+          "Robert Nash",
+          "Edward Diaz",
+          "Evan Buckley",
+          "Christopher Reyes",
+          "Madelyn Johnson",
+          "Ian Adams");
+
   @FXML
   public void initialize() {
     Stream<LocationName> locationStream = LocationName.allLocations.values().stream();
@@ -64,12 +74,13 @@ public class MealRequestController {
                 .sorted()
                 .toList());
 
-    assignedStaff.setItems(
-        FXCollections.observableList(
-            SQLRepo.INSTANCE.getEmployeeList().stream()
-                .filter(employee -> employee.getPermission().equals("STAFF"))
-                .map(employee -> employee.getFullName())
-                .toList()));
+    /*assignedStaff.setItems(
+    FXCollections.observableList(
+        SQLRepo.INSTANCE.getEmployeeList().stream()
+            .filter(employee -> employee.getPermission().equals("STAFF"))
+            .map(employee -> employee.getFullName())
+            .toList()));*/
+    assignedStaff.setItems(FXCollections.observableArrayList(staffMembers));
 
     roomName.setItems(names);
     mainCourse.setItems(mainCourses);
