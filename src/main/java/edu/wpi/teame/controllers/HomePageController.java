@@ -1,5 +1,7 @@
 package edu.wpi.teame.controllers;
 
+import edu.wpi.teame.entities.LoginData;
+import edu.wpi.teame.utilities.ButtonUtilities;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -63,9 +65,7 @@ public class HomePageController {
     serviceRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
 
     editSignageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
-    databaseButton.setOnMouseClicked(
-        event ->
-            Navigation.navigate(Screen.DATABASE_EDITOR));
+    databaseButton.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
 
     menuBarSignage.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
@@ -76,6 +76,7 @@ public class HomePageController {
     menuBarExit.setOnMouseClicked(event -> Platform.exit());
 
     loggedIn = false;
+    logoutButton.setOnMouseClicked(event -> attemptLogin());
 
     announcementButton.setOnMouseClicked(
         event -> {
@@ -112,31 +113,57 @@ public class HomePageController {
 
     logoutButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
     menuBarServices.setOnMouseClicked(event -> Navigation.navigate(Screen.SERVICE_REQUESTS));
+    menuBarSignage.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE_TEXT));
+    menuBarMaps.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
+    menuBarDatabase.setOnMouseClicked(event -> Navigation.navigate(Screen.DATABASE_EDITOR));
+    menuBarExit.setOnMouseClicked((event -> Platform.exit()));
 
-    // makes the buttons get highlighted when the mouse hovers over them
-    mouseSetup(menuBarHome);
-    mouseSetup(menuBarServices);
-    mouseSetup(menuBarMaps);
-    mouseSetup(menuBarDatabase);
-    mouseSetup(menuBarExit);
+    // makes the menu bar buttons get highlighted when the mouse hovers over them
+    ButtonUtilities.mouseSetupMenuBar(menuBarHome, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarServices, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarSignage, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarMaps, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarDatabase, "baseline-left");
+    ButtonUtilities.mouseSetupMenuBar(menuBarExit, "baseline-center");
+
+    // makes the buttons highlight when they are hovered over
     mouseSetup(serviceRequestButton);
-    mouseSetup(menuBarSignage);
     mouseSetup(editSignageButton);
     mouseSetup(pathfindingButton);
     mouseSetup(databaseButton);
     mouseSetup(logoutButton);
   }
 
+  public void attemptLogin() {
+    // Get the input login info
+    LoginData login = new LoginData(username.getText(), password.getText());
+
+    // If the login was successful
+    if (login.attemptLogin()) {
+      // Hide text fields and button
+      password.setVisible(false);
+      username.setVisible(false);
+      loginButton.setVisible(false);
+      // Set loggedIn as true
+      loggedIn = true;
+
+    } else {
+      // Clear the fields
+      password.clear();
+      username.clear();
+    }
+  }
+
   private void mouseSetup(MFXButton btn) {
     btn.setOnMouseEntered(
         event -> {
           btn.setStyle(
-              "-fx-background-color: #f1f1f1; -fx-alignment: center-left; -fx-border-color:  #001A3C; -fx-border-width: 3;");
+              "-fx-background-color: #f1f1f1; -fx-alignment: top-left; -fx-border-color:  #001A3C; -fx-border-width: 3;");
           btn.setTextFill(Color.web("#192d5aff", 1.0));
         });
     btn.setOnMouseExited(
         event -> {
-          btn.setStyle("-fx-background-color:#001A3C; -fx-alignment: center-left;");
+          btn.setStyle("-fx-background-color:#001A3C; -fx-alignment: top-left;");
           btn.setTextFill(Color.web("#f1f1f1", 1.0));
         });
   }

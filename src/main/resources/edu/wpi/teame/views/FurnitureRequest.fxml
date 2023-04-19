@@ -178,12 +178,12 @@
                   <Insets left="125.0" />
                </VBox.margin>
                <children>
-                  <MFXButton fx:id="cancelButton" maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #e1e1e1; -fx-text-fill: #1f1f1f; -fx-border-color: #1f1f1f; -fx-border-width: 2; -fx-border-radius: 10;" text="Cancel">
+                  <MFXButton fx:id="cancelButton" maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #f1f1f1; -fx-text-fill: #1f1f1f; -fx-border-color: #1f1f1f; -fx-border-width: 2; -fx-border-radius: 10;" text="Cancel">
                      <font>
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton fx:id="resetButton" maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" style="-fx-text-fill: #FB0000; -fx-background-color: #e1e1e1; -fx-border-color: #FB0000; -fx-border-width: 2; -fx-border-radius: 10;" text="Reset">
+                  <MFXButton fx:id="resetButton" maxHeight="50.0" maxWidth="150.0" prefHeight="50.0" prefWidth="150.0" style="-fx-text-fill: #FB0000; -fx-background-color: #f1f1f1; -fx-border-color: #FB0000; -fx-border-width: 2; -fx-border-radius: 10;" text="Reset">
                      <font>
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
