@@ -83,7 +83,7 @@ public class MealDAO<E> extends DAO<MealRequestData> {
   void delete(MealRequestData obj) {
     int requestID = obj.getRequestId();
     String sqlDelete =
-        "DELETE FROM \"MealService\" WHERE \"MealService.requestID\" = '" + requestID + "';";
+        "DELETE FROM \"MealService\" WHERE \"MealService\".\"requestID\" = " + requestID + ";";
 
     Statement stmt;
     try {
@@ -91,7 +91,7 @@ public class MealDAO<E> extends DAO<MealRequestData> {
       stmt.executeUpdate(sqlDelete);
       stmt.close();
     } catch (SQLException e) {
-      System.out.println("error deleting");
+      System.out.println(e.getMessage());
     }
   }
 

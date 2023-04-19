@@ -71,19 +71,6 @@ public class AddMealsTest {
 
     SQLRepo.INSTANCE.deleteMealRequest(
         new MealRequestData(
-            "braeden",
-            "ligma room",
-            "2023-05-07",
-            "3:12PM",
-            "justin biber",
-            "hamburger",
-            "tapas",
-            "apple juice",
-            "allergic to albert",
-            "",
-            MealRequestData.Status.PENDING));
-    SQLRepo.INSTANCE.deleteMealRequest(
-        new MealRequestData(
             "jamie",
             "beta room",
             "2023-06-07",
