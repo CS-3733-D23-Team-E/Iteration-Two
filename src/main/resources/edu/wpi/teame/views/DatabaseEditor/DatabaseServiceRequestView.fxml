@@ -148,7 +148,7 @@
                            <children>
                               <VBox prefHeight="762.5" prefWidth="800.0">
                                  <children>
-                                    <TableView prefHeight="700.0" prefWidth="1000.0">
+                                    <TableView fx:id="furnitureTable" prefHeight="700.0" prefWidth="1000.0">
                                       <columns>
                                           <TableColumn fx:id="furnitureNameCol" prefWidth="75.0" text="Recipient Name" />
                                         <TableColumn fx:id="furnitureRoomCol" prefWidth="75.0" text="Room" />
@@ -156,7 +156,7 @@
                                           <TableColumn fx:id="furnitureTimeCol" prefWidth="75.0" text="Time" />
                                           <TableColumn fx:id="furnitureStaffCol" prefWidth="75.0" text="Staff" />
                                           <TableColumn fx:id="furnitureTypeCol" prefWidth="75.0" text="Furniture Type" />
-                                          <TableColumn prefWidth="75.0" text="Notes" />
+                                          <TableColumn fx:id="furnitureNotesCol" prefWidth="75.0" text="Notes" />
                                       </columns>
                                     </TableView>
                                  </children>

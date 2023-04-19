@@ -1,9 +1,7 @@
 package edu.wpi.teame.controllers.DatabaseEditor;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.controllers.FlowerRequestController;
-import edu.wpi.teame.entities.FlowerRequestData;
-import edu.wpi.teame.entities.MealRequestData;
+import edu.wpi.teame.entities.*;
 import edu.wpi.teame.map.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.collections.FXCollections;
@@ -38,7 +36,7 @@ public class DatabaseServiceRequestViewController {
   @FXML TableColumn<MealRequestData, String> mealNotesCol;
 
   // table data for Flowers
-  @FXML TableView<FlowerRequestController> flowerTable;
+  @FXML TableView<FlowerRequestData> flowerTable;
   @FXML TableColumn<FlowerRequestData, String> flowerRecipientNameCol;
   @FXML TableColumn<FlowerRequestData, String> flowerRoomCol;
   @FXML TableColumn<FlowerRequestData, String> flowerDateCol;
@@ -49,6 +47,38 @@ public class DatabaseServiceRequestViewController {
   @FXML TableColumn<FlowerRequestData, String> flowerIncludeACardCol;
   @FXML TableColumn<FlowerRequestData, String> flowerCardMessageCol;
   @FXML TableColumn<FlowerRequestData, String> flowerNotesCol;
+
+  // table data for Office Supplies
+  @FXML TableView<OfficeSuppliesData> officeSuppliesTable;
+  @FXML TableColumn<OfficeSuppliesData, String> officeRecipientNameCol;
+  @FXML TableColumn<OfficeSuppliesData, String> officeRoomCol;
+  @FXML TableColumn<OfficeSuppliesData, String> officeDateCol;
+  @FXML TableColumn<OfficeSuppliesData, String> officeTimeCol;
+  @FXML TableColumn<OfficeSuppliesData, String> officeStaffCol;
+  @FXML TableColumn<OfficeSuppliesData, String> officeSupplyTypeCol;
+  @FXML TableColumn<OfficeSuppliesData, String> officeNumberOfSuppliesCol;
+  @FXML TableColumn<OfficeSuppliesData, String> officeNotesCol;
+
+  // table data for Conference Rooms
+  @FXML TableView<ConferenceRequestData> conferenceRoomTable;
+  @FXML TableColumn<ConferenceRequestData, String> conferenceNameCol;
+  @FXML TableColumn<ConferenceRequestData, String> conferenceRoomCol;
+  @FXML TableColumn<ConferenceRequestData, String> conferenceDateCol;
+  @FXML TableColumn<ConferenceRequestData, String> conferenceTimeCol;
+  @FXML TableColumn<ConferenceRequestData, String> conferenceStaffCol;
+  @FXML TableColumn<ConferenceRequestData, String> conferenceRoomChangesCol;
+  @FXML TableColumn<ConferenceRequestData, String> conferenceNumOfHoursCol;
+  @FXML TableColumn<ConferenceRequestData, String> conferenceNotesCol;
+
+  // table data for Furniture
+  @FXML TableView<FurnitureRequestData> furnitureTable;
+  @FXML TableColumn<FurnitureRequestData, String> furnitureNameCol;
+  @FXML TableColumn<FurnitureRequestData, String> furnitureRoomCol;
+  @FXML TableColumn<FurnitureRequestData, String> furnitureDateCol;
+  @FXML TableColumn<FurnitureRequestData, String> furnitureTimeCol;
+  @FXML TableColumn<FurnitureRequestData, String> furnitureStaffCol;
+  @FXML TableColumn<FurnitureRequestData, String> furnitureTypeCol;
+  @FXML TableColumn<FurnitureRequestData, String> furnitureNotesCol;
 
   //////////////////////////////////////////
   @FXML VBox editMealZone;
@@ -105,7 +135,7 @@ public class DatabaseServiceRequestViewController {
     flowerNotesCol.setCellValueFactory(
         new PropertyValueFactory<FlowerRequestData, String>("notes"));
 
-    flowerTable.setItems(FXCollections.observableArrayList());
+    flowerTable.setItems(FXCollections.observableArrayList(dC.getFlowerRequestsList()));
     flowerTable
         .getSelectionModel()
         .selectedItemProperty()
@@ -116,5 +146,90 @@ public class DatabaseServiceRequestViewController {
               }
             });
     flowerTable.setEditable(true);
+
+    // fill table for office supplies requests
+    officeRecipientNameCol.setCellValueFactory(
+        new PropertyValueFactory<OfficeSuppliesData, String>("recipientName"));
+    officeRoomCol.setCellValueFactory(new PropertyValueFactory<OfficeSuppliesData, String>("room"));
+    officeDateCol.setCellValueFactory(new PropertyValueFactory<OfficeSuppliesData, String>("date"));
+    officeTimeCol.setCellValueFactory(new PropertyValueFactory<OfficeSuppliesData, String>("time"));
+    officeStaffCol.setCellValueFactory(
+        new PropertyValueFactory<OfficeSuppliesData, String>("staff"));
+    officeSupplyTypeCol.setCellValueFactory(
+        new PropertyValueFactory<OfficeSuppliesData, String>("supplyType"));
+    officeNumberOfSuppliesCol.setCellValueFactory(
+        new PropertyValueFactory<OfficeSuppliesData, String>("numberOfSupplies"));
+    officeNotesCol.setCellValueFactory(
+        new PropertyValueFactory<OfficeSuppliesData, String>("notes"));
+
+    officeSuppliesTable.setItems(FXCollections.observableArrayList(dC.getOfficeSupplyList()));
+    officeSuppliesTable
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (obs, oldSelection, newSelection) -> {
+              if (newSelection != null) {
+                // displayMoveEdit(newSelection);
+              }
+            });
+    officeSuppliesTable.setEditable(true);
+
+    // fill table for conference room requests
+    conferenceNameCol.setCellValueFactory(
+        new PropertyValueFactory<ConferenceRequestData, String>("recipientName"));
+    conferenceRoomCol.setCellValueFactory(
+        new PropertyValueFactory<ConferenceRequestData, String>("room"));
+    conferenceDateCol.setCellValueFactory(
+        new PropertyValueFactory<ConferenceRequestData, String>("date"));
+    conferenceTimeCol.setCellValueFactory(
+        new PropertyValueFactory<ConferenceRequestData, String>("time"));
+    conferenceStaffCol.setCellValueFactory(
+        new PropertyValueFactory<ConferenceRequestData, String>("staff"));
+    conferenceRoomChangesCol.setCellValueFactory(
+        new PropertyValueFactory<ConferenceRequestData, String>("roomChanges"));
+    conferenceNumOfHoursCol.setCellValueFactory(
+        new PropertyValueFactory<ConferenceRequestData, String>("numberOfHours"));
+    conferenceNotesCol.setCellValueFactory(
+        new PropertyValueFactory<ConferenceRequestData, String>("notes"));
+
+    conferenceRoomTable.setItems(FXCollections.observableArrayList(dC.getConfList()));
+    conferenceRoomTable
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (obs, oldSelection, newSelection) -> {
+              if (newSelection != null) {
+                // displayMoveEdit(newSelection);
+              }
+            });
+    conferenceRoomTable.setEditable(true);
+
+    // fill table for furniture requests
+    furnitureNameCol.setCellValueFactory(
+        new PropertyValueFactory<FurnitureRequestData, String>("recipientName"));
+    furnitureRoomCol.setCellValueFactory(
+        new PropertyValueFactory<FurnitureRequestData, String>("room"));
+    furnitureDateCol.setCellValueFactory(
+        new PropertyValueFactory<FurnitureRequestData, String>("date"));
+    furnitureTimeCol.setCellValueFactory(
+        new PropertyValueFactory<FurnitureRequestData, String>("time"));
+    furnitureStaffCol.setCellValueFactory(
+        new PropertyValueFactory<FurnitureRequestData, String>("staff"));
+    furnitureTypeCol.setCellValueFactory(
+        new PropertyValueFactory<FurnitureRequestData, String>("furnitureType"));
+    furnitureNotesCol.setCellValueFactory(
+        new PropertyValueFactory<FurnitureRequestData, String>("notes"));
+
+    furnitureTable.setItems(FXCollections.observableArrayList(dC.getFurnitureRequestsList()));
+    furnitureTable
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (obs, oldSelection, newSelection) -> {
+              if (newSelection != null) {
+                // displayMoveEdit(newSelection);
+              }
+            });
+    furnitureTable.setEditable(true);
   }
 }
