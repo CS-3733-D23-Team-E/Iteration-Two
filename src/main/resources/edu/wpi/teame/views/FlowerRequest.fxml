@@ -41,7 +41,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <TextField fx:id="recipientName" maxHeight="70.0" prefHeight="70.0" style="-fx-border-color: #5C5C5C;" />
+                              <TextField fx:id="recipientName" maxHeight="70.0" prefHeight="70.0" styleClass="MFXTextField" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                            <VBox.margin>
                               <Insets />
@@ -63,7 +63,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox fx:id="roomName" maxHeight="70.0" maxWidth="300.0" prefHeight="52.0" prefWidth="267.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="roomName" maxHeight="70.0" maxWidth="300.0" prefHeight="52.0" prefWidth="267.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                         <VBox maxWidth="300.0" prefHeight="72.0" prefWidth="267.0">
@@ -82,7 +82,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <DatePicker fx:id="deliveryDate" maxHeight="42.0" maxWidth="300.0" prefHeight="27.2" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
+                              <DatePicker fx:id="deliveryDate" maxHeight="42.0" maxWidth="300.0" prefHeight="27.2" prefWidth="300.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -101,7 +101,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox fx:id="deliveryTime" maxHeight="50.0" maxWidth="300.0" prefHeight="44.0" prefWidth="267.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="deliveryTime" maxHeight="50.0" maxWidth="300.0" prefHeight="44.0" prefWidth="267.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -111,7 +111,7 @@
                                     <Font name="Roboto" size="24.0" />
                                  </font>
                               </Text>
-                              <SearchableComboBox fx:id="assignedStaff" maxHeight="50.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="assignedStaff" maxHeight="50.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                      </children>
@@ -142,7 +142,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox fx:id="flowerChoice" maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="flowerChoice" maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -161,7 +161,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox fx:id="numOfFlowers" maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="numOfFlowers" maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -180,7 +180,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <SearchableComboBox fx:id="cardQuestion" maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" style="-fx-border-color: #5C5C5C;" />
+                              <SearchableComboBox fx:id="cardQuestion" maxHeight="40.0" maxWidth="300.0" prefHeight="40.0" prefWidth="300.0" styleClass="SearchableComboBox" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -190,7 +190,7 @@
                                     <Font name="Roboto" size="24.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="cardMessage" maxHeight="70.0" prefHeight="70.0" style="-fx-border-color: #5C5C5C;" />
+                              <TextField fx:id="cardMessage" maxHeight="70.0" prefHeight="70.0" styleClass="MFXTextField" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                         <VBox maxHeight="70.0" maxWidth="300.0" prefHeight="70.0" prefWidth="267.0">
@@ -200,7 +200,7 @@
                                     <Font name="Roboto" size="24.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="notes" maxHeight="70.0" prefHeight="70.0" style="-fx-border-color: #5C5C5C;" />
+                              <TextField fx:id="notes" maxHeight="70.0" prefHeight="70.0" styleClass="MFXTextField" stylesheets="@../styles/eStyleSheet.css" />
                            </children>
                         </VBox>
                      </children>
