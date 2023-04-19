@@ -177,16 +177,16 @@ public class AddMealsTest {
     List<FurnitureRequestData> furniture = SQLRepo.INSTANCE.getFurnitureRequestsList();
 
     SQLRepo.INSTANCE.addFurnitureRequest(
-    new FurnitureRequestData(
-    0,
-    "jamie",
-    "beta room",
-    "2023-06-07",
-    "3:12PM",
-    "trump",
-    "BLT",
-    "tapas",
-    FurnitureRequestData.Status.PENDING));
+        new FurnitureRequestData(
+            0,
+            "jamie",
+            "beta room",
+            "2023-06-07",
+            "3:12PM",
+            "trump",
+            "BLT",
+            "tapas",
+            FurnitureRequestData.Status.PENDING));
 
     SQLRepo.INSTANCE.deleteFurnitureRequest(
         new FurnitureRequestData(
@@ -199,7 +199,6 @@ public class AddMealsTest {
             "BLT",
             "tapas",
             FurnitureRequestData.Status.PENDING));
-
   }
 
   @Test

@@ -4,6 +4,7 @@ import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.entities.*;
 import edu.wpi.teame.map.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -92,14 +93,37 @@ public class DatabaseServiceRequestViewController {
 
   // button & combobox for changing status
   @FXML MFXButton confirmButton;
-  @FXML SearchableComboBox statusComboBox;
+  @FXML SearchableComboBox<String> statusComboBox;
 
   //////////////////////////////////////////
+
+  MealRequestData currentMealRequest;
+  FlowerRequestData currentFlowerRequest;
+  FurnitureRequestData currentFurnitureRequest;
+  OfficeSuppliesData currentOfficeRequest;
+  ConferenceRequestData currentConferenceRequest;
+
+  //          case "MEALDELIVERY":
+  //        case "FLOWERDELIVERY":
+  //        case "OFFICESUPPLIES":
+  //        case "CONFERENCEROOM":
+  String currentStatus = "MEALDELIVERY";
 
   @FXML
   public void initialize() {
 
     SQLRepo dC = SQLRepo.INSTANCE;
+
+    statusComboBox.setVisible(false);
+    confirmButton.setVisible(false);
+
+    ArrayList<String> statuses = new ArrayList<>();
+    statuses.add("PENDING");
+    statuses.add("IN_PROGRESS");
+    statuses.add("DONE");
+    statusComboBox.setItems(FXCollections.observableArrayList(statuses));
+
+    confirmButton.setOnMouseClicked(event -> updateDatabaseStatus());
 
     // fill table for meal requests
     mealRecipientNameCol.setCellValueFactory(
@@ -131,7 +155,7 @@ public class DatabaseServiceRequestViewController {
         .addListener(
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
-                // displayMoveEdit(newSelection);
+                displayEditMeal(newSelection);
               }
             });
     mealTable.setEditable(true);
@@ -168,7 +192,7 @@ public class DatabaseServiceRequestViewController {
         .addListener(
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
-                // displayMoveEdit(newSelection);
+                displayEditFlower(newSelection);
               }
             });
     flowerTable.setEditable(true);
@@ -201,7 +225,7 @@ public class DatabaseServiceRequestViewController {
         .addListener(
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
-                // displayMoveEdit(newSelection);
+                displayEditOfficeSupplies(newSelection);
               }
             });
     officeSuppliesTable.setEditable(true);
@@ -235,7 +259,7 @@ public class DatabaseServiceRequestViewController {
         .addListener(
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
-                // displayMoveEdit(newSelection);
+                displayEditConferenceRoom(newSelection);
               }
             });
     conferenceRoomTable.setEditable(true);
@@ -267,9 +291,74 @@ public class DatabaseServiceRequestViewController {
         .addListener(
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
-                // displayMoveEdit(newSelection);
+                displayEditFurniture(newSelection);
               }
             });
     furnitureTable.setEditable(true);
+  }
+
+  private void updateDatabaseStatus() {
+
+    switch (currentStatus) {
+      case "MEALDELIVERY":
+        SQLRepo.INSTANCE.updateMealRequest(currentMealRequest, "status", statusComboBox.getValue());
+        initialize();
+        break;
+      case "FLOWERSUPPLY":
+        SQLRepo.INSTANCE.updateFlowerRequest(
+            currentFlowerRequest, "status", statusComboBox.getValue());
+        initialize();
+        break;
+      case "OFFICESUPPLYDELIVERY":
+        SQLRepo.INSTANCE.updateOfficeSupply(
+            currentOfficeRequest, "status", statusComboBox.getValue());
+        initialize();
+        break;
+      case "CONFERENCEDELIVERY":
+        SQLRepo.INSTANCE.updateConfRoomRequest(
+            currentConferenceRequest, "status", statusComboBox.getValue());
+        initialize();
+        break;
+      case "FURNITUREDELIVERY":
+        SQLRepo.INSTANCE.updateFurnitureRequest(
+            currentFurnitureRequest, "status", statusComboBox.getValue());
+        initialize();
+        break;
+    }
+  }
+
+  private void displayEditFlower(FlowerRequestData newSelection) {
+    showEditServiceRequestButtons();
+    currentFlowerRequest = newSelection;
+    currentStatus = "FLOWERSUPPLY";
+  }
+
+  private void displayEditOfficeSupplies(OfficeSuppliesData newSelection) {
+    showEditServiceRequestButtons();
+    currentOfficeRequest = newSelection;
+    currentStatus = "OFFICESUPPLYDELIVERY";
+  }
+
+  private void displayEditConferenceRoom(ConferenceRequestData newSelection) {
+    showEditServiceRequestButtons();
+    currentConferenceRequest = newSelection;
+    currentStatus = "CONFERENCEDELIVERY";
+  }
+
+  private void displayEditFurniture(FurnitureRequestData newSelection) {
+    showEditServiceRequestButtons();
+    currentFurnitureRequest = newSelection;
+    currentStatus = "FURNITUREDELIVERY";
+  }
+
+  private void displayEditMeal(MealRequestData newSelection) {
+    showEditServiceRequestButtons();
+    currentMealRequest = newSelection;
+    currentStatus = "MEALDELIVERY";
+  }
+
+  private void showEditServiceRequestButtons() {
+    statusComboBox.setVisible(true);
+    confirmButton.setVisible(true);
   }
 }
