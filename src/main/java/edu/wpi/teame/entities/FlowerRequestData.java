@@ -48,8 +48,8 @@ public class FlowerRequestData {
   @Getter @Setter private int requestID;
   @Getter @Setter private String flowerType;
 
-  @Getter @Setter private int quantity;
-  @Getter @Setter private Boolean card;
+  @Getter @Setter private String quantity;
+  @Getter @Setter private String card;
 
   @Getter @Setter private String cardMessage;
 
@@ -66,8 +66,8 @@ public class FlowerRequestData {
       String deliveryTime,
       String staff,
       String flowerType,
-      int quantity,
-      Boolean card,
+      String quantity,
+      String card,
       String cardMessage,
       String notes,
       Status requestStatus) {

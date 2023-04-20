@@ -6,6 +6,8 @@ import edu.wpi.teame.App;
 import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.map.*;
+import edu.wpi.teame.utilities.Navigation;
+import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.File;
@@ -23,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
+import org.controlsfx.control.SearchableComboBox;
 
 public class DatabaseTableViewController {
 
@@ -109,19 +112,19 @@ public class DatabaseTableViewController {
   @FXML MFXTextField editNodeIDField;
   @FXML MFXTextField editNodeXField;
   @FXML MFXTextField editNodeYField;
-  @FXML ComboBox<Floor> editNodeFloorChoice;
-  @FXML ComboBox<String> editNodeBuildingChoice;
+  @FXML SearchableComboBox<Floor> editNodeFloorChoice;
+  @FXML SearchableComboBox<String> editNodeBuildingChoice;
   //////////////////////////
   @FXML VBox editMoveZone;
   @FXML MFXTextField editMoveIDField;
-  @FXML ComboBox<String> editMoveNameChoice;
+  @FXML SearchableComboBox<String> editMoveNameChoice;
   @FXML MFXTextField editMoveDateField; // TODO: MAKE THIS A DATE PICKER
 
   ///////////////////////////
   @FXML VBox editNameZone;
   @FXML MFXTextField editNameLongField;
   @FXML MFXTextField editNameShortField;
-  @FXML ComboBox<LocationName.NodeType> editNameTypeChoice;
+  @FXML SearchableComboBox<LocationName.NodeType> editNameTypeChoice;
 
   ///////////////////////////
   @FXML VBox editEdgeZone;
@@ -129,6 +132,13 @@ public class DatabaseTableViewController {
   @FXML TextField editEdgeEndField;
   ///////////////////////////
   @FXML MFXButton confirmEditButton;
+  @FXML MFXButton mapEditorSwapButton;
+
+  @FXML MFXButton moveEditorSwapButton;
+
+  @FXML MFXButton requestsButton;
+
+  @FXML MFXButton backButton;
 
   FileChooser saveChooser = new FileChooser();
   FileChooser selectChooser = new FileChooser();
@@ -207,8 +217,7 @@ public class DatabaseTableViewController {
     buildingCol.setCellValueFactory(new PropertyValueFactory<HospitalNode, String>("building"));
 
     editNodeFloorChoice.setItems(FXCollections.observableArrayList(Floor.allFloors()));
-    editNodeBuildingChoice.setItems(
-        FXCollections.observableArrayList(HospitalNode.allBuildings())); // TODO: DO
+    editNodeBuildingChoice.setItems(FXCollections.observableArrayList(HospitalNode.allBuildings()));
 
     nodeTable.setItems(FXCollections.observableArrayList(dC.getNodeList()));
     nodeTable
@@ -259,6 +268,17 @@ public class DatabaseTableViewController {
         event -> {
           removeItem();
         });
+
+    mapEditorSwapButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.DATABASE_MAPVIEW);
+        });
+    requestsButton.setOnMouseClicked(
+        event -> {
+          Navigation.navigate(Screen.DATABASE_SERVICEVIEW);
+        });
+    moveEditorSwapButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MOVE_COMPONENT));
+    backButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
 
     App.getPrimaryStage()
         .addEventHandler(

@@ -14,7 +14,5 @@ public class Main {
     System.out.println(LocationName.allLocations.keySet());
     App.launch(App.class, args);
   }
-
   // shortcut: psvm
-
 }

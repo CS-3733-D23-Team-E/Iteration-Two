@@ -94,7 +94,8 @@ public class FurnitureDAO<E> extends DAO<FurnitureRequestData> {
 
   @Override
   void add(FurnitureRequestData obj) {
-    int requestID = generateUniqueRequestID();
+    obj.setRequestID(generateUniqueRequestID());
+    int requestID = obj.getRequestID();
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
@@ -138,7 +139,7 @@ public class FurnitureDAO<E> extends DAO<FurnitureRequestData> {
     int requestID = 0;
     try {
       Statement stmt = activeConnection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT MAX(" + requestID + ") FROM \"FurnitureService\"");
+      ResultSet rs = stmt.executeQuery("SELECT MAX(\"requestID\") FROM \"FurnitureService\"");
       if (rs.next()) {
         requestID = rs.getInt(1);
       }

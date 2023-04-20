@@ -94,7 +94,8 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData> {
 
   @Override
   void add(OfficeSuppliesData obj) {
-    int requestID = generateUniqueRequestID();
+    obj.setRequestID(generateUniqueRequestID());
+    int requestID = obj.getRequestID();
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
@@ -141,11 +142,12 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData> {
     int requestID = 0;
     try {
       Statement stmt = activeConnection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT MAX(" + requestID + ") FROM \"OfficeSupplies\"");
+      ResultSet rs = stmt.executeQuery("SELECT MAX(\"requestID\") FROM \"OfficeSupplies\"");
       if (rs.next()) {
         requestID = rs.getInt(1);
       }
       stmt.close();
+      rs.close();
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }

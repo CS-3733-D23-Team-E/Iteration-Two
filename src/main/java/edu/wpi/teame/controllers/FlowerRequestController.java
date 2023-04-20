@@ -1,7 +1,7 @@
 package edu.wpi.teame.controllers;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.entities.ServiceRequestData;
+import edu.wpi.teame.entities.FlowerRequestData;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
@@ -13,9 +13,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.controlsfx.control.SearchableComboBox;
-import org.json.JSONObject;
 
-public class FlowerRequestController implements IRequestController {
+public class FlowerRequestController {
 
   ObservableList<String> flowerChoices =
       FXCollections.observableArrayList("Tiger Lilies", "Roses", "Tulips", "Daisies");
@@ -30,9 +29,19 @@ public class FlowerRequestController implements IRequestController {
       FXCollections.observableArrayList(
           "10am - 11am", "11am - 12pm", "12pm - 1pm", "1pm - 2pm", "2pm - 3pm", "3pm - 4pm");
 
+  ObservableList<String> staffMembers =
+      FXCollections.observableArrayList(
+          "Mary Gardner",
+          "Robert Nash",
+          "Edward Diaz",
+          "Evan Buckley",
+          "Christopher Reyes",
+          "Madelyn Johnson",
+          "Ian Adams");
+
   @FXML MFXButton submitButton;
   @FXML TextField recipientName;
-  @FXML SearchableComboBox roomName;
+  @FXML SearchableComboBox<String> roomName;
   @FXML DatePicker deliveryDate;
   @FXML SearchableComboBox<String> deliveryTime;
   @FXML SearchableComboBox<String> flowerChoice;
@@ -63,6 +72,16 @@ public class FlowerRequestController implements IRequestController {
                     })
                 .sorted()
                 .toList());
+
+    /*assignedStaff.setItems(
+    FXCollections.observableList(
+        SQLRepo.INSTANCE.getEmployeeList().stream()
+            .filter(employee -> employee.getPermission().equals("STAFF"))
+            .map(employee -> employee.getFullName())
+            .toList()));*/
+
+    assignedStaff.setItems(FXCollections.observableArrayList(staffMembers));
+
     roomName.setItems(names);
     // Add the items to the combo boxes
     flowerChoice.setItems(flowerChoices);
@@ -75,35 +94,32 @@ public class FlowerRequestController implements IRequestController {
     resetButton.setOnMouseClicked(event -> clearForm());
   }
 
-  public ServiceRequestData sendRequest() {
-
-    // Create the json to store the values
-    JSONObject requestData = new JSONObject();
-    requestData.put("flowerChoice", flowerChoice.getValue());
-    requestData.put("numOfFlowers", numOfFlowers.getValue());
-    requestData.put("deliveryDate", deliveryDate.getValue());
-    requestData.put("deliveryTime", deliveryTime.getValue());
-    requestData.put("cardQuestion", cardQuestion.getValue());
-    requestData.put("cardMessage", cardMessage.getText());
-    requestData.put("recipientName", recipientName.getText());
-    requestData.put("roomName", roomName.getValue());
-    requestData.put("notes", notes.getText());
+  public FlowerRequestData sendRequest() {
+    System.out.println("send flower request");
 
     // Create the service request data
-    ServiceRequestData flowerRequestData =
-        new ServiceRequestData(
-            ServiceRequestData.RequestType.FLOWERDELIVERY,
-            requestData,
-            ServiceRequestData.Status.PENDING,
-            assignedStaff.getValue());
+    FlowerRequestData requestData =
+        new FlowerRequestData(
+            0,
+            recipientName.getText(),
+            roomName.getValue(),
+            deliveryDate.getValue().toString(),
+            deliveryTime.getValue(),
+            assignedStaff.getValue(),
+            flowerChoice.getValue(),
+            numOfFlowers.getValue(),
+            cardQuestion.getValue(),
+            cardMessage.getText(),
+            notes.getText(),
+            FlowerRequestData.Status.PENDING);
+
+    SQLRepo.INSTANCE.addFlowerRequest(requestData);
 
     // Return to the home screen
     Navigation.navigate(Screen.HOME);
 
-    SQLRepo.INSTANCE.addServiceRequest(flowerRequestData);
-    return flowerRequestData;
+    return requestData;
   }
-
   // Cancels the current service request
   public void cancelRequest() {
     Navigation.navigate(Screen.HOME);

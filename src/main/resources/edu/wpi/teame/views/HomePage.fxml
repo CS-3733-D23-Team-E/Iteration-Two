@@ -90,7 +90,7 @@
                         <Insets left="25.0" />
                      </VBox.margin>
                   </Line>
-                  <MFXButton fx:id="menuBarSignage" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Edit Signage" textFill="#f1f1f1">
+                  <MFXButton fx:id="menuBarSignage" alignment="BASELINE_LEFT" graphicTextGap="10.0" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Signage" textFill="#f1f1f1">
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
                            <image>
@@ -208,7 +208,7 @@
                         <Rectangle arcHeight="30.0" arcWidth="30.0" fill="#f1f1f1" height="550.0" stroke="#001a3c" strokeType="INSIDE" strokeWidth="5.0" width="500.0" />
                         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0">
                            <children>
-                              <MFXButton fx:id="editSignageButton" alignment="TOP_LEFT" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxHeight="100.0" maxWidth="450.0" prefHeight="100.0" prefWidth="450.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Edit Signage" VBox.vgrow="ALWAYS">
+                              <MFXButton fx:id="editSignageButton" alignment="TOP_LEFT" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxHeight="100.0" maxWidth="450.0" prefHeight="100.0" prefWidth="450.0" style="-fx-background-color: #001A3C; -fx-text-fill: #f1f1f1;" text="Signage" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font name="Roboto" size="24.0" />
                                  </font>
@@ -279,7 +279,10 @@
                               </Text>
                               <HBox maxHeight="30.0" maxWidth="450.0" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                                  <children>
-                                    <MFXTextField fx:id="announcementTextBox" maxHeight="30.0" maxWidth="300.0" prefColumnCount="0" prefHeight="30.0" prefWidth="300.0" promptText="Announcement Text Here" />
+                                    <MFXTextField fx:id="announcementTextBox" maxHeight="30.0" maxWidth="300.0" prefColumnCount="0" prefHeight="30.0" prefWidth="300.0" promptText="Announcement Text Here" styleClass="MFXTextField" stylesheets="@../styles/eStyleSheet.css">
+                                       <font>
+                                          <Font name="Roboto" size="18.0" />
+                                       </font></MFXTextField>
                                     <MFXButton fx:id="announcementButton" style="-fx-background-color: #3B63A5; -fx-text-fill: #f1f1f1;" text="Submit">
                                        <HBox.margin>
                                           <Insets top="10.0" />

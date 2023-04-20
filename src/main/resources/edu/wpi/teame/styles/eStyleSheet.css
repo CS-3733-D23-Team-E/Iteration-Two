@@ -1,0 +1,53 @@
+ .root{
+     -fx-font-family: "Roboto";
+     -fx-background-color: #696969
+ }
+
+ .submitButton{
+     -fx-text-fill: #F1F1F1;
+     -fx-background-color: #3B63A5;
+     -fx-border-radius: 5;
+     -fx-border-color: #3B63A5;
+     -fx-border-width: 2;
+     -fx-alignment: "CENTER"
+ }
+
+ .submitButton:hover{
+     -fx-background-color: #F1F1F1;
+     -fx-text-fill: #3B63A5;
+ }
+
+ .resetButton{
+     -fx-text-fill: #FB0000;
+     -fx-background-color: #F1F1F1;
+     -fx-border-radius: 5;
+     -fx-border-color: #FB0000;
+     -fx-border-width: 2;
+     -fx-alignment: "CENTER"
+ }
+
+ .resetButton:hover{
+     -fx-background-color: #192D5A;
+     -fx-text-fill: #F1F1F1;
+ }
+
+ .MFXTextField{
+     -fx-text-fill: #1F1F1F;
+     -fx-background-color: #FFFFFF;
+     -fx-background-radius: 10;
+     -fx-border-radius: 10;
+     -fx-border-color: #8E8E8E;
+     -fx-border-width: 2;
+     -fx-alignment: "center-left";
+ }
+
+ .SearchableComboBox{
+      -fx-text-fill: #1F1F1F;
+      -fx-background-color: #FFFFFF;
+      -fx-background-radius: 10;
+      -fx-border-radius: 10;
+      -fx-border-color: #5C5C5C;
+      -fx-border-width: 1;
+      -fx-alignment: "center-left";
+  }
+

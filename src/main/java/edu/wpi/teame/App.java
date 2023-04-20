@@ -1,5 +1,6 @@
 package edu.wpi.teame;
 
+import edu.wpi.teame.Database.SQLRepo;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import java.io.IOException;
@@ -44,5 +45,6 @@ public class App extends Application {
   @Override
   public void stop() {
     log.info("Shutting Down");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 }

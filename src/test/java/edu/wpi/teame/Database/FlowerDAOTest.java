@@ -22,8 +22,8 @@ public class FlowerDAOTest {
             "3:12PM",
             "not jamie",
             "rose",
-            2,
-            false,
+            "2",
+            "false",
             "i love you babe",
             "no package",
             FlowerRequestData.Status.IN_PROGRESS));
@@ -40,8 +40,8 @@ public class FlowerDAOTest {
             "3:12PM",
             "not jamie",
             "rose",
-            2,
-            false,
+            "2",
+            "false",
             "i love you babe",
             "no package",
             FlowerRequestData.Status.IN_PROGRESS));
@@ -65,8 +65,8 @@ public class FlowerDAOTest {
             "3:12PM",
             "not jamie",
             "rose",
-            2,
-            false,
+            "2",
+            "false",
             "i love you babe",
             "no package",
             FlowerRequestData.Status.IN_PROGRESS);

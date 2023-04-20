@@ -85,7 +85,6 @@ public enum SQLRepo {
         locationDAO = new LocationDAO(activeConnection);
         serviceDAO = new ServiceDAO(activeConnection);
         dbUtility = new DatabaseUtility(activeConnection);
-        Employee.setCurrentEmployee(loggedIn);
         officesupplyDAO = new OfficeSuppliesDAO(activeConnection);
         mealDAO = new MealDAO(activeConnection);
         flowerDAO = new FlowerDAO(activeConnection);
@@ -115,12 +114,12 @@ public enum SQLRepo {
 
   // DatabaseReset
   public void resetDatabase() {
+
     String node = Main.class.getResource("Data/NewData/Node.csv").getFile().replaceAll("%20", " ");
     String edge = Main.class.getResource("Data/NewData/Edge.csv").getFile().replaceAll("%20", " ");
     String move = Main.class.getResource("Data/NewData/Move.csv").getFile().replaceAll("%20", " ");
     String location =
         Main.class.getResource("Data/NewData/LocationName.csv").getFile().replaceAll("%20", " ");
-
     this.importFromCSV(Table.NODE, node);
     this.importFromCSV(Table.EDGE, edge);
     this.importFromCSV(Table.LOCATION_NAME, location);
