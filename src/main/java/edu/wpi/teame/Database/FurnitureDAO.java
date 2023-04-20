@@ -51,8 +51,7 @@ public class FurnitureDAO<E> extends ServiceDAO<FurnitureRequestData> {
 
   @Override
   void add(FurnitureRequestData obj) {
-    obj.setRequestID(generateUniqueRequestID());
-    int requestID = obj.getRequestID();
+    // RequestID auto generated
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
@@ -63,9 +62,7 @@ public class FurnitureDAO<E> extends ServiceDAO<FurnitureRequestData> {
     String staff = obj.getAssignedStaff();
 
     String sqlAdd =
-        "INSERT INTO \"FurnitureService\" VALUES("
-            + requestID
-            + ",'"
+        "INSERT INTO \"FurnitureService\" VALUES(nextval('serial'), '"
             + name
             + "','"
             + room

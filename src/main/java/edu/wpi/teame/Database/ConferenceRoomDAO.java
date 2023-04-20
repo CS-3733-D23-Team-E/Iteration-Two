@@ -51,8 +51,7 @@ public class ConferenceRoomDAO<E> extends ServiceDAO<ConferenceRequestData> {
 
   @Override
   void add(ConferenceRequestData obj) {
-    obj.setRequestID(generateUniqueRequestID());
-    int requestID = obj.getRequestID();
+    // RequestID auto generated
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
@@ -63,9 +62,7 @@ public class ConferenceRoomDAO<E> extends ServiceDAO<ConferenceRequestData> {
     String staff = obj.getAssignedStaff();
 
     String sqlAdd =
-        "INSERT INTO \"ConfRoomService\" VALUES("
-            + requestID
-            + ",'"
+        "INSERT INTO \"ConfRoomService\" VALUES(nextval('serial'), '"
             + name
             + "','"
             + room
@@ -90,22 +87,6 @@ public class ConferenceRoomDAO<E> extends ServiceDAO<ConferenceRequestData> {
     } catch (SQLException e) {
       System.out.println("error adding");
     }
-  }
-
-  private int generateUniqueRequestID() {
-    int requestID = 0;
-    try {
-      Statement stmt = activeConnection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT MAX(\"requestID\") FROM \"ConfRoomService\"");
-      if (rs.next()) {
-        requestID = rs.getInt(1);
-      }
-      stmt.close();
-      rs.close();
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
-    return requestID + 1;
   }
 
   @Override

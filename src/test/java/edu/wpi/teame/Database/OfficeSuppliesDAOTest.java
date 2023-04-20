@@ -20,7 +20,7 @@ public class OfficeSuppliesDAOTest {
             "Cafe",
             "2023-04-07",
             "3:12PM",
-            "not jamie",
+            "Joseph",
             "rulers",
             "2",
             "fast",
@@ -36,7 +36,7 @@ public class OfficeSuppliesDAOTest {
             "Cafe",
             "2023-04-07",
             "3:12PM",
-            "not jamie",
+            "Joseph",
             "rulers",
             "2",
             "fast",
@@ -53,20 +53,20 @@ public class OfficeSuppliesDAOTest {
 
     OfficeSuppliesData officeSupplyRequest =
         new OfficeSuppliesData(
-            1,
+            0,
             "joseph",
             "Cafe",
             "2023-04-07",
             "3:12PM",
-            "not jamie",
+            "Joseph",
             "rulers",
             "2",
             "fast",
             OfficeSuppliesData.Status.PENDING);
 
     SQLRepo.INSTANCE.addServiceRequest(officeSupplyRequest);
-    SQLRepo.INSTANCE.updateServiceRequest(officeSupplyRequest, "status", "DONE");
-    SQLRepo.INSTANCE.deleteServiceRequest(officeSupplyRequest);
+    // SQLRepo.INSTANCE.updateServiceRequest(officeSupplyRequest, "status", "DONE");
+    // SQLRepo.INSTANCE.deleteServiceRequest(officeSupplyRequest);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

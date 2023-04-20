@@ -54,8 +54,7 @@ public class FlowerDAO<E> extends ServiceDAO<FlowerRequestData> {
 
   @Override
   void add(FlowerRequestData obj) {
-    obj.setRequestID(generateUniqueRequestID());
-    int requestID = obj.getRequestID();
+    // RequestId auto generated
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
@@ -69,9 +68,7 @@ public class FlowerDAO<E> extends ServiceDAO<FlowerRequestData> {
     String staff = obj.getAssignedStaff();
 
     String sqlAdd =
-        "INSERT INTO \"FlowerService\" VALUES("
-            + requestID
-            + ",'"
+        "INSERT INTO \"FlowerService\" VALUES(nextval('serial'), '"
             + name
             + "','"
             + room
@@ -102,21 +99,6 @@ public class FlowerDAO<E> extends ServiceDAO<FlowerRequestData> {
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
-  }
-
-  private int generateUniqueRequestID() {
-    int requestID = 0;
-    try {
-      Statement stmt = activeConnection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT MAX(\"requestID\") FROM \"FlowerService\"");
-      if (rs.next()) {
-        requestID = rs.getInt(1);
-      }
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
-    return requestID + 1;
   }
 
   @Override

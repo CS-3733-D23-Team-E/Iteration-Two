@@ -45,7 +45,7 @@ public class Employee {
     this.fullName = fullName;
     this.username = username;
     this.password = hashPassword(password);
-    this.permission = permission;
+    this.permission = permission.toUpperCase();
   }
 
   public Employee(String fullName, String permission) {

@@ -20,7 +20,7 @@ public class FurnitureDAOTest {
             "Cafe",
             "2023-04-07",
             "3:12PM",
-            "not jamie",
+            "Joseph",
             "Bed",
             "for 2 hours",
             FurnitureRequestData.Status.DONE));
@@ -35,7 +35,7 @@ public class FurnitureDAOTest {
             "Cafe",
             "2023-04-07",
             "3:12PM",
-            "not jamie",
+            "Joseph",
             "Bed",
             "for 2 hours",
             FurnitureRequestData.Status.DONE));
@@ -57,7 +57,7 @@ public class FurnitureDAOTest {
             "Cafe",
             "2023-04-07",
             "3:12PM",
-            "not jamie",
+            "Joseph",
             "Bed",
             "deliver with love",
             FurnitureRequestData.Status.DONE);

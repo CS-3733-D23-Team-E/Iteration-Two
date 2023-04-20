@@ -20,7 +20,7 @@ public class ConferenceRoomDAOTest {
             "Cafe",
             "2023-04-07",
             "3:12PM",
-            "not jamie",
+            "Joseph",
             "Conference Room L1",
             "for 2 hours",
             ConferenceRequestData.Status.DONE));
@@ -35,7 +35,7 @@ public class ConferenceRoomDAOTest {
             "Cafe",
             "2023-04-07",
             "3:12PM",
-            "not jamie",
+            "Joseph",
             "Conference Room L1",
             "for 2 hours",
             ConferenceRequestData.Status.DONE));
@@ -56,7 +56,7 @@ public class ConferenceRoomDAOTest {
             "Cafe",
             "2023-04-07",
             "3:12PM",
-            "not jamie",
+            "Joseph",
             "Conference Room L1",
             "for 2 hours",
             ConferenceRequestData.Status.DONE);

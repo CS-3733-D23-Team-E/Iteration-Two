@@ -53,8 +53,7 @@ public class OfficeSuppliesDAO<E> extends ServiceDAO<OfficeSuppliesData> {
   }
 
   void add(OfficeSuppliesData obj) {
-    obj.setRequestID(generateUniqueRequestID());
-    int requestID = obj.getRequestID();
+    // RequestID auto Generated
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
@@ -66,9 +65,7 @@ public class OfficeSuppliesDAO<E> extends ServiceDAO<OfficeSuppliesData> {
     String staff = obj.getAssignedStaff();
 
     String sqlAdd =
-        "INSERT INTO \"OfficeSupplies\" VALUES("
-            + requestID
-            + ",'"
+        "INSERT INTO \"OfficeSupplies\" VALUES(nextval('serial'), '"
             + name
             + "','"
             + room
@@ -93,7 +90,7 @@ public class OfficeSuppliesDAO<E> extends ServiceDAO<OfficeSuppliesData> {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
     } catch (SQLException e) {
-      System.out.println("error adding");
+      System.out.println(e.getMessage());
     }
   }
 

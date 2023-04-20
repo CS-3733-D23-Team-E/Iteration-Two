@@ -56,8 +56,7 @@ public class MealDAO<E> extends ServiceDAO<MealRequestData> {
 
   @Override
   void add(MealRequestData obj) {
-    obj.setRequestID(generateUniqueRequestID());
-    int requestID = obj.getRequestID();
+    // RequestID auto generated
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
@@ -71,9 +70,7 @@ public class MealDAO<E> extends ServiceDAO<MealRequestData> {
     String staff = obj.getAssignedStaff();
 
     String sqlAdd =
-        "INSERT INTO \"MealService\" VALUES("
-            + requestID
-            + ",'"
+        "INSERT INTO \"MealService\" VALUES(nextval('serial'), '"
             + name
             + "','"
             + room

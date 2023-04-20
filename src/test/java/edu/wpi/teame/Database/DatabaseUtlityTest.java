@@ -39,7 +39,6 @@ public class DatabaseUtlityTest {
     List<HospitalNode> nodeList3 = SQLRepo.INSTANCE.getNodesFromFloor(Floor.THREE);
     assertEquals(91, nodeList3.size());
 
-
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
@@ -50,6 +49,5 @@ public class DatabaseUtlityTest {
 
     assertTrue(shortNameFromNodeID.equals("Conf B0102"));
     SQLRepo.INSTANCE.exitDatabaseProgram();
-
   }
 }
