@@ -18,16 +18,4 @@ public class HospitalEdge {
     this.nodeTwoID = nodeTwoID;
     this.edgeWeight = weight;
   }
-
-  public String getNodeOneID() {
-    return this.nodeOneID;
-  }
-
-  public String getNodeTwoID() {
-    return this.nodeTwoID;
-  }
-
-  public int getEdgeWeight() {
-    return this.edgeWeight;
-  }
 }

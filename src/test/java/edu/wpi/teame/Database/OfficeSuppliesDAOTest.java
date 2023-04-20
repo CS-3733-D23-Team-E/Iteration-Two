@@ -22,7 +22,7 @@ public class OfficeSuppliesDAOTest {
             "3:12PM",
             "not jamie",
             "rulers",
-            2,
+            "2",
             "fast",
             OfficeSuppliesData.Status.PENDING));
 
@@ -38,7 +38,7 @@ public class OfficeSuppliesDAOTest {
             "3:12PM",
             "not jamie",
             "rulers",
-            2,
+            "2",
             "fast",
             OfficeSuppliesData.Status.PENDING));
     List<OfficeSuppliesData> officeSupplyRequestDeleted = SQLRepo.INSTANCE.getOfficeSupplyList();
@@ -60,7 +60,7 @@ public class OfficeSuppliesDAOTest {
             "3:12PM",
             "not jamie",
             "rulers",
-            2,
+            "2",
             "fast",
             OfficeSuppliesData.Status.PENDING);
 

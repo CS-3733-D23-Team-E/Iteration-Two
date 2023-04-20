@@ -66,6 +66,7 @@ public class AddMealsTest {
             "allergic to albert",
             "",
             MealRequestData.Status.PENDING));
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -129,6 +130,7 @@ public class AddMealsTest {
             "allergic to albert",
             "",
             MealRequestData.Status.PENDING));
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -149,6 +151,7 @@ public class AddMealsTest {
             "Fuck this Bullshit",
             "",
             FlowerRequestData.Status.PENDING));
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -169,6 +172,7 @@ public class AddMealsTest {
             "Fuck this Bullshit",
             "",
             FlowerRequestData.Status.PENDING));
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -199,6 +203,7 @@ public class AddMealsTest {
             "BLT",
             "tapas",
             FurnitureRequestData.Status.PENDING));
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -229,6 +234,7 @@ public class AddMealsTest {
             "12345678901011",
             "tapas",
             ConferenceRequestData.Status.DONE));
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -245,7 +251,7 @@ public class AddMealsTest {
             "3:12PM",
             "jack penis",
             "a crayon",
-            1,
+            "1",
             "hello jam",
             OfficeSuppliesData.Status.DONE));
     SQLRepo.INSTANCE.deleteOfficeSupplyRequest(
@@ -257,8 +263,9 @@ public class AddMealsTest {
             "3:12PM",
             "jack penis",
             "a crayon",
-            1,
+            "1",
             "hello jam",
             OfficeSuppliesData.Status.DONE));
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 }

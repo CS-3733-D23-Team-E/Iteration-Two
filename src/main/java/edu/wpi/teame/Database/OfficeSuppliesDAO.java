@@ -3,6 +3,7 @@ package edu.wpi.teame.Database;
 import static java.lang.Integer.parseInt;
 
 import edu.wpi.teame.entities.OfficeSuppliesData;
+import edu.wpi.teame.entities.ServiceRequestData;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,17 +15,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData> {
-  List<OfficeSuppliesData> officeSuppliesDataList;
+public class OfficeSuppliesDAO<E> extends ServiceDAO<OfficeSuppliesData> {
 
   public OfficeSuppliesDAO(Connection c) {
-    activeConnection = c;
-    table = "\"OfficeSupplies\"";
+    super(c, "\"OfficeSupplies\"");
   }
 
   @Override
   List<OfficeSuppliesData> get() {
-    officeSuppliesDataList = new LinkedList<>();
+    serviceRequestDataList = new LinkedList<>();
 
     try {
       Statement stmt = activeConnection.createStatement();
@@ -33,74 +32,34 @@ public class OfficeSuppliesDAO<E> extends DAO<OfficeSuppliesData> {
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        officeSuppliesDataList.add(
+        serviceRequestDataList.add(
             new OfficeSuppliesData(
                 rs.getInt("requestID"),
                 rs.getString("name"),
                 rs.getString("room"),
                 rs.getString("deliveryDate"),
                 rs.getString("deliverytime"),
-                rs.getString("staff"),
+                rs.getString("assignedStaff"),
                 rs.getString("officesupply"),
-                rs.getInt("quantity"),
+                rs.getString("quantity"),
                 rs.getString("notes"),
-                OfficeSuppliesData.Status.stringToStatus(rs.getString("status"))));
+                ServiceRequestData.Status.stringToStatus(rs.getString("status"))));
       }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
 
-    return officeSuppliesDataList;
+    return serviceRequestDataList;
   }
 
-  @Override
-  void update(OfficeSuppliesData obj, String attribute, String value) {
-    int requestID = obj.getRequestID();
-
-    String sqlUpdate =
-        "UPDATE \"OfficeSupplies\" "
-            + "SET \""
-            + attribute
-            + "\" = '"
-            + value
-            + "' WHERE \"requestID\" = '"
-            + requestID
-            + "';";
-
-    try {
-      Statement stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlUpdate);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println(
-          "Exception: Set a valid column name for attribute, quantity is an integer");
-    }
-  }
-
-  @Override
-  void delete(OfficeSuppliesData obj) {
-    int requestID = obj.getRequestID();
-    String sqlDelete = "DELETE FROM \"OfficeSupplies\" WHERE \"requestID\" = '" + requestID + "';";
-
-    Statement stmt;
-    try {
-      stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlDelete);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println("error deleting");
-    }
-  }
-
-  @Override
   void add(OfficeSuppliesData obj) {
     obj.setRequestID(generateUniqueRequestID());
     int requestID = obj.getRequestID();
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
-    int quantity = obj.getQuantity();
-    OfficeSuppliesData.Status requestStatus = obj.getRequestStatus();
+    String quantity = obj.getQuantity();
+    ServiceRequestData.Status requestStatus = obj.getRequestStatus();
     String deliveryTime = obj.getDeliveryTime();
     String officeSupply = obj.getOfficeSupply();
     String notes = obj.getNotes();

@@ -14,17 +14,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FurnitureDAO<E> extends DAO<FurnitureRequestData> {
-  List<FurnitureRequestData> furnitureRequestDataList;
-
+public class FurnitureDAO<E> extends ServiceDAO<FurnitureRequestData> {
   public FurnitureDAO(Connection c) {
-    activeConnection = c;
-    table = "\"FurnitureService\"";
+    super(c, "\"FurnitureService\"");
   }
 
   @Override
   List<FurnitureRequestData> get() {
-    furnitureRequestDataList = new LinkedList<>();
+    serviceRequestDataList = new LinkedList<>();
 
     try {
       Statement stmt = activeConnection.createStatement();
@@ -33,14 +30,14 @@ public class FurnitureDAO<E> extends DAO<FurnitureRequestData> {
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        furnitureRequestDataList.add(
+        serviceRequestDataList.add(
             new FurnitureRequestData(
                 rs.getInt("requestID"),
                 rs.getString("name"),
                 rs.getString("room"),
                 rs.getString("deliveryDate"),
                 rs.getString("deliveryTime"),
-                rs.getString("staff"),
+                rs.getString("assignedStaff"),
                 rs.getString("furnitureType"),
                 rs.getString("notes"),
                 FurnitureRequestData.Status.stringToStatus(rs.getString("status"))));
@@ -49,47 +46,7 @@ public class FurnitureDAO<E> extends DAO<FurnitureRequestData> {
       System.out.println(e.getMessage());
     }
 
-    return furnitureRequestDataList;
-  }
-
-  @Override
-  void update(FurnitureRequestData obj, String attribute, String value) {
-    int requestID = obj.getRequestID();
-
-    String sqlUpdate =
-        "UPDATE \"FurnitureService\" "
-            + "SET \""
-            + attribute
-            + "\" = '"
-            + value
-            + "' WHERE \"requestID\" = '"
-            + requestID
-            + "';";
-
-    try {
-      Statement stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlUpdate);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println(
-          "Exception: Set a valid column name for attribute, quantity is an integer");
-    }
-  }
-
-  @Override
-  void delete(FurnitureRequestData obj) {
-    int requestID = obj.getRequestID();
-    String sqlDelete =
-        "DELETE FROM \"FurnitureService\" WHERE \"requestID\" = '" + requestID + "';";
-
-    Statement stmt;
-    try {
-      stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlDelete);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println("error deleting");
-    }
+    return serviceRequestDataList;
   }
 
   @Override

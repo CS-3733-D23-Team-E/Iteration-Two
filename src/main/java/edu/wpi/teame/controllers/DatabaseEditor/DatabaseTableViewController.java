@@ -4,7 +4,6 @@ import static java.lang.Integer.parseInt;
 
 import edu.wpi.teame.App;
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.entities.ServiceRequestData;
 import edu.wpi.teame.map.*;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
@@ -542,9 +541,6 @@ public class DatabaseTableViewController {
           break;
         case MOVE:
           SQLRepo.INSTANCE.deleteMove((MoveAttribute) selectedItem);
-          break;
-        case SERVICE_REQUESTS:
-          SQLRepo.INSTANCE.deleteServiceRequest((ServiceRequestData) selectedItem);
           break;
         case EDGE:
           SQLRepo.INSTANCE.deleteEdge((HospitalEdge) selectedItem);

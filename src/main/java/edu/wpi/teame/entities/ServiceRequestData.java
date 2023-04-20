@@ -1,14 +1,12 @@
 package edu.wpi.teame.entities;
 
-import static edu.wpi.teame.entities.OfficeSuppliesData.Status.getString;
 import static javax.swing.UIManager.getString;
 
 import java.util.NoSuchElementException;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONObject;
 
-public class ServiceRequestData {
+public abstract class ServiceRequestData {
   public enum Status {
     PENDING,
     IN_PROGRESS,
@@ -70,14 +68,14 @@ public class ServiceRequestData {
     }
   }
 
-  @Getter @Setter private JSONObject requestData;
+  @Getter @Setter private int requestID;
   @Getter @Setter private RequestType requestType;
   @Getter @Setter private Status requestStatus;
   @Getter @Setter private String assignedStaff;
 
   public ServiceRequestData(
-      RequestType requestType, JSONObject requestData, Status requestStatus, String assignedStaff) {
-    this.requestData = requestData;
+      int requestID, RequestType requestType, Status requestStatus, String assignedStaff) {
+    this.requestID = requestID;
     this.requestType = requestType;
     this.requestStatus = requestStatus;
     this.assignedStaff = assignedStaff;

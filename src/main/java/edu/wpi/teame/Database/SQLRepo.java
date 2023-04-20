@@ -59,14 +59,13 @@ public enum SQLRepo {
   DAO<HospitalEdge> edgeDAO;
   DAO<MoveAttribute> moveDAO;
   DAO<LocationName> locationDAO;
-  DAO<ServiceRequestData> serviceDAO;
   EmployeeDAO employeeDAO;
   DatabaseUtility dbUtility;
-  DAO<FurnitureRequestData> furnitureDAO;
-  DAO<OfficeSuppliesData> officesupplyDAO;
-  DAO<MealRequestData> mealDAO;
-  DAO<FlowerRequestData> flowerDAO;
-  DAO<ConferenceRequestData> conferenceDAO;
+  ServiceDAO<FurnitureRequestData> furnitureDAO;
+  ServiceDAO<OfficeSuppliesData> officesupplyDAO;
+  ServiceDAO<MealRequestData> mealDAO;
+  ServiceDAO<FlowerRequestData> flowerDAO;
+  ServiceDAO<ConferenceRequestData> conferenceDAO;
 
   public Employee connectToDatabase(String username, String password) {
     try {
@@ -83,13 +82,11 @@ public enum SQLRepo {
         edgeDAO = new EdgeDAO(activeConnection);
         moveDAO = new MoveDAO(activeConnection);
         locationDAO = new LocationDAO(activeConnection);
-        serviceDAO = new ServiceDAO(activeConnection);
         dbUtility = new DatabaseUtility(activeConnection);
         officesupplyDAO = new OfficeSuppliesDAO(activeConnection);
         mealDAO = new MealDAO(activeConnection);
         flowerDAO = new FlowerDAO(activeConnection);
         conferenceDAO = new ConferenceRoomDAO(activeConnection);
-        serviceDAO = new ServiceDAO(activeConnection);
         furnitureDAO = new FurnitureDAO(activeConnection);
         return loggedIn;
       }
@@ -180,9 +177,6 @@ public enum SQLRepo {
         case LOCATION_NAME:
           this.locationDAO.importFromCSV(filepath, "LocationName");
           break;
-        case SERVICE_REQUESTS:
-          this.serviceDAO.importFromCSV(filepath, "ServiceRequests");
-          break;
         case EMPLOYEE:
           this.employeeDAO.importFromCSV(filepath, "Employee");
           break;
@@ -223,9 +217,6 @@ public enum SQLRepo {
         case LOCATION_NAME:
           this.locationDAO.exportToCSV(filepath, tableName);
           break;
-        case SERVICE_REQUESTS:
-          this.serviceDAO.exportToCSV(filepath, tableName);
-          break;
         case EMPLOYEE:
           this.employeeDAO.exportToCSV(filepath, tableName);
           break;
@@ -251,9 +242,6 @@ public enum SQLRepo {
   }
 
   // ALL GETS FOR DAOS
-  public List<ServiceRequestData> getServiceRequestList() {
-    return this.serviceDAO.get();
-  }
 
   public List<HospitalNode> getNodeList() {
     return this.nodeDAO.get();
@@ -296,9 +284,6 @@ public enum SQLRepo {
   }
 
   // ALL UPDATES FOR DAOS
-  public void updateServiceRequest(ServiceRequestData obj, String attribute, String value) {
-    this.serviceDAO.update(obj, attribute, value);
-  }
 
   public void updateNode(HospitalNode obj, String attribute, String value) {
     this.nodeDAO.update(obj, attribute, value);
@@ -341,9 +326,6 @@ public enum SQLRepo {
   }
 
   // ALL DELETES FOR DAOS
-  public void deleteServiceRequest(ServiceRequestData obj) {
-    this.serviceDAO.delete(obj);
-  }
 
   public void deleteOfficeSupplyRequest(OfficeSuppliesData obj) {
     this.officesupplyDAO.delete(obj);
@@ -386,10 +368,6 @@ public enum SQLRepo {
   }
 
   // ALL ADDITIONS TO DAOS
-  public void addServiceRequest(ServiceRequestData obj) {
-    this.serviceDAO.add(obj);
-  }
-
   public void addOfficeSupplyRequest(OfficeSuppliesData obj) {
     this.officesupplyDAO.add(obj);
   }

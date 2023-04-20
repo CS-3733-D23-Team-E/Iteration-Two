@@ -104,7 +104,7 @@ public class OfficeSuppliesController {
             deliveryTime.getValue(),
             assignedStaff.getValue(),
             supplyType.getValue(),
-            Integer.parseInt(numberOfSupplies.getText()),
+            numberOfSupplies.getText(),
             notes.getText(),
             OfficeSuppliesData.Status.PENDING);
     Navigation.navigate(Screen.HOME);

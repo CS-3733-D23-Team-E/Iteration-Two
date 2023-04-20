@@ -14,17 +14,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FlowerDAO<E> extends DAO<FlowerRequestData> {
-  List<FlowerRequestData> flowerRequestDataList;
-
+public class FlowerDAO<E> extends ServiceDAO<FlowerRequestData> {
   public FlowerDAO(Connection c) {
-    activeConnection = c;
-    table = "\"FlowerService\"";
+    super(c, "\"FlowerService\"");
   }
 
   @Override
   List<FlowerRequestData> get() {
-    flowerRequestDataList = new LinkedList<>();
+    serviceRequestDataList = new LinkedList<>();
 
     try {
       Statement stmt = activeConnection.createStatement();
@@ -33,14 +30,14 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        flowerRequestDataList.add(
+        serviceRequestDataList.add(
             new FlowerRequestData(
                 rs.getInt("requestID"),
                 rs.getString("name"),
                 rs.getString("room"),
                 rs.getString("deliveryDate"),
                 rs.getString("deliveryTime"),
-                rs.getString("staff"),
+                rs.getString("assignedStaff"),
                 rs.getString("flowerType"),
                 rs.getString("quantity"),
                 rs.getString("card"),
@@ -52,46 +49,7 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
       System.out.println(e.getMessage());
     }
 
-    return flowerRequestDataList;
-  }
-
-  @Override
-  void update(FlowerRequestData obj, String attribute, String value) {
-    int requestID = obj.getRequestID();
-
-    String sqlUpdate =
-        "UPDATE \"FlowerService\" "
-            + "SET \""
-            + attribute
-            + "\" = '"
-            + value
-            + "' WHERE \"requestID\" = '"
-            + requestID
-            + "';";
-
-    try {
-      Statement stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlUpdate);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println(
-          "Exception: Set a valid column name for attribute, quantity is an integer");
-    }
-  }
-
-  @Override
-  void delete(FlowerRequestData obj) {
-    int requestID = obj.getRequestID();
-    String sqlDelete = "DELETE FROM \"FlowerService\" WHERE \"requestID\" = '" + requestID + "';";
-
-    Statement stmt;
-    try {
-      stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlDelete);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println("error deleting");
-    }
+    return serviceRequestDataList;
   }
 
   @Override

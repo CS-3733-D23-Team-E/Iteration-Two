@@ -14,17 +14,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ConferenceRoomDAO<E> extends DAO<ConferenceRequestData> {
-  List<ConferenceRequestData> conferenceRequestDataList;
-
+public class ConferenceRoomDAO<E> extends ServiceDAO<ConferenceRequestData> {
   public ConferenceRoomDAO(Connection c) {
-    activeConnection = c;
-    table = "\"ConfRoomService\"";
+    super(c, "\"ConfRoomService\"");
   }
 
   @Override
   List<ConferenceRequestData> get() {
-    conferenceRequestDataList = new LinkedList<>();
+    serviceRequestDataList = new LinkedList<>();
 
     try {
       Statement stmt = activeConnection.createStatement();
@@ -33,14 +30,14 @@ public class ConferenceRoomDAO<E> extends DAO<ConferenceRequestData> {
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        conferenceRequestDataList.add(
+        serviceRequestDataList.add(
             new ConferenceRequestData(
                 rs.getInt("requestID"),
                 rs.getString("name"),
                 rs.getString("room"),
                 rs.getString("deliveryDate"),
                 rs.getString("deliveryTime"),
-                rs.getString("staff"),
+                rs.getString("assignedStaff"),
                 rs.getString("roomRequest"),
                 rs.getString("notes"),
                 ConferenceRequestData.Status.stringToStatus(rs.getString("status"))));
@@ -49,46 +46,7 @@ public class ConferenceRoomDAO<E> extends DAO<ConferenceRequestData> {
       System.out.println(e.getMessage());
     }
 
-    return conferenceRequestDataList;
-  }
-
-  @Override
-  void update(ConferenceRequestData obj, String attribute, String value) {
-    int requestID = obj.getRequestID();
-
-    String sqlUpdate =
-        "UPDATE \"ConfRoomService\" "
-            + "SET \""
-            + attribute
-            + "\" = '"
-            + value
-            + "' WHERE \"requestID\" = '"
-            + requestID
-            + "';";
-
-    try {
-      Statement stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlUpdate);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println(
-          "Exception: Set a valid column name for attribute, quantity is an integer");
-    }
-  }
-
-  @Override
-  void delete(ConferenceRequestData obj) {
-    int requestID = obj.getRequestID();
-    String sqlDelete = "DELETE FROM \"ConfRoomService\" WHERE \"requestID\" = '" + requestID + "';";
-
-    Statement stmt;
-    try {
-      stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlDelete);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println("error deleting");
-    }
+    return serviceRequestDataList;
   }
 
   @Override
