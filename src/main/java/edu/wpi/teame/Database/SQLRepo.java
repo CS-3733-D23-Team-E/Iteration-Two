@@ -301,6 +301,27 @@ public enum SQLRepo {
     this.locationDAO.update(obj, attribute, value);
   }
 
+  public void updateServiceRequest(ServiceRequestData obj, String attribute, String value) {
+    if (obj instanceof OfficeSuppliesData) {
+      OfficeSuppliesData updateSupplies = (OfficeSuppliesData) obj;
+      this.officesupplyDAO.update(updateSupplies, attribute, value);
+    } else if (obj instanceof MealRequestData) {
+      MealRequestData updateMeal = (MealRequestData) obj;
+      this.mealDAO.update(updateMeal, attribute, value);
+    } else if (obj instanceof FlowerRequestData) {
+      FlowerRequestData updateFlower = (FlowerRequestData) obj;
+      this.flowerDAO.update(updateFlower, attribute, value);
+    } else if (obj instanceof FurnitureRequestData) {
+      FurnitureRequestData updateFurniture = (FurnitureRequestData) obj;
+      this.furnitureDAO.update(updateFurniture, attribute, value);
+    } else if (obj instanceof ConferenceRequestData) {
+      ConferenceRequestData updateConf = (ConferenceRequestData) obj;
+      this.conferenceDAO.update(updateConf, attribute, value);
+    } else {
+      throw new NoSuchElementException("No Service Request of this type");
+    }
+  }
+
   public void updateOfficeSupply(OfficeSuppliesData obj, String attribute, String value) {
     this.officesupplyDAO.update(obj, attribute, value);
   }
@@ -326,6 +347,26 @@ public enum SQLRepo {
   }
 
   // ALL DELETES FOR DAOS
+  public void deleteServiceRequest(ServiceRequestData obj) {
+    if (obj instanceof OfficeSuppliesData) {
+      OfficeSuppliesData deleteSupplies = (OfficeSuppliesData) obj;
+      this.officesupplyDAO.delete(deleteSupplies);
+    } else if (obj instanceof MealRequestData) {
+      MealRequestData deleteMeal = (MealRequestData) obj;
+      this.mealDAO.delete(deleteMeal);
+    } else if (obj instanceof FlowerRequestData) {
+      FlowerRequestData deleteFlower = (FlowerRequestData) obj;
+      this.flowerDAO.delete(deleteFlower);
+    } else if (obj instanceof FurnitureRequestData) {
+      FurnitureRequestData deleteFurniture = (FurnitureRequestData) obj;
+      this.furnitureDAO.delete(deleteFurniture);
+    } else if (obj instanceof ConferenceRequestData) {
+      ConferenceRequestData deleteConf = (ConferenceRequestData) obj;
+      this.conferenceDAO.delete(deleteConf);
+    } else {
+      throw new NoSuchElementException("No Service Request of this type");
+    }
+  }
 
   public void deleteOfficeSupplyRequest(OfficeSuppliesData obj) {
     this.officesupplyDAO.delete(obj);
@@ -368,6 +409,27 @@ public enum SQLRepo {
   }
 
   // ALL ADDITIONS TO DAOS
+  public void addServiceRequest(ServiceRequestData obj) {
+    if (obj instanceof OfficeSuppliesData) {
+      OfficeSuppliesData addSupplies = (OfficeSuppliesData) obj;
+      this.officesupplyDAO.add(addSupplies);
+    } else if (obj instanceof MealRequestData) {
+      MealRequestData addMeal = (MealRequestData) obj;
+      this.mealDAO.add(addMeal);
+    } else if (obj instanceof FlowerRequestData) {
+      FlowerRequestData addFlower = (FlowerRequestData) obj;
+      this.flowerDAO.add(addFlower);
+    } else if (obj instanceof FurnitureRequestData) {
+      FurnitureRequestData addFurniture = (FurnitureRequestData) obj;
+      this.furnitureDAO.add(addFurniture);
+    } else if (obj instanceof ConferenceRequestData) {
+      ConferenceRequestData addConf = (ConferenceRequestData) obj;
+      this.conferenceDAO.add(addConf);
+    } else {
+      throw new NoSuchElementException("No Service Request of this type");
+    }
+  }
+
   public void addOfficeSupplyRequest(OfficeSuppliesData obj) {
     this.officesupplyDAO.add(obj);
   }

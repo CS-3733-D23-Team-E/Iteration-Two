@@ -13,7 +13,7 @@ public class OfficeSuppliesDAOTest {
 
     List<OfficeSuppliesData> officeSupply = SQLRepo.INSTANCE.getOfficeSupplyList();
 
-    SQLRepo.INSTANCE.addOfficeSupplyRequest(
+    SQLRepo.INSTANCE.addServiceRequest(
         new OfficeSuppliesData(
             1,
             "joseph",
@@ -29,7 +29,7 @@ public class OfficeSuppliesDAOTest {
     List<OfficeSuppliesData> officeSupplyRequestAdded = SQLRepo.INSTANCE.getOfficeSupplyList();
     assertEquals(officeSupplyRequestAdded.size(), officeSupply.size() + 1);
 
-    SQLRepo.INSTANCE.deleteOfficeSupplyRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new OfficeSuppliesData(
             1,
             "joseph",
@@ -64,9 +64,9 @@ public class OfficeSuppliesDAOTest {
             "fast",
             OfficeSuppliesData.Status.PENDING);
 
-    SQLRepo.INSTANCE.addOfficeSupplyRequest(officeSupplyRequest);
-    SQLRepo.INSTANCE.updateOfficeSupply(officeSupplyRequest, "status", "DONE");
-    SQLRepo.INSTANCE.deleteOfficeSupplyRequest(officeSupplyRequest);
+    SQLRepo.INSTANCE.addServiceRequest(officeSupplyRequest);
+    SQLRepo.INSTANCE.updateServiceRequest(officeSupplyRequest, "status", "DONE");
+    SQLRepo.INSTANCE.deleteServiceRequest(officeSupplyRequest);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

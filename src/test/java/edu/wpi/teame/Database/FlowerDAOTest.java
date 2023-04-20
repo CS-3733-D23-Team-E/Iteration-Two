@@ -13,7 +13,7 @@ public class FlowerDAOTest {
 
     List<FlowerRequestData> flower = SQLRepo.INSTANCE.getFlowerRequestsList();
 
-    SQLRepo.INSTANCE.addFlowerRequest(
+    SQLRepo.INSTANCE.addServiceRequest(
         new FlowerRequestData(
             1,
             "joseph",
@@ -31,7 +31,7 @@ public class FlowerDAOTest {
     List<FlowerRequestData> flowerRequestAdded = SQLRepo.INSTANCE.getFlowerRequestsList();
     assertEquals(flowerRequestAdded.size(), flower.size() + 1);
 
-    SQLRepo.INSTANCE.deleteFlowerRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new FlowerRequestData(
             1,
             "joseph",
@@ -66,13 +66,13 @@ public class FlowerDAOTest {
             "not jamie",
             "rose",
             "2",
-            "false",
+            "yes",
             "i love you babe",
             "no package",
             FlowerRequestData.Status.IN_PROGRESS);
-    SQLRepo.INSTANCE.addFlowerRequest(flowerRequest);
-    SQLRepo.INSTANCE.updateFlowerRequest(flowerRequest, "status", "DONE");
-    SQLRepo.INSTANCE.deleteFlowerRequest(flowerRequest);
+    SQLRepo.INSTANCE.addServiceRequest(flowerRequest);
+    SQLRepo.INSTANCE.updateServiceRequest(flowerRequest, "status", "DONE");
+    SQLRepo.INSTANCE.deleteServiceRequest(flowerRequest);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

@@ -14,6 +14,7 @@ public class EdgeDAOTest {
     List<HospitalEdge> edgeList = SQLRepo.INSTANCE.getEdgeList();
 
     assertFalse(edgeList.isEmpty());
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -26,6 +27,7 @@ public class EdgeDAOTest {
 
     // reset update
     SQLRepo.INSTANCE.updateEdge(new HospitalEdge("2315", "1140"), "endNode", "1875");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -46,6 +48,7 @@ public class EdgeDAOTest {
     edgeList = SQLRepo.INSTANCE.getEdgeList();
 
     assertTrue(edgeList.size() == lengthList);
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -54,6 +57,7 @@ public class EdgeDAOTest {
     SQLRepo.INSTANCE.importFromCSV(
         SQLRepo.Table.MOVE,
         "C:\\Users\\thesm\\OneDrive\\Documents\\GitHub\\Iteration-One\\Data\\NewData\\Move.csv");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -61,5 +65,6 @@ public class EdgeDAOTest {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     SQLRepo.INSTANCE.exportToCSV(
         SQLRepo.Table.EDGE, "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733", "EdgeExport");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 }

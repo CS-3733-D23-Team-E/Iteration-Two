@@ -12,6 +12,7 @@ public class LocationNameDAOTest {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     List<LocationName> locationNameList = SQLRepo.INSTANCE.getLocationList();
     assertFalse(locationNameList.isEmpty());
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -30,6 +31,7 @@ public class LocationNameDAOTest {
         new LocationName("Hall 1 Level 2", "Test", LocationName.NodeType.HALL),
         "shortName",
         "Hall");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -50,6 +52,7 @@ public class LocationNameDAOTest {
     locationNames = SQLRepo.INSTANCE.getLocationList();
 
     assertTrue(locationNames.size() == lengthList);
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -58,6 +61,7 @@ public class LocationNameDAOTest {
     SQLRepo.INSTANCE.importFromCSV(
         SQLRepo.Table.LOCATION_NAME,
         "C:\\Users\\thesm\\OneDrive\\Documents\\GitHub\\Iteration-One\\Data\\NewData\\LocationName.csv");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -67,5 +71,6 @@ public class LocationNameDAOTest {
         SQLRepo.Table.LOCATION_NAME,
         "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733",
         "LocationNameExport");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 }

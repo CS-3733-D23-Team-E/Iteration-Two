@@ -22,6 +22,8 @@ public class DatabaseUtlityTest {
 
     String nodetype3 = SQLRepo.INSTANCE.getNodeTypeFromNodeID(1360);
     assertEquals("DEPT", nodetype3);
+
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -36,6 +38,9 @@ public class DatabaseUtlityTest {
 
     List<HospitalNode> nodeList3 = SQLRepo.INSTANCE.getNodesFromFloor(Floor.THREE);
     assertEquals(91, nodeList3.size());
+
+
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -44,5 +49,7 @@ public class DatabaseUtlityTest {
     String shortNameFromNodeID = SQLRepo.INSTANCE.getShortNameFromNodeID("1335");
 
     assertTrue(shortNameFromNodeID.equals("Conf B0102"));
+    SQLRepo.INSTANCE.exitDatabaseProgram();
+
   }
 }

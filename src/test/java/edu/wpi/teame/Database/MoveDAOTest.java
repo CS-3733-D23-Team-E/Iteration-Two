@@ -12,6 +12,7 @@ public class MoveDAOTest {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     List<MoveAttribute> moveAttributeList = SQLRepo.INSTANCE.getMoveList();
     assertFalse(moveAttributeList.isEmpty());
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -26,6 +27,7 @@ public class MoveDAOTest {
     // reset update
     SQLRepo.INSTANCE.updateMove(
         new MoveAttribute(1200, "Hall 3 Level 1", "2023-01-02"), "date", "2023-01-01");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -47,6 +49,7 @@ public class MoveDAOTest {
     System.out.println(moveAttributes.size() + " " + lengthList);
 
     assertTrue(moveAttributes.size() == lengthList);
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -55,6 +58,7 @@ public class MoveDAOTest {
     SQLRepo.INSTANCE.importFromCSV(
         SQLRepo.Table.MOVE,
         "C:\\Users\\thesm\\OneDrive\\Documents\\GitHub\\Iteration-One\\Data\\NewData\\Move.csv");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -62,5 +66,6 @@ public class MoveDAOTest {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     SQLRepo.INSTANCE.exportToCSV(
         SQLRepo.Table.MOVE, "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733", "MoveExport");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 }

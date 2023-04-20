@@ -29,9 +29,9 @@ public abstract class ServiceDAO<E> extends DAO<E> {
     try {
       Statement stmt = activeConnection.createStatement();
       sql =
-          "UPDATE \""
+          "UPDATE "
               + table
-              + "\" "
+              + " "
               + "SET \""
               + attribute
               + "\" = '"

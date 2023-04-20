@@ -13,7 +13,7 @@ public class FurnitureDAOTest {
 
     List<FurnitureRequestData> furniture = SQLRepo.INSTANCE.getFurnitureRequestsList();
 
-    SQLRepo.INSTANCE.addFurnitureRequest(
+    SQLRepo.INSTANCE.addServiceRequest(
         new FurnitureRequestData(
             1,
             "joseph",
@@ -28,7 +28,7 @@ public class FurnitureDAOTest {
     List<FurnitureRequestData> furnitureRequestAdded = SQLRepo.INSTANCE.getFurnitureRequestsList();
     assertEquals(furnitureRequestAdded.size(), furniture.size() + 1);
 
-    SQLRepo.INSTANCE.deleteFurnitureRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new FurnitureRequestData(
             1,
             "joseph",
@@ -62,9 +62,9 @@ public class FurnitureDAOTest {
             "deliver with love",
             FurnitureRequestData.Status.DONE);
 
-    SQLRepo.INSTANCE.addFurnitureRequest(furnitureRequest);
-    SQLRepo.INSTANCE.updateFurnitureRequest(furnitureRequest, "status", "PENDING");
-    SQLRepo.INSTANCE.deleteFurnitureRequest(furnitureRequest);
+    SQLRepo.INSTANCE.addServiceRequest(furnitureRequest);
+    SQLRepo.INSTANCE.updateServiceRequest(furnitureRequest, "status", "PENDING");
+    // SQLRepo.INSTANCE.deleteServiceRequest(furnitureRequest);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

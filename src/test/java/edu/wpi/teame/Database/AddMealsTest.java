@@ -136,7 +136,6 @@ public class AddMealsTest {
   @Test
   public void addFlowers() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
-
     SQLRepo.INSTANCE.addFlowerRequest(
         new FlowerRequestData(
             0,
@@ -158,7 +157,7 @@ public class AddMealsTest {
   public void deleteFlowers() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
 
-    SQLRepo.INSTANCE.deleteFlowerRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new FlowerRequestData(
             1,
             "jamie",
@@ -180,7 +179,7 @@ public class AddMealsTest {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     List<FurnitureRequestData> furniture = SQLRepo.INSTANCE.getFurnitureRequestsList();
 
-    SQLRepo.INSTANCE.addFurnitureRequest(
+    SQLRepo.INSTANCE.addServiceRequest(
         new FurnitureRequestData(
             0,
             "jamie",
@@ -192,7 +191,7 @@ public class AddMealsTest {
             "tapas",
             FurnitureRequestData.Status.PENDING));
 
-    SQLRepo.INSTANCE.deleteFurnitureRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new FurnitureRequestData(
             1,
             "jamie",
@@ -211,7 +210,7 @@ public class AddMealsTest {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     List<ConferenceRequestData> conference = SQLRepo.INSTANCE.getConfList();
 
-    SQLRepo.INSTANCE.addConfRoomRequest(
+    SQLRepo.INSTANCE.addServiceRequest(
         new ConferenceRequestData(
             0,
             "jamie",
@@ -223,7 +222,7 @@ public class AddMealsTest {
             "tapas",
             ConferenceRequestData.Status.DONE));
 
-    SQLRepo.INSTANCE.deleteConfRoomRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new ConferenceRequestData(
             1,
             "jamie",
@@ -242,7 +241,7 @@ public class AddMealsTest {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     List<OfficeSuppliesData> conference = SQLRepo.INSTANCE.getOfficeSupplyList();
 
-    SQLRepo.INSTANCE.addOfficeSupplyRequest(
+    SQLRepo.INSTANCE.addServiceRequest(
         new OfficeSuppliesData(
             0,
             "jamie",
@@ -254,7 +253,7 @@ public class AddMealsTest {
             "1",
             "hello jam",
             OfficeSuppliesData.Status.DONE));
-    SQLRepo.INSTANCE.deleteOfficeSupplyRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new OfficeSuppliesData(
             1,
             "jamie",

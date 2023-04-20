@@ -13,7 +13,7 @@ public class MealDAOTest {
 
     List<MealRequestData> meal = SQLRepo.INSTANCE.getMealRequestsList();
 
-    SQLRepo.INSTANCE.addMealRequest(
+    SQLRepo.INSTANCE.addServiceRequest(
         new MealRequestData(
             0,
             "joseph",
@@ -31,7 +31,7 @@ public class MealDAOTest {
     List<MealRequestData> mealRequestAdded = SQLRepo.INSTANCE.getMealRequestsList();
     assertEquals(mealRequestAdded.size(), meal.size() + 1);
 
-    SQLRepo.INSTANCE.deleteMealRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new MealRequestData(
             0,
             "joseph",
@@ -71,9 +71,9 @@ public class MealDAOTest {
             "",
             MealRequestData.Status.PENDING);
 
-    SQLRepo.INSTANCE.addMealRequest(mealRequest);
-    SQLRepo.INSTANCE.updateMealRequest(mealRequest, "status", "DONE");
-    SQLRepo.INSTANCE.deleteMealRequest(mealRequest);
+    SQLRepo.INSTANCE.addServiceRequest(mealRequest);
+    SQLRepo.INSTANCE.updateServiceRequest(mealRequest, "status", "DONE");
+    SQLRepo.INSTANCE.deleteServiceRequest(mealRequest);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

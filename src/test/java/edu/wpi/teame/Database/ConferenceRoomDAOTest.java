@@ -13,7 +13,7 @@ public class ConferenceRoomDAOTest {
 
     List<ConferenceRequestData> conference = SQLRepo.INSTANCE.getConfList();
 
-    SQLRepo.INSTANCE.addConfRoomRequest(
+    SQLRepo.INSTANCE.addServiceRequest(
         new ConferenceRequestData(
             1,
             "joseph",
@@ -28,7 +28,7 @@ public class ConferenceRoomDAOTest {
     List<ConferenceRequestData> conferenceRequestAdded = SQLRepo.INSTANCE.getConfList();
     assertEquals(conferenceRequestAdded.size(), conference.size() + 1);
 
-    SQLRepo.INSTANCE.deleteConfRoomRequest(
+    SQLRepo.INSTANCE.addServiceRequest(
         new ConferenceRequestData(
             1,
             "joseph",
@@ -61,9 +61,9 @@ public class ConferenceRoomDAOTest {
             "for 2 hours",
             ConferenceRequestData.Status.DONE);
 
-    SQLRepo.INSTANCE.addConfRoomRequest(conferenceRequest);
-    SQLRepo.INSTANCE.updateConfRoomRequest(conferenceRequest, "status", "PENDING");
-    SQLRepo.INSTANCE.deleteConfRoomRequest(conferenceRequest);
+    SQLRepo.INSTANCE.addServiceRequest(conferenceRequest);
+    SQLRepo.INSTANCE.updateServiceRequest(conferenceRequest, "status", "PENDING");
+    SQLRepo.INSTANCE.deleteServiceRequest(conferenceRequest);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }
