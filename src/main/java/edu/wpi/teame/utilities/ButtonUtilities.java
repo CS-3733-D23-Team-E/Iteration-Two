@@ -1,5 +1,7 @@
 package edu.wpi.teame.utilities;
 
+import static javafx.scene.paint.Color.WHITE;
+
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.scene.paint.Color;
 
@@ -78,6 +80,23 @@ public class ButtonUtilities {
           button.setStyle(
               "-fx-background-color: " + backgroundHex + "; -fx-alignment: " + alignment + ";");
           button.setTextFill(Color.web(textHex, 1.0));
+        });
+  }
+
+  public static void mouseSetupMenuBar(MFXButton btn, String alignment) {
+    btn.setOnMouseEntered(
+        event -> {
+          btn.setStyle(
+              "-fx-background-color: #f1f1f1; -fx-alignment: "
+                  + alignment
+                  + "; -fx-border-color: #001A3C; -fx-border-width: 0; -fx-font-size: 18;");
+          btn.setTextFill(Color.web("#192d5aff", 1.0));
+        });
+    btn.setOnMouseExited(
+        event -> {
+          btn.setStyle(
+              "-fx-background-color: #001A3C; -fx-alignment: " + alignment + ";-fx-font-size: 18;");
+          btn.setTextFill(WHITE);
         });
   }
 

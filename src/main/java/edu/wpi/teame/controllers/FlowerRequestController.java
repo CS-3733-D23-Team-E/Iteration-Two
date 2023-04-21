@@ -1,20 +1,20 @@
 package edu.wpi.teame.controllers;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.entities.ServiceRequestData;
+import edu.wpi.teame.entities.FlowerRequestData;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import org.controlsfx.control.SearchableComboBox;
-import org.json.JSONObject;
 
-public class FlowerRequestController implements IRequestController {
+public class FlowerRequestController {
 
   ObservableList<String> flowerChoices =
       FXCollections.observableArrayList("Tiger Lilies", "Roses", "Tulips", "Daisies");
@@ -23,70 +23,103 @@ public class FlowerRequestController implements IRequestController {
       FXCollections.observableArrayList(
           "1", "2", "Small Bouquet (6)", "Medium Bouquet (8)", "Large Bouquet (12)");
 
+  ObservableList<String> yesNo = FXCollections.observableArrayList("yes", "no");
+
   ObservableList<String> deliveryTimes =
       FXCollections.observableArrayList(
           "10am - 11am", "11am - 12pm", "12pm - 1pm", "1pm - 2pm", "2pm - 3pm", "3pm - 4pm");
 
-  @FXML MFXButton returnButton;
+  ObservableList<String> staffMembers =
+      FXCollections.observableArrayList(
+          "Mary Gardner",
+          "Robert Nash",
+          "Edward Diaz",
+          "Evan Buckley",
+          "Christopher Reyes",
+          "Madelyn Johnson",
+          "Ian Adams");
+
   @FXML MFXButton submitButton;
-  @FXML MFXTextField recipientName;
-  @FXML SearchableComboBox roomName;
+  @FXML TextField recipientName;
+  @FXML SearchableComboBox<String> roomName;
+  @FXML DatePicker deliveryDate;
   @FXML SearchableComboBox<String> deliveryTime;
   @FXML SearchableComboBox<String> flowerChoice;
   @FXML SearchableComboBox<String> numOfFlowers;
-  @FXML MFXTextField notes;
-  @FXML MFXTextField assignedStaff;
+  @FXML SearchableComboBox<String> cardQuestion;
+  @FXML TextField cardMessage;
+  @FXML TextField notes;
+  @FXML SearchableComboBox<String> assignedStaff;
   @FXML MFXButton cancelButton;
-  @FXML MFXButton clearForm;
+  @FXML MFXButton resetButton;
 
   @FXML
   public void initialize() {
-    Stream<LocationName> locationStream = SQLRepo.INSTANCE.getLocationList().stream();
+    Stream<LocationName> locationStream = LocationName.allLocations.values().stream();
     ObservableList<String> names =
         FXCollections.observableArrayList(
             locationStream
+                .filter(
+                    (locationName) -> {
+                      return locationName.getNodeType() != LocationName.NodeType.HALL
+                          && locationName.getNodeType() != LocationName.NodeType.STAI
+                          && locationName.getNodeType() != LocationName.NodeType.REST
+                          && locationName.getNodeType() != LocationName.NodeType.ELEV;
+                    })
                 .map(
                     (locationName) -> {
                       return locationName.getLongName();
                     })
+                .sorted()
                 .toList());
+
+    /*assignedStaff.setItems(
+    FXCollections.observableList(
+        SQLRepo.INSTANCE.getEmployeeList().stream()
+            .filter(employee -> employee.getPermission().equals("STAFF"))
+            .map(employee -> employee.getFullName())
+            .toList()));*/
+
+    assignedStaff.setItems(FXCollections.observableArrayList(staffMembers));
+
     roomName.setItems(names);
     // Add the items to the combo boxes
     flowerChoice.setItems(flowerChoices);
     numOfFlowers.setItems(flowerNum);
     deliveryTime.setItems(deliveryTimes);
+    cardQuestion.setItems(yesNo);
     // Initialize the buttons
     submitButton.setOnMouseClicked(event -> sendRequest());
     cancelButton.setOnMouseClicked(event -> cancelRequest());
-    clearForm.setOnMouseClicked(event -> clearForm());
+    resetButton.setOnMouseClicked(event -> clearForm());
   }
 
-  public ServiceRequestData sendRequest() {
-
-    // Create the json to store the values
-    JSONObject requestData = new JSONObject();
-    requestData.put("flowerChoice", flowerChoice.getValue());
-    requestData.put("numOfFlowers", numOfFlowers.getValue());
-    requestData.put("deliveryTime", deliveryTime.getValue());
-    requestData.put("recipientName", recipientName.getText());
-    requestData.put("roomName", roomName.getValue());
-    requestData.put("notes", notes.getText());
+  public FlowerRequestData sendRequest() {
+    System.out.println("send flower request");
 
     // Create the service request data
-    ServiceRequestData flowerRequestData =
-        new ServiceRequestData(
-            ServiceRequestData.RequestType.FLOWERDELIVERY,
-            requestData,
-            ServiceRequestData.Status.PENDING,
-            assignedStaff.getText());
+    FlowerRequestData requestData =
+        new FlowerRequestData(
+            0,
+            recipientName.getText(),
+            roomName.getValue(),
+            deliveryDate.getValue().toString(),
+            deliveryTime.getValue(),
+            assignedStaff.getValue(),
+            flowerChoice.getValue(),
+            numOfFlowers.getValue(),
+            cardQuestion.getValue(),
+            cardMessage.getText(),
+            notes.getText(),
+            FlowerRequestData.Status.PENDING);
+
+    SQLRepo.INSTANCE.addFlowerRequest(requestData);
 
     // Return to the home screen
     Navigation.navigate(Screen.HOME);
 
-    SQLRepo.INSTANCE.addServiceRequest(flowerRequestData);
-    return flowerRequestData;
+    return requestData;
   }
-
   // Cancels the current service request
   public void cancelRequest() {
     Navigation.navigate(Screen.HOME);
@@ -96,10 +129,13 @@ public class FlowerRequestController implements IRequestController {
   public void clearForm() {
     flowerChoice.setValue(null);
     numOfFlowers.setValue(null);
+    deliveryDate.setValue(null);
     deliveryTime.setValue(null);
     roomName.setValue(null);
+    cardQuestion.setValue(null);
+    cardMessage.clear();
     recipientName.clear();
     notes.clear();
-    assignedStaff.clear();
+    assignedStaff.setValue(null);
   }
 }
