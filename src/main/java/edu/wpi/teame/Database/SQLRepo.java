@@ -59,14 +59,13 @@ public enum SQLRepo {
   DAO<HospitalEdge> edgeDAO;
   DAO<MoveAttribute> moveDAO;
   DAO<LocationName> locationDAO;
-  DAO<ServiceRequestData> serviceDAO;
   EmployeeDAO employeeDAO;
   DatabaseUtility dbUtility;
-  DAO<FurnitureRequestData> furnitureDAO;
-  DAO<OfficeSuppliesData> officesupplyDAO;
-  DAO<MealRequestData> mealDAO;
-  DAO<FlowerRequestData> flowerDAO;
-  DAO<ConferenceRequestData> conferenceDAO;
+  ServiceDAO<FurnitureRequestData> furnitureDAO;
+  ServiceDAO<OfficeSuppliesData> officesupplyDAO;
+  ServiceDAO<MealRequestData> mealDAO;
+  ServiceDAO<FlowerRequestData> flowerDAO;
+  ServiceDAO<ConferenceRequestData> conferenceDAO;
 
   public Employee connectToDatabase(String username, String password) {
     try {
@@ -83,14 +82,15 @@ public enum SQLRepo {
         edgeDAO = new EdgeDAO(activeConnection);
         moveDAO = new MoveDAO(activeConnection);
         locationDAO = new LocationDAO(activeConnection);
-        serviceDAO = new ServiceDAO(activeConnection);
         dbUtility = new DatabaseUtility(activeConnection);
         officesupplyDAO = new OfficeSuppliesDAO(activeConnection);
         mealDAO = new MealDAO(activeConnection);
         flowerDAO = new FlowerDAO(activeConnection);
         conferenceDAO = new ConferenceRoomDAO(activeConnection);
-        serviceDAO = new ServiceDAO(activeConnection);
         furnitureDAO = new FurnitureDAO(activeConnection);
+
+        Employee.setActiveEmployee(loggedIn);
+
         return loggedIn;
       }
     } catch (SQLException e) {
@@ -180,9 +180,6 @@ public enum SQLRepo {
         case LOCATION_NAME:
           this.locationDAO.importFromCSV(filepath, "LocationName");
           break;
-        case SERVICE_REQUESTS:
-          this.serviceDAO.importFromCSV(filepath, "ServiceRequests");
-          break;
         case EMPLOYEE:
           this.employeeDAO.importFromCSV(filepath, "Employee");
           break;
@@ -223,9 +220,6 @@ public enum SQLRepo {
         case LOCATION_NAME:
           this.locationDAO.exportToCSV(filepath, tableName);
           break;
-        case SERVICE_REQUESTS:
-          this.serviceDAO.exportToCSV(filepath, tableName);
-          break;
         case EMPLOYEE:
           this.employeeDAO.exportToCSV(filepath, tableName);
           break;
@@ -251,9 +245,6 @@ public enum SQLRepo {
   }
 
   // ALL GETS FOR DAOS
-  public List<ServiceRequestData> getServiceRequestList() {
-    return this.serviceDAO.get();
-  }
 
   public List<HospitalNode> getNodeList() {
     return this.nodeDAO.get();
@@ -296,9 +287,6 @@ public enum SQLRepo {
   }
 
   // ALL UPDATES FOR DAOS
-  public void updateServiceRequest(ServiceRequestData obj, String attribute, String value) {
-    this.serviceDAO.update(obj, attribute, value);
-  }
 
   public void updateNode(HospitalNode obj, String attribute, String value) {
     this.nodeDAO.update(obj, attribute, value);
@@ -314,6 +302,27 @@ public enum SQLRepo {
 
   public void updateLocation(LocationName obj, String attribute, String value) {
     this.locationDAO.update(obj, attribute, value);
+  }
+
+  public void updateServiceRequest(ServiceRequestData obj, String attribute, String value) {
+    if (obj instanceof OfficeSuppliesData) {
+      OfficeSuppliesData updateSupplies = (OfficeSuppliesData) obj;
+      this.officesupplyDAO.update(updateSupplies, attribute, value);
+    } else if (obj instanceof MealRequestData) {
+      MealRequestData updateMeal = (MealRequestData) obj;
+      this.mealDAO.update(updateMeal, attribute, value);
+    } else if (obj instanceof FlowerRequestData) {
+      FlowerRequestData updateFlower = (FlowerRequestData) obj;
+      this.flowerDAO.update(updateFlower, attribute, value);
+    } else if (obj instanceof FurnitureRequestData) {
+      FurnitureRequestData updateFurniture = (FurnitureRequestData) obj;
+      this.furnitureDAO.update(updateFurniture, attribute, value);
+    } else if (obj instanceof ConferenceRequestData) {
+      ConferenceRequestData updateConf = (ConferenceRequestData) obj;
+      this.conferenceDAO.update(updateConf, attribute, value);
+    } else {
+      throw new NoSuchElementException("No Service Request of this type");
+    }
   }
 
   public void updateOfficeSupply(OfficeSuppliesData obj, String attribute, String value) {
@@ -342,7 +351,24 @@ public enum SQLRepo {
 
   // ALL DELETES FOR DAOS
   public void deleteServiceRequest(ServiceRequestData obj) {
-    this.serviceDAO.delete(obj);
+    if (obj instanceof OfficeSuppliesData) {
+      OfficeSuppliesData deleteSupplies = (OfficeSuppliesData) obj;
+      this.officesupplyDAO.delete(deleteSupplies);
+    } else if (obj instanceof MealRequestData) {
+      MealRequestData deleteMeal = (MealRequestData) obj;
+      this.mealDAO.delete(deleteMeal);
+    } else if (obj instanceof FlowerRequestData) {
+      FlowerRequestData deleteFlower = (FlowerRequestData) obj;
+      this.flowerDAO.delete(deleteFlower);
+    } else if (obj instanceof FurnitureRequestData) {
+      FurnitureRequestData deleteFurniture = (FurnitureRequestData) obj;
+      this.furnitureDAO.delete(deleteFurniture);
+    } else if (obj instanceof ConferenceRequestData) {
+      ConferenceRequestData deleteConf = (ConferenceRequestData) obj;
+      this.conferenceDAO.delete(deleteConf);
+    } else {
+      throw new NoSuchElementException("No Service Request of this type");
+    }
   }
 
   public void deleteOfficeSupplyRequest(OfficeSuppliesData obj) {
@@ -387,7 +413,24 @@ public enum SQLRepo {
 
   // ALL ADDITIONS TO DAOS
   public void addServiceRequest(ServiceRequestData obj) {
-    this.serviceDAO.add(obj);
+    if (obj instanceof OfficeSuppliesData) {
+      OfficeSuppliesData addSupplies = (OfficeSuppliesData) obj;
+      this.officesupplyDAO.add(addSupplies);
+    } else if (obj instanceof MealRequestData) {
+      MealRequestData addMeal = (MealRequestData) obj;
+      this.mealDAO.add(addMeal);
+    } else if (obj instanceof FlowerRequestData) {
+      FlowerRequestData addFlower = (FlowerRequestData) obj;
+      this.flowerDAO.add(addFlower);
+    } else if (obj instanceof FurnitureRequestData) {
+      FurnitureRequestData addFurniture = (FurnitureRequestData) obj;
+      this.furnitureDAO.add(addFurniture);
+    } else if (obj instanceof ConferenceRequestData) {
+      ConferenceRequestData addConf = (ConferenceRequestData) obj;
+      this.conferenceDAO.add(addConf);
+    } else {
+      throw new NoSuchElementException("No Service Request of this type");
+    }
   }
 
   public void addOfficeSupplyRequest(OfficeSuppliesData obj) {

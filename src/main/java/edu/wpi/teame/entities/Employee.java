@@ -41,14 +41,16 @@ public class Employee {
   @Getter @Setter private String password;
   @Getter @Setter private String permission;
 
+  @Setter public static Employee activeEmployee;
+
   public Employee(String fullName, String username, String password, String permission) {
     this.fullName = fullName;
     this.username = username;
     this.password = hashPassword(password);
-    this.permission = permission;
+    this.permission = permission.toUpperCase();
   }
 
-  public Employee(String fullName, String permission) {
+  public Employee(String fullName, String username, String permission) {
     this.fullName = fullName;
     this.permission = permission;
     this.username = null;

@@ -14,17 +14,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FurnitureDAO<E> extends DAO<FurnitureRequestData> {
-  List<FurnitureRequestData> furnitureRequestDataList;
-
+public class FurnitureDAO<E> extends ServiceDAO<FurnitureRequestData> {
   public FurnitureDAO(Connection c) {
-    activeConnection = c;
-    table = "\"FurnitureService\"";
+    super(c, "\"FurnitureService\"");
   }
 
   @Override
   List<FurnitureRequestData> get() {
-    furnitureRequestDataList = new LinkedList<>();
+    serviceRequestDataList = new LinkedList<>();
 
     try {
       Statement stmt = activeConnection.createStatement();
@@ -33,14 +30,14 @@ public class FurnitureDAO<E> extends DAO<FurnitureRequestData> {
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        furnitureRequestDataList.add(
+        serviceRequestDataList.add(
             new FurnitureRequestData(
                 rs.getInt("requestID"),
                 rs.getString("name"),
                 rs.getString("room"),
                 rs.getString("deliveryDate"),
                 rs.getString("deliveryTime"),
-                rs.getString("staff"),
+                rs.getString("assignedStaff"),
                 rs.getString("furnitureType"),
                 rs.getString("notes"),
                 FurnitureRequestData.Status.stringToStatus(rs.getString("status"))));
@@ -49,53 +46,12 @@ public class FurnitureDAO<E> extends DAO<FurnitureRequestData> {
       System.out.println(e.getMessage());
     }
 
-    return furnitureRequestDataList;
-  }
-
-  @Override
-  void update(FurnitureRequestData obj, String attribute, String value) {
-    int requestID = obj.getRequestID();
-
-    String sqlUpdate =
-        "UPDATE \"FurnitureService\" "
-            + "SET \""
-            + attribute
-            + "\" = '"
-            + value
-            + "' WHERE \"requestID\" = '"
-            + requestID
-            + "';";
-
-    try {
-      Statement stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlUpdate);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println(
-          "Exception: Set a valid column name for attribute, quantity is an integer");
-    }
-  }
-
-  @Override
-  void delete(FurnitureRequestData obj) {
-    int requestID = obj.getRequestID();
-    String sqlDelete =
-        "DELETE FROM \"FurnitureService\" WHERE \"requestID\" = '" + requestID + "';";
-
-    Statement stmt;
-    try {
-      stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlDelete);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println("error deleting");
-    }
+    return serviceRequestDataList;
   }
 
   @Override
   void add(FurnitureRequestData obj) {
-    obj.setRequestID(generateUniqueRequestID());
-    int requestID = obj.getRequestID();
+    // RequestID auto generated
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
@@ -106,9 +62,7 @@ public class FurnitureDAO<E> extends DAO<FurnitureRequestData> {
     String staff = obj.getAssignedStaff();
 
     String sqlAdd =
-        "INSERT INTO \"FurnitureService\" VALUES("
-            + requestID
-            + ",'"
+        "INSERT INTO \"FurnitureService\" VALUES(nextval('serial'), '"
             + name
             + "','"
             + room
@@ -130,24 +84,29 @@ public class FurnitureDAO<E> extends DAO<FurnitureRequestData> {
     try {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
+      obj.setRequestID(this.returnNewestRequestID());
     } catch (SQLException e) {
       System.out.println("error adding");
     }
   }
 
-  private int generateUniqueRequestID() {
-    int requestID = 0;
+  private int returnNewestRequestID() {
+    int currentID = -1;
     try {
       Statement stmt = activeConnection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT MAX(\"requestID\") FROM \"FurnitureService\"");
+
+      String sql = "SELECT last_value AS val FROM serial;";
+      ResultSet rs = stmt.executeQuery(sql);
+
       if (rs.next()) {
-        requestID = rs.getInt(1);
+        currentID = rs.getInt("val");
+      } else {
+        System.out.println("Something ain't workin right");
       }
-      stmt.close();
+      return currentID;
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
+      throw new RuntimeException(e.getMessage());
     }
-    return requestID + 1;
   }
 
   @Override

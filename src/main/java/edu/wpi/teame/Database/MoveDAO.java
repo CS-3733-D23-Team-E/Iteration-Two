@@ -35,7 +35,6 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
         moveAttributes.add(
             new MoveAttribute(rs.getInt("nodeID"), rs.getString("longName"), rs.getString("date")));
       }
-      System.out.println("Move table retrieved successfully");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -131,7 +130,7 @@ public class MoveDAO<E> extends DAO<MoveAttribute> {
                 + splitL1[1]
                 + "','"
                 + splitL1[2]
-                + "', 'MM/DD/YYYY'));";
+                + "');";
 
         stmt.execute(sql);
       }

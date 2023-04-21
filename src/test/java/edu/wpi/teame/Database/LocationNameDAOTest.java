@@ -3,7 +3,9 @@ package edu.wpi.teame.Database;
 import static org.junit.jupiter.api.Assertions.*;
 
 import edu.wpi.teame.map.LocationName;
+import java.io.File;
 import java.util.List;
+import javax.swing.filechooser.FileSystemView;
 import org.junit.jupiter.api.Test;
 
 public class LocationNameDAOTest {
@@ -12,6 +14,7 @@ public class LocationNameDAOTest {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     List<LocationName> locationNameList = SQLRepo.INSTANCE.getLocationList();
     assertFalse(locationNameList.isEmpty());
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -30,6 +33,7 @@ public class LocationNameDAOTest {
         new LocationName("Hall 1 Level 2", "Test", LocationName.NodeType.HALL),
         "shortName",
         "Hall");
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
@@ -50,22 +54,22 @@ public class LocationNameDAOTest {
     locationNames = SQLRepo.INSTANCE.getLocationList();
 
     assertTrue(locationNames.size() == lengthList);
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
-  public void importLocationName() {
+  public void testImportExport() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
-    SQLRepo.INSTANCE.importFromCSV(
-        SQLRepo.Table.LOCATION_NAME,
-        "C:\\Users\\thesm\\OneDrive\\Documents\\GitHub\\Iteration-One\\Data\\NewData\\LocationName.csv");
-  }
 
-  @Test
-  public void exportLocationName() {
-    SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
-    SQLRepo.INSTANCE.exportToCSV(
-        SQLRepo.Table.LOCATION_NAME,
-        "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733",
-        "LocationNameExport");
+    FileSystemView view = FileSystemView.getFileSystemView();
+    File file = view.getHomeDirectory();
+    String desktopPath = file.getPath();
+
+    String tableName = "LocationName";
+
+    SQLRepo.INSTANCE.exportToCSV(SQLRepo.Table.LOCATION_NAME, desktopPath, tableName);
+    SQLRepo.INSTANCE.importFromCSV(SQLRepo.Table.LOCATION_NAME, desktopPath + "\\" + tableName);
+
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 }

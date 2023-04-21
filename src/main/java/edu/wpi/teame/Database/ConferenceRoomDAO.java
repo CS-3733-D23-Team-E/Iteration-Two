@@ -14,17 +14,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ConferenceRoomDAO<E> extends DAO<ConferenceRequestData> {
-  List<ConferenceRequestData> conferenceRequestDataList;
-
+public class ConferenceRoomDAO<E> extends ServiceDAO<ConferenceRequestData> {
   public ConferenceRoomDAO(Connection c) {
-    activeConnection = c;
-    table = "\"ConfRoomService\"";
+    super(c, "\"ConfRoomService\"");
   }
 
   @Override
   List<ConferenceRequestData> get() {
-    conferenceRequestDataList = new LinkedList<>();
+    serviceRequestDataList = new LinkedList<>();
 
     try {
       Statement stmt = activeConnection.createStatement();
@@ -33,14 +30,14 @@ public class ConferenceRoomDAO<E> extends DAO<ConferenceRequestData> {
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        conferenceRequestDataList.add(
+        serviceRequestDataList.add(
             new ConferenceRequestData(
                 rs.getInt("requestID"),
                 rs.getString("name"),
                 rs.getString("room"),
                 rs.getString("deliveryDate"),
                 rs.getString("deliveryTime"),
-                rs.getString("staff"),
+                rs.getString("assignedStaff"),
                 rs.getString("roomRequest"),
                 rs.getString("notes"),
                 ConferenceRequestData.Status.stringToStatus(rs.getString("status"))));
@@ -49,52 +46,12 @@ public class ConferenceRoomDAO<E> extends DAO<ConferenceRequestData> {
       System.out.println(e.getMessage());
     }
 
-    return conferenceRequestDataList;
-  }
-
-  @Override
-  void update(ConferenceRequestData obj, String attribute, String value) {
-    int requestID = obj.getRequestID();
-
-    String sqlUpdate =
-        "UPDATE \"ConfRoomService\" "
-            + "SET \""
-            + attribute
-            + "\" = '"
-            + value
-            + "' WHERE \"requestID\" = '"
-            + requestID
-            + "';";
-
-    try {
-      Statement stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlUpdate);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println(
-          "Exception: Set a valid column name for attribute, quantity is an integer");
-    }
-  }
-
-  @Override
-  void delete(ConferenceRequestData obj) {
-    int requestID = obj.getRequestID();
-    String sqlDelete = "DELETE FROM \"ConfRoomService\" WHERE \"requestID\" = '" + requestID + "';";
-
-    Statement stmt;
-    try {
-      stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlDelete);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println("error deleting");
-    }
+    return serviceRequestDataList;
   }
 
   @Override
   void add(ConferenceRequestData obj) {
-    obj.setRequestID(generateUniqueRequestID());
-    int requestID = obj.getRequestID();
+    // RequestID auto generated
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
@@ -105,9 +62,7 @@ public class ConferenceRoomDAO<E> extends DAO<ConferenceRequestData> {
     String staff = obj.getAssignedStaff();
 
     String sqlAdd =
-        "INSERT INTO \"ConfRoomService\" VALUES("
-            + requestID
-            + ",'"
+        "INSERT INTO \"ConfRoomService\" VALUES(nextval('serial'), '"
             + name
             + "','"
             + room
@@ -129,25 +84,10 @@ public class ConferenceRoomDAO<E> extends DAO<ConferenceRequestData> {
     try {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
+      obj.setRequestID(this.returnNewestRequestID());
     } catch (SQLException e) {
       System.out.println("error adding");
     }
-  }
-
-  private int generateUniqueRequestID() {
-    int requestID = 0;
-    try {
-      Statement stmt = activeConnection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT MAX(\"requestID\") FROM \"ConfRoomService\"");
-      if (rs.next()) {
-        requestID = rs.getInt(1);
-      }
-      stmt.close();
-      rs.close();
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
-    return requestID + 1;
   }
 
   @Override
@@ -201,6 +141,25 @@ public class ConferenceRoomDAO<E> extends DAO<ConferenceRequestData> {
     } catch (IOException | SQLException e) {
       System.err.println("Error importing from " + filePath + " to " + tableName);
       e.printStackTrace();
+    }
+  }
+
+  private int returnNewestRequestID() {
+    int currentID = -1;
+    try {
+      Statement stmt = activeConnection.createStatement();
+
+      String sql = "SELECT last_value AS val FROM serial;";
+      ResultSet rs = stmt.executeQuery(sql);
+
+      if (rs.next()) {
+        currentID = rs.getInt("val");
+      } else {
+        System.out.println("Something ain't workin right");
+      }
+      return currentID;
+    } catch (SQLException e) {
+      throw new RuntimeException(e.getMessage());
     }
   }
 }

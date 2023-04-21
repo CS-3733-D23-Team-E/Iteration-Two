@@ -19,6 +19,7 @@ public class EmployeeDAOTest {
 
     Employee failure = SQLRepo.INSTANCE.connectToDatabase("test", "fail");
     assertNull(failure);
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
