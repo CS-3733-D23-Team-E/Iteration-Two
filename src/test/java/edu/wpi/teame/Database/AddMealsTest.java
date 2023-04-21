@@ -17,7 +17,7 @@ public class AddMealsTest {
             "beta room",
             "2023-06-07",
             "3:12PM",
-            "trump",
+            "Joseph",
             "BLT",
             "tapas",
             "orange juice",
@@ -31,7 +31,7 @@ public class AddMealsTest {
             "fugma room",
             "2023-09-07",
             "3:12PM",
-            "lana roads",
+            "Joseph",
             "pshh special",
             "tapas",
             "vodka 200 proof",
@@ -45,7 +45,7 @@ public class AddMealsTest {
             "sigma room",
             "2023-05-17",
             "3:12PM",
-            "the classic big d diyar",
+            "Joseph",
             "halal burger",
             "tapas",
             "apple juice",
@@ -59,7 +59,7 @@ public class AddMealsTest {
             "alpha room",
             "2023-05-27",
             "3:12PM",
-            "ben dover",
+            "Joseph",
             "idk",
             "tapas",
             "apple juice",
@@ -74,7 +74,7 @@ public class AddMealsTest {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     List<MealRequestData> meal = SQLRepo.INSTANCE.getMealRequestsList();
 
-    SQLRepo.INSTANCE.deleteMealRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new MealRequestData(
             1,
             "jamie",
@@ -88,7 +88,7 @@ public class AddMealsTest {
             "allergic to albert as well",
             "",
             MealRequestData.Status.PENDING));
-    SQLRepo.INSTANCE.deleteMealRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new MealRequestData(
             2,
             "joseph",
@@ -102,7 +102,7 @@ public class AddMealsTest {
             "allergic to albert too",
             "",
             MealRequestData.Status.PENDING));
-    SQLRepo.INSTANCE.deleteMealRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new MealRequestData(
             3,
             "mich",
@@ -116,7 +116,7 @@ public class AddMealsTest {
             "allergic to albert",
             "",
             MealRequestData.Status.PENDING));
-    SQLRepo.INSTANCE.deleteMealRequest(
+    SQLRepo.INSTANCE.deleteServiceRequest(
         new MealRequestData(
             4,
             "kevin",
