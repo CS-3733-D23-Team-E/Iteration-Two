@@ -171,12 +171,11 @@ public class DatabaseUtility {
       while (rs.next()) {
         nodeList.add(
             new HospitalNode(
-                new NodeInitializer(
                     rs.getInt("nodeID") + "",
                     rs.getInt("xcoord"),
                     rs.getInt("ycoord"),
-                    rs.getString("floor"),
-                    rs.getString("building"))));
+                    Floor.stringToFloor(rs.getString("floor")),
+                    rs.getString("building")));
       }
       if (nodeList.isEmpty()) System.out.println("There was a problem returning the nodes");
     } catch (SQLException e) {

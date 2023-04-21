@@ -1,8 +1,11 @@
 package edu.wpi.teame.map;
 
+import edu.wpi.teame.entities.ORM;
 import lombok.Getter;
 
-public class HospitalEdge {
+import java.util.HashMap;
+
+public class HospitalEdge implements ORM {
   @Getter String nodeOneID;
   @Getter String nodeTwoID;
   @Getter int edgeWeight;
@@ -19,15 +22,19 @@ public class HospitalEdge {
     this.edgeWeight = weight;
   }
 
-  public String getNodeOneID() {
-    return this.nodeOneID;
+  public String getTable(){
+    return "Edge";
   }
 
-  public String getNodeTwoID() {
-    return this.nodeTwoID;
-  }
-
-  public int getEdgeWeight() {
-    return this.edgeWeight;
+  public void applyChanges(HashMap<String, String> changes){
+    if(changes.containsKey("startNode")){
+      this.nodeOneID = changes.get("nodeOneID");
+    }
+    if(changes.containsKey("endNode")){
+      this.nodeTwoID = changes.get("nodeTwoID");
+    }
+    if(changes.containsKey("edgeWeight")){
+      this.edgeWeight = Integer.parseInt(changes.get("edgeWeight"));
+    }
   }
 }
