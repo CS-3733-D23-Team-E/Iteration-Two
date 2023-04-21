@@ -3,7 +3,9 @@ package edu.wpi.teame.Database;
 import static org.junit.jupiter.api.Assertions.*;
 
 import edu.wpi.teame.entities.ConferenceRequestData;
+import java.io.File;
 import java.util.List;
+import javax.swing.filechooser.FileSystemView;
 import org.junit.jupiter.api.Test;
 
 public class ConferenceRoomDAOTest {
@@ -13,9 +15,9 @@ public class ConferenceRoomDAOTest {
 
     List<ConferenceRequestData> conference = SQLRepo.INSTANCE.getConfList();
 
-    SQLRepo.INSTANCE.addServiceRequest(
+    ConferenceRequestData crd =
         new ConferenceRequestData(
-            1,
+            0,
             "joseph",
             "Cafe",
             "2023-04-07",
@@ -23,24 +25,14 @@ public class ConferenceRoomDAOTest {
             "Joseph",
             "Conference Room L1",
             "for 2 hours",
-            ConferenceRequestData.Status.DONE));
+            ConferenceRequestData.Status.DONE);
 
+    SQLRepo.INSTANCE.addServiceRequest(crd);
     List<ConferenceRequestData> conferenceRequestAdded = SQLRepo.INSTANCE.getConfList();
-    assertEquals(conferenceRequestAdded.size(), conference.size() + 1);
 
-    SQLRepo.INSTANCE.addServiceRequest(
-        new ConferenceRequestData(
-            1,
-            "joseph",
-            "Cafe",
-            "2023-04-07",
-            "3:12PM",
-            "Joseph",
-            "Conference Room L1",
-            "for 2 hours",
-            ConferenceRequestData.Status.DONE));
-    List<ConferenceRequestData> conferenceRequestDeleted = SQLRepo.INSTANCE.getConfList();
-    assertEquals(conferenceRequestDeleted.size(), conference.size());
+    assertEquals(conference.size() + 1, conferenceRequestAdded.size());
+
+    SQLRepo.INSTANCE.deleteServiceRequest(crd);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }
@@ -51,7 +43,7 @@ public class ConferenceRoomDAOTest {
 
     ConferenceRequestData conferenceRequest =
         new ConferenceRequestData(
-            1,
+            0,
             "joseph",
             "Cafe",
             "2023-04-07",
@@ -60,11 +52,9 @@ public class ConferenceRoomDAOTest {
             "Conference Room L1",
             "for 2 hours",
             ConferenceRequestData.Status.DONE);
-
     SQLRepo.INSTANCE.addServiceRequest(conferenceRequest);
     SQLRepo.INSTANCE.updateServiceRequest(conferenceRequest, "status", "PENDING");
     SQLRepo.INSTANCE.deleteServiceRequest(conferenceRequest);
-
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
@@ -72,13 +62,14 @@ public class ConferenceRoomDAOTest {
   public void testImportExport() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
 
-    SQLRepo.INSTANCE.exportToCSV(
-        SQLRepo.Table.CONFERENCE_ROOM,
-        "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733",
-        "ConfExport");
+    FileSystemView view = FileSystemView.getFileSystemView();
+    File file = view.getHomeDirectory();
+    String desktopPath = file.getPath();
+
+    SQLRepo.INSTANCE.exportToCSV(SQLRepo.Table.CONFERENCE_ROOM, desktopPath, "ConfRoomService");
 
     SQLRepo.INSTANCE.importFromCSV(
-        SQLRepo.Table.CONFERENCE_ROOM, "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733\\ConfExport");
+        SQLRepo.Table.CONFERENCE_ROOM, desktopPath + "\\ConfRoomService");
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

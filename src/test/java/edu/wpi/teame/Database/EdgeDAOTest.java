@@ -3,7 +3,9 @@ package edu.wpi.teame.Database;
 import static org.junit.jupiter.api.Assertions.*;
 
 import edu.wpi.teame.map.HospitalEdge;
+import java.io.File;
 import java.util.List;
+import javax.swing.filechooser.FileSystemView;
 import org.junit.jupiter.api.Test;
 
 public class EdgeDAOTest {
@@ -52,19 +54,28 @@ public class EdgeDAOTest {
   }
 
   @Test
-  public void importEdge() {
+  public void exportEdge() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
-    SQLRepo.INSTANCE.importFromCSV(
-        SQLRepo.Table.MOVE,
-        "C:\\Users\\thesm\\OneDrive\\Documents\\GitHub\\Iteration-One\\Data\\NewData\\Move.csv");
+
+    FileSystemView view = FileSystemView.getFileSystemView();
+    File file = view.getHomeDirectory();
+    String desktopPath = file.getPath();
+
+    SQLRepo.INSTANCE.exportToCSV(SQLRepo.Table.EDGE, desktopPath, "Edge");
+
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
-  public void exportEdge() {
+  public void importEdge() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
-    SQLRepo.INSTANCE.exportToCSV(
-        SQLRepo.Table.EDGE, "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733", "EdgeExport");
+
+    FileSystemView view = FileSystemView.getFileSystemView();
+    File file = view.getHomeDirectory();
+    String desktopPath = file.getPath();
+
+    SQLRepo.INSTANCE.importFromCSV(SQLRepo.Table.EDGE, desktopPath + "\\Edge");
+
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 }

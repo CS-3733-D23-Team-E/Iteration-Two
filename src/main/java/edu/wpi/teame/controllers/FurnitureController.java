@@ -1,11 +1,13 @@
 package edu.wpi.teame.controllers;
 
 import edu.wpi.teame.Database.SQLRepo;
+import edu.wpi.teame.entities.Employee;
 import edu.wpi.teame.entities.FurnitureRequestData;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import java.util.List;
 import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,15 +25,7 @@ public class FurnitureController {
       FXCollections.observableArrayList(
           "10am - 11am", "11am - 12pm", "12pm - 1pm", "1pm - 2pm", "2pm - 3pm", "3pm - 4pm");
 
-  ObservableList<String> staffMembers =
-      FXCollections.observableArrayList(
-          "Mary Gardner",
-          "Robert Nash",
-          "Edward Diaz",
-          "Evan Buckley",
-          "Christopher Reyes",
-          "Madelyn Johnson",
-          "Ian Adams");
+  ObservableList<String> staffMembers = FXCollections.observableArrayList();
 
   @FXML MFXButton submitButton;
   @FXML TextField recipientName;
@@ -62,6 +56,11 @@ public class FurnitureController {
                     })
                 .sorted()
                 .toList());
+
+    List<Employee> employeeList = SQLRepo.INSTANCE.getEmployeeList();
+    for (Employee emp : employeeList) {
+      staffMembers.add(emp.getUsername());
+    }
 
     assignedStaff.setItems(FXCollections.observableArrayList(staffMembers));
     /*assignedStaff.setItems(
@@ -95,7 +94,7 @@ public class FurnitureController {
             furnitureType.getValue(),
             notes.getText(),
             FurnitureRequestData.Status.PENDING);
-    SQLRepo.INSTANCE.addFurnitureRequest(requestData);
+    SQLRepo.INSTANCE.addServiceRequest(requestData);
     System.out.println("furniture request submitted");
 
     // Return to the home screen

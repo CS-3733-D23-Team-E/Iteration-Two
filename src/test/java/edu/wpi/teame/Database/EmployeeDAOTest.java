@@ -72,36 +72,4 @@ public class EmployeeDAOTest {
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }
-
-  @Test
-  public void addUsers() {
-    Employee Kevin = new Employee("Kevin Siegall", "Kevin", "Kevin", "ADMIN");
-    Employee Jamie = new Employee("Jamie Rapal", "Jamie", "Jamie", "ADMIN");
-    Employee Joseph = new Employee("Joseph Thesmar", "Joseph", "Joseph", "STAFF");
-    Employee Aarsh = new Employee("Aarsh Zadaphiya", "Aarsh", "Aarsh", "ADMIN");
-    Employee Megan = new Employee("Megan Jacques", "Megan", "Megan", "ADMIN");
-    Employee Braeden = new Employee("Braeden Swain", "Braeden", "Braeden", "staff");
-    Employee Albert = new Employee("Albert Lewis", "Albert", "Albert", "ADMIN");
-    Employee Diyar = new Employee("Diyar Aljabbari", "Diyar", "Diyar", "ADMIN");
-    Employee Nick = new Employee("Nick Borrello", "Nick", "Nick", "ADMIN");
-    Employee Mich = new Employee("Mich Toryu", "Mich", "Mich", "ADMIN");
-    Employee Anthony = new Employee("Anthony Virone", "Anthony", "Anthony", "admin");
-    Employee Ben = new Employee("Ben Kresge", "Ben", "Ben", "admin");
-
-    SQLRepo.INSTANCE.connectToDatabase("admin", "admin");
-    SQLRepo.INSTANCE.addEmployee(Kevin);
-    SQLRepo.INSTANCE.addEmployee(Jamie);
-    SQLRepo.INSTANCE.addEmployee(Joseph);
-    SQLRepo.INSTANCE.addEmployee(Aarsh);
-    SQLRepo.INSTANCE.addEmployee(Megan);
-    SQLRepo.INSTANCE.addEmployee(Braeden);
-    SQLRepo.INSTANCE.addEmployee(Albert);
-    SQLRepo.INSTANCE.addEmployee(Diyar);
-    SQLRepo.INSTANCE.addEmployee(Nick);
-    SQLRepo.INSTANCE.addEmployee(Mich);
-    SQLRepo.INSTANCE.addEmployee(Anthony);
-    SQLRepo.INSTANCE.addEmployee(Ben);
-
-    SQLRepo.INSTANCE.exitDatabaseProgram();
-  }
 }

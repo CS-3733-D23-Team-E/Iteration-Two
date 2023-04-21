@@ -88,6 +88,9 @@ public enum SQLRepo {
         flowerDAO = new FlowerDAO(activeConnection);
         conferenceDAO = new ConferenceRoomDAO(activeConnection);
         furnitureDAO = new FurnitureDAO(activeConnection);
+
+        Employee.setActiveEmployee(loggedIn);
+
         return loggedIn;
       }
     } catch (SQLException e) {

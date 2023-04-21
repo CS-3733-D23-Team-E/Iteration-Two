@@ -84,24 +84,29 @@ public class FurnitureDAO<E> extends ServiceDAO<FurnitureRequestData> {
     try {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
+      obj.setRequestID(this.returnNewestRequestID());
     } catch (SQLException e) {
       System.out.println("error adding");
     }
   }
 
-  private int generateUniqueRequestID() {
-    int requestID = 0;
+  private int returnNewestRequestID() {
+    int currentID = -1;
     try {
       Statement stmt = activeConnection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT MAX(\"requestID\") FROM \"FurnitureService\"");
+
+      String sql = "SELECT last_value AS val FROM serial;";
+      ResultSet rs = stmt.executeQuery(sql);
+
       if (rs.next()) {
-        requestID = rs.getInt(1);
+        currentID = rs.getInt("val");
+      } else {
+        System.out.println("Something ain't workin right");
       }
-      stmt.close();
+      return currentID;
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
+      throw new RuntimeException(e.getMessage());
     }
-    return requestID + 1;
   }
 
   @Override

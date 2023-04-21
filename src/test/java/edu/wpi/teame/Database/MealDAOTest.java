@@ -3,7 +3,9 @@ package edu.wpi.teame.Database;
 import static org.junit.jupiter.api.Assertions.*;
 
 import edu.wpi.teame.entities.MealRequestData;
+import java.io.File;
 import java.util.List;
+import javax.swing.filechooser.FileSystemView;
 import org.junit.jupiter.api.Test;
 
 public class MealDAOTest {
@@ -13,7 +15,7 @@ public class MealDAOTest {
 
     List<MealRequestData> meal = SQLRepo.INSTANCE.getMealRequestsList();
 
-    SQLRepo.INSTANCE.addServiceRequest(
+    MealRequestData mrd =
         new MealRequestData(
             0,
             "joseph",
@@ -26,25 +28,13 @@ public class MealDAOTest {
             "apple cider",
             "allergic to diyar",
             "",
-            MealRequestData.Status.PENDING));
+            MealRequestData.Status.PENDING);
+    SQLRepo.INSTANCE.addServiceRequest(mrd);
 
     List<MealRequestData> mealRequestAdded = SQLRepo.INSTANCE.getMealRequestsList();
     assertEquals(mealRequestAdded.size(), meal.size() + 1);
 
-    SQLRepo.INSTANCE.deleteServiceRequest(
-        new MealRequestData(
-            0,
-            "joseph",
-            "Cafe",
-            "2023-04-07",
-            "3:12PM",
-            "Joseph",
-            "Crepe au jambon",
-            "tapas",
-            "apple cider",
-            "allergic to diyar",
-            "",
-            MealRequestData.Status.PENDING));
+    SQLRepo.INSTANCE.deleteServiceRequest(mrd);
 
     List<MealRequestData> mealRequestDeleted = SQLRepo.INSTANCE.getMealRequestsList();
     assertEquals(mealRequestDeleted.size(), meal.size());
@@ -82,11 +72,14 @@ public class MealDAOTest {
   public void testImportExport() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
 
-    SQLRepo.INSTANCE.exportToCSV(
-        SQLRepo.Table.MEAL_REQUESTS, "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733", "MealExport");
+    FileSystemView view = FileSystemView.getFileSystemView();
+    File file = view.getHomeDirectory();
+    String desktopPath = file.getPath();
 
-    SQLRepo.INSTANCE.importFromCSV(
-        SQLRepo.Table.MEAL_REQUESTS, "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733\\MealExport");
+    String tableName = "MealService";
+
+    SQLRepo.INSTANCE.exportToCSV(SQLRepo.Table.MEAL_REQUESTS, desktopPath, tableName);
+    SQLRepo.INSTANCE.importFromCSV(SQLRepo.Table.MEAL_REQUESTS, desktopPath + "\\" + tableName);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

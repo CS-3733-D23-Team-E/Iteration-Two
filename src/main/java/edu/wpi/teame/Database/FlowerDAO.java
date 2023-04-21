@@ -96,6 +96,7 @@ public class FlowerDAO<E> extends ServiceDAO<FlowerRequestData> {
     try {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
+      obj.setRequestID(this.returnNewestRequestID());
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
@@ -158,6 +159,25 @@ public class FlowerDAO<E> extends ServiceDAO<FlowerRequestData> {
     } catch (IOException | SQLException e) {
       System.err.println("Error importing from " + filePath + " to " + tableName);
       e.printStackTrace();
+    }
+  }
+
+  private int returnNewestRequestID() {
+    int currentID = -1;
+    try {
+      Statement stmt = activeConnection.createStatement();
+
+      String sql = "SELECT last_value AS val FROM serial;";
+      ResultSet rs = stmt.executeQuery(sql);
+
+      if (rs.next()) {
+        currentID = rs.getInt("val");
+      } else {
+        System.out.println("Something ain't workin right");
+      }
+      return currentID;
+    } catch (SQLException e) {
+      throw new RuntimeException(e.getMessage());
     }
   }
 }

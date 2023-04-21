@@ -3,7 +3,9 @@ package edu.wpi.teame.Database;
 import static org.junit.jupiter.api.Assertions.*;
 
 import edu.wpi.teame.entities.OfficeSuppliesData;
+import java.io.File;
 import java.util.List;
+import javax.swing.filechooser.FileSystemView;
 import org.junit.jupiter.api.Test;
 
 public class OfficeSuppliesDAOTest {
@@ -13,7 +15,7 @@ public class OfficeSuppliesDAOTest {
 
     List<OfficeSuppliesData> officeSupply = SQLRepo.INSTANCE.getOfficeSupplyList();
 
-    SQLRepo.INSTANCE.addServiceRequest(
+    OfficeSuppliesData ofd =
         new OfficeSuppliesData(
             1,
             "joseph",
@@ -24,23 +26,13 @@ public class OfficeSuppliesDAOTest {
             "rulers",
             "2",
             "fast",
-            OfficeSuppliesData.Status.PENDING));
+            OfficeSuppliesData.Status.PENDING);
+    SQLRepo.INSTANCE.addServiceRequest(ofd);
 
     List<OfficeSuppliesData> officeSupplyRequestAdded = SQLRepo.INSTANCE.getOfficeSupplyList();
     assertEquals(officeSupplyRequestAdded.size(), officeSupply.size() + 1);
 
-    SQLRepo.INSTANCE.deleteServiceRequest(
-        new OfficeSuppliesData(
-            1,
-            "joseph",
-            "Cafe",
-            "2023-04-07",
-            "3:12PM",
-            "Joseph",
-            "rulers",
-            "2",
-            "fast",
-            OfficeSuppliesData.Status.PENDING));
+    SQLRepo.INSTANCE.deleteServiceRequest(ofd);
     List<OfficeSuppliesData> officeSupplyRequestDeleted = SQLRepo.INSTANCE.getOfficeSupplyList();
     assertEquals(officeSupplyRequestDeleted.size(), officeSupply.size());
 
@@ -65,8 +57,8 @@ public class OfficeSuppliesDAOTest {
             OfficeSuppliesData.Status.PENDING);
 
     SQLRepo.INSTANCE.addServiceRequest(officeSupplyRequest);
-    // SQLRepo.INSTANCE.updateServiceRequest(officeSupplyRequest, "status", "DONE");
-    // SQLRepo.INSTANCE.deleteServiceRequest(officeSupplyRequest);
+    SQLRepo.INSTANCE.updateServiceRequest(officeSupplyRequest, "status", "DONE");
+    SQLRepo.INSTANCE.deleteServiceRequest(officeSupplyRequest);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }
@@ -75,13 +67,14 @@ public class OfficeSuppliesDAOTest {
   public void testImportExport() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
 
-    SQLRepo.INSTANCE.exportToCSV(
-        SQLRepo.Table.OFFICE_SUPPLY,
-        "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733",
-        "OfficeExport");
+    FileSystemView view = FileSystemView.getFileSystemView();
+    File file = view.getHomeDirectory();
+    String desktopPath = file.getPath();
 
-    SQLRepo.INSTANCE.importFromCSV(
-        SQLRepo.Table.OFFICE_SUPPLY, "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733\\OfficeExport");
+    String tableName = "OfficeSupplies";
+
+    SQLRepo.INSTANCE.exportToCSV(SQLRepo.Table.OFFICE_SUPPLY, desktopPath, tableName);
+    SQLRepo.INSTANCE.importFromCSV(SQLRepo.Table.OFFICE_SUPPLY, desktopPath + "\\" + tableName);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

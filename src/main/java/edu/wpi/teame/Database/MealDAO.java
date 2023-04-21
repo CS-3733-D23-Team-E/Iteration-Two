@@ -98,25 +98,10 @@ public class MealDAO<E> extends ServiceDAO<MealRequestData> {
     try {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
+      obj.setRequestID(this.returnNewestRequestID());
     } catch (SQLException e) {
       System.out.println("error adding");
     }
-  }
-
-  private int generateUniqueRequestID() {
-    int requestID = 0;
-    try {
-      Statement stmt = activeConnection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT MAX(\"requestID\") FROM \"MealService\"");
-      if (rs.next() && rs.getInt(1) > 0) {
-        requestID = rs.getInt(1);
-      }
-      stmt.close();
-      rs.close();
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
-    return requestID + 1;
   }
 
   @Override
@@ -176,6 +161,25 @@ public class MealDAO<E> extends ServiceDAO<MealRequestData> {
     } catch (IOException | SQLException e) {
       System.err.println("Error importing from " + filePath + " to " + tableName);
       e.printStackTrace();
+    }
+  }
+
+  private int returnNewestRequestID() {
+    int currentID = -1;
+    try {
+      Statement stmt = activeConnection.createStatement();
+
+      String sql = "SELECT last_value AS val FROM serial;";
+      ResultSet rs = stmt.executeQuery(sql);
+
+      if (rs.next()) {
+        currentID = rs.getInt("val");
+      } else {
+        System.out.println("Something ain't workin right");
+      }
+      return currentID;
+    } catch (SQLException e) {
+      throw new RuntimeException(e.getMessage());
     }
   }
 }

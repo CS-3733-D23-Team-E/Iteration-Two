@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import edu.wpi.teame.map.HospitalNode;
 import edu.wpi.teame.map.NodeInitializer;
+import java.io.File;
 import java.util.List;
+import javax.swing.filechooser.FileSystemView;
 import org.junit.jupiter.api.Test;
 
 public class NodeDAOTest {
@@ -47,21 +49,14 @@ public class NodeDAOTest {
   public void testImportExport() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
 
-    SQLRepo.INSTANCE.exportToCSV(
-        SQLRepo.Table.NODE,
-        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop",
-        "Node");
-    SQLRepo.INSTANCE.importFromCSV(
-        SQLRepo.Table.NODE,
-        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Iteration-One\\Data\\NewData\\Node.csv");
+    FileSystemView view = FileSystemView.getFileSystemView();
+    File file = view.getHomeDirectory();
+    String desktopPath = file.getPath();
 
-    // Import back Edge and Move Table
-    SQLRepo.INSTANCE.importFromCSV(
-        SQLRepo.Table.MOVE,
-        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Iteration-One\\Data\\NewData\\Move.csv");
-    SQLRepo.INSTANCE.importFromCSV(
-        SQLRepo.Table.EDGE,
-        "C:\\Users\\jamie\\OneDrive - Worcester Polytechnic Institute (wpi.edu)\\Desktop\\CS 3733\\Iteration-One\\Data\\NewData\\Edge.csv");
+    String tableName = "Node";
+
+    SQLRepo.INSTANCE.exportToCSV(SQLRepo.Table.NODE, desktopPath, tableName);
+    SQLRepo.INSTANCE.importFromCSV(SQLRepo.Table.NODE, desktopPath + "\\" + tableName);
 
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }

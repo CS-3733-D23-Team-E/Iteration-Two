@@ -3,7 +3,9 @@ package edu.wpi.teame.Database;
 import static org.junit.jupiter.api.Assertions.*;
 
 import edu.wpi.teame.map.MoveAttribute;
+import java.io.File;
 import java.util.List;
+import javax.swing.filechooser.FileSystemView;
 import org.junit.jupiter.api.Test;
 
 public class MoveDAOTest {
@@ -35,37 +37,32 @@ public class MoveDAOTest {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
     List<MoveAttribute> moveAttributes = SQLRepo.INSTANCE.getMoveList();
 
-    int lengthList = moveAttributes.size();
-
     SQLRepo.INSTANCE.addMove(new MoveAttribute(2535, "HallNode", "2023-01-01"));
+    List<MoveAttribute> moveAdded = SQLRepo.INSTANCE.getMoveList();
 
-    moveAttributes = SQLRepo.INSTANCE.getMoveList();
-
-    assertTrue(moveAttributes.size() == lengthList + 1);
+    assertEquals(moveAttributes.size() + 1, moveAdded.size());
 
     SQLRepo.INSTANCE.deleteMove(new MoveAttribute(2535, "HallNode", "2023-01-01"));
 
-    moveAttributes = SQLRepo.INSTANCE.getMoveList();
-    System.out.println(moveAttributes.size() + " " + lengthList);
+    List<MoveAttribute> deletedMove = SQLRepo.INSTANCE.getMoveList();
 
-    assertTrue(moveAttributes.size() == lengthList);
+    assertEquals(moveAttributes.size(), deletedMove.size());
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 
   @Test
-  public void importMove() {
+  public void testImportExport() {
     SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
-    SQLRepo.INSTANCE.importFromCSV(
-        SQLRepo.Table.MOVE,
-        "C:\\Users\\thesm\\OneDrive\\Documents\\GitHub\\Iteration-One\\Data\\NewData\\Move.csv");
-    SQLRepo.INSTANCE.exitDatabaseProgram();
-  }
 
-  @Test
-  public void exportMove() {
-    SQLRepo.INSTANCE.connectToDatabase("teame", "teame50");
-    SQLRepo.INSTANCE.exportToCSV(
-        SQLRepo.Table.MOVE, "C:\\Users\\thesm\\OneDrive\\Desktop\\CS 3733", "MoveExport");
+    FileSystemView view = FileSystemView.getFileSystemView();
+    File file = view.getHomeDirectory();
+    String desktopPath = file.getPath();
+
+    String tableName = "Move";
+
+    SQLRepo.INSTANCE.exportToCSV(SQLRepo.Table.MOVE, desktopPath, tableName);
+    SQLRepo.INSTANCE.importFromCSV(SQLRepo.Table.MOVE, desktopPath + "\\" + tableName);
+
     SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 }
