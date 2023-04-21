@@ -84,6 +84,7 @@ public class NodeDAO<E> extends DAO<HospitalNode> {
     } catch (SQLException e) {
       throw new RuntimeException("There was a problem updating that value of the node");
     }
+    get();
   }
 
   @Override
@@ -100,6 +101,7 @@ public class NodeDAO<E> extends DAO<HospitalNode> {
     } catch (SQLException e) {
       throw new RuntimeException("There was a problem deleting the node");
     }
+    get();
   }
 
   @Override
@@ -131,6 +133,7 @@ public class NodeDAO<E> extends DAO<HospitalNode> {
     } catch (SQLException e) {
       throw new RuntimeException("There was a problem inserting the node");
     }
+    get();
   }
 
   @Override
@@ -180,5 +183,6 @@ public class NodeDAO<E> extends DAO<HospitalNode> {
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
+    get();
   }
 }

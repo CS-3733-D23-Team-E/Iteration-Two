@@ -1,31 +1,35 @@
 package edu.wpi.teame.controllers;
 
 import edu.wpi.teame.Database.SQLRepo;
-import edu.wpi.teame.entities.ServiceRequestData;
+import edu.wpi.teame.entities.MealRequestData;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import org.controlsfx.control.SearchableComboBox;
-import org.json.JSONObject;
 
-public class MealRequestController implements IRequestController {
+public class MealRequestController {
   @FXML MFXButton returnButtonMealRequest;
   @FXML MFXButton cancelButton;
   @FXML MFXButton submitButton;
-  @FXML MFXTextField notes;
-  @FXML MFXTextField recipientName;
+  @FXML TextField notes;
+  @FXML TextField recipientName;
   @FXML SearchableComboBox<String> roomName;
   @FXML SearchableComboBox<String> deliveryTime;
-  @FXML SearchableComboBox<String> mainCourseChoice;
-  @FXML SearchableComboBox<String> sideCourseChoice;
-  @FXML MFXTextField assignedStaff;
-  @FXML MFXButton clearForm;
+  @FXML DatePicker deliveryDate;
+  @FXML SearchableComboBox<String> mainCourse;
+  @FXML SearchableComboBox<String> sideCourse;
+  @FXML SearchableComboBox<String> drinkChoice;
+
+  @FXML TextField allergiesBox;
+  @FXML SearchableComboBox<String> assignedStaff;
+  @FXML MFXButton resetButton;
 
   ObservableList<String> deliveryTimes =
       FXCollections.observableArrayList(
@@ -37,51 +41,82 @@ public class MealRequestController implements IRequestController {
   ObservableList<String> sideCourses =
       FXCollections.observableArrayList("Fries", "Apple Slices", "Tater Tots", "Carrots");
 
+  ObservableList<String> drinks =
+      FXCollections.observableArrayList("Water", "Apple Juice", "Orange Juice", "Coffee", "Tea");
+
+  ObservableList<String> staffMembers =
+      FXCollections.observableArrayList(
+          "Mary Gardner",
+          "Robert Nash",
+          "Edward Diaz",
+          "Evan Buckley",
+          "Christopher Reyes",
+          "Madelyn Johnson",
+          "Ian Adams");
+
   @FXML
   public void initialize() {
-    Stream<LocationName> locationStream = SQLRepo.INSTANCE.getLocationList().stream();
+    Stream<LocationName> locationStream = LocationName.allLocations.values().stream();
     ObservableList<String> names =
         FXCollections.observableArrayList(
             locationStream
+                .filter(
+                    (locationName) -> {
+                      return locationName.getNodeType() != LocationName.NodeType.HALL
+                          && locationName.getNodeType() != LocationName.NodeType.STAI
+                          && locationName.getNodeType() != LocationName.NodeType.REST
+                          && locationName.getNodeType() != LocationName.NodeType.ELEV;
+                    })
                 .map(
                     (locationName) -> {
                       return locationName.getLongName();
                     })
+                .sorted()
                 .toList());
+
+    /*assignedStaff.setItems(
+    FXCollections.observableList(
+        SQLRepo.INSTANCE.getEmployeeList().stream()
+            .filter(employee -> employee.getPermission().equals("STAFF"))
+            .map(employee -> employee.getFullName())
+            .toList()));*/
+    assignedStaff.setItems(FXCollections.observableArrayList(staffMembers));
+
     roomName.setItems(names);
-    mainCourseChoice.setItems(mainCourses);
-    sideCourseChoice.setItems(sideCourses);
+    mainCourse.setItems(mainCourses);
+    sideCourse.setItems(sideCourses);
+    drinkChoice.setItems(drinks);
     deliveryTime.setItems(deliveryTimes);
     cancelButton.setOnMouseClicked(event -> cancelRequest());
     submitButton.setOnMouseClicked(event -> sendRequest());
-    clearForm.setOnMouseClicked(event -> clearForm());
+    resetButton.setOnMouseClicked(event -> clearForm());
   }
 
-  public ServiceRequestData sendRequest() {
-
-    // Create the json to store the values
-    JSONObject requestData = new JSONObject();
-    requestData.put("recipientName", recipientName.getText());
-    requestData.put("roomName", roomName.getValue());
-    requestData.put("deliveryTime", deliveryTime.getValue());
-    requestData.put("mainCourse", mainCourseChoice.getValue());
-    requestData.put("sideCourse", sideCourseChoice.getValue());
-    requestData.put("notes", notes.getText());
+  public MealRequestData sendRequest() {
 
     // Create the service request data
-    ServiceRequestData mealRequestData =
-        new ServiceRequestData(
-            ServiceRequestData.RequestType.MEALDELIVERY,
-            requestData,
-            ServiceRequestData.Status.PENDING,
-            assignedStaff.getText());
+    MealRequestData requestData =
+        new MealRequestData(
+            0,
+            recipientName.getText(),
+            roomName.getValue(),
+            deliveryDate.getValue().toString(),
+            deliveryTime.getValue(),
+            assignedStaff.getValue(),
+            mainCourse.getValue(),
+            sideCourse.getValue(),
+            drinkChoice.getValue(),
+            allergiesBox.getText(),
+            notes.getText(),
+            MealRequestData.Status.PENDING);
 
-    // Return to home screen
+    SQLRepo.INSTANCE.addMealRequest(requestData);
+    System.out.println("Meal Request Added");
+
+    // Return to the home screen
     Navigation.navigate(Screen.HOME);
 
-    SQLRepo.INSTANCE.addServiceRequest(mealRequestData);
-
-    return mealRequestData;
+    return requestData;
   }
 
   public void cancelRequest() {
@@ -93,9 +128,11 @@ public class MealRequestController implements IRequestController {
     recipientName.clear();
     roomName.setValue(null);
     deliveryTime.setValue(null);
-    mainCourseChoice.setValue(null);
-    sideCourseChoice.setValue(null);
+    mainCourse.setValue(null);
+    sideCourse.setValue(null);
+    drinkChoice.setValue(null);
+    deliveryDate.setValue(null);
     notes.clear();
-    assignedStaff.clear();
+    assignedStaff.setValue(null);
   }
 }
