@@ -160,9 +160,6 @@ public class DatabaseMapViewController {
     currentCircle = null;
     currentLabel = null;
     displayAddMenu();
-    // workingList.clear();
-    // turn circle back to normal
-
   }
 
   private void deleteNode() {
