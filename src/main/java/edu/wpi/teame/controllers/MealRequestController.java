@@ -1,11 +1,13 @@
 package edu.wpi.teame.controllers;
 
 import edu.wpi.teame.Database.SQLRepo;
+import edu.wpi.teame.entities.Employee;
 import edu.wpi.teame.entities.MealRequestData;
 import edu.wpi.teame.map.LocationName;
 import edu.wpi.teame.utilities.Navigation;
 import edu.wpi.teame.utilities.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import java.util.List;
 import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,15 +46,7 @@ public class MealRequestController {
   ObservableList<String> drinks =
       FXCollections.observableArrayList("Water", "Apple Juice", "Orange Juice", "Coffee", "Tea");
 
-  ObservableList<String> staffMembers =
-      FXCollections.observableArrayList(
-          "Mary Gardner",
-          "Robert Nash",
-          "Edward Diaz",
-          "Evan Buckley",
-          "Christopher Reyes",
-          "Madelyn Johnson",
-          "Ian Adams");
+  ObservableList<String> staffMembers = FXCollections.observableArrayList();
 
   @FXML
   public void initialize() {
@@ -80,6 +74,12 @@ public class MealRequestController {
             .filter(employee -> employee.getPermission().equals("STAFF"))
             .map(employee -> employee.getFullName())
             .toList()));*/
+
+    List<Employee> employeeList = SQLRepo.INSTANCE.getEmployeeList();
+    for (Employee emp : employeeList) {
+      staffMembers.add(emp.getUsername());
+    }
+
     assignedStaff.setItems(FXCollections.observableArrayList(staffMembers));
 
     roomName.setItems(names);
@@ -110,7 +110,7 @@ public class MealRequestController {
             notes.getText(),
             MealRequestData.Status.PENDING);
 
-    SQLRepo.INSTANCE.addMealRequest(requestData);
+    SQLRepo.INSTANCE.addServiceRequest(requestData);
     System.out.println("Meal Request Added");
 
     // Return to the home screen

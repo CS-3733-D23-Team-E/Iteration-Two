@@ -13,5 +13,6 @@ public class UtilityDAOTest {
     String shortNameFromNodeID = SQLRepo.INSTANCE.getShortNameFromNodeID("1335");
 
     assertTrue(shortNameFromNodeID.equals("Conf B0102"));
+    SQLRepo.INSTANCE.exitDatabaseProgram();
   }
 }

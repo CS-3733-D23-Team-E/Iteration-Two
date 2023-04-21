@@ -14,17 +14,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FlowerDAO<E> extends DAO<FlowerRequestData> {
-  List<FlowerRequestData> flowerRequestDataList;
-
+public class FlowerDAO<E> extends ServiceDAO<FlowerRequestData> {
   public FlowerDAO(Connection c) {
-    activeConnection = c;
-    table = "\"FlowerService\"";
+    super(c, "\"FlowerService\"");
   }
 
   @Override
   List<FlowerRequestData> get() {
-    flowerRequestDataList = new LinkedList<>();
+    serviceRequestDataList = new LinkedList<>();
 
     try {
       Statement stmt = activeConnection.createStatement();
@@ -33,14 +30,14 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
 
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        flowerRequestDataList.add(
+        serviceRequestDataList.add(
             new FlowerRequestData(
                 rs.getInt("requestID"),
                 rs.getString("name"),
                 rs.getString("room"),
                 rs.getString("deliveryDate"),
                 rs.getString("deliveryTime"),
-                rs.getString("staff"),
+                rs.getString("assignedStaff"),
                 rs.getString("flowerType"),
                 rs.getString("quantity"),
                 rs.getString("card"),
@@ -52,52 +49,12 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
       System.out.println(e.getMessage());
     }
 
-    return flowerRequestDataList;
-  }
-
-  @Override
-  void update(FlowerRequestData obj, String attribute, String value) {
-    int requestID = obj.getRequestID();
-
-    String sqlUpdate =
-        "UPDATE \"FlowerService\" "
-            + "SET \""
-            + attribute
-            + "\" = '"
-            + value
-            + "' WHERE \"requestID\" = '"
-            + requestID
-            + "';";
-
-    try {
-      Statement stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlUpdate);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println(
-          "Exception: Set a valid column name for attribute, quantity is an integer");
-    }
-  }
-
-  @Override
-  void delete(FlowerRequestData obj) {
-    int requestID = obj.getRequestID();
-    String sqlDelete = "DELETE FROM \"FlowerService\" WHERE \"requestID\" = '" + requestID + "';";
-
-    Statement stmt;
-    try {
-      stmt = activeConnection.createStatement();
-      stmt.executeUpdate(sqlDelete);
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println("error deleting");
-    }
+    return serviceRequestDataList;
   }
 
   @Override
   void add(FlowerRequestData obj) {
-    obj.setRequestID(generateUniqueRequestID());
-    int requestID = obj.getRequestID();
+    // RequestId auto generated
     String name = obj.getName();
     String room = obj.getRoom();
     String deliveryDate = obj.getDeliveryDate();
@@ -111,9 +68,7 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
     String staff = obj.getAssignedStaff();
 
     String sqlAdd =
-        "INSERT INTO \"FlowerService\" VALUES("
-            + requestID
-            + ",'"
+        "INSERT INTO \"FlowerService\" VALUES(nextval('serial'), '"
             + name
             + "','"
             + room
@@ -141,24 +96,10 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
     try {
       stmt = activeConnection.createStatement();
       stmt.executeUpdate(sqlAdd);
+      obj.setRequestID(this.returnNewestRequestID());
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
-  }
-
-  private int generateUniqueRequestID() {
-    int requestID = 0;
-    try {
-      Statement stmt = activeConnection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT MAX(\"requestID\") FROM \"FlowerService\"");
-      if (rs.next()) {
-        requestID = rs.getInt(1);
-      }
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
-    return requestID + 1;
   }
 
   @Override
@@ -218,6 +159,25 @@ public class FlowerDAO<E> extends DAO<FlowerRequestData> {
     } catch (IOException | SQLException e) {
       System.err.println("Error importing from " + filePath + " to " + tableName);
       e.printStackTrace();
+    }
+  }
+
+  private int returnNewestRequestID() {
+    int currentID = -1;
+    try {
+      Statement stmt = activeConnection.createStatement();
+
+      String sql = "SELECT last_value AS val FROM serial;";
+      ResultSet rs = stmt.executeQuery(sql);
+
+      if (rs.next()) {
+        currentID = rs.getInt("val");
+      } else {
+        System.out.println("Something ain't workin right");
+      }
+      return currentID;
+    } catch (SQLException e) {
+      throw new RuntimeException(e.getMessage());
     }
   }
 }
